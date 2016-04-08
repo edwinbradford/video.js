@@ -1,17 +1,21 @@
+// Progress and volume sliders
+$slider-color: #cc0000;
+$slider-rail-color: #1a1a1a;
+$rail-heights: 0.3rem;
+
 // Text, icons, hover states
-$primary-foreground-color: #fff !default;
+$primary-foreground-color: #e5e5e5 !default;
 
 // Control backgrounds (control bar, big play, menus)
-$primary-background-color: #2B333F !default;
-$primary-background-transparency: 0.7 !default;
+$primary-background-color: #1a1a1a !default;
+$primary-background-transparency: 1 !default;
 
 // Hover states, slider backgrounds
-$secondary-background-color: lighten($primary-background-color, 33%) !default;
-$secondary-background-transparency: 0.5 !default;
+$secondary-background-color: #00ff00 !default;
+$secondary-background-transparency: 1 !default;
 
 $text-font-family: Arial, Helvetica, sans-serif !default;
 
 // Using the '--' naming for component-specific styles
-$big-play-button--width: 3em !default;
-$big-play-button--height: 1.5em !default;
-$big-play-button--transparency: 0.8 !default;
+$big-play-button--width: 6rem !default;
+$big-play-button--height: 6rem !default;

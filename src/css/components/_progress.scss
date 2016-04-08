@@ -1,21 +1,29 @@
-//
-// Let's talk pixel math!
-// Start with a base font size of 10px (assuming that hasn't changed)
-// No Hover:
-// - Progress holder is 3px
-// - Progress handle is 9px
-// - Progress handle is pulled up 3px to center it.
-//
-// Hover:
-// - Progress holder becomes 5px
-// - Progress handle becomes 15px
-// - Progress handle is pulled up 5px to center it
-//
 
+// Container that holds all the progress slider elements
 .video-js .vjs-progress-control {
-  @include flex(auto);
-  @include display-flex(center);
-  min-width: 4em;
+  position: absolute;
+  top: $rail-heights * -8; // Increase the transparent hover area
+  left: 0;
+  width: 100%;
+  height: $rail-heights * 8;
+  background-color: transparent; // #ffff00 for debug
+  @include transition(all 0.5s);
+  // Increase height of progress bar on hover
+  &:hover {
+    .vjs-progress-holder {
+      top: $rail-heights * 4;
+      height: $rail-heights * 4;
+      @include transition(all 0.5s);    
+    }
+    // Also scale size of drag handle see .vjs-play-progress (below)
+    .vjs-play-progress:before {
+      top: $rail-heights * -1; // bar vertical center - handle radius
+      right: $rail-heights * -3; // handle radius
+      height: $rail-heights * 6;
+      width: $rail-heights * 6;
+      @include transition(all 0.5s);
+    }
+  }
 }
 
 .vjs-live .vjs-progress-control {
@@ -23,26 +31,34 @@
 }
 
 // Box containing play and load progresses. Also acts as seek scrubber.
+// For size and position see also .vjs-slider in _slider.scss partial
 .video-js .vjs-progress-holder {
-  @include flex(auto);
-  @include transition(all 0.2s);
-  height: 0.3em;
+  // @include flex(auto);
+  outline: 0;
+  position: relative;
+  top: $rail-heights * 7; // See height of container .vjs-progress-control in _progress.scss partial
+  height: $rail-heights;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  @include background-color-with-alpha($primary-background-color, 0.8);
+  @include transition(all 0.5s);
 }
 
-// We need an increased hit area on hover
 .video-js .vjs-progress-control:hover .vjs-progress-holder {
-  font-size: 1.666666666666666666em
+  // font-size: 1rem
+  @include transition(all 0.5s);
 }
 
 /* If we let the font size grow as much as everything else, the current time tooltip ends up
  ginormous. If you'd like to enable the current time tooltip all the time, this should be disabled
  to avoid a weird hitch when you roll off the hover. */
 
-// Also show the current time tooltip
+// Current time tooltip 
 .video-js .vjs-progress-control:hover .vjs-mouse-display:after,
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
-  display: block;
-  font-size: 0.6em;
+  display: none;
+  // font-size: 1rem;
 }
 
 // Progress Bars
@@ -51,7 +67,7 @@
 .video-js .vjs-progress-holder .vjs-load-progress div {
   position: absolute;
   display: block;
-  height: 0.3em;
+  height: 100%;
   margin: 0;
   padding: 0;
   // updated by javascript during playback
@@ -62,22 +78,28 @@
 }
 
 .video-js .vjs-mouse-display {
-  @extend .vjs-icon-circle;
-
+  // @extend .vjs-icon-circle;
+  display: none;
   &:before {
     display: none;
   }
 }
-.video-js .vjs-play-progress {
-  background-color: $primary-foreground-color;
-  @extend .vjs-icon-circle;
 
+.video-js .vjs-play-progress {
+  height: 100%;
+  background-color: $slider-color;
   // Progress handle
   &:before {
+    content:"";
     position: absolute;
-    top: -0.333333333333333em;
-    right: -0.5em;
-    font-size: 0.9em;
+    top: $rail-heights * 0.5; // Half closed progress bar height  
+    right: $rail-heights * 0;
+    width: $rail-heights * 0;
+    height: $rail-heights * 0;
+    @include border-radius(50%);
+    @include background-color-with-alpha($slider-color, 1);
+    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    @include transition(all 0.5s);
   }
 }
 
@@ -103,9 +125,11 @@
 
 .video-js .vjs-load-progress {
   // For IE8 we'll lighten the color
-  background: lighten($secondary-background-color, 25%);
+  // background: lighten($secondary-background-color, 25%);
   // Otherwise we'll rely on stacked opacities
-  background: rgba($secondary-background-color, $secondary-background-transparency);
+  // background: rgba($secondary-background-color, $secondary-background-transparency);
+  background-color: $slider-rail-color;
+  height: 100%;
 }
 
 // there are child elements of the load progress bar that represent the

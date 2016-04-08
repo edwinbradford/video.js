@@ -5,6 +5,9 @@
   // Make video.js videos align top when next to video elements
   vertical-align: top;
   box-sizing: border-box;
+  
+  // clip controls when moved down during playback
+  // overflow: hidden;
 
   color: $primary-foreground-color;
   background-color: #000;

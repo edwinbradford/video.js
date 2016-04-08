@@ -1,29 +1,13 @@
+// Hexagon square body shape
 .video-js .vjs-big-play-button {
-  font-size: 3em;
-  line-height: $big-play-button--height;
-  height: $big-play-button--height;
-  width: $big-play-button--width; // Firefox bug: For some reason without width the icon wouldn't show up. Switched to using width and removed padding.
   display: block;
   position: absolute;
-  top: 10px;
-  left: 10px;
+  height: $big-play-button--height;
+  width: $big-play-button--width;
   padding: 0;
   cursor: pointer;
   opacity: 1;
-  border: 0.06666em solid $primary-foreground-color;
-
-  // Need a slightly gray bg so it can be seen on black backgrounds
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
-  @include border-radius(0.3em);
-  @include transition(all 0.4s);
-
-  @extend .vjs-icon-play;
-
-  // Since the big play button doesn't inherit from vjs-control, we need to specify a bit more than
-  // other buttons for the icon.
-  &:before {
-    @extend %icon-default;
-  }
+  @include transition(all 0.5s);
 }
 
 // Allow people that hate their poster image to center the big play button.
@@ -34,19 +18,56 @@
   margin-left: -($big-play-button--width / 2);
 }
 
+// Add hexagon top and bottom shapes
+.video-js .vjs-big-play-button:before {
+//  content: url(svg/hexagon.svg);
+  content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2252%22%20height%3D%2260%22%20viewbox%3D%220%200%2051.96152422706631%2060%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28rgba%2826%2C%2026%2C%2026%2C%200.4%29%200px%200px%206px%29%3B%22%3E%3Cpath%20fill%3D%22%231a1a1a%22%20d%3D%22M25.980762113533157%200L51.96152422706631%2015L51.96152422706631%2045L25.980762113533157%2060L0%2045L0%2015Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.video-js .vjs-big-play-button:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+// Hexagon hover colors
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
   outline: 0;
-  border-color: $primary-foreground-color;
-
-  @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
-  @include transition(all 0s);
+  @include transition(all 0.5s);
+  &:before {
+    @include transition(all 0.5s);
+ }
+  &:after {
+    @include transition(all 0.5s);
+  }
 }
 
-// Hide if controls are disabled, the video is playing, or native controls are used.
+// Hide if controls are disabled or native controls are used.
 .vjs-controls-disabled .vjs-big-play-button,
-.vjs-has-started .vjs-big-play-button,
 .vjs-using-native-controls .vjs-big-play-button,
 .vjs-error .vjs-big-play-button {
   display: none;
+}
+
+// Hide if the video is playing
+.vjs-has-started .vjs-big-play-button {
+  //display: none;
+  opacity: 0;
+  pointer-events: none;
+  @include transition(all 0.5s);
+  
+}
+
+// Show if the video is paused
+.vjs-paused .vjs-big-play-button {
+  //@include display-flex(center, center);
+  opacity: 1;
+  pointer-events: all;
+  @include transition(all 0.5s);
 }

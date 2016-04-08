@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3.0em;
+  height: 3.0rem;
 
   @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
 }
@@ -14,18 +14,15 @@
 .vjs-has-started .vjs-control-bar {
   @include display-flex;
   visibility: visible;
-  opacity: 1;
-
-  $trans: visibility 0.1s, opacity 0.1s; // Var needed because of comma
+  bottom: 0;
+  $trans: visibility 0.1s, opacity 0.1s, bottom 0.5s; // Var needed because of comma
   @include transition($trans);
 }
 
 // Video has started playing AND user is inactive
 .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-  visibility: hidden;
-  opacity: 0;
-
-  $trans: visibility 1.0s, opacity 1.0s;
+  bottom: -3rem;
+  $trans: bottom 0.5s;
   @include transition($trans);
 }
 
@@ -38,8 +35,7 @@
 
 // Don't hide the control bar if it's audio
 .vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-  opacity: 1;
-  visibility: visible;
+  // opacity: 1;
 }
 
 // IE8 is flakey with fonts, and you have to change the actual content to force
