@@ -1,12 +1,17 @@
-// Hexagon square body shape
+// Transparent play button container
 .video-js .vjs-big-play-button {
-  display: block;
+  @include display-flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
+  top: 10px; // ignored if button isn't centered
+  left: 10px; // ignored if button isn't centered
   height: $big-play-button--height;
   width: $big-play-button--width;
   padding: 0;
   cursor: pointer;
   opacity: 1;
+  // background-color: #ffff00; // for dev testing
   @include transition(all 0.5s);
 }
 
@@ -18,33 +23,31 @@
   margin-left: -($big-play-button--width / 2);
 }
 
-// Add hexagon top and bottom shapes
+// Add the hexagon svg to the container
 .video-js .vjs-big-play-button:before {
-//  content: url(svg/hexagon.svg);
-  content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2252%22%20height%3D%2260%22%20viewbox%3D%220%200%2051.96152422706631%2060%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28rgba%2826%2C%2026%2C%2026%2C%200.4%29%200px%200px%206px%29%3B%22%3E%3Cpath%20fill%3D%22%231a1a1a%22%20d%3D%22M25.980762113533157%200L51.96152422706631%2015L51.96152422706631%2045L25.980762113533157%2060L0%2045L0%2015Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
   position: absolute;
   top: 0;
   left: 0;
+  @extend .big-play-hexagon;
 }
 
+// Add the triangle svg to the container
 .video-js .vjs-big-play-button:after {
-  content: "";
   position: absolute;
   top: 0;
   left: 0;
+  @extend .big-play-triangle;
 }
 
-
-// Hexagon hover colors
+// Play button hover changes
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
   outline: 0;
-  @include transition(all 0.5s);
   &:before {
-    @include transition(all 0.5s);
+    @extend .big-play-hexagon-hover;
  }
   &:after {
-    @include transition(all 0.5s);
+    //
   }
 }
 
@@ -66,7 +69,6 @@
 
 // Show if the video is paused
 .vjs-paused .vjs-big-play-button {
-  //@include display-flex(center, center);
   opacity: 1;
   pointer-events: all;
   @include transition(all 0.5s);
