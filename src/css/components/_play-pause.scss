@@ -1,10 +1,13 @@
+// We're not using the default play pause button
 .video-js .vjs-play-control {
-  cursor: pointer;
-  @include flex(none);
+  display: none;
 }
+
+/*
 .video-js .vjs-play-control {
   @extend .vjs-icon-play;
 }
 .video-js .vjs-play-control.vjs-playing {
   @extend .vjs-icon-pause;
 }
+*/

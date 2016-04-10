@@ -1,26 +1,77 @@
 
-// Container that holds all the progress slider elements
+// Container for all progress sliders
+// Also acts as hover area 
 .video-js .vjs-progress-control {
   position: absolute;
-  top: $rail-heights * -8; // Increase the transparent hover area
-  left: 0;
-  width: 100%;
-  height: $rail-heights * 8;
-  background-color: transparent; // #ffff00 for debug
+  bottom: $slider-height * ($slider-hover-height / -2); // Vertically center hover area
+  left: $progress-bar-margin;
+  right: $progress-bar-margin;
+  width: auto;
+  height: $slider-height * $slider-hover-height; // Increase hover area for UX
+  background-color: transparent;
+  // background-color: rgba(255,255,0,0.5); // yellow debug background
+  pointer-events: all; // Make buttons clickable
   @include transition(all 0.5s);
-  // Increase height of progress bar on hover
+}
+
+// Height and position of progress bars
+// Also acts as seek scrubber.
+.video-js .vjs-progress-holder {
+  outline: 0;
+  position: relative;
+  top: ($slider-height * $slider-hover-height / 2) - ($slider-height / 2);
+  height: $slider-height;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  @include background-color-with-alpha($primary-background-color, 0.8);
+  @include transition(all 0.5s);
+}
+
+// Height and position of drag handle
+.video-js .vjs-play-progress {
+  height: 100%;
+  background-color: $accent-color;
+  
+  // Progress handle
+  &:before {
+    // display: none; // Enable this to hide handle at start
+    content:"";
+    position: absolute;
+    top: ($slider-height * -2) + ($slider-height / 2);
+    right: ($slider-height * $slider-handle-height) / -2;
+    width: $slider-height * $slider-handle-height;
+    height: $slider-height * $slider-handle-height;
+    background-color: inherit;
+    @include border-radius(50%);
+    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    @include transition(all 0.5s);
+  }
+}
+
+// Show handle when video starts
+// Has no effect if handle is not hidden... see above
+.vjs-has-started .vjs-play-progress {
+  &:before {
+    display: block;
+  }
+}
+
+// Height and position of progress bars and handle on hover
+.vjs-has-started .vjs-progress-control {
   &:hover {
+    // Progress bars hover
     .vjs-progress-holder {
-      top: $rail-heights * 4;
-      height: $rail-heights * 4;
+      top: ($slider-height * $slider-hover-height / 2) - ($slider-height * $slider-height-increase / 2);
+      height: $slider-height * $slider-height-increase;
       @include transition(all 0.5s);    
     }
-    // Also scale size of drag handle see .vjs-play-progress (below)
+    // Handle hover
     .vjs-play-progress:before {
-      top: $rail-heights * -1; // bar vertical center - handle radius
-      right: $rail-heights * -3; // handle radius
-      height: $rail-heights * 6;
-      width: $rail-heights * 6;
+      top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
+      right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+      height: $slider-height * $slider-handle-height-increase;
+      width: $slider-height * $slider-handle-height-increase;
       @include transition(all 0.5s);
     }
   }
@@ -30,35 +81,10 @@
   display: none;
 }
 
-// Box containing play and load progresses. Also acts as seek scrubber.
-// For size and position see also .vjs-slider in _slider.scss partial
-.video-js .vjs-progress-holder {
-  // @include flex(auto);
-  outline: 0;
-  position: relative;
-  top: $rail-heights * 7; // See height of container .vjs-progress-control in _progress.scss partial
-  height: $rail-heights;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  @include background-color-with-alpha($primary-background-color, 0.8);
-  @include transition(all 0.5s);
-}
-
-.video-js .vjs-progress-control:hover .vjs-progress-holder {
-  // font-size: 1rem
-  @include transition(all 0.5s);
-}
-
-/* If we let the font size grow as much as everything else, the current time tooltip ends up
- ginormous. If you'd like to enable the current time tooltip all the time, this should be disabled
- to avoid a weird hitch when you roll off the hover. */
-
 // Current time tooltip 
 .video-js .vjs-progress-control:hover .vjs-mouse-display:after,
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
   display: none;
-  // font-size: 1rem;
 }
 
 // Progress Bars
@@ -85,23 +111,6 @@
   }
 }
 
-.video-js .vjs-play-progress {
-  height: 100%;
-  background-color: $accent-color;
-  // Progress handle
-  &:before {
-    content:"";
-    position: absolute;
-    top: $rail-heights * 0.5; // Half closed progress bar height  
-    right: $rail-heights * 0;
-    width: $rail-heights * 0;
-    height: $rail-heights * 0;
-    background-color: inherit;
-    @include border-radius(50%);
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
-    @include transition(all 0.5s);
-  }
-}
 
 // Current Time "tooltip"
 // By default this is hidden and only shown when hovering over the progress control
@@ -123,12 +132,9 @@
   z-index: 1;
 }
 
+// Buffer
 .video-js .vjs-load-progress {
-  // For IE8 we'll lighten the color
-  // background: lighten($secondary-background-color, 25%);
-  // Otherwise we'll rely on stacked opacities
-  // background: rgba($secondary-background-color, $secondary-background-transparency);
-  background-color: $slider-rail-color;
+  background-color: $secondary-background-color;
   height: 100%;
 }
 

@@ -1,11 +1,14 @@
+// Container for all the buttons except the big play button
+// Covers the video
 .video-js .vjs-control-bar {
-  @include display-flex;
   position: absolute;
-  height: 5.0rem;
-  bottom: $control-bar-margin;
-  left: $control-bar-margin;
-  right: $control-bar-margin;
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+  top: $controls-margin;
+  right: $controls-margin;
+  bottom: $controls-margin;
+  left: $controls-margin;
+  width: auto;
+  // background-color: rgba(255,255,0,0.5); // yellow debug background
+  pointer-events: none; // Stop overlay from preventing buttons below from working
 }
 
 // Video has started playing
@@ -41,9 +44,4 @@
 $ie8screen: "\0screen";
 .vjs-user-inactive.vjs-playing .vjs-control-bar :before {
   @media #{$ie8screen} { content: ""; }
-}
-
-// IE 8 + 9 Support
-.vjs-has-started.vjs-no-flex .vjs-control-bar {
-  display: table;
 }

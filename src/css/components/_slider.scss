@@ -1,12 +1,10 @@
 // Contains the progress bars
-// This file appears to have been for simple stye changes
+// all styles have been moved into the _progress.scss partial
 
 .video-js .vjs-slider {
-  // all styles have been moved into the _progress.scss partial
-  // and applied to the .video-js .vjs-progress-holder class
+
 }
 
 .video-js .vjs-slider:focus {
-   // text-shadow: 0em 0em 0em rgba($primary-foreground-color, 1);
-   // @include box-shadow(0 0 0em $primary-foreground-color);
+
 }

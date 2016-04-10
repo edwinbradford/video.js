@@ -1,11 +1,5 @@
-.big-play-hexagon {
-  content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22hexagon%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28rgba%280%2C%200%2C%200%2C%200.4%29%200px%200px%202px%29%22%3E%0D%0A%20%20%3Ctitle%3Ehexagon%3C%2Ftitle%3E%0D%0A%20%20%3Cpolygon%20points%3D%2248%2018%2073.981%2033%2073.981%2063%2048%2078%2022.019%2063%2022.019%2033%2048%2018%22%20fill%3D%22%231a1a1a%22%2F%3E%0D%0A%3C%2Fsvg%3E");
-}
-
-.big-play-hexagon-hover {
-  content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22hexagon%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28rgba%280%2C%200%2C%200%2C%200.4%29%200px%200px%202px%29%22%3E%0D%0A%20%20%3Ctitle%3Ehexagon%3C%2Ftitle%3E%0D%0A%20%20%3Cpolygon%20points%3D%2248%2018%2073.981%2033%2073.981%2063%2048%2078%2022.019%2063%2022.019%2033%2048%2018%22%20fill%3D%22%23cc0000%22%2F%3E%0D%0A%3C%2Fsvg%3E");
-}
-
-.big-play-triangle {
-  content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22hexagon%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%3E%0D%0A%20%20%3Ctitle%3Etriangle%3C%2Ftitle%3E%0D%0A%20%20%3Cpath%20d%3D%22M57.454%2C47.5a0.529%2C0.529%2C0%2C0%2C1%2C0%2C1l-15.588%2C9A0.529%2C0.529%2C0%2C0%2C1%2C41%2C57V39a0.529%2C0.529%2C0%2C0%2C1%2C.866-0.5Z%22%20fill%3D%22%23e5e5e5%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+.big-play-triangle { // 24px
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22triangle%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%0D%0A%20%20%3Ctitle%3Etriangle%3C%2Ftitle%3E%0D%0A%20%20%3Cpath%20d%3D%22M21.454%2C11.5a0.529%2C0.529%2C0%2C0%2C1%2C0%2C1l-15.588%2C9A0.529%2C0.529%2C0%2C0%2C1%2C5%2C21V3a0.529%2C0.529%2C0%2C0%2C1%2C.866-0.5Z%22%20fill%3D%22%23e5e5e5%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: center center;
 }
