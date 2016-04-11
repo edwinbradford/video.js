@@ -1,11 +1,10 @@
 .video-js .vjs-time-control {
-  @include flex(none);
-  font-size: 1em;
-  line-height: 3em;
-  min-width: 2em;
-  width: auto;
-  padding-left: 1em;
-  padding-right: 1em;
+  position: absolute;
+  bottom:  $text-time-size * -0.5; // Half font size
+  width: $time-width;
+  font-size: $text-time-size;
+  line-height: $text-time-size;
+  text-shadow: (0 0 1px rgba(0,0,0,0.8));
 }
 
 .vjs-live .vjs-time-control {
@@ -15,17 +14,28 @@
 // We need the extra specificity that referencing .vjs-no-flex provides.
 .video-js .vjs-current-time,
 .vjs-no-flex .vjs-current-time {
-  display: none;
+  left: 0;
+  text-align: left;
 }
 
 .video-js .vjs-duration,
 .vjs-no-flex .vjs-duration {
-  display: none;
+  right: 0;
+  text-align: right;
 }
 
+// Not used for Neue theme but hidden and centered
+.video-js .vjs-remaining-time {
+  display: none;
+  margin: 0 auto;
+  background-color: #ffff00; // Color for debug purposes
+}
+
+// Not used for Neue theme but hidden and centered
 .vjs-time-divider {
   display: none;
-  line-height: 3em;
+  margin: 0 auto;
+  background-color: #00ff00; // Color for debug purposes
 }
 
 .vjs-live .vjs-time-divider {

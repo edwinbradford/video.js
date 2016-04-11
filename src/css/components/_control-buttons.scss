@@ -3,12 +3,8 @@
 // and div buttons (menu buttons)
 .video-js .vjs-control {
   outline: none;
-  position: relative;
-  text-align: center;
   margin: 0;
   padding: 0;
-  height: 3.2rem;
-  width: 3.2rem;
   pointer-events: all;
   &:before {
     font-size: 1.8em;

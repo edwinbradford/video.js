@@ -24,7 +24,7 @@
   cursor: pointer;
   padding: 0;
   margin: 0;
-  @include background-color-with-alpha($primary-background-color, 0.8);
+  background-color: #000;
   @include transition(all 0.5s);
 }
 
@@ -32,8 +32,6 @@
 .video-js .vjs-play-progress {
   height: 100%;
   background-color: $accent-color;
-  
-  // Progress handle
   &:before {
     // display: none; // Enable this to hide handle at start
     content:"";
@@ -77,6 +75,12 @@
   }
 }
 
+// Buffer
+.video-js .vjs-load-progress {
+  background-color: $secondary-foreground-color;
+  height: 100%;
+}
+
 .vjs-live .vjs-progress-control {
   display: none;
 }
@@ -103,39 +107,35 @@
   top: 0;
 }
 
+// Graphic under mouse when over progress bar
+// Not used for Neue theme
 .video-js .vjs-mouse-display {
-  // @extend .vjs-icon-circle;
+  @extend .vjs-icon-circle;
   display: none;
   &:before {
     display: none;
   }
 }
 
-
 // Current Time "tooltip"
 // By default this is hidden and only shown when hovering over the progress control
+// Not used for Neue theme
 .video-js .vjs-mouse-display:after,
 .video-js .vjs-play-progress:after {
   display: none;
   position: absolute;
   top: -3.4em;
   right: -1.5em;
-  font-size: 0.9em;
-  color: #000;
+  font-size: $text-time-size;
+  color: $primary-foreground-color;
   content: attr(data-current-time);
   padding: 6px 8px 8px 8px;
-  @include background-color-with-alpha(#fff, 0.8);
-  @include border-radius(0.3em);
+  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+  @include border-radius(0.1rem);
 }
 .video-js .vjs-play-progress:before,
 .video-js .vjs-play-progress:after {
   z-index: 1;
-}
-
-// Buffer
-.video-js .vjs-load-progress {
-  background-color: $secondary-background-color;
-  height: 100%;
 }
 
 // there are child elements of the load progress bar that represent the
@@ -151,6 +151,8 @@
   width: auto;
 }
 
+// Graphic under mouse when over progress bar
+// Not used for Neue theme
 .video-js .vjs-progress-control .vjs-mouse-display {
   display: none;
   position: absolute;

@@ -4,18 +4,18 @@ $slider-height-increase: 1; // Hover height is this factor bigger than $slider-h
 $slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
 $slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
 $slider-hover-height: 8; // Height of progress bar hover area
+$progress-bar-margin: 4rem;
 
 // Colors
 $accent-color: #cc0000;
 $primary-foreground-color: #e5e5e5 !default;
 $primary-background-color: #1a1a1a !default;
-$secondary-background-color: #666666 !default; // used for buffer
+$secondary-foreground-color: #660000 !default; // not used
+$secondary-background-color: #ffff00 !default; // not used
 
 // Transparency
 $primary-background-transparency: 1 !default;
-$secondary-background-transparency: 1 !default; // used for buffer
-
-$text-font-family: Helvetica, Arial, sans-serif !default;
+$secondary-background-transparency: 1 !default; // not used
 
 // Big play button
 $big-play-button--width: 5.4rem !default;
@@ -23,4 +23,9 @@ $big-play-button--height: 5.4rem !default;
 
 // Controls
 $controls-margin: 3rem;
-$progress-bar-margin: 5rem;
+$control-button-width: 4rem;
+
+// Time display
+$text-font-family: Helvetica, Arial, sans-serif !default;
+$text-time-size: 1.2rem;
+$time-width: 5rem;

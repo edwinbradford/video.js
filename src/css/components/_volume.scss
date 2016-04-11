@@ -1,5 +1,10 @@
 .video-js .vjs-mute-control,
 .video-js .vjs-volume-menu-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: $control-button-width;
+  height: $control-button-width;
   cursor: pointer;
   @include flex(none);
   @extend .vjs-icon-volume-high;
