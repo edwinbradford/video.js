@@ -1,0 +1,10 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24px"
+	 height="24px" viewBox="0 0 24 24"  style="-webkit-filter: drop-shadow( 0px 0px 1px rgba(0, 0, 0, 0.4));">
+	<g id="volume">
+		<rect x="3" y="6" fill="#fff" width="2" height="13"/>
+		<rect x="7" y="9" fill="#fff" width="2" height="10"/>
+		<rect x="11" y="6" fill="#fff" width="2" height="13"/>
+		<rect x="15" y="9" fill="#fff" width="2" height="10"/>
+		<rect x="19" y="6" fill="#fff" width="2" height="13"/>
+	</g>
+</svg>

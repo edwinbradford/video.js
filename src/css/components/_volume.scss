@@ -7,7 +7,7 @@
   height: $control-button-width;
   cursor: pointer;
   @include flex(none);
-  @extend .vjs-icon-volume-high;
+  @extend .icon-volume;
 }
 
 .video-js .vjs-mute-control.vjs-vol-0,
@@ -16,11 +16,11 @@
 }
 .video-js .vjs-mute-control.vjs-vol-1,
 .video-js .vjs-volume-menu-button.vjs-vol-1 {
-  @extend .vjs-icon-volume-low;
+  @extend .icon-volume;
 }
 .video-js .vjs-mute-control.vjs-vol-2,
 .video-js .vjs-volume-menu-button.vjs-vol-2 {
-  @extend .vjs-icon-volume-mid;
+  @extend .icon-volume;
 }
 
 .video-js .vjs-volume-control {
