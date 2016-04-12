@@ -9,7 +9,7 @@
   cursor: pointer;
   opacity: 1;
   @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
-  @extend .big-play-triangle;
+  @extend .icon-big-play-triangle;
   @include border-radius(50%); // circle
   @include box-shadow(0 0 0 0 rgba(25, 25, 25, 1));
   @include transition(all 0.5s);
@@ -24,7 +24,7 @@
 }
 
 // Play button hover changes
-.video-js:hover .vjs-big-play-button,
+.video-js .vjs-big-play-button:hover,
 .video-js .vjs-big-play-button:focus {
   outline: 0;
   background-color: $accent-color;
