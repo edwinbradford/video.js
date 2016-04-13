@@ -2,23 +2,76 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Video.js Sandbox</title>
+  <title>Videojs Neue Sandbox</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 10px;
+      font-family: Lucida Sans Unicode, sans-serif;
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 40px;
+      background-color: #1a1a1a;
+    }
+
+    pre {
+      font-family: Lucida Console, monospace;
+      font-size: 1.3rem;
+    }
+
+    .instructions {
+      flex: 1;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color:#333;
+      color: #999;
+      font-size: 1.3rem;
+      line-height: 1.7rem;
+    }
+
+    .container {
+      background-color: #e5e5e5;
+      padding: 40px;
+    }
+
+    .video-js,
+    .video-js .vjs-tech {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .vjs-poster {
+        position: absolute !important;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+  </style>
   <!-- Add ES5 shim and sham for IE8 -->
   <script src="../build/temp/ie8/videojs-ie8.js"></script>
 
   <!-- Load the source files -->
-  <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
-  <script src="../build/temp/video.js"></script>
+  <link href="../dist/video-js-neue.css" rel="stylesheet" type="text/css">
+  <script src="../dist/video.js"></script>
 
   <!-- Set the location of the flash SWF -->
   <script>
-    videojs.options.flash.swf = '../build/temp/video-js.swf';
+    videojs.options.flash.swf = '../dist/video-js.swf';
   </script>
 
 </head>
 <body>
-  <div style="background-color:#eee; border: 1px solid #777; padding: 10px; margin-bottom: 20px; font-size: .8em; line-height: 1.5em; font-family: Verdana, sans-serif;">
+  <div class="instructions">
     <p>You can use /sandbox/ for writing and testing your own code. Nothing in /sandbox/ will get checked into the repo, except files that end in .example (so don't edit or add those files). To get started make a copy of index.html.example and rename it to index.html.</p>
     <pre>cp sandbox/index.html.example sandbox/index.html</pre>
     <pre>grunt watch</pre>
@@ -26,16 +79,17 @@
     <pre>open http://localhost:9999/sandbox/index.html</pre>
   </div>
 
-  <video id="vid1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264"
-      poster="http://vjs.zencdn.net/v/oceans.png"
-      data-setup='{}'>
-    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
-    <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
-    <track kind="captions" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
-    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-  </video>
-
+  <div class="container">
+    <video id="vid1" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" 
+    poster="http://camendesign.co.uk/code/video_for_everybody/poster.jpg"
+    data-setup='{}'>
+      <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
+      <source src="http://clips.vorwaerts-gmbh.de/VfE.webm" type="video/webm">
+      <source src="http://clips.vorwaerts-gmbh.de/VfE.ogv" type="video/ogg">
+      <track kind="captions" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    </video>
+  </div>
   <script>
     var vid = document.getElementById("vid1");
   </script>
