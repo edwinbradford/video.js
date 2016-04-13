@@ -2,10 +2,10 @@
   display: none;
   position: absolute;
   bottom: 0;
-  width: 10em;
-  left: -3em; // (Width of vjs-menu - width of button) / 2
-  height: 0em;
-  margin-bottom: 1.5em;
+  width: 10rem;
+  left: -3rem; // (Width of vjs-menu - width of button) / 2
+  height: 0rem;
+  margin-bottom: 1.5rem;
   border-top-color: rgba($primary-background-color, $primary-background-transparency); // Same as ul background
 }
 
@@ -15,8 +15,8 @@
 
   position: absolute;
   width: 100%;
-  bottom: 1.5em; // Same bottom as vjs-menu border-top
-  max-height: 15em;
+  bottom: 1.5rem; // Same bottom as vjs-menu border-top
+  max-height: 15rem;
 }
 
 .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu,
