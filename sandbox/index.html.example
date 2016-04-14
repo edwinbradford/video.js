@@ -80,7 +80,7 @@
   </div>
 
   <div class="container">
-    <video id="vid1" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" 
+    <video id="vid1" class="video-js vjs-big-play-centered" controls preload="auto" width="640" height="360" 
     poster="http://camendesign.co.uk/code/video_for_everybody/poster.jpg"
     data-setup='{}'>
       <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
