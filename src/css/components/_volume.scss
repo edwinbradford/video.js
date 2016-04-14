@@ -8,19 +8,23 @@
   cursor: pointer;
   @include flex(none);
   @extend .icon-volume;
+  background-size: contain;
 }
 
 .video-js .vjs-mute-control.vjs-vol-0,
 .video-js .vjs-volume-menu-button.vjs-vol-0 {
   @extend .vjs-icon-volume-mute;
+  background-size: contain;
 }
 .video-js .vjs-mute-control.vjs-vol-1,
 .video-js .vjs-volume-menu-button.vjs-vol-1 {
   @extend .icon-volume;
+  background-size: contain;
 }
 .video-js .vjs-mute-control.vjs-vol-2,
 .video-js .vjs-volume-menu-button.vjs-vol-2 {
   @extend .icon-volume;
+  background-size: contain;
 }
 
 .video-js .vjs-volume-control {

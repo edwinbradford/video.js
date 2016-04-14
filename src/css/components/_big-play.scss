@@ -8,8 +8,9 @@
   padding: 0;
   cursor: pointer;
   opacity: 1;
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
   @extend .icon-big-play-triangle;
+  background-size: 50%;
+  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
   @include border-radius(50%); // circle
   @include box-shadow(0 0 0 0 rgba(25, 25, 25, 1));
   @include transition(all 0.5s);
