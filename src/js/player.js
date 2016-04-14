@@ -182,6 +182,14 @@ class Player extends Component {
       this.addClass('vjs-controls-disabled');
     }
 
+    // Set ARIA label and region role depending on player type
+    this.el_.setAttribute('role', 'region');
+    if (this.isAudio()) {
+      this.el_.setAttribute('aria-label', 'audio player');
+    } else {
+      this.el_.setAttribute('aria-label', 'video player');
+    }
+
     if (this.isAudio()) {
       this.addClass('vjs-audio');
     }
@@ -286,16 +294,26 @@ class Player extends Component {
     // Add a style element in the player that we'll use to set the width/height
     // of the player in a way that's still overrideable by CSS, just like the
     // video element
-    this.styleEl_ = stylesheet.createStyleElement('vjs-styles-dimensions');
-    let defaultsStyleEl = Dom.$('.vjs-styles-defaults');
-    let head = Dom.$('head');
-    head.insertBefore(this.styleEl_, defaultsStyleEl ? defaultsStyleEl.nextSibling : head.firstChild);
+    if (window.VIDEOJS_NO_DYNAMIC_STYLE !== true) {
+      this.styleEl_ = stylesheet.createStyleElement('vjs-styles-dimensions');
+      let defaultsStyleEl = Dom.$('.vjs-styles-defaults');
+      let head = Dom.$('head');
+      head.insertBefore(this.styleEl_, defaultsStyleEl ? defaultsStyleEl.nextSibling : head.firstChild);
+    }
 
     // Pass in the width/height/aspectRatio options which will update the style el
     this.width(this.options_.width);
     this.height(this.options_.height);
     this.fluid(this.options_.fluid);
     this.aspectRatio(this.options_.aspectRatio);
+
+    // Hide any links within the video/audio tag, because IE doesn't hide them completely.
+    let links = tag.getElementsByTagName('a');
+    for (let i = 0; i < links.length; i++) {
+      let linkEl = links.item(i);
+      Dom.addElClass(linkEl, 'vjs-hidden');
+      linkEl.setAttribute('hidden', 'hidden');
+    }
 
     // insertElFirst seems to cause the networkState to flicker from 3 to 2, so
     // keep track of the original for later so we can know if the source originally failed
@@ -423,6 +441,23 @@ class Player extends Component {
    * @method updateStyleEl_
    */
   updateStyleEl_() {
+    if (window.VIDEOJS_NO_DYNAMIC_STYLE === true) {
+      const width = typeof this.width_ === 'number' ? this.width_ : this.options_.width;
+      const height = typeof this.height_ === 'number' ? this.height_ : this.options_.height;
+      let techEl = this.tech_ && this.tech_.el();
+
+      if (techEl) {
+        if (width >= 0) {
+          techEl.width = width;
+        }
+        if (height >= 0) {
+          techEl.height = height;
+        }
+      }
+
+      return;
+    }
+
     let width;
     let height;
     let aspectRatio;
@@ -2473,13 +2508,13 @@ class Player extends Component {
     return this.techGet_('readyState');
   }
 
-  /*
-    * Text tracks are tracks of timed text events.
-    * Captions - text displayed over the video for the hearing impaired
-    * Subtitles - text displayed over the video for those who don't understand language in the video
-    * Chapters - text displayed in a menu allowing the user to jump to particular points (chapters) in the video
-    * Descriptions (not supported yet) - audio descriptions that are read back to the user by a screen reading device
-    */
+  /**
+   * Text tracks are tracks of timed text events.
+   * Captions - text displayed over the video for the hearing impaired
+   * Subtitles - text displayed over the video for those who don't understand language in the video
+   * Chapters - text displayed in a menu allowing the user to jump to particular points (chapters) in the video
+   * Descriptions - audio descriptions that are read back to the user by a screen reading device
+   */
 
   /**
    * Get an array of associated text tracks. captions, subtitles, chapters, descriptions
@@ -2769,7 +2804,7 @@ Player.prototype.options_ = {
   languages: {},
 
   // Default message to show when a video cannot be played.
-  notSupportedMessage: 'No compatible source was found for this video.'
+  notSupportedMessage: 'No compatible source was found for this media.'
 };
 
 /**

@@ -8,10 +8,10 @@ $progress-bar-margin: 4rem;
 
 // Colors
 $accent-color: #cc0000;
-$primary-foreground-color: #ffffff !default;
+$primary-foreground-color: #fff !default;
 $primary-background-color: #1a1a1a !default;
-$secondary-foreground-color: #fff !default; // buffer
-$secondary-background-color: #ffff00 !default; // not used
+$secondary-foreground-color: #fff !default;
+$secondary-background-color: #999 !default; // buffer
 
 // Transparency
 $primary-background-transparency: 1 !default;

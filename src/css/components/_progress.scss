@@ -86,6 +86,7 @@
 }
 
 // Current time tooltip 
+.video-js .vjs-progress-control:hover .vjs-time-tooltip,
 .video-js .vjs-progress-control:hover .vjs-mouse-display:after,
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
   display: none;
@@ -94,6 +95,7 @@
 // Progress Bars
 .video-js .vjs-progress-holder .vjs-play-progress,
 .video-js .vjs-progress-holder .vjs-load-progress,
+.video-js .vjs-progress-holder .vjs-tooltip-progress-bar,
 .video-js .vjs-progress-holder .vjs-load-progress div {
   position: absolute;
   display: block;
@@ -119,10 +121,13 @@
 
 // Current Time "tooltip"
 // By default this is hidden and only shown when hovering over the progress control
+
 // Not used for Neue theme
+.video-js .vjs-time-tooltip,
 .video-js .vjs-mouse-display:after,
 .video-js .vjs-play-progress:after {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
   position: absolute;
   top: -3.4em;
   right: -1.5em;
@@ -133,9 +138,22 @@
   @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
   @include border-radius(0.1rem);
 }
+
+.video-js .vjs-time-tooltip,
 .video-js .vjs-play-progress:before,
 .video-js .vjs-play-progress:after {
   z-index: 1;
+}
+
+.video-js .vjs-progress-control .vjs-keep-tooltips-inside:after {
+  display: none;
+}
+
+.video-js .vjs-load-progress {
+  // For IE8 we'll lighten the color
+  background: lighten($secondary-background-color, 25%);
+  // Otherwise we'll rely on stacked opacities
+  background: rgba($secondary-background-color, $secondary-background-transparency);
 }
 
 // there are child elements of the load progress bar that represent the
@@ -153,6 +171,18 @@
 
 // Graphic under mouse when over progress bar
 // Not used for Neue theme
+.video-js .vjs-time-tooltip {
+  display: inline-block;
+  height: 2.4em;
+  position: relative;
+  float: right;
+  right: -1.9em;
+}
+
+.vjs-tooltip-progress-bar {
+  visibility: hidden;
+}
+
 .video-js .vjs-progress-control .vjs-mouse-display {
   display: none;
   position: absolute;
@@ -178,6 +208,7 @@
 .video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display:after {
   display: none;
 }
+.vjs-mouse-display .vjs-time-tooltip,
 .video-js .vjs-progress-control .vjs-mouse-display:after {
   color: #fff;
   @include background-color-with-alpha(#000, 0.8);
