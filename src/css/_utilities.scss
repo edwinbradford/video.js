@@ -90,7 +90,7 @@
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
-@mixin box-shadow ($string: 0 0 1em rgba(0, 0, 0, 0.25)) {
+@mixin box-shadow ($string: 0 0 1rem rgba(0, 0, 0, 0.25)) {
   -webkit-box-shadow: $string;
   -moz-box-shadow: $string;
   box-shadow: $string;
@@ -116,3 +116,13 @@
   @extend %fill-parent;
   text-align: center;
 }
+
+// Filter effects used for svg icons
+@mixin filter($filter-type,$filter-amount) { 
+  -webkit-filter: $filter-type+unquote('(#{$filter-amount})');
+  -moz-filter: $filter-type+unquote('(#{$filter-amount})');
+  -ms-filter: $filter-type+unquote('(#{$filter-amount})');
+  -o-filter: $filter-type+unquote('(#{$filter-amount})');
+  filter: $filter-type+unquote('(#{$filter-amount})');
+}
+

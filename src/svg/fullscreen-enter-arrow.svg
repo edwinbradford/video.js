@@ -1,6 +1,3 @@
-<svg version="1.1" id="fullscreen-enter" xmlns="http://www.w3.org/2000/svg" x="0px"
-	 y="0px" width="24px" height="24px" viewBox="0 0 24 24" style="-webkit-filter: drop-shadow( 0px 0px 1px rgba(0, 0, 0, 0.4));">
-	c0.552,0,1-0.448,1-1v-4H20z"/>
-<polygon fill="#ffffff" points="15,5 15,7 18.586,7 15,10.586 16.414,12 20,8.414 20,12 22,12 22,5 "/>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+  <path fill='#fff' d='M15 5v2h3.586L15 10.586 16.414 12 20 8.414V12h2V5h-7'/>
 </svg>
-

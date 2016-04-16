@@ -1,35 +1,41 @@
 .icon-big-play-triangle { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22triangle%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%0D%0A%20%20%3Ctitle%3Etriangle%3C%2Ftitle%3E%0D%0A%20%20%3Cpath%20d%3D%22M21.454%2C11.5a0.529%2C0.529%2C0%2C0%2C1%2C0%2C1l-15.588%2C9A0.529%2C0.529%2C0%2C0%2C1%2C5%2C21V3a0.529%2C0.529%2C0%2C0%2C1%2C.866-0.5Z%22%20fill%3D%22%23ffffff%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M21.454 11.5a.53.53 0 0 1 0 1l-15.588 9A.53.53 0 0 1 5 21V3a.53.53 0 0 1 .866-.5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-fullscreen-enter { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20id%3D%22fullscreen-enter%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20x%3D%220px%22%0D%0A%09%20y%3D%220px%22%20width%3D%2224px%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28%200px%200px%201px%20rgba%280%2C%200%2C%200%2C%200.4%29%29%3B%22%3E%0D%0A%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M20%2C14v3H4V7h9V5H3C2.448%2C5%2C2%2C5.448%2C2%2C6v12c0%2C0.552%2C0.448%2C1%2C1%2C1h18%0D%0A%09c0.552%2C0%2C1-0.448%2C1-1v-4H20z%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  @include filter ($icon-filter-type, $icon-filter-amount);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath fill='%23fff' d='M20 14v3H4V7h9V5H3c-.552 0-1 .448-1 1v12c0 .552.448 1 1 1h18c.552 0 1-.448 1-1v-4h-2z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-fullscreen-enter-arrow { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20id%3D%22fullscreen-enter%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20x%3D%220px%22%0D%0A%09%20y%3D%220px%22%20width%3D%2224px%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28%200px%200px%201px%20rgba%280%2C%200%2C%200%2C%200.4%29%29%3B%22%3E%0D%0A%09c0.552%2C0%2C1-0.448%2C1-1v-4H20z%22%2F%3E%0D%0A%3Cpolygon%20fill%3D%22%23ffffff%22%20points%3D%2215%2C5%2015%2C7%2018.586%2C7%2015%2C10.586%2016.414%2C12%2020%2C8.414%2020%2C12%2022%2C12%2022%2C5%20%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  @include filter ($icon-filter-type, $icon-filter-amount);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M15 5v2h3.586L15 10.586 16.414 12 20 8.414V12h2V5h-7'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-fullscreen-exit { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20id%3D%22fullscreen-exit%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20x%3D%220px%22%0D%0A%09%20y%3D%220px%22%20width%3D%2224px%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28%200px%200px%201px%20rgba%280%2C%200%2C%200%2C%200.4%29%29%3B%22%3E%0D%0A%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M20%2C14v3H4V7h9V5H3C2.448%2C5%2C2%2C5.448%2C2%2C6v12c0%2C0.552%2C0.448%2C1%2C1%2C1h18%0D%0A%09c0.552%2C0%2C1-0.448%2C1-1v-4H20z%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  @include filter ($icon-filter-type, $icon-filter-amount);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M20 14v3H4V7h9V5H3c-.552 0-1 .448-1 1v12c0 .552.448 1 1 1h18c.552 0 1-.448 1-1v-4h-2z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-fullscreen-exit-arrow { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20id%3D%22fullscreen-exit%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20x%3D%220px%22%0D%0A%09%20y%3D%220px%22%20width%3D%2224px%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20style%3D%22-webkit-filter%3A%20drop-shadow%28%200px%200px%201px%20rgba%280%2C%200%2C%200%2C%200.4%29%29%3B%22%3E%0D%0A%09c0.552%2C0%2C1-0.448%2C1-1v-4H20z%22%2F%3E%0D%0A%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2222%2C12%2022%2C10%2018.414%2C10%2022%2C6.414%2020.586%2C5%2017%2C8.586%2017%2C5%2015%2C5%2015%2C12%20%22%2F%3E%0D%0A%3C%2Fsvg%3E");
+  @include filter ($icon-filter-type, $icon-filter-amount);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E
+  %3Cpath fill='%23fff' d='M22 12v-2h-3.586L22 6.414 20.586 5 17 8.586V5h-2v7h7'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-volume { // 24px
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%2224px%22%0D%0A%09%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20%20style%3D%22-webkit-filter%3A%20drop-shadow%28%200px%200px%201px%20rgba%280%2C%200%2C%200%2C%200.4%29%29%3B%22%3E%0D%0A%09%3Cg%20id%3D%22volume%22%3E%0D%0A%09%09%3Crect%20x%3D%223%22%20y%3D%226%22%20fill%3D%22%23fff%22%20width%3D%222%22%20height%3D%2213%22%2F%3E%0D%0A%09%09%3Crect%20x%3D%227%22%20y%3D%229%22%20fill%3D%22%23fff%22%20width%3D%222%22%20height%3D%2210%22%2F%3E%0D%0A%09%09%3Crect%20x%3D%2211%22%20y%3D%226%22%20fill%3D%22%23fff%22%20width%3D%222%22%20height%3D%2213%22%2F%3E%0D%0A%09%09%3Crect%20x%3D%2215%22%20y%3D%229%22%20fill%3D%22%23fff%22%20width%3D%222%22%20height%3D%2210%22%2F%3E%0D%0A%09%09%3Crect%20x%3D%2219%22%20y%3D%226%22%20fill%3D%22%23fff%22%20width%3D%222%22%20height%3D%2213%22%2F%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E");
+  @include filter ($icon-filter-type, $icon-filter-amount);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23fff'%3E%3Cpath d='M3 6h2v13H3zM7 9h2v10H7zM11 6h2v13h-2zM15 9h2v10h-2zM19 6h2v13h-2z'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: left center;
 }
