@@ -23,8 +23,8 @@
 
 // Switch to the exit icon when the player is in fullscreen
 .video-js.vjs-fullscreen .vjs-fullscreen-control {
-  width: $control-button-width * 1.5;
-  height: $control-button-width * 1.5;
+  width: $control-button-width;
+  height: $control-button-width;
   @extend .icon-fullscreen-exit;
   background-size: contain;
   &:before {
