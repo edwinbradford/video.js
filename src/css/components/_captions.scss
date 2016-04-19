@@ -1,3 +1,10 @@
 .video-js .vjs-captions-button {
-  @extend .vjs-icon-captions;
+  position: absolute;
+  top: $control-button-width + 0.8rem;
+  left: 0;
+  width: $control-button-width;
+  height: $control-button-width;
+  cursor: pointer;
+  @extend .icon-closed-captions;
+  background-size: contain;
 }
