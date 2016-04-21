@@ -1,7 +1,10 @@
 .video-js .vjs-time-control {
+  display: flex;
+  align-items: center;
   position: absolute;
-  bottom:  $text-time-size * -0.5; // Half font size
+  bottom: 0;
   width: $time-width;
+  height: $control-button-width; // We can center text vertically in the control button height
   font-size: $text-time-size;
   line-height: $text-time-size;
   text-shadow: (0 0 1px rgba(0,0,0,0.6));
@@ -15,13 +18,13 @@
 .video-js .vjs-current-time,
 .vjs-no-flex .vjs-current-time {
   left: 0;
-  text-align: left;
+  justify-content: flex-start;
 }
 
 .video-js .vjs-duration,
 .vjs-no-flex .vjs-duration {
   right: 0;
-  text-align: right;
+  justify-content: flex-end;
 }
 
 // Not used for Neue theme but hidden and centered
@@ -31,11 +34,11 @@
   background-color: #ffff00; // Color for debug purposes
 }
 
-// Not used for Neue theme but hidden and centered
+// Hidden - not used for Neue theme 
 .vjs-time-divider {
-  display: none;
-  margin: 0 auto;
-  background-color: #00ff00; // Color for debug purposes
+  visibility: hidden; // Can't use display none on a flex item
+  // debug colour
+  // background-color: #00ff00;
 }
 
 .vjs-live .vjs-time-divider {

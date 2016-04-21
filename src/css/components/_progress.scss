@@ -2,12 +2,14 @@
 // Container for all progress sliders
 // Also acts as hover area 
 .video-js .vjs-progress-control {
+  display: flex;
+  align-items: center;
   position: absolute;
-  bottom: $slider-height * ($slider-hover-height / -2); // Vertically center hover area
+  bottom: 0;
   left: $progress-bar-margin;
   right: $progress-bar-margin;
   width: auto;
-  height: $slider-height * $slider-hover-height; // Increase hover area for UX
+  height: $control-button-width;
   background-color: transparent;
   // background-color: rgba(255,255,0,0.5); // yellow debug background
   pointer-events: all; // Make buttons clickable
@@ -19,8 +21,8 @@
 .video-js .vjs-progress-holder {
   outline: 0;
   position: relative;
-  top: ($slider-height * $slider-hover-height / 2) - ($slider-height / 2);
   height: $slider-height;
+  width: 100%;
   cursor: pointer;
   padding: 0;
   margin: 0;
