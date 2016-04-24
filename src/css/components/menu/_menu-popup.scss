@@ -1,22 +1,18 @@
 .vjs-menu-button-popup .vjs-menu {
-  display: none;
   position: absolute;
-  bottom: 0;
-  width: 10rem;
-  left: -3rem; // (Width of vjs-menu - width of button) / 2
-  height: 0rem;
-  margin-bottom: 1.5rem;
-  border-top-color: rgba($primary-background-color, $primary-background-transparency); // Same as ul background
+  top: $control-button-width + 0.8rem;
+  width: 16rem;
+  right: 0rem; // (Width of vjs-menu - width of button) / 2
+  height: 2.4rem; // For debug visibility only
+  margin-bottom: 0;
+  border-top-color: rgba($primary-background-color, 1); // Same as ul background
 }
 
 // Button Pop-up Menu
 .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
-
+  @include background-color-with-alpha($primary-background-color, 1);
   position: absolute;
   width: 100%;
-  bottom: 1.5rem; // Same bottom as vjs-menu border-top
-  max-height: 15rem;
 }
 
 .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu,

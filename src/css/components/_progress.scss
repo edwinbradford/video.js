@@ -1,7 +1,10 @@
 
 // Container for all progress sliders
-// Also acts as hover area 
+// Also acts as hover area
+// Hide until play starts
 .video-js .vjs-progress-control {
+  visibility: hidden;
+  opacity: 0;
   display: flex;
   align-items: center;
   position: absolute;
@@ -11,13 +14,13 @@
   width: auto;
   height: $control-button-width;
   background-color: transparent;
-  // background-color: rgba(255,255,0,0.5); // yellow debug background
+  // background-color: rgba(255,255,0,0.5); // debug
   pointer-events: all; // Make buttons clickable
   @include transition(all 0.5s);
 }
 
 // Height and position of progress bars
-// Also acts as seek scrubber.
+// Also acts as seek scrubber
 .video-js .vjs-progress-holder {
   outline: 0;
   position: relative;
@@ -26,7 +29,7 @@
   cursor: pointer;
   padding: 0;
   margin: 0;
-  background-color: #000;
+  @include background-color-with-alpha($primary-foreground-color, 0.4);
   @include transition(all 0.5s);
 }
 
@@ -35,7 +38,6 @@
   height: 100%;
   background-color: $accent-color;
   &:before {
-    // display: none; // Enable this to hide handle at start
     content:"";
     position: absolute;
     top: ($slider-height * -2) + ($slider-height / 2);
@@ -49,20 +51,22 @@
   }
 }
 
-// Show handle when video starts
-// Has no effect if handle is not hidden... see above
+// Disabled. Not used for Neue theme
 .vjs-has-started .vjs-play-progress {
   &:before {
-    display: block;
+    //
   }
 }
 
-// Height and position of progress bars and handle on hover
+// Show progress bar 
+// Adjust height and position of progress bars and handle on hover
 .vjs-has-started .vjs-progress-control {
+  visibility: visible;
+  opacity: 1;
+  @include transition(all 2s);
   &:hover {
     // Progress bars hover
     .vjs-progress-holder {
-      top: ($slider-height * $slider-hover-height / 2) - ($slider-height * $slider-height-increase / 2);
       height: $slider-height * $slider-height-increase;
       @include transition(all 0.5s);    
     }
@@ -79,7 +83,7 @@
 
 // Buffer
 .video-js .vjs-load-progress {
-  background-color: $secondary-foreground-color;
+  background-color: $primary-foreground-color;
   height: 100%;
 }
 
@@ -149,13 +153,6 @@
 
 .video-js .vjs-progress-control .vjs-keep-tooltips-inside:after {
   display: none;
-}
-
-.video-js .vjs-load-progress {
-  // For IE8 we'll lighten the color
-  background: lighten($secondary-background-color, 25%);
-  // Otherwise we'll rely on stacked opacities
-  background: rgba($secondary-background-color, $secondary-background-transparency);
 }
 
 // there are child elements of the load progress bar that represent the

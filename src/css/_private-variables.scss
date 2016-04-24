@@ -11,7 +11,9 @@ $accent-color: #cc0000;
 $primary-foreground-color: #fff !default;
 $primary-background-color: #1a1a1a !default;
 $secondary-foreground-color: #fff !default;
-$secondary-background-color: #999 !default; // buffer
+$secondary-background-color: #333 !default; // menus
+$menu-text-color: #999;
+$menu-text-color-highlight: #ccc;
 
 // Transparency
 $primary-background-transparency: 1 !default;
@@ -31,6 +33,6 @@ $icon-nested-filter-amount: 0px 0px 1px rgba(0, 0, 0, 0.2);
 
 
 // Time display
-$text-font-family: Helvetica, Arial, sans-serif !default;
+$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
 $text-time-size: 1.2rem;
 $time-width: 5rem;
