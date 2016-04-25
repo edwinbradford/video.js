@@ -5,6 +5,7 @@
   display: inline-block;
 
   overflow: visible; // IE8
+  font-family: inherit;
   font-size: inherit; // IE in general. WTF.
   line-height: inherit;
   text-transform: none;

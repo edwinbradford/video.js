@@ -1,46 +1,57 @@
 .vjs-caption-settings {
   position: relative;
-  top: 1em;
-  width: 40em;
-  height: 15em;
-  margin: 0 auto;
-  padding: 0.5em;
+  top: 0;
+  width: 100%;
+  height: 100%;
   background-color: $primary-background-color;
-  background-color: rgba($primary-background-color, 0.75);
-  color: $primary-foreground-color;
+  color: $menu-text-color;
   font-size: 12px;
 }
 
 .vjs-caption-settings .vjs-tracksettings {
   top: 0;
-  bottom: 2em;
   left: 0;
-  right: 0;
   position: absolute;
+  padding: 2.4rem;
   overflow: auto;
 }
 
 .vjs-caption-settings .vjs-tracksettings-colors,
 .vjs-caption-settings .vjs-tracksettings-font {
-  float: left;
+  // float: left;
 }
+
 .vjs-caption-settings .vjs-tracksettings-colors:after,
 .vjs-caption-settings .vjs-tracksettings-font:after,
 .vjs-caption-settings .vjs-tracksettings-controls:after {
-  clear: both;
+
+}
+
+.vjs-caption-settings .vjs-tracksettings-font {
+  margin-top: 32px;
 }
 
 .vjs-caption-settings .vjs-tracksettings-controls {
   position: absolute;
-  bottom: 1em;
-  right: 1em;
+  bottom: 2.4rem;
+  right: 2.4rem;
 }
 
 .vjs-caption-settings .vjs-tracksetting {
-  margin: 5px;
   padding: 3px;
   min-height: 40px;
 }
+
+.vjs-caption-settings .vjs-font-percent,
+.vjs-caption-settings .vjs-edge-style {
+  display: inline-block;
+}
+
+.vjs-caption-settings .vjs-edge-style {
+
+}
+
+
 .vjs-caption-settings .vjs-tracksetting label {
   display: block;
   width: 100px;
@@ -71,3 +82,15 @@
   width: 40px;
   height: 40px;
 }
+
+.vjs-caption-settings select {
+  width: 200px;
+  font-family: inherit;
+  margin-bottom: 8px;
+  padding: 2px;
+  color: $menu-text-color;
+  border: 0px none transparent;
+  background-color: $secondary-background-color;
+}
+
+
