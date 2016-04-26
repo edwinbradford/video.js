@@ -1,6 +1,7 @@
 // Container for all the buttons except the big play button
 // Covers the video
 .video-js .vjs-control-bar {
+  @include display-flex( flex-start, flex-end);
   position: absolute;
   top: $controls-margin;
   right: $controls-margin;

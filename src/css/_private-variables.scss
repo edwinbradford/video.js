@@ -25,7 +25,8 @@ $big-play-button--height: 5.4rem !default;
 
 // Controls
 $controls-margin: 2.4rem;
-$control-button-width: 2.4rem;
+$control-button-width: 2.4rem; // Also height as Neue buttons are 24px square
+$control-button-spacing: 1.6rem;
 $menu-width: 8rem;
 $icon-filter-type: drop-shadow;
 $icon-filter-amount: 0px 0px 1px rgba(0, 0, 0, 0.4);

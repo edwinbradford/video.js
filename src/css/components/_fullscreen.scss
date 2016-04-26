@@ -1,14 +1,14 @@
 .video-js .vjs-fullscreen-control {
-  position: absolute;
-  top: 0;
-  right: 0;
   width: $control-button-width;
   height: $control-button-width;
   cursor: pointer;
   @extend .icon-fullscreen-enter;
   background-size: contain;
   &:before {
+    display: block;
     content: "";
+    width: inherit;
+    height: inherit;
     @extend .icon-fullscreen-enter-arrow;
     background-size: contain;
   }

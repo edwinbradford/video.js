@@ -113,7 +113,7 @@
 }
 
 %icon-default {
-  @extend %fill-parent;
+  // @extend %fill-parent; // Remove font formatting for Neue
   text-align: center;
 }
 
