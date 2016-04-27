@@ -26,9 +26,8 @@
     <pre>open http://localhost:9999/sandbox/index.html</pre>
   </div>
 
-    <video id="vid1" class="video-js vjs-big-play-centered" controls preload="auto" width="640" height="360" style="margin:0 auto"
-    poster="http://camendesign.co.uk/code/video_for_everybody/poster.jpg"
-    data-setup='{}'>
+    <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" style="margin:0 auto"
+    poster="http://camendesign.co.uk/code/video_for_everybody/poster.jpg">
       <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
       <source src="http://clips.vorwaerts-gmbh.de/VfE.webm" type="video/webm">
       <source src="http://clips.vorwaerts-gmbh.de/VfE.ogv" type="video/ogg">
@@ -37,8 +36,18 @@
     </video>
     
   <script>
-    var vid = document.getElementById("vid1");
-  </script>
+    videojs(document.getElementById('videoJSElement'), {
+      "controls": true,
+      "preload": "auto",
+      "autoplay": false,
+      controlBar: {
+        muteToggle: false
+      }
+    },
+    function() {
+      // Callback.
+    });
+   </script>
 
 </body>
 </html>

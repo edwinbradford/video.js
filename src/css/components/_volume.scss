@@ -82,7 +82,7 @@
   &:before {
     top: -0.3rem;
     right: -0.5rem;
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    @include box-shadow(0 0 2px rgba(0,0,0,0.2));
   }
 }
 
@@ -143,5 +143,6 @@
 .vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu-content {
   // An inline volume should never have a menu background color.
   //  This protects it from external changes to background colors.
+  @include display-flex(center, flex-start);
   background-color: transparent !important;
 }

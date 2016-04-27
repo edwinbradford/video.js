@@ -3,7 +3,7 @@
   position: absolute;
   top: $control-button-width + 0.8rem;
   width: 16rem;
-  right: 0rem; // (Width of vjs-menu - width of button) / 2
+  right: 0;
   height: 2.4rem; // For debug visibility only
   margin-bottom: 0;
   border-top-color: rgba($primary-background-color, 1); // Same as ul background
@@ -16,7 +16,10 @@
   width: 100%;
 }
 
-.vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu,
 .vjs-menu-button-popup .vjs-menu.vjs-lock-showing {
+  display: block;
+}
+
+.vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu {
   display: block;
 }
