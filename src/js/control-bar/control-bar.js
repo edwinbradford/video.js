@@ -49,19 +49,19 @@ class ControlBar extends Component {
 ControlBar.prototype.options_ = {
   loadEvent: 'play',
   children: [
-    'playToggle',
+    // 'playToggle',
     'volumeMenuButton',
     'currentTimeDisplay',
-    'timeDivider',
+    // 'timeDivider',
     'durationDisplay',
     'progressControl',
-    'liveDisplay',
-    'remainingTimeDisplay',
-    'customControlSpacer',
-    'playbackRateMenuButton',
-    'chaptersButton',
-    'descriptionsButton',
-    'subtitlesButton',
+    // 'liveDisplay',
+    // 'remainingTimeDisplay',
+    // 'customControlSpacer',
+    // 'playbackRateMenuButton',
+    // 'chaptersButton',
+    // 'descriptionsButton',
+    // 'subtitlesButton',
     'captionsButton',
     'fullscreenToggle'
   ]
