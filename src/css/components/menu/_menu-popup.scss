@@ -16,10 +16,11 @@
   width: 100%;
 }
 
-.vjs-menu-button-popup .vjs-menu.vjs-lock-showing {
+.vjs-menu-button-popup .vjs-menu .vjs-lock-showing {
   display: block;
 }
 
+// show menus when hovering over button
 .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu {
-  display: block;
+  // display: block; // Disabled for Neue theme
 }

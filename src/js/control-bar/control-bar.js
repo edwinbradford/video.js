@@ -46,6 +46,7 @@ class ControlBar extends Component {
   }
 }
 
+// Add and remove components here by commenting out unwanted features
 ControlBar.prototype.options_ = {
   loadEvent: 'play',
   children: [
