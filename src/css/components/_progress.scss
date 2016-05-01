@@ -29,7 +29,7 @@
   cursor: pointer;
   padding: 0;
   margin: 0;
-  @include background-color-with-alpha($primary-foreground-color, 0.4);
+  @include background-color-with-alpha($primary-background-color, 0.4);
   @include transition(all 0.5s);
 }
 
@@ -83,7 +83,7 @@
 
 // Buffer
 .video-js .vjs-load-progress {
-  background-color: $primary-foreground-color;
+  @include background-color-with-alpha($accent-color, 0.4);
   height: 100%;
 }
 

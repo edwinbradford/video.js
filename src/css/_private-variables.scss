@@ -7,7 +7,7 @@ $slider-hover-height: 8; // Height of progress bar hover area
 $progress-bar-margin: 4rem;
 
 // Colors
-$accent-color: #cc0000;
+$accent-color: #e50000;
 $primary-foreground-color: #fff !default;
 $primary-background-color: #1a1a1a !default;
 $secondary-foreground-color: #fff !default;
@@ -15,23 +15,22 @@ $secondary-background-color: #333 !default; // menus
 $menu-text-color: #999;
 $menu-text-color-highlight: #ccc;
 
+// Filters
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.4));
+
 // Transparency
 $primary-background-transparency: 1 !default;
 $secondary-background-transparency: 1 !default; // not used
 
 // Big play button
-$big-play-button--width: 5.4rem !default;
-$big-play-button--height: 5.4rem !default;
+$big-play-button--width: 6.4rem !default;
+$big-play-button--height: 6.4rem !default;
 
 // Controls
 $controls-margin: 2.4rem;
 $control-button-width: 2.4rem; // Also height as Neue buttons are 24px square
 $control-button-spacing: 1.6rem;
 $menu-width: 8rem;
-$icon-filter-type: drop-shadow;
-$icon-filter-amount: 0px 0px 1px rgba(0, 0, 0, 0.4);
-$icon-nested-filter-amount: 0px 0px 1px rgba(0, 0, 0, 0.2);
-
 
 // Time display
 $text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;

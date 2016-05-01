@@ -6,4 +6,25 @@
   cursor: pointer;
   @extend .icon-closed-captions;
   background-size: contain;
+  opacity: 1;
+  @include transition(opacity 0.5s);
+  &:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: inherit;
+    height: inherit;
+    @extend .icon-closed-captions-highlight;
+    opacity: 0;
+    @include transition(opacity 0.5s);
+  }
+  &:hover{
+    @include transition(opacity 0.5s);
+    &:before{
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
 }

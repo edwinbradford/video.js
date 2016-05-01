@@ -9,6 +9,26 @@
   @include flex(none);
   @extend .icon-volume;
   background-size: contain;
+  @include transition(all 0.5s);
+  &:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: inherit;
+    height: inherit;
+    @extend .icon-volume-highlight;
+    opacity: 0;
+    @include transition(opacity 0.5s);
+  }
+  &:hover{
+    @include transition(all 0.5s);
+    &:before{
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
 }
 
 .video-js .vjs-mute-control.vjs-vol-0,
@@ -52,7 +72,7 @@
 .video-js .vjs-volume-level {
   position: absolute;
   left: 0;
-  background-color: $primary-foreground-color;
+  background-color: $accent-color;
 
   // Volume handle
   &:before {
@@ -82,7 +102,7 @@
   &:before {
     top: -0.3rem;
     right: -0.5rem;
-    @include box-shadow(0 0 2px rgba(0,0,0,0.2));
+    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
   }
 }
 

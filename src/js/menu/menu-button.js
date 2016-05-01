@@ -140,20 +140,24 @@ class MenuButton extends ClickableComponent {
    *
    * @method handleClick
    */
+   
   handleClick() {
+    /**
+     * Disabled for Neue theme because we only want
+     * menus to respond to clicks
+     *
     this.one('mouseout', Fn.bind(this, function(){
-      
-      // Disabled for Neue theme or it hides menus on mouseout
       // this.menu.unlockShowing();
       this.el_.blur();
     }));
+    */
     if (this.buttonPressed_){
       this.unpressButton();
     } else {
       this.pressButton();
     }
   }
-
+  
   /**
    * Handle key press on menu
    *

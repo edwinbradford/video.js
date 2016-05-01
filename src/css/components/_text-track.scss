@@ -15,9 +15,9 @@
 
 // Individual tracks
 .video-js .vjs-text-track {
-  font-size: 1.4em;
+  font-size: 1rem;
   text-align: center;
-  margin-bottom: 0.1em;
+  margin-bottom: 0;
   // Transparent black background, or fallback to all black (oldIE)
   @include background-color-with-alpha(#000, 0.5);
 }
@@ -28,10 +28,18 @@
 
 // Native tracks
 video::-webkit-media-text-track-display {
-  @include transform(translateY(-3em));
+  @include transform(translateY(-5.4rem));
 }
 
 // Move captions down when controls aren't being shown
 .video-js.vjs-user-inactive.vjs-playing video::-webkit-media-text-track-display {
-  @include transform(translateY(-1.5em));
+  @include transform(translateY(-3.2rem));
+}
+
+// Neue native captions
+::cue {
+  font-family: $text-font-family;
+  font-size: 1.6rem;
+  color: $menu-text-color;
+  background-color: #ffff00;
 }
