@@ -1,7 +1,7 @@
 // Emulated tracks
 .vjs-text-track-display {
   position: absolute;
-  bottom: 3em;
+  bottom: 4rem;
   left: 0;
   right: 0;
   top: 0;
@@ -10,20 +10,21 @@
 
 // Move captions down when controls aren't being shown
 .video-js.vjs-user-inactive.vjs-playing .vjs-text-track-display {
-  bottom: 1em;
+  bottom: 1.6rem;
 }
 
 // Individual tracks
 .video-js .vjs-text-track {
-  font-size: 1rem;
+  font-family: $text-font-family;
+  font-size: 1.6rem;
   text-align: center;
   margin-bottom: 0;
-  // Transparent black background, or fallback to all black (oldIE)
-  @include background-color-with-alpha(#000, 0.5);
+  color: #666;
+  background-color: #ffff00;
 }
 
 .vjs-subtitles { color: #fff; } // Subtitles are white
-.vjs-captions { color: #fc6; } // Captions are yellow
+.vjs-captions { color: #666; } // Captions are yellow
 .vjs-tt-cue { display: block; }
 
 // Native tracks
@@ -40,6 +41,6 @@ video::-webkit-media-text-track-display {
 ::cue {
   font-family: $text-font-family;
   font-size: 1.6rem;
-  color: $menu-text-color;
+  color: #666;
   background-color: #ffff00;
 }
