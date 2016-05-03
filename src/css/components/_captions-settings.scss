@@ -89,7 +89,19 @@
   padding: 2px;
   color: $menu-text-color;
   border: 0px none transparent;
-  background-color: $secondary-background-color;
+  background-color: $menu-background-color;
 }
 
+.vjs-caption-settings .vjs-default-button,
+.vjs-caption-settings .vjs-done-button {
+  padding: 0.6rem;
+  outline: 0;
+  &:hover{
+    background-color: $menu-background-color;
+  }
+  &:active{
+    color: $primary-foreground-color;
+    background-color: #666;
+  }
+}
 

@@ -35,14 +35,14 @@
 .vjs-menu li:focus,
 .vjs-menu li:hover {
   outline: 0;
-  background-color: $secondary-background-color;
+  background-color: $menu-background-color;
 }
 
 .vjs-menu li.vjs-selected,
 .vjs-menu li.vjs-selected:focus,
 .vjs-menu li.vjs-selected:hover {
   color: $menu-text-color-highlight;
-  background-color: $secondary-background-color;
+  background-color: $menu-background-color;
 }
 
 .vjs-menu li.vjs-menu-title {

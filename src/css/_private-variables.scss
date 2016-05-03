@@ -10,10 +10,10 @@ $progress-bar-margin: 4rem;
 $accent-color: #e50000;
 $primary-foreground-color: #fff !default;
 $primary-background-color: #1a1a1a !default;
-$secondary-foreground-color: #fff !default;
-$secondary-background-color: #333 !default; // menus
 $menu-text-color: #999;
 $menu-text-color-highlight: #ccc;
+$menu-background-color-hgihlight: #666 !default;
+$menu-background-color: #333 !default; // menus
 
 // Filters
 $filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.4));
