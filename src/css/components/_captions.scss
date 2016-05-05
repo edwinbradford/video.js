@@ -2,7 +2,6 @@
   position: relative; // enables absolute positioning on nested elements
   width: $control-button-width;
   height: $control-button-width;
-  margin-right: $control-button-spacing;
   cursor: pointer;
   @extend .icon-closed-captions;
   background-size: contain;
