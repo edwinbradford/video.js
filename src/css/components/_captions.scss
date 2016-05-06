@@ -1,7 +1,5 @@
 .video-js .vjs-captions-button {
   position: relative; // enables absolute positioning on nested elements
-  width: $control-button-width;
-  height: $control-button-width;
   cursor: pointer;
   @extend .icon-closed-captions;
   background-size: contain;

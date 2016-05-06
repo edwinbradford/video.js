@@ -12,6 +12,8 @@
   pointer-events: none; // Stop overlay from preventing buttons below from working
   // Button spacing
   .vjs-button {
+    width: $control-button-width;
+    height: $control-button-width;
     margin-right: $control-button-spacing;
   }
 }

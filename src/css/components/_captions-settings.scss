@@ -96,8 +96,10 @@
 .vjs-caption-settings .vjs-done-button {
   padding: 0.6rem;
   outline: 0;
+  @include transition(background-color 0.5s);
   &:hover{
     background-color: $menu-background-color;
+    @include transition(background-color 0.5s);
   }
   &:active{
     color: $primary-foreground-color;

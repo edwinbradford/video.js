@@ -3,8 +3,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: $control-button-width;
-  height: $control-button-width;
+  overflow: inherit;
   cursor: pointer;
   @include flex(none);
   @extend .icon-volume;

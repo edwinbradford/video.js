@@ -1,7 +1,5 @@
 .video-js .vjs-subtitles-button {
   position: relative; // Required for positioning of pseudo content
-  width: $control-button-width;
-  height: $control-button-width;
   @extend .icon-subtitles;
   background-size: contain;
   @include transition(opacity 0.5s);
