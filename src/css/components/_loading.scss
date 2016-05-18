@@ -1,43 +1,40 @@
 .vjs-loading-spinner {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -25px 0 0 -25px;
-  opacity: 1;
-
-  // Need to fix centered page layouts
-  text-align: left;
-
-  border: 3px solid rgba($primary-background-color, 0);
-  // border: 6px solid rgba(43, 51, 63, 0.5);
-
-  box-sizing: border-box;
-  background-clip: padding-box;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    // border: 6px solid rgba(43, 51, 63, 0.5);
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    // Need to fix centered page layouts
+    text-align: left;
+    opacity: 1;
+    border: 3px solid rgba($primary-background-color, 0);
+    border-radius: 50%;
+    background-clip: padding-box;
 }
 
 .vjs-seeking .vjs-loading-spinner,
 .vjs-waiting .vjs-loading-spinner {
-  display: block;
+    display: block;
 }
 
 .vjs-loading-spinner:before,
 .vjs-loading-spinner:after {
-  content: "";
-  position: absolute;
-  margin: -3px;
-  box-sizing: inherit;
-  width: inherit;
-  height: inherit;
-  border-radius: inherit;
-  // Keep 100% opacity so they don't show through each other
-  opacity: 1;
-  border: inherit;
-  border-color: transparent;
-  border-top-color: #e5e5e5;
+    position: absolute;
+    box-sizing: inherit;
+    width: inherit;
+    height: inherit;
+    margin: -3px;
+    content: "";
+    // Keep 100% opacity so they don't show through each other
+    opacity: 1;
+    border: inherit;
+    border-color: transparent;
+    border-top-color: #e5e5e5;
+    border-radius: inherit;
 }
 
 
@@ -46,60 +43,60 @@
 .vjs-seeking .vjs-loading-spinner:after,
 .vjs-waiting .vjs-loading-spinner:before,
 .vjs-waiting .vjs-loading-spinner:after {
-  -webkit-animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
-  animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
+    -webkit-animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
+            animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
 }
 
 .vjs-seeking .vjs-loading-spinner:before,
 .vjs-waiting .vjs-loading-spinner:before {
-  border-top-color: #e5e5e5;
+    border-top-color: #e5e5e5;
 }
 
 .vjs-seeking .vjs-loading-spinner:after,
 .vjs-waiting .vjs-loading-spinner:after {
-  border-top-color: #e5e5e5;
-  -webkit-animation-delay: 0.5s;
-  animation-delay: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    border-top-color: #e5e5e5;
 }
 
 @keyframes vjs-spinner-spin {
-  100% {
-    transform: rotate(360deg);
-  }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @-webkit-keyframes vjs-spinner-spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes vjs-spinner-fade {
-  0% {
-    border-top-color: transparent;
-  }
-  20% {
-    border-top-color: #e5e5e5;
-  }
-  80% {
-    border-top-color: #e5e5e5;
-  }
-  100% {
-    border-top-color: transparent;
-  }
+    0% {
+        border-top-color: transparent;
+    }
+    20% {
+        border-top-color: #e5e5e5;
+    }
+    80% {
+        border-top-color: #e5e5e5;
+    }
+    100% {
+        border-top-color: transparent;
+    }
 }
 
 @-webkit-keyframes vjs-spinner-fade {
-  0% {
-    border-top-color: transparent;
-  }
-  20% {
-    border-top-color: #e5e5e5;
-  }
-  80% {
-    border-top-color: #e5e5e5;
-  }
-  100% {
-    border-top-color: transparent;
-  }
+    0% {
+        border-top-color: transparent;
+    }
+    20% {
+        border-top-color: #e5e5e5;
+    }
+    80% {
+        border-top-color: #e5e5e5;
+    }
+    100% {
+        border-top-color: transparent;
+    }
 }

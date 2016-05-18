@@ -1,121 +1,121 @@
 .video-js .vjs-mute-control,
 .video-js .vjs-volume-menu-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: inherit;
-  cursor: pointer;
-  @include flex(none);
-  @extend .icon-volume;
-  background-size: contain;
-  @include transition(all 0.5s);
-  &:before{
-    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
-    width: inherit;
-    height: inherit;
-    @extend .icon-volume-highlight;
-    opacity: 0;
-    @include transition(opacity 0.5s);
-  }
-  &:hover{
+    overflow: inherit;
+    cursor: pointer;
+    background-size: contain;
+    @include flex(none);
+    @extend .icon-volume;
     @include transition(all 0.5s);
-    &:before{
-      opacity: 1;
-      @include transition(opacity 0.5s);
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: inherit;
+        height: inherit;
+        content: "";
+        opacity: 0;
+        @extend .icon-volume-highlight;
+        @include transition(opacity 0.5s);
     }
-  }
+    &:hover {
+        @include transition(all 0.5s);
+        &:before {
+            opacity: 1;
+            @include transition(opacity 0.5s);
+        }
+    }
 }
 
 .video-js .vjs-mute-control.vjs-vol-0,
 .video-js .vjs-volume-menu-button.vjs-vol-0 {
-  @extend .icon-mute;
-  background-size: contain;
-  &:before{
-    @extend .icon-mute-highlight;
     background-size: contain;
-  }
+    @extend .icon-mute;
+    &:before {
+        background-size: contain;
+        @extend .icon-mute-highlight;
+    }
 }
 .video-js .vjs-mute-control.vjs-vol-1,
 .video-js .vjs-volume-menu-button.vjs-vol-1 {
-  @extend .icon-volume;
-  background-size: contain;
+    background-size: contain;
+    @extend .icon-volume;
 }
 .video-js .vjs-mute-control.vjs-vol-2,
 .video-js .vjs-volume-menu-button.vjs-vol-2 {
-  @extend .icon-volume;
-  background-size: contain;
+    background-size: contain;
+    @extend .icon-volume;
 }
 
 .video-js .vjs-volume-control {
-  width: 5rem;
-  @include flex(none);
-  @include display-flex(center);
+    width: 5rem;
+    @include flex(none);
+    @include display-flex(center);
 }
 
 .video-js .vjs-volume-bar {
-  // margin: 1.35rem 0.45rem;
+    // margin: 1.35rem 0.45rem;
 }
 
 .vjs-volume-bar.vjs-slider-horizontal {
-  width: $menu-width;
-  height: $slider-height;
-  background-color: $primary-background-color;
+    width: $menu-width;
+    height: $slider-height;
+    background-color: $primary-background-color;
 }
 
 .vjs-volume-bar.vjs-slider-vertical {
-  width: 0.2rem;
-  height: 5rem;
-  margin: 1.35rem auto;
+    width: 0.2rem;
+    height: 5rem;
+    margin: 1.35rem auto;
 }
 
 .video-js .vjs-volume-level {
-  position: absolute;
-  left: 0;
-  background-color: $accent-color;
-
-  // Volume handle
-  &:before {
-    content:"";
     position: absolute;
-    width: $slider-height * $slider-handle-height;
-    height: $slider-height * $slider-handle-height;
-    @include border-radius(50%);
-    background-color: inherit;
+    left: 0;
+    background-color: $accent-color;
+
+    // Volume handle
+    &:before {
+        position: absolute;
+        width: $slider-height * $slider-handle-height;
+        height: $slider-height * $slider-handle-height;
+        content: "";
+        background-color: inherit;
+        @include border-radius(50%);
     }
 }
 
 .vjs-slider-vertical .vjs-volume-level {
-  width: 0.2rem;
+    width: 0.2rem;
 
-  // Volume handle
-  &:before {
-    top: -0.5rem;
-    left: -0.3rem;
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
-  }
+    // Volume handle
+    &:before {
+        top: -0.5rem;
+        left: -0.3rem;
+        @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    }
 }
 .vjs-slider-horizontal .vjs-volume-level {
-  height: 0.2rem;
+    height: 0.2rem;
 
-  // Volume handle
-  &:before {
-    top: -0.3rem;
-    right: -0.5rem;
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
-  }
+    // Volume handle
+    &:before {
+        top: -0.3rem;
+        right: -0.5rem;
+        @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    }
 }
 
 // Assumes volume starts at 1.0.
 .vjs-volume-bar.vjs-slider-vertical .vjs-volume-level {
-  height: 100%;
+    height: 100%;
 }
 
 .vjs-volume-bar.vjs-slider-horizontal .vjs-volume-level {
-  width: 100%;
+    width: 100%;
 }
 
 // The volume menu button is like menu buttons (captions/subtitles) but works
@@ -124,48 +124,47 @@
 // display:none to hide the slider menu by default, and instead setting the
 // width and height to zero.
 .vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu {
-  display: block;
-  width: 0;
-  height: 0;
-  border-top-color: transparent;
+    display: block;
+    width: 0;
+    height: 0;
+    border-top-color: transparent;
 }
 
 .vjs-menu-button-popup.vjs-volume-menu-button-vertical .vjs-menu {
-  left: 0.5rem;
-  height: 8rem;
+    left: 0.5rem;
+    height: 8rem;
 }
 .vjs-menu-button-popup.vjs-volume-menu-button-horizontal .vjs-menu {
-  left: -2rem;
+    left: -2rem;
 }
 
 .vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu-content {
-  height: 0;
-  width: 0;
-
-  // Avoids unnecessary scrollbars in the menu content. Primarily noticed in Chrome on Linux.
-  overflow-x: hidden;
-  overflow-y: hidden;
+    // Avoids unnecessary scrollbars in the menu content. Primarily noticed in Chrome on Linux.
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 0;
+    height: 0;
 }
 
 .vjs-volume-menu-button-vertical:hover .vjs-menu-content,
 .vjs-volume-menu-button-vertical:focus .vjs-menu-content,
 .vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content {
-  height: $menu-width;
-  width: $control-button-width;
+    width: $control-button-width;
+    height: $menu-width;
 }
 
 .vjs-volume-menu-button-horizontal:hover .vjs-menu-content,
 .vjs-volume-menu-button-horizontal:focus .vjs-menu-content,
 .vjs-volume-menu-button-horizontal .vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-horizontal .vjs-lock-showing .vjs-menu-content {
-  height: $control-button-width;
-  width: $menu-width;
+    width: $menu-width;
+    height: $control-button-width;
 }
 
 .vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu-content {
-  // An inline volume should never have a menu background color.
-  //  This protects it from external changes to background colors.
-  @include display-flex(center, flex-start);
-  background-color: transparent !important;
+    background-color: transparent !important;
+    // An inline volume should never have a menu background color.
+    //  This protects it from external changes to background colors.
+    @include display-flex(center, flex-start);
 }

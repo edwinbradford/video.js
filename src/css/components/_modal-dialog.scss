@@ -1,13 +1,9 @@
 .video-js .vjs-modal-dialog {
-  @extend %fill-parent;
-  background-color: $primary-background-color;
+    background-color: $primary-background-color;
+    @include display-flex(flex-start, flex-start);
+    @extend %fill-parent;
 }
 
 .vjs-modal-dialog .vjs-modal-dialog-content {
-  @extend %fill-parent;
-
-  font-size: 1.2rem; // 12px
-  line-height: 1.5; // 18px
-  padding: 20px 24px;
-  z-index: 1;
+    @extend .vjs-modal-dialog-content;
 }

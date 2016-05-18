@@ -1,23 +1,10 @@
-.vjs-error .vjs-error-display .vjs-modal-dialog-content {
-  font-size: 1.4em;
-  text-align: center;
+.vjs-modal-dialog-content {
+    font-size: 1.2rem; // 12px
+    line-height: 1.8rem; // 18px
+    z-index: 1;
 }
 
-.vjs-error .vjs-error-display:before {
-  color: #fff;
-  content: 'X';
-  font-family: $text-font-family;
-  font-size: 4em;
-  left: 0;
-
-  // In order to center the play icon vertically we need to set the line height
-  // to the same as the button height
-  line-height: 1;
-  margin-top: -0.5em;
-  position: absolute;
-  text-shadow: 0.05em 0.05em 0.1em #000;
-  text-align: center; // Needed for IE8
-  top: 50%;
-  vertical-align: middle;
-  width: 100%;
+.vjs-error .vjs-error-display {
+    padding: 2.4rem 3.2rem 2.4rem 2.4rem;
+    @extend .vjs-modal-dialog-content;
 }

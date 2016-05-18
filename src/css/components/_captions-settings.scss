@@ -1,109 +1,103 @@
 .vjs-caption-settings {
-  position: relative;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $primary-background-color;
-  color: $menu-text-color;
-  font-size: 12px;
+    font-size: 12px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: $menu-text-color;
+    background-color: $primary-background-color;
 }
 
 .vjs-caption-settings .vjs-tracksettings {
-  top: 0;
-  left: 0;
-  position: absolute;
-  padding: 2.4rem;
-  overflow: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    padding: 2.4rem;
 }
 
 .vjs-caption-settings .vjs-tracksettings-colors,
 .vjs-caption-settings .vjs-tracksettings-font {
-  // float: left;
+    // float: left;
 }
 
-.vjs-caption-settings .vjs-tracksettings-colors:after,
-.vjs-caption-settings .vjs-tracksettings-font:after,
-.vjs-caption-settings .vjs-tracksettings-controls:after {
 
-}
 
 .vjs-caption-settings .vjs-tracksettings-font {
-  margin-top: 32px;
+    margin-top: 32px;
 }
 
 .vjs-caption-settings .vjs-tracksettings-controls {
-  position: absolute;
-  bottom: 2.4rem;
-  right: 2.4rem;
+    position: absolute;
+    right: 2.4rem;
+    bottom: 2.4rem;
 }
 
 .vjs-caption-settings .vjs-tracksetting {
-  padding: 3px;
-  min-height: 40px;
+    min-height: 40px;
+    padding: 3px;
 }
 
 .vjs-caption-settings .vjs-font-percent,
 .vjs-caption-settings .vjs-edge-style {
-  display: inline-block;
+    display: inline-block;
 }
 
-.vjs-caption-settings .vjs-edge-style {
 
-}
 
 .vjs-caption-settings .vjs-tracksetting label {
-  display: block;
-  width: 200px;
-  margin-bottom: 5px;
+    display: block;
+    width: 200px;
+    margin-bottom: 5px;
 }
 
 .vjs-caption-settings .vjs-tracksetting span {
-  display: inline;
-  margin-left: 5px;
+    display: inline;
+    margin-left: 5px;
 }
 
 .vjs-caption-settings .vjs-tracksetting > div {
-  margin-bottom: 5px;
-  min-height: 20px;
+    min-height: 20px;
+    margin-bottom: 5px;
 }
 
 .vjs-caption-settings .vjs-tracksetting > div:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  min-height: 0;
+    min-height: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .vjs-caption-settings label > input {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .vjs-caption-settings input[type="button"] {
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
 }
 
 .vjs-caption-settings select {
-  width: 200px;
-  font-family: inherit;
-  margin-bottom: 8px;
-  padding: 2px;
-  color: $menu-text-color;
-  border: 0px none transparent;
-  background-color: $menu-background-color;
+    font-family: inherit;
+    width: 200px;
+    margin-bottom: 8px;
+    padding: 2px;
+    color: $menu-text-color;
+    border: 0 none transparent;
+    background-color: $menu-background-color;
 }
 
 .vjs-caption-settings .vjs-default-button,
 .vjs-caption-settings .vjs-done-button {
-  padding: 0.6rem;
-  outline: 0;
-  @include transition(background-color 0.5s);
-  &:hover{
-    background-color: $menu-background-color;
+    padding: 0.6rem;
+    outline: 0;
     @include transition(background-color 0.5s);
-  }
-  &:active{
-    color: $primary-foreground-color;
-    background-color: #666;
-  }
+    &:hover {
+        background-color: $menu-background-color;
+        @include transition(background-color 0.5s);
+    }
+    &:active {
+        color: $primary-foreground-color;
+        background-color: #666;
+    }
 }
 

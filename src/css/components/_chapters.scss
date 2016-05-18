@@ -1,8 +1,8 @@
 .video-js .vjs-chapters-button {
-  @extend .icon-chapters;
-  background-size: contain;
+    background-size: contain;
+    @extend .icon-chapters;
 }
 
 .vjs-chapters-button .vjs-menu ul {
-  width: 24rem;
+    width: 24rem;
 }

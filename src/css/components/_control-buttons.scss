@@ -2,27 +2,26 @@
 // It's used on both real buttons (play button)
 // and div buttons (menu buttons)
 .video-js .vjs-control {
-  outline: none;
-  margin: 0;
-  padding: 0;
-  pointer-events: all;
-  &:before {
-    font-size: 1.8em;
-    line-height: 1.67;
-    @extend %icon-default;
-  }
+    margin: 0;
+    padding: 0;
+    pointer-events: all;
+    outline: none;
+    &:before {
+        font-size: 1.8em;
+        line-height: 1.67;
+        @extend %icon-default;
+    }
 }
 
 // Replacement for focus outline
 .video-js .vjs-control:focus:before,
 .video-js .vjs-control:hover:before,
 .video-js .vjs-control:focus {
-  
-  // Disabled for Neue
-  // text-shadow: 0em 0em 1em rgba($primary-foreground-color, 1);
+    // Disabled for Neue
+    // text-shadow: 0em 0em 1em rgba($primary-foreground-color, 1);
 }
 
 // Hide control text visually, but have it available for screenreaders
 .video-js .vjs-control-text {
-  @include hide-visually;
+    @include hide-visually;
 }

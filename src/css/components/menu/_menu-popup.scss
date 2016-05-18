@@ -1,26 +1,26 @@
 .vjs-menu-button-popup .vjs-menu {
-  display: none;
-  position: absolute;
-  top: $control-button-width + 0.8rem;
-  width: 16rem;
-  right: 0;
-  height: 2.4rem; // For debug visibility only
-  margin-bottom: 0;
-  border-top-color: rgba($primary-background-color, 1); // Same as ul background
+    position: absolute;
+    top: $control-button-width + 0.8rem;
+    right: 0;
+    display: none;
+    width: 16rem;
+    height: 2.4rem; // For debug visibility only
+    margin-bottom: 0;
+    border-top-color: rgba($primary-background-color, 1); // Same as ul background
 }
 
 // Button Pop-up Menu
 .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-  @include background-color-with-alpha($primary-background-color, 1);
-  position: absolute;
-  width: 100%;
+    position: absolute;
+    width: 100%;
+    @include background-color-with-alpha($primary-background-color, 1);
 }
 
 .vjs-menu-button-popup .vjs-menu .vjs-lock-showing {
-  display: block;
+    display: block;
 }
 
 // show menus when hovering over button
 .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu {
-  // display: block; // Disabled for Neue theme
+    // display: block; // Disabled for Neue theme
 }

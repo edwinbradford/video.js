@@ -1,35 +1,35 @@
 .video-js .vjs-fullscreen-control {
-  position: relative; // Required for positioning of pseudo content
-  cursor: pointer;
-  @extend .icon-fullscreen-enter;
-  background-size: contain;
-  opacity: 1;
-  @include transition(opacity 0.5s);
-  &:before{
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: inherit;
-    height: inherit;
-    opacity: 0;
-    @extend .icon-fullscreen-enter-highlight;
+    position: relative; // Required for positioning of pseudo content
+    cursor: pointer;
+    opacity: 1;
+    background-size: contain;
+    @extend .icon-fullscreen-enter;
     @include transition(opacity 0.5s);
-  }
-  &:hover{
-    @include transition(opacity 0.5s);
-    &:before{
-      opacity: 1;
-      @include transition(opacity 0.5s);
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: inherit;
+        height: inherit;
+        content: "";
+        opacity: 0;
+        @extend .icon-fullscreen-enter-highlight;
+        @include transition(opacity 0.5s);
     }
-  }
+    &:hover {
+        @include transition(opacity 0.5s);
+        &:before {
+            opacity: 1;
+            @include transition(opacity 0.5s);
+        }
+    }
 }
 
 // Switch to the exit icon when the player is in fullscreen
 .video-js.vjs-fullscreen .vjs-fullscreen-control {
-  @extend .icon-fullscreen-exit;
-  &:before{
-    @extend .icon-fullscreen-exit-highlight;
-  }
+    @extend .icon-fullscreen-exit;
+    &:before {
+        @extend .icon-fullscreen-exit-highlight;
+    }
 }
