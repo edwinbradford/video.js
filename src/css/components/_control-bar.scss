@@ -15,6 +15,9 @@
         width: $control-button-width;
         height: $control-button-width;
         margin-right: $control-button-spacing;
+        &:last-child {
+          margin-right: 0;
+        }
     }
 }
 
