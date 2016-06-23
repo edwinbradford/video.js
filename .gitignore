@@ -31,5 +31,4 @@ dist/*
 
 .idea/
 
-sass.bat
-sass
+RunSass.bat
