@@ -1,6 +1,27 @@
 .video-js .vjs-chapters-button {
+    position: relative; // Required for positioning of pseudo content
     background-size: contain;
     @extend .icon-chapters;
+    @include transition(opacity 0.5s);
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: inherit;
+        height: inherit;
+        content: "";
+        opacity: 0;
+        @extend .icon-chapters-highlight;
+        @include transition(opacity 0.5s);
+    }
+    &:hover {
+        @include transition(opacity 0.5s);
+        &:before {
+            opacity: 1;
+            @include transition(opacity 0.5s);
+        }
+    }
 }
 
 .vjs-chapters-button .vjs-menu ul {

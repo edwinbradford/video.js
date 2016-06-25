@@ -22,7 +22,8 @@
     display: none;
 }
 
-.vjs-menu li {
+.vjs-menu li,
+.vjs-menu li.vjs-menu-title {
     font-size: 1.2rem;
     line-height: 2.8rem;
     margin: 0;
@@ -46,12 +47,6 @@
 }
 
 .vjs-menu li.vjs-menu-title {
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 2rem;
-    margin: 0 0 0.3rem 0;
-    padding: 0;
     cursor: default;
-    text-align: center;
     text-transform: uppercase;
 }

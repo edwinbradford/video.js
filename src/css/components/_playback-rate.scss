@@ -1,6 +1,32 @@
 // TODO: I feel like this should be a generic menu. Research later.
+.video-js .vjs-playback-rate {
+    position: relative; // Required for positioning of pseudo content
+    background-size: contain;
+    @extend .icon-settings;
+    @include transition(opacity 0.5s);
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: inherit;
+        height: inherit;
+        content: "";
+        opacity: 0;
+        @extend .icon-settings-highlight;
+        @include transition(opacity 0.5s);
+    }
+    &:hover {
+        @include transition(opacity 0.5s);
+        &:before {
+            opacity: 1;
+            @include transition(opacity 0.5s);
+        }
+    }
+}
+
 .vjs-playback-rate .vjs-playback-rate-value {
-    font-size: 1.5em;
+    font-size: 1.2rem;
     line-height: 2;
     position: absolute;
     top: 0;
@@ -14,3 +40,4 @@
     left: 0;
     width: 4em;
 }
+
