@@ -2,7 +2,7 @@
 .video-js .vjs-playback-rate {
     position: relative; // Required for positioning of pseudo content
     background-size: contain;
-    @extend .icon-settings;
+    @extend .icon-playback-rate;
     @include transition(opacity 0.5s);
     &:before {
         position: absolute;
@@ -13,7 +13,7 @@
         height: inherit;
         content: "";
         opacity: 0;
-        @extend .icon-settings-highlight;
+        @extend .icon-playback-rate-highlight;
         @include transition(opacity 0.5s);
     }
     &:hover {
@@ -26,6 +26,8 @@
 }
 
 .vjs-playback-rate .vjs-playback-rate-value {
+    // Disabled for Neue theme in favor of submenu
+    display: none;
     font-size: 1.2rem;
     line-height: 2;
     position: absolute;
@@ -37,7 +39,7 @@
 }
 
 .vjs-playback-rate .vjs-menu {
-    left: 0;
-    width: 4em;
+    width: 8rem;
+    text-align: right;
 }
 
