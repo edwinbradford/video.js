@@ -33,6 +33,7 @@
     <li><span class="vjs-icon-circle"></span> <code>.vjs-icon-circle</code></li>
     <li><span class="vjs-icon-circle-outline"></span> <code>.vjs-icon-circle-outline</code></li>
     <li><span class="vjs-icon-circle-inner-circle"></span> <code>.vjs-icon-circle-inner-circle</code></li>
+    <li><span class="vjs-icon-cancel"></span> <code>.vjs-icon-cancel</code></li>
   </ul>
 </body>
 </html>
