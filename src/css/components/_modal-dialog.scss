@@ -1,4 +1,12 @@
+.vjs-modal-dialog-content {
+    font-size: $text-modal-size; // 12px
+    line-height: $text-modal-line-height; // 18px
+    z-index: 1;
+}
+
 .video-js .vjs-modal-dialog {
+    padding: $controls-margin;
+    padding-top: $controls-margin + $control-button-width + $text-modal-line-height;
     background-color: $primary-background-color;
     @include display-flex(flex-start, flex-start);
     @extend %fill-parent;

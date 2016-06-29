@@ -1,13 +1,15 @@
 /*
  * Not used for Neue theme
  *
+ */
 .video-js .vjs-control.vjs-close-button {
     position: absolute;
     z-index: 2;
-    top: 0.5em;
-    right: 0;
-    height: 3em;
+    top: $controls-margin;
+    right: $controls-margin;
+    width: $control-button-width;
+    height: $control-button-width;
+    background-color: #f00;
     cursor: pointer;
-    @extend .vjs-icon-cancel;
+    // @extend .vjs-icon-cancel;
 }
- */

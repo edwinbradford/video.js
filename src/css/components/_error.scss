@@ -1,10 +1,3 @@
-.vjs-modal-dialog-content {
-    font-size: 1.2rem; // 12px
-    line-height: 1.8rem; // 18px
-    z-index: 1;
-}
-
 .vjs-error .vjs-error-display {
-    padding: 2.4rem 3.2rem 2.4rem 2.4rem;
     @extend .vjs-modal-dialog-content;
 }
