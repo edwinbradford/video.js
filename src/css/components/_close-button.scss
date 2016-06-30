@@ -1,15 +1,32 @@
-/*
- * Not used for Neue theme
- *
- */
 .video-js .vjs-control.vjs-close-button {
     position: absolute;
-    z-index: 2;
+    //z-index: 2;
     top: $controls-margin;
     right: $controls-margin;
     width: $control-button-width;
     height: $control-button-width;
-    background-color: #f00;
+    opacity: 1;
+    background-size: contain;
     cursor: pointer;
-    // @extend .vjs-icon-cancel;
+    @extend .icon-close;
+    @include transition(opacity 0.5s);
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: inherit;
+        height: inherit;
+        content: "";
+        opacity: 0;
+        @extend .icon-close-highlight;
+        @include transition(opacity 0.5s);
+    }
+    &:hover {
+        @include transition(opacity 0.5s);
+        &:before {
+            opacity: 1;
+            @include transition(opacity 0.5s);
+        }
+    }
 }

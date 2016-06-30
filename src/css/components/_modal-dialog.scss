@@ -6,7 +6,7 @@
 
 .video-js .vjs-modal-dialog {
     padding: $controls-margin;
-    padding-top: $controls-margin + $control-button-width + $text-modal-line-height;
+    padding-right: $controls-margin * 3;
     background-color: $primary-background-color;
     @include display-flex(flex-start, flex-start);
     @extend %fill-parent;
