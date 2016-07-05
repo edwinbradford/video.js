@@ -58,7 +58,7 @@ ControlBar.prototype.options_ = {
     'progressControl',
     'liveDisplay',
     // 'remainingTimeDisplay',
-    'customControlSpacer',
+    // 'customControlSpacer',
     'playbackRateMenuButton',
     'chaptersButton',
     'descriptionsButton',
