@@ -21,18 +21,23 @@ class PlaybackRateMenuButton extends MenuButton {
     super(player, options);
 
     this.updateVisibility();
-    this.updateLabel();
+    
+    // Disable label update for Neue theme
+    // this.updateLabel();
 
     this.on(player, 'loadstart', this.updateVisibility);
-    this.on(player, 'ratechange', this.updateLabel);
+    
+    // Disable label update for Neue theme
+    // this.on(player, 'ratechange', this.updateLabel);
   }
 
-  /**
+  // Disable playback rate value in icon for Neue theme
+  
+  /*
    * Create the component's DOM element
-   *
    * @return {Element}
    * @method createEl
-   */
+   *
   createEl() {
     let el = super.createEl();
 
@@ -45,6 +50,7 @@ class PlaybackRateMenuButton extends MenuButton {
 
     return el;
   }
+   */
 
   /**
    * Allow sub components to stack CSS class names
@@ -87,11 +93,15 @@ class PlaybackRateMenuButton extends MenuButton {
     this.el().setAttribute('aria-valuenow', this.player().playbackRate());
   }
 
+  // Disable playback rate updates in icon for Neue theme 
+  
   /**
    * Handle menu item click
    *
    * @method handleClick
    */
+   
+  /*
   handleClick() {
     // select next rate option
     let currentRate = this.player().playbackRate();
@@ -107,6 +117,7 @@ class PlaybackRateMenuButton extends MenuButton {
     }
     this.player().playbackRate(newRate);
   }
+   */
 
   /**
    * Get possible playback rates
@@ -149,14 +160,17 @@ class PlaybackRateMenuButton extends MenuButton {
   /**
    * Update button label when rate changed
    *
+   * Not required for Neue theme
+   *
    * @method updateLabel
    */
+  /*
   updateLabel() {
     if (this.playbackRateSupported()) {
       this.labelEl_.innerHTML = this.player().playbackRate() + 'x';
     }
   }
-
+   */
 }
 
 PlaybackRateMenuButton.prototype.controlText_ = 'Playback Rate';
