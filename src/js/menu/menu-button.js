@@ -100,11 +100,12 @@ class MenuButton extends ClickableComponent {
    */
   createItems(){}
 
-  /**
+  /*
    * Create the component's DOM element
    *
    * @return {Element}
    * @method createEl
+   *
    */
   createEl() {
     return super.createEl('div', {
@@ -142,15 +143,15 @@ class MenuButton extends ClickableComponent {
    */
    
   handleClick() {
-    /**
-     * Disabled for Neue theme because we only want
-     * menus to respond to clicks
-     *
-    this.one('mouseout', Fn.bind(this, function(){
-      // this.menu.unlockShowing();
-      this.el_.blur();
+  /**
+   * Mouseout is disabled for Neue theme because we want
+   * menus to respond to click and not hover
+   *
+    this.one('click', Fn.bind(this, function(){
+      this.menu.lockShowing();
+      // this.el_.blur();
     }));
-    */
+   */
     if (this.buttonPressed_){
       this.unpressButton();
     } else {
