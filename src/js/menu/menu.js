@@ -33,7 +33,8 @@ class Menu extends Component {
     this.addChild(component);
     component.on('click', Fn.bind(this, function(){
       this.unlockShowing();
-      //TODO: Need to set keyboard focus back to the menuButton
+      // TODO: Need to Reset menu button state for Neue theme 
+      // TODO: Need to set keyboard focus back to the menuButton
     }));
   }
 

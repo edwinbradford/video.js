@@ -147,9 +147,9 @@ class MenuButton extends ClickableComponent {
    * Mouseout is disabled for Neue theme because we want
    * menus to respond to click and not hover
    *
-    this.one('click', Fn.bind(this, function(){
-      this.menu.lockShowing();
-      // this.el_.blur();
+    this.one('mouseout', Fn.bind(this, function(){
+      this.menu.unlockShowing();
+      this.el_.blur();
     }));
    */
     if (this.buttonPressed_){
