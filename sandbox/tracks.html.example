@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="width: 100%; height: 100%; font-family: Helvetica, Arial, sans-serif; font-size: 10px; background-color:#e5e5e5">
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Video.js Text Descriptions, Chapters &amp; Captions Example</title>
 
@@ -13,13 +13,13 @@
 
     <!-- Set the location of the flash SWF -->
     <script>videojs.options.flash.swf = '../build/temp/video-js.swf';</script>
-</head>
-<body>
-<!-- NOTE: we have to disable native Text Track support for the HTML5 tech,
+  </head>
+  <body>
+    <!-- NOTE: we have to disable native Text Track support for the HTML5 tech,
          since even HTML5 video players with native Text Track support
          don't currently support 'description' text tracks in any
          useful way! -->
-<video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
+    <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
 
@@ -32,26 +32,26 @@
     <track kind="descriptions" src="../docs/examples/elephantsdream/descriptions.en.vtt" srclang="en" label="English"></track>
     <track kind="chapters" src="../docs/examples/elephantsdream/chapters.en.vtt" srclang="en" label="English"></track>
     <track kind="subtitles" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English"></track>
-        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
     <script>
-        videojs(document.getElementById('videoJSElement'), {
-            "html5": {
-                nativeTextTracks: true // Set false to test descriptions
-            },
-            "controls": true,
-            "preload": "auto",
-            "autoplay": false,
-            "controlBar": {
-                // "muteToggle": false
-            },
-            "playbackRates": [0.5, 1, 1.5, 2]
+      videojs(document.getElementById('videoJSElement'), {
+        "html5": {
+          nativeTextTracks: true // Set false to test descriptions
         },
-        function() {
-            // Callback.
-        });
+        "controls": true,
+        "preload": "auto",
+        "autoplay": false,
+        "controlBar": {
+            // "muteToggle": false
+        },
+        "playbackRates": [0.5, 1, 1.5, 2]
+      },
+      function() {
+        // Callback.
+      });
     </script>
 
-</body>
+  </body>
 </html>
