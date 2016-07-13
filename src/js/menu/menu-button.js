@@ -45,13 +45,15 @@ class MenuButton extends ClickableComponent {
     this.menu = menu;
     this.addChild(menu);
 
-    /**
+    /*
      * Track the state of the menu button
      *
      * @type {Boolean}
      * @private
      */
-    this.buttonPressed_ = false;
+     
+    // Remove buttonPressed_ variable test for Neue theme
+    // this.buttonPressed_ = false;
     this.el_.setAttribute('aria-expanded', 'false');
 
     if (this.items && this.items.length === 0) {
@@ -172,7 +174,11 @@ class MenuButton extends ClickableComponent {
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {
-      if (this.buttonPressed_) {
+      // Remove variable test for Neue theme
+      // if (this.buttonPressed_) {
+        
+      // ...and replace with attribute test
+      if (this.el_.getAttribute('aria-expanded') === 'true'){
         this.unpressButton();
       }
       // Don't preventDefault for Tab key - we still want to lose focus
@@ -181,7 +187,11 @@ class MenuButton extends ClickableComponent {
       }
     // Up (38) key or Down (40) key press the 'button'
     } else if (event.which === 38 || event.which === 40) {
-      if (!this.buttonPressed_) {
+      // Remove variable test for Neue theme
+      // if (!this.buttonPressed_) {
+             
+      // ...and replace with attribute test
+      if (this.el_.getAttribute('aria-expanded') === 'false'){
         this.pressButton();
         event.preventDefault();
       }
@@ -200,7 +210,11 @@ class MenuButton extends ClickableComponent {
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9){
-      if (this.buttonPressed_){
+      // Remove variable test for Neue theme
+      // if (this.buttonPressed_) {
+        
+      // ...and replace with attribute test
+      if (this.el_.getAttribute('aria-expanded') === 'true'){
         this.unpressButton();
       }
       // Don't preventDefault for Tab key - we still want to lose focus
@@ -217,7 +231,8 @@ class MenuButton extends ClickableComponent {
    */
   pressButton() {
     if (this.enabled_) {
-      this.buttonPressed_ = true;
+      // Remove variable test for neue theme
+      // this.buttonPressed_ = true;
       this.menu.lockShowing();
       this.el_.setAttribute('aria-expanded', 'true');
       this.menu.focus(); // set the focus into the submenu
@@ -231,7 +246,8 @@ class MenuButton extends ClickableComponent {
    */
   unpressButton() {
     if (this.enabled_) {
-      this.buttonPressed_ = false;
+      // Remove variable test for neue theme
+      // this.buttonPressed_ = false;
       this.menu.unlockShowing();
       this.el_.setAttribute('aria-expanded', 'false');
       this.el_.focus(); // Set focus back to this menu button
@@ -246,7 +262,9 @@ class MenuButton extends ClickableComponent {
    */
   disable() {
     // Unpress, but don't force focus on this button
-    this.buttonPressed_ = false;
+    
+    // Remove variable test for neue theme
+    // this.buttonPressed_ = false;
     this.menu.unlockShowing();
     this.el_.setAttribute('aria-expanded', 'false');
 
