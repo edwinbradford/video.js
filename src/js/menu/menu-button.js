@@ -143,16 +143,19 @@ class MenuButton extends ClickableComponent {
    */
    
   handleClick() {
-  /**
-   * Mouseout is disabled for Neue theme because we want
-   * menus to respond to click and not hover
-   *
+    /*
+    // Remove mouseout function for Neue theme
     this.one('mouseout', Fn.bind(this, function(){
       this.menu.unlockShowing();
       this.el_.blur();
     }));
-   */
-    if (this.buttonPressed_){
+    */
+   
+    // Remove test for variable 'buttonPressed_'...  
+    //if (this.buttonPressed_){
+      
+    // ...and replace with Neue theme test for attribute
+    if (this.el_.getAttribute('aria-expanded') === 'true'){
       this.unpressButton();
     } else {
       this.pressButton();

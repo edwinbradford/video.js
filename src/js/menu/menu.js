@@ -33,12 +33,11 @@ class Menu extends Component {
     this.addChild(component);
     component.on('click', Fn.bind(this, function(){
       this.unlockShowing();
+      
+      // Reset parent menu button attribute for Neue theme
       this.el_.parentNode.setAttribute('aria-expanded', 'false');
       this.el_.parentNode.focus();
-      // this.el_.parentNode.buttonPressed_ = false;
       // console.log(this.el_.parentNode);
-      // TODO: Need to set menu button state for Neue theme 
-      // TODO: Need to set keyboard focus back to the menuButton
     }));
   }
 
