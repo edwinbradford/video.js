@@ -151,10 +151,10 @@ class MenuButton extends ClickableComponent {
     }));
     */
    
-    // Remove test for variable 'buttonPressed_'...  
+    // Remove 'buttonPressed_' variable test for Neue theme...  
     //if (this.buttonPressed_){
       
-    // ...and replace with Neue theme test for attribute
+    // ...and replace with attribute test
     if (this.el_.getAttribute('aria-expanded') === 'true'){
       this.unpressButton();
     } else {
