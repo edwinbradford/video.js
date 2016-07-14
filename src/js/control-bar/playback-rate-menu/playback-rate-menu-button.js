@@ -92,16 +92,15 @@ class PlaybackRateMenuButton extends MenuButton {
     // Current playback rate
     this.el().setAttribute('aria-valuenow', this.player().playbackRate());
   }
-
-  // Disable playback rate updates in icon for Neue theme 
-  
-  /**
+       
+  /*  
+   * Disable handleClick events below for Neue theme as they 
+   * override button toggle states with playback rate updates 
+   *
    * Handle menu item click
    *
    * @method handleClick
-   */
-   
-  /*
+  
   handleClick() {
     // select next rate option
     let currentRate = this.player().playbackRate();
@@ -118,8 +117,8 @@ class PlaybackRateMenuButton extends MenuButton {
     this.player().playbackRate(newRate);
   }
    */
-
-  /**
+    
+  /*
    * Get possible playback rates
    *
    * @return {Array} Possible playback rates

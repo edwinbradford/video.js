@@ -142,6 +142,12 @@ class Component {
     return this.player_;
   }
 
+  // Find parent element with designated class for Neue theme
+  findAncestor (el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el;
+  }  
+  
   /**
    * Deep merge of options objects
    * Whenever a property is an object on both options objects
