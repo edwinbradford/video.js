@@ -41,7 +41,9 @@ class PlaybackRateMenuItem extends MenuItem {
     this.el_.parentNode.parentNode.classList.remove('vjs-lock-showing');
     this.el_.parentNode.parentNode.parentNode.setAttribute('aria-expanded', 'false');
     this.el_.parentNode.parentNode.parentNode.focus();
-    console.log(findAncestor(this.el_, 'vjs-lock-showing'));
+    
+    // findAncestor is defined in components.js
+    console.log(this.findAncestor(this.el_, 'vjs-lock-showing'));
   }
 
   /**
