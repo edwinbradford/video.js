@@ -23,7 +23,7 @@
     <!-- Add ES5 shim and sham for IE8 -->
     <script src="../build/temp/ie8/videojs-ie8.js"></script>
 
-    <!-- Load VideoJS -->
+    <!-- Load VideoJS 360-->
     <script src="../build/temp/video.js"></script>
 
     <!-- MPEG DASH support -->
@@ -37,7 +37,7 @@
   <body>
   
     <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
-      <source src="http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd" type="application/dash+xml">
+      <source src="http://dash.edgesuite.net/akamai/test/caption_test/ElephantsDream/elephants_dream_480p_heaac5_1.mpd" type="application/dash+xml">
 
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
