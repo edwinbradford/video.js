@@ -38,12 +38,13 @@ class PlaybackRateMenuItem extends MenuItem {
   handleClick() {
     super.handleClick();
     this.player().playbackRate(this.rate);
-    this.el_.parentNode.parentNode.classList.remove('vjs-lock-showing');
-    this.el_.parentNode.parentNode.parentNode.setAttribute('aria-expanded', 'false');
-    this.el_.parentNode.parentNode.parentNode.focus();
     
-    // findAncestor is defined in components.js
-    console.log(this.findAncestor(this.el_, 'vjs-lock-showing'));
+    // Neue theme click events
+    // function 'findAncestor' is defined in components.js
+    let playbackMenu = this.findAncestor(this.el_, 'vjs-lock-showing');
+    playbackMenu.classList.remove('vjs-lock-showing');
+    playbackMenu.parentNode.setAttribute('aria-expanded', 'false');
+    playbackMenu.parentNode.focus();
   }
 
   /**

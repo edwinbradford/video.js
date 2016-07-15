@@ -34,7 +34,7 @@ class Menu extends Component {
     component.on('click', Fn.bind(this, function(){
       this.unlockShowing();
       
-      // Reset parent menu button attribute for Neue theme
+      // Neue theme click events
       this.el_.parentNode.setAttribute('aria-expanded', 'false');
       this.el_.parentNode.focus();
       // console.log(this.el_.parentNode);
