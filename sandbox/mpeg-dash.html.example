@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>VideoJS Playback Rate Example</title>
+
+  <style>
+    html {
+      width: 100%;
+      height: 100%;
+      font-family: consolas;
+      font-size: 10px;
+      background-color:#e5e5e5;    
+    }
+    video {
+      margin: 0;
+    }
+  </style>
+
+    <!-- Load the css styles -->
+    <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
+
+    <!-- Add ES5 shim and sham for IE8 -->
+    <script src="../build/temp/ie8/videojs-ie8.js"></script>
+
+    <!-- Load VideoJS -->
+    <script src="../build/temp/video.js"></script>
+
+    <!-- MPEG DASH support -->
+    <script src="../../dash.js/dist/dash.all.min.js"></script>
+    <script src="../../videojs-contrib-dash/dist/videojs-dash.min.js"></script>
+
+    <!-- Set the location of the flash SWF -->
+    <script>videojs.options.flash.swf = '../build/temp/video-js.swf';</script>
+    
+  </head>
+  <body>
+  
+    <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
+      <source src="http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd" type="application/dash+xml">
+
+      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    </video>
+
+    <script>
+      videojs(document.getElementById('videoJSElement'), {
+        "html5": {
+          nativeTextTracks: true // Set false to test descriptions
+        },
+        "controls": true,
+        "preload": "auto",
+        "autoplay": false,
+        "controlBar": {
+            // "muteToggle": false
+        },
+        "playbackRates": [0.5, 1, 1.5, 2]
+      },
+      function() {
+        // Callback.
+      });
+    </script>
+
+  </body>
+</html>
