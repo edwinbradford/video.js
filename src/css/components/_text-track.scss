@@ -15,7 +15,7 @@
 
 // Individual tracks
 .video-js .vjs-text-track {
-    font-family: $text-font-family;
+    font-family: inherit;
     font-size: 1.6rem;
     margin-bottom: 0;
     text-align: center;
@@ -43,10 +43,11 @@ video::-webkit-media-text-track-display {
     @include transform(translateY(-3.2rem));
 }
 
-// Neue native captions
+// Native caption styling for Neue theme 
+// ::cue will not inherit font family correctly
 ::cue {
     font-family: $text-font-family;
     font-size: 1.6rem;
-    color: #666;
+    color: #333;
     background-color: #ff0;
 }
