@@ -61,7 +61,7 @@
 }
 
 .vjs-volume-bar.vjs-slider-horizontal {
-  width: $menu-width;
+  width: $volume-menu-width;
   height: $slider-height;
   background-color: $primary-background-color;
 }
@@ -151,14 +151,14 @@
 .vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content {
   width: $control-button-width;
-  height: $menu-width;
+  height: $volume-menu-width;
 }
 
 .vjs-volume-menu-button-horizontal:hover .vjs-menu-content,
 .vjs-volume-menu-button-horizontal:focus .vjs-menu-content,
 .vjs-volume-menu-button-horizontal .vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-horizontal .vjs-lock-showing .vjs-menu-content {
-  width: $menu-width;
+  width: $volume-menu-width;
   height: $control-button-width;
 }
 
