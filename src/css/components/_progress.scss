@@ -3,99 +3,99 @@
 // Also acts as hover area
 // Hide until play starts
 .video-js .vjs-progress-control {
-    position: absolute;
-    right: $progress-bar-margin;
-    bottom: 0;
-    left: $progress-bar-margin;
-    display: flex;
-    align-items: center;
-    visibility: hidden;
-    width: auto;
-    height: $control-button-width;
-    // background-color: rgba(255,255,0,0.5); // debug
-    pointer-events: all; // Make buttons clickable
-    opacity: 0;
-    background-color: transparent;
-    @include transition(all 0.5s);
+  position: absolute;
+  right: $progress-bar-margin;
+  bottom: 0;
+  left: $progress-bar-margin;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  width: auto;
+  height: $control-button-width;
+  // background-color: rgba(255,255,0,0.5); // debug
+  pointer-events: all; // Make buttons clickable
+  opacity: 0;
+  background-color: transparent;
+  @include transition(all 0.5s);
 }
 
 // Height and position of progress bars
 // Also acts as seek scrubber
 .video-js .vjs-progress-holder {
-    position: relative;
-    width: 100%;
-    height: $slider-height;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    outline: 0;
-    @include background-color-with-alpha($primary-background-color, 0.4);
-    @include transition(all 0.5s);
+  position: relative;
+  width: 100%;
+  height: $slider-height;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  @include background-color-with-alpha($primary-background-color, 0.4);
+  @include transition(all 0.5s);
 }
 
 // Height and position of drag handle
 .video-js .vjs-play-progress {
-    height: 100%;
-    background-color: $accent-color;
-    &:before {
-        position: absolute;
-        top: ($slider-height * -2) + ($slider-height / 2);
-        right: ($slider-height * $slider-handle-height) / -2;
-        width: $slider-height * $slider-handle-height;
-        height: $slider-height * $slider-handle-height;
-        content: "";
-        background-color: inherit;
-        @include border-radius(50%);
-        @include box-shadow(0 0 4px rgba(0,0,0,0.4));
-        @include transition(all 0.5s);
-    }
+  height: 100%;
+  background-color: $accent-color;
+  &:before {
+    position: absolute;
+    top: ($slider-height * -2) + ($slider-height / 2);
+    right: ($slider-height * $slider-handle-height) / -2;
+    width: $slider-height * $slider-handle-height;
+    height: $slider-height * $slider-handle-height;
+    content: "";
+    background-color: inherit;
+    @include border-radius(50%);
+    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    @include transition(all 0.5s);
+  }
 }
 
 // Disabled. Not used for Neue theme
 .vjs-has-started .vjs-play-progress {
-    &:before {
-        //
-    }
+  &:before {
+    //
+  }
 }
 
 // Show progress bar 
 // Adjust height and position of progress bars and handle on hover
 .vjs-has-started .vjs-progress-control {
-    visibility: visible;
-    opacity: 1;
-    @include transition(all 2s);
-    &:hover {
-        // Progress bars hover
-        .vjs-progress-holder {
-            height: $slider-height * $slider-height-increase;
-            @include transition(all 0.5s);
-        }
-        // Handle hover
-        .vjs-play-progress:before {
-            top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
-            right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
-            width: $slider-height * $slider-handle-height-increase;
-            height: $slider-height * $slider-handle-height-increase;
-            @include transition(all 0.5s);
-        }
+  visibility: visible;
+  opacity: 1;
+  @include transition(all 2s);
+  &:hover {
+    // Progress bars hover
+    .vjs-progress-holder {
+      height: $slider-height * $slider-height-increase;
+      @include transition(all 0.5s);
     }
+    // Handle hover
+    .vjs-play-progress:before {
+      top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
+      right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+      width: $slider-height * $slider-handle-height-increase;
+      height: $slider-height * $slider-handle-height-increase;
+      @include transition(all 0.5s);
+    }
+  }
 }
 
 // Buffer
 .video-js .vjs-load-progress {
-    height: 100%;
-    @include background-color-with-alpha($accent-color, 0.4);
+  height: 100%;
+  @include background-color-with-alpha($accent-color, 0.4);
 }
 
 .vjs-live .vjs-progress-control {
-    display: none;
+  display: none;
 }
 
 // Current time tooltip 
 .video-js .vjs-progress-control:hover .vjs-time-tooltip,
 .video-js .vjs-progress-control:hover .vjs-mouse-display:after,
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
-    display: none;
+  display: none;
 }
 
 // Progress Bars
@@ -103,16 +103,16 @@
 .video-js .vjs-progress-holder .vjs-load-progress,
 .video-js .vjs-progress-holder .vjs-tooltip-progress-bar,
 .video-js .vjs-progress-holder .vjs-load-progress div {
-    position: absolute;
-    top: 0;
-    // Needed for IE6
-    left: 0;
-    display: block;
-    // updated by javascript during playback
-    width: 0;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  position: absolute;
+  top: 0;
+  // Needed for IE6
+  left: 0;
+  display: block;
+  // updated by javascript during playback
+  width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 // Graphic under mouse when over progress bar
@@ -133,83 +133,83 @@
 .video-js .vjs-time-tooltip,
 .video-js .vjs-mouse-display:after,
 .video-js .vjs-play-progress:after {
-    font-size: $text-time-size;
-    position: absolute;
-    top: -3.4em;
-    right: -1.5em;
-    visibility: hidden;
-    padding: 6px 8px 8px 8px;
-    content: attr(data-current-time);
-    pointer-events: none;
-    color: $primary-foreground-color;
-    @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
-    @include border-radius(0.1rem);
+  font-size: $text-time-size;
+  position: absolute;
+  top: -3.4em;
+  right: -1.5em;
+  visibility: hidden;
+  padding: 6px 8px 8px 8px;
+  content: attr(data-current-time);
+  pointer-events: none;
+  color: $primary-foreground-color;
+  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+  @include border-radius(0.1rem);
 }
 
 .video-js .vjs-time-tooltip,
 .video-js .vjs-play-progress:before,
 .video-js .vjs-play-progress:after {
-    //z-index: 1;
+  //z-index: 1;
 }
 
 .video-js .vjs-progress-control .vjs-keep-tooltips-inside:after {
-    display: none;
+  display: none;
 }
 
 // there are child elements of the load progress bar that represent the
 // specific time ranges that have been buffered
 .video-js .vjs-load-progress div {
-    // For IE8 we'll lighten the color
-    background: lighten($menu-background-color, 50%);
-    // Otherwise we'll rely on stacked opacities
-    background: rgba($menu-background-color, 0.75);
+  // For IE8 we'll lighten the color
+  background: lighten($menu-background-color, 50%);
+  // Otherwise we'll rely on stacked opacities
+  background: rgba($menu-background-color, 0.75);
 }
 
 .video-js.vjs-no-flex .vjs-progress-control {
-    width: auto;
+  width: auto;
 }
 
 // Graphic under mouse when over progress bar
 // Not used for Neue theme
 .video-js .vjs-time-tooltip {
-    position: relative;
-    right: -1.9em;
-    display: inline-block;
-    float: right;
-    height: 2.4em;
+  position: relative;
+  right: -1.9em;
+  display: inline-block;
+  float: right;
+  height: 2.4em;
 }
 
 .vjs-tooltip-progress-bar {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .video-js .vjs-progress-control .vjs-mouse-display {
-    position: absolute;
-    z-index: 1;
-    display: none;
-    width: 1px;
-    height: 100%;
-    background-color: #000;
+  position: absolute;
+  z-index: 1;
+  display: none;
+  width: 1px;
+  height: 100%;
+  background-color: #000;
 }
 .vjs-no-flex .vjs-progress-control .vjs-mouse-display {
-    z-index: 0;
+  z-index: 0;
 }
 .video-js .vjs-progress-control:hover .vjs-mouse-display {
-    display: block;
+  display: block;
 }
 .video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display,
 .video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display:after {
-    visibility: hidden;
-    opacity: 0;
-    $trans: visibility 1.0s, opacity 1.0s;
-    @include transition($trans);
+  visibility: hidden;
+  opacity: 0;
+  $trans: visibility 1.0s, opacity 1.0s;
+  @include transition($trans);
 }
 .video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display,
 .video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display:after {
-    display: none;
+  display: none;
 }
 .vjs-mouse-display .vjs-time-tooltip,
 .video-js .vjs-progress-control .vjs-mouse-display:after {
-    color: #fff;
-    @include background-color-with-alpha(#000, 0.8);
+  color: #fff;
+  @include background-color-with-alpha(#000, 0.8);
 }

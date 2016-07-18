@@ -1,48 +1,48 @@
 .video-js .vjs-time-control {
-    font-size: $text-time-size;
-    line-height: $text-time-size;
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    width: $time-width;
-    height: $control-button-width; // We can center text vertically in the control button height
-    text-shadow: (0 0 1px rgba(0,0,0,0.6));
+  font-size: $text-time-size;
+  line-height: $text-time-size;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  width: $time-width;
+  height: $control-button-width; // We can center text vertically in the control button height
+  text-shadow: (0 0 1px rgba(0,0,0,0.6));
 }
 
 .vjs-live .vjs-time-control {
-    display: none;
+  display: none;
 }
 
 // We need the extra specificity that referencing .vjs-no-flex provides.
 .video-js .vjs-current-time,
 .vjs-no-flex .vjs-current-time {
-    left: 0;
-    justify-content: flex-start;
+  left: 0;
+  justify-content: flex-start;
 }
 
 .video-js .vjs-duration,
 .vjs-no-flex .vjs-duration {
-    right: 0;
-    justify-content: flex-end;
+  right: 0;
+  justify-content: flex-end;
 }
 
 // Not used for Neue theme but hidden and centered
 .video-js .vjs-remaining-time {
-    display: none;
-    margin: 0 auto;
-    background-color: #ff0; // Color for debug purposes
+  display: none;
+  margin: 0 auto;
+  background-color: #ff0; // Color for debug purposes
 }
 
 // Hidden - not used for Neue theme 
 .vjs-time-divider {
-    visibility: hidden; // Can't use display none on a flex item
-    // debug colour
-    // background-color: #00ff00;
+  visibility: hidden; // Can't use display none on a flex item
+  // debug colour
+  // background-color: #00ff00;
 }
 
 .vjs-live .vjs-time-divider {
-    // Already the default, but we want to ensure when the player is live
-    // this hides in the same way as the other time controls for other skins
-    display: none;
+  // Already the default, but we want to ensure when the player is live
+  // this hides in the same way as the other time controls for other skins
+  display: none;
 }

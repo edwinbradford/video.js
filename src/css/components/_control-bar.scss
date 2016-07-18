@@ -1,31 +1,31 @@
 // Container for all the buttons except the big play button
 // Covers the video
 .video-js .vjs-control-bar {
-    position: absolute;
-    top: $controls-margin;
-    right: $controls-margin;
-    bottom: $controls-margin;
-    left: $controls-margin;
-    width: auto;
-    // background-color: rgba(255,255,0,0.5); // yellow debug background
-    pointer-events: none; // Stop overlay from preventing buttons below from working
-    @include display-flex( flex-start, flex-end);
-    // Button spacing
-    .vjs-button {
-        width: $control-button-width;
-        height: $control-button-width;
-        margin-right: $control-button-spacing;
-        &:last-child {
-            margin-right: 0;
-        }
+  position: absolute;
+  top: $controls-margin;
+  right: $controls-margin;
+  bottom: $controls-margin;
+  left: $controls-margin;
+  width: auto;
+  // background-color: rgba(255,255,0,0.5); // yellow debug background
+  pointer-events: none; // Stop overlay from preventing buttons below from working
+  @include display-flex( flex-start, flex-end);
+  // Button spacing
+  .vjs-button {
+    width: $control-button-width;
+    height: $control-button-width;
+    margin-right: $control-button-spacing;
+    &:last-child {
+      margin-right: 0;
     }
+  }
 }
 
 // Video has started playing
 .vjs-has-started .vjs-control-bar {
-    opacity: 1;
-    $trans: opacity 1s;
-    @include transition($trans);
+  opacity: 1;
+  $trans: opacity 1s;
+  @include transition($trans);
 }
 
 // IE 8 hack for media queries
@@ -33,28 +33,28 @@ $ie8screen: "\\0screen";
 
 // Video has started playing AND user is inactive
 .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-    // Remain visible for screen reader and keyboard users
-    visibility: visible;
-    opacity: 0;
-    $trans: opacity 1s;
-    @include transition($trans);
+  // Remain visible for screen reader and keyboard users
+  visibility: visible;
+  opacity: 0;
+  $trans: opacity 1s;
+  @include transition($trans);
 
-    // Make controls hidden in IE8 for now
-    @media #{$ie8screen} {
-        visibility: hidden;
-    }
+  // Make controls hidden in IE8 for now
+  @media #{$ie8screen} {
+    visibility: hidden;
+  }
 }
 
 .vjs-controls-disabled .vjs-control-bar,
 .vjs-using-native-controls .vjs-control-bar,
 .vjs-error .vjs-control-bar {
-    // !important is ok in this context.
-    display: none !important;
+  // !important is ok in this context.
+  display: none !important;
 }
 
 // Don't hide the control bar if it's audio
 .vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-    opacity: 1;
+  opacity: 1;
 }
 
 
@@ -63,7 +63,7 @@ $ie8screen: "\\0screen";
 // - "\9" IE8 hack didn't work for this
 // Found in XP IE8 from http://modern.ie. Does not show up in "IE8 mode" in IE9
 .vjs-user-inactive.vjs-playing .vjs-control-bar :before {
-    @media #{$ie8screen} {
-        content: "";
-    }
+  @media #{$ie8screen} {
+    content: "";
+  }
 }

@@ -3,26 +3,26 @@
 
 .video-js .vjs-live-control,
 .vjs-no-flex .vjs-live-control {
-    font-size: 1.2rem;
-    line-height: 1.2rem;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2.4rem;
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.4rem;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
 }
 
 .video-js .vjs-live-control {
-    @include display-flex(center);
-    @include flex(auto);
+  @include display-flex(center);
+  @include flex(auto);
 }
 
 .vjs-no-flex .vjs-live-control {
-    display: table-cell;
-    width: auto;
-    text-align: left;
+  display: table-cell;
+  width: auto;
+  text-align: left;
 }
 
 .vjs-live-middot {
-    color: $accent-color;
+  color: $accent-color;
 }

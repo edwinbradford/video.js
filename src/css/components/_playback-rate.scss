@@ -1,45 +1,45 @@
 // TODO: I feel like this should be a generic menu. Research later.
 .video-js .vjs-playback-rate {
-    position: relative; // Required for positioning of pseudo content
-    background-size: contain;
-    @extend .icon-playback-rate;
-    @include transition(opacity 0.5s);
-    &:before {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        width: inherit;
-        height: inherit;
-        content: "";
-        opacity: 0;
-        @extend .icon-playback-rate-highlight;
-        @include transition(opacity 0.5s);
-    }
-    &:hover {
-        @include transition(opacity 0.5s);
-        &:before {
-            opacity: 1;
-            @include transition(opacity 0.5s);
-        }
-    }
-}
-
-.vjs-playback-rate .vjs-playback-rate-value {
-    // Disabled for Neue theme in favor of submenu
-    display: none;
-    font-size: 1.2rem;
-    line-height: 2;
+  position: relative; // Required for positioning of pseudo content
+  background-size: contain;
+  @extend .icon-playback-rate;
+  @include transition(opacity 0.5s);
+  &:before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+    display: block;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-playback-rate-highlight;
+    @include transition(opacity 0.5s);
+  }
+  &:hover {
+    @include transition(opacity 0.5s);
+    &:before {
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
+}
+
+.vjs-playback-rate .vjs-playback-rate-value {
+  font-size: 1.2rem;
+  line-height: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  // Disabled for Neue theme in favor of submenu
+  display: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 
 .vjs-playback-rate .vjs-menu {
-    width: 8rem;
-    text-align: right;
+  width: 8rem;
+  text-align: right;
 }
 

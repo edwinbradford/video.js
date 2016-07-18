@@ -1,17 +1,17 @@
 .video-js button {
-    font-family: inherit;
-    font-size: inherit; // IE in general. WTF.
-    line-height: inherit;
-    display: inline-block;
-    overflow: visible; // IE8
-    transition: none;
-    text-decoration: none;
-    text-transform: none;
-    color: inherit;
-    border: none;
-    background: none;
+  font-family: inherit;
+  font-size: inherit; // IE in general. WTF.
+  line-height: inherit;
+  display: inline-block;
+  overflow: visible; // IE8
+  transition: none;
+  text-decoration: none;
+  text-transform: none;
+  color: inherit;
+  border: none;
+  background: none;
 
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }

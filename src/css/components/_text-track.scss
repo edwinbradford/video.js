@@ -1,53 +1,53 @@
 // Emulated tracks
 .vjs-text-track-display {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 4rem;
-    left: 0;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 4rem;
+  left: 0;
+  pointer-events: none;
 }
 
 // Move captions down when controls aren't being shown
 .video-js.vjs-user-inactive.vjs-playing .vjs-text-track-display {
-    bottom: 1.6rem;
+  bottom: 1.6rem;
 }
 
 // Individual tracks
 .video-js .vjs-text-track {
-    font-family: inherit;
-    font-size: 1.6rem;
-    margin-bottom: 0;
-    text-align: center;
-    color: #666;
-    background-color: #ff0;
+  font-family: inherit;
+  font-size: 1.6rem;
+  margin-bottom: 0;
+  text-align: center;
+  color: #666;
+  background-color: #ff0;
 }
 
 .vjs-subtitles {
-    color: #fff;
+  color: #fff;
 } // Subtitles are white
 .vjs-captions {
-    color: #666;
+  color: #666;
 } // Captions are yellow
 .vjs-tt-cue {
-    display: block;
+  display: block;
 }
 
 // Native tracks
 video::-webkit-media-text-track-display {
-    @include transform(translateY(-5.4rem));
+  @include transform(translateY(-5.4rem));
 }
 
 // Move captions down when controls aren't being shown
 .video-js.vjs-user-inactive.vjs-playing video::-webkit-media-text-track-display {
-    @include transform(translateY(-3.2rem));
+  @include transform(translateY(-3.2rem));
 }
 
 // Native caption styling for Neue theme 
 // ::cue will not inherit font family correctly
 ::cue {
-    font-family: $text-font-family;
-    font-size: 1.6rem;
-    color: #333;
-    background-color: #ff0;
+  font-family: $text-font-family;
+  font-size: 1.6rem;
+  color: #333;
+  background-color: #ff0;
 }
