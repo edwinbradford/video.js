@@ -3,7 +3,7 @@
   font-family: $text-font-family;
   // Start with 10px for base font size so other dimensions can be em based and
   // easily calculable.
-  font-size: 10px;
+  font-size: $text-em-size;
   // Provide some basic defaults for fonts
   font-weight: normal;
   font-style: normal;
@@ -153,7 +153,8 @@ body.vjs-full-window {
 .vjs-no-js {
   width: 640px;
   height: 360px;
-  padding: 2.4rem 3.2rem 2.4rem 2.4rem;
+  padding: $controls-margin;
+  padding-right: $controls-margin * 3;
   @extend .vjs-modal-dialog-content;
 }
 

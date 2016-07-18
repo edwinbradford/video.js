@@ -1,10 +1,6 @@
-// Progress and volume sliders
-$slider-height: 0.2em; // Slider height
-$slider-height-increase: 1; // Hover height is this factor bigger than $slider-height
-$slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
-$slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
-$slider-hover-height: 8; // Height of progress bar hover area
-$progress-bar-margin: 54px; // Side margins for progress bar
+// Global
+$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
+$text-em-size: 10px;
 
 // Colors
 $accent-color: #e50000;
@@ -15,12 +11,20 @@ $menu-text-color-highlight: #ccc;
 $menu-background-color-hgihlight: #666 !default;
 $menu-background-color: #333 !default; // menus
 
-// Filters
-$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.4));
-
 // Transparency
 $primary-background-transparency: 1 !default;
 $secondary-background-transparency: 1 !default; // not used
+
+// Filters
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.4));
+
+// Progress and volume sliders
+$slider-height: 0.2em; // Slider height
+$slider-height-increase: 1; // Hover height is this factor bigger than $slider-height
+$slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
+$slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
+$slider-hover-height: 8; // Height of progress bar hover area
+$progress-bar-margin: 54px; // Side margins for progress bar
 
 // Big play button
 $big-play-button--width: 6.4em !default;
@@ -32,8 +36,6 @@ $control-button-width: 2.4em; // Also height as Neue buttons are square
 $control-button-spacing: 1.6em;
 $volume-menu-width: 8em;
 
-// Time display
-$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
 $text-time-size: 1.2em;
 $time-width: 5em;
 

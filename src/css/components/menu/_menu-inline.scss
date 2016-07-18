@@ -3,11 +3,13 @@
   @include transition(all 0.4s);
 }
 
-.video-js .vjs-menu-button-inline:before {
-  // Icon pseudoelement has a different base font size (1.8em), so we need to
-  // account for that in the width. 4em (standard button width) divided by 1.8
-  // to get the same button width as normal.
+// Not used for Neue theme? See VideoJS upstream.
+.video-js .vjs-menu-button-inline:before {  
+  /* Icon pseudoelement has a different base font size (1.8em), so we need to
+   * account for that in the width. 4em (standard button width) divided by 1.8
+   * to get the same button width as normal.  
   width: 2.222222222rem;
+   */
 }
 
 // Hover state
@@ -16,7 +18,7 @@
 .video-js .vjs-menu-button-inline.vjs-slider-active,
 .video-js.vjs-no-flex .vjs-menu-button-inline {
   // This width is currently specific to the inline volume bar.
-  width: 12rem;
+  width: 12em;
 }
 // Don't transition when tabbing in reverse to the volume menu
 // because it looks weird
