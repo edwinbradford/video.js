@@ -4,7 +4,7 @@ $text-em-size: 10px;
 
 // Colors
 $accent-color: #e50000;
-$primary-foreground-color: #fff !default;
+$primary-foreground-color: #e6e6e6 !default;
 $primary-background-color: #1a1a1a !default;
 $menu-text-color: #999;
 $menu-text-color-highlight: #ccc;
@@ -16,7 +16,8 @@ $primary-background-transparency: 1 !default;
 $secondary-background-transparency: 1 !default; // not used
 
 // Filters
-$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.4));
+// Sadly not supported yet for background svgs
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.6));
 
 // Progress and volume sliders
 $slider-height: 0.2em; // Slider height
