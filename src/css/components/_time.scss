@@ -7,7 +7,7 @@
   align-items: center;
   width: $time-width;
   height: $control-button-width; // We can center text vertically in the control button height
-  // text-shadow: (0 0 1px rgba(0,0,0,0.6));
+  text-shadow: $text-time-shadow;
 }
 
 .vjs-live .vjs-time-control {

@@ -16,7 +16,6 @@ $primary-background-transparency: 1 !default;
 $secondary-background-transparency: 1 !default; // not used
 
 // Filters
-// Sadly not supported yet for background svgs
 $filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.6));
 
 // Progress and volume sliders
@@ -38,6 +37,8 @@ $control-button-spacing: 1.6em;
 $volume-menu-width: 8em;
 
 $text-time-size: 1.2em;
+$text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
+
 $time-width: 5em;
 
 // Modal and error
