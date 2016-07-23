@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <path fill="#fff" d="M3 5h2v14H3zM7 7h2v10H7zM11 5h2v14h-2zM15 7h2v10h-2zM19 5h2v14h-2z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 18">
+  <title>volume</title>
+  <rect x="1" width="2" height="18" fill="#fff"/>
+  <rect x="6" y="2" width="2" height="14" fill="#fff"/>
+  <rect x="11" width="2" height="18" fill="#fff"/>
+  <rect x="16" y="2" width="2" height="14" fill="#fff"/>
+  <rect x="21" width="2" height="18" fill="#fff"/>
 </svg>

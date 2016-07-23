@@ -24,7 +24,7 @@ $slider-height-increase: 1; // Hover height is this factor bigger than $slider-h
 $slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
 $slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
 $slider-hover-height: 8; // Height of progress bar hover area
-$progress-bar-margin: 54px; // Side margins for progress bar
+$progress-bar-margin: 5.4em; // Side margins for progress bar
 
 // Big play button
 $big-play-button--width: 6.4em !default;
@@ -32,11 +32,13 @@ $big-play-button--height: 6.4em !default;
 
 // Controls
 $controls-margin: 24px;
-$control-button-width: 2.4em; // Also height as Neue buttons are square
-$control-button-spacing: 1.6em;
+$control-button-width: 2.4em;
+$control-button-height: 1.8em;
+
+$control-button-spacing: 2.4em;
 $volume-menu-width: 8em;
 
-$text-time-size: 1.2em;
+$text-time-size: 1.4em;
 $text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
 
 $time-width: 5em;

@@ -99,12 +99,12 @@
   }
 }
 .vjs-slider-horizontal .vjs-volume-level {
-  height: 0.2rem;
+  height: 0.2em;
 
   // Volume handle
   &:before {
-    top: -0.3rem;
-    right: -0.5rem;
+    top: -0.3em;
+    right: -0.5em;
     @include box-shadow(0 0 4px rgba(0,0,0,0.4));
   }
 }
@@ -159,7 +159,7 @@
 .vjs-volume-menu-button-horizontal .vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-horizontal .vjs-lock-showing .vjs-menu-content {
   width: $volume-menu-width;
-  height: $control-button-width;
+  height: $control-button-height;
 }
 
 .vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu-content {

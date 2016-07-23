@@ -1,12 +1,12 @@
 .video-js .vjs-time-control {
   font-size: $text-time-size;
-  line-height: $text-time-size;
+  line-height: 1em;
   position: absolute;
   bottom: 0;
   display: flex;
   align-items: center;
   width: $time-width;
-  height: $control-button-width; // We can center text vertically in the control button height
+  height: 1em;
   text-shadow: $text-time-shadow;
 }
 
