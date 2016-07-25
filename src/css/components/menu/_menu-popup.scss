@@ -1,10 +1,10 @@
 .vjs-menu-button-popup .vjs-menu {
+  display: none;
   position: absolute;
   top: $control-button-height + 0.8em;
   right: 0;
-  display: none;
-  width: 16rem;
-  height: 2.4rem; // For debug visibility only
+  width: $menu-popup-width;
+  height: 2.4em; // For debug visibility only
   margin-bottom: 0;
   border-top-color: rgba($primary-background-color, 1); // Same as ul background
 }

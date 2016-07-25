@@ -1,9 +1,9 @@
 .vjs-caption-settings {
-  font-size: 1.2em;
   position: relative;
   top: 0;
   width: 100%;
   height: 100%;
+  font-size: 1.2em;
   color: $menu-text-color;
   background-color: $primary-background-color;
 }
@@ -72,11 +72,11 @@
 }
 
 .vjs-caption-settings select {
-  font-family: inherit;
-  font-size: inherit;
   width: 20em;
   margin-bottom: 0.8em;
   padding: 0.2em;
+  font-family: inherit;
+  font-size: inherit;
   color: $menu-text-color;
   border: 0 none transparent;
   background-color: $menu-background-color;

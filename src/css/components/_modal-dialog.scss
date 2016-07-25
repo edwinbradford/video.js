@@ -1,7 +1,7 @@
 .vjs-modal-dialog-content {
+  z-index: 1;
   font-size: $text-modal-size; // 12px
   line-height: $text-modal-line-height; // 18px
-  z-index: 1;
 }
 
 .video-js .vjs-modal-dialog {

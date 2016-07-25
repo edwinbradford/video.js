@@ -1,10 +1,10 @@
 .vjs-poster {
+  display: inline-block;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  display: inline-block;
   height: 100%;
   // cursor: pointer // Disabled because we only want buttons to respond
   margin: 0;

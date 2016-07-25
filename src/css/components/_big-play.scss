@@ -1,18 +1,14 @@
 // Big play button shape and triangle
 .video-js .vjs-big-play-button {
   position: absolute;
-  
   // Neue theme play button has no top left style
-  top: 50%; 
+  top: 50%;
   left: 50%;
-  
   width: $big-play-button--width;
   height: $big-play-button--height;
-  
   // Neue theme play button has no top left style
   margin-top: -($big-play-button--height / 2);
   margin-left: -($big-play-button--width / 2);
-  
   padding: 0;
   cursor: pointer;
   opacity: 1;
@@ -20,10 +16,10 @@
   @extend .icon-big-play;
   @include transition(opacity 0.5s);
   &:before {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
     width: inherit;
     height: inherit;
     content: "";

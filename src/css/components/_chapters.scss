@@ -4,10 +4,10 @@
   @extend .icon-chapters;
   @include transition(opacity 0.5s);
   &:before {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
     width: inherit;
     height: inherit;
     content: "";
@@ -25,5 +25,5 @@
 }
 
 .vjs-chapters-button .vjs-menu ul {
-  width: 24rem;
+  // width: 24em;
 }

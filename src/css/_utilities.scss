@@ -49,14 +49,16 @@
   display:         flex;
 
   @if $alignment != "" {
-    align-items: $alignment;
+            align-items: $alignment;
+
     -webkit-box-align: $alignment;
     -webkit-align-items: $alignment;
     -ms-flex-align: $alignment;
   }
 
   @if $justification != "" {
-    justify-content: $justification;
+            justify-content: $justification;
+
     -webkit-box-pack: $justification;
     -webkit-justify-content: $justification;
     -ms-flex-pack: $justification;
@@ -94,7 +96,7 @@
 }
 
 @mixin order($value) {
-  order: $value;
+          order: $value;
   -webkit-box-ordinal-group: $value;
      -moz-box-ordinal-group: $value;
   -ms-flex-order: $value;
