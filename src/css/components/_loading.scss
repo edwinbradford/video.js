@@ -1,9 +1,8 @@
 .vjs-loading-spinner {
+  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
-  //display: none;
-  // border: 6px solid rgba(43, 51, 63, 0.5);
   box-sizing: border-box;
   width: 5em;
   height: 5em;
@@ -18,7 +17,7 @@
 
 .vjs-seeking .vjs-loading-spinner,
 .vjs-waiting .vjs-loading-spinner {
-  display: block;
+  display: block !important;
 }
 
 .vjs-loading-spinner:before,
@@ -33,7 +32,7 @@
   opacity: 1;
   border: inherit;
   border-color: transparent;
-  border-top-color: #e5e5e5;
+  border-top-color: $primary-foreground-color;
   border-radius: inherit;
 }
 

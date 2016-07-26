@@ -46,7 +46,7 @@
     content: "";
     background-color: inherit;
     @include border-radius(50%);
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    @include box-shadow(0 0 0.4em rgba(0,0,0,0.4));
     @include transition(all 0.5s);
   }
 }
@@ -133,17 +133,18 @@
 .video-js .vjs-time-tooltip,
 .video-js .vjs-mouse-display:after,
 .video-js .vjs-play-progress:after {
+  display: none;
+  /*
   visibility: hidden;
   position: absolute;
-  top: -3.4em;
+  top: -2em;
   right: -1.5em;
-  padding: 6px 8px 8px 8px;
   font-size: $text-time-size;
   content: attr(data-current-time);
   pointer-events: none;
   color: $primary-foreground-color;
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
-  @include border-radius(0.1rem);
+  text-shadow: $text-time-shadow;
+  */
 }
 
 .video-js .vjs-time-tooltip,
@@ -172,11 +173,14 @@
 // Graphic under mouse when over progress bar
 // Not used for Neue theme
 .video-js .vjs-time-tooltip {
+  display: none;
+  /*
   display: inline-block;
   position: relative;
   right: -1.9em;
   float: right;
   height: 2.4em;
+  */
 }
 
 .vjs-tooltip-progress-bar {
