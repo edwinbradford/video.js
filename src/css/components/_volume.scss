@@ -51,7 +51,7 @@
 }
 
 .video-js .vjs-volume-control {
-  width: 5rem;
+  width: 5em;
   @include flex(none);
   @include display-flex(center);
 }
@@ -67,14 +67,13 @@
 }
 
 .vjs-volume-bar.vjs-slider-vertical {
-  width: 0.2rem;
-  height: 5rem;
-  margin: 1.35rem auto;
+  width: 0.2em;
+  height: 5em;
+  margin: 0 auto;
 }
 
 .video-js .vjs-volume-level {
   position: absolute;
-  left: 0;
   background-color: $accent-color;
 
   // Volume handle
@@ -89,7 +88,7 @@
 }
 
 .vjs-slider-vertical .vjs-volume-level {
-  width: 0.2rem;
+  width: 0.2em;
 
   // Volume handle
   &:before {
@@ -131,8 +130,8 @@
 }
 
 .vjs-menu-button-popup.vjs-volume-menu-button-vertical .vjs-menu {
-  left: 0.5rem;
-  height: 8rem;
+  top: $control-button-height;
+  left: 0;
 }
 .vjs-menu-button-popup.vjs-volume-menu-button-horizontal .vjs-menu {
   left: -2rem;
@@ -150,8 +149,10 @@
 .vjs-volume-menu-button-vertical:focus .vjs-menu-content,
 .vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content {
+  @include display-flex(center, center);
   width: $control-button-width;
   height: $volume-menu-width;
+  // background-color: transparent;
 }
 
 .vjs-volume-menu-button-horizontal:hover .vjs-menu-content,
