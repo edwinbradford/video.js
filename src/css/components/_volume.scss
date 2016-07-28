@@ -67,9 +67,9 @@
 }
 
 .vjs-volume-bar.vjs-slider-vertical {
-  width: 0.2em;
-  height: 5em;
-  margin: 0 auto;
+  width: $slider-height;
+  height: $volume-menu-width;
+  background-color: $primary-background-color;
 }
 
 .video-js .vjs-volume-level {
@@ -149,10 +149,10 @@
 .vjs-volume-menu-button-vertical:focus .vjs-menu-content,
 .vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content,
 .vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content {
-  @include display-flex(center, center);
+  @include display-flex(flex-end, center);
   width: $control-button-width;
   height: $volume-menu-width;
-  // background-color: transparent;
+  background-color: transparent !important;
 }
 
 .vjs-volume-menu-button-horizontal:hover .vjs-menu-content,
