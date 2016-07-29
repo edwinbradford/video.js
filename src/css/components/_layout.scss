@@ -41,6 +41,16 @@
   box-sizing: inherit;
 }
 
+/* Remove blue border highlighting for VideoJSNeue */
+.video-js textarea:focus, input:focus{
+    outline: none;
+}
+
+/* Remove blue border highlighting for VideoJSNeue */
+.video-js *:focus {
+    outline: none;
+}
+
 // List style reset
 .video-js ul {
   margin-top: 0;
