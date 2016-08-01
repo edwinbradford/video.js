@@ -80,17 +80,19 @@
 
 .vjs-caption-settings .vjs-default-button,
 .vjs-caption-settings .vjs-done-button {
+  margin-right: 0.4em;
   padding: 0.6em;
   outline: 0;
   background-color: $menu-background-color;
-  @include transition(background-color 0.5s);
+  @include transition(background-color 0.5s, color 0.5s);
   &:hover {
-    background-color: $menu-background-color;
-    @include transition(background-color 0.5s);
+    color: $menu-text-color-highlight;
+    background-color: $menu-background-color-highlight;
+    @include transition(background-color 0.5s, color 0.5s);
   }
   &:active {
-    color: $primary-foreground-color;
-    background-color: #666;
+    color: $menu-text-color-highlight;
+    background-color: $menu-background-color-highlight;
   }
 }
 

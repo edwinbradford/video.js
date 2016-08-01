@@ -11,11 +11,12 @@
           transform: $transform;
 }
 
-@mixin transition($string: $transition--default) {
-  -webkit-transition: $string;
-     -moz-transition: $string;
-       -o-transition: $string;
-          transition: $string;
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
 }
 
 @mixin hide-visually {
