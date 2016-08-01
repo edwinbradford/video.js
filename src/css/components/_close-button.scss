@@ -1,10 +1,10 @@
 .video-js .vjs-control.vjs-close-button {
   position: absolute;
   //z-index: 2;
-  top: $controls-margin;
-  right: $controls-margin;
+  top: 0.8em;
+  right: 0.8em;
   width: $control-button-width;
-  height: $control-button-width;
+  height: $control-button-height;
   cursor: pointer;
   opacity: 1;
   background-size: contain;
