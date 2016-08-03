@@ -113,13 +113,16 @@ class Menu extends Component {
     }
     this.focus(stepChild);
   }
-
+  
+  /* Menu item focusing does not play well with VideoJSNeue so is disabled */
+  
   /**
    * Set focus on a menu item in the menu
    *
    * @param {Object|String} item Index of child item set focus on
    * @method focus
    */
+   /*
   focus (item = 0) {
     let children = this.children().slice();
     let haveTitle = children.length && children[0].className &&
@@ -141,6 +144,7 @@ class Menu extends Component {
       children[item].el_.focus();
     }
   }
+  */
 }
 
 Component.registerComponent('Menu', Menu);
