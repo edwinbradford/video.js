@@ -38,7 +38,7 @@
 
 .vjs-caption-settings .vjs-tracksetting label {
   display: block;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.2em;
 }
 
 .vjs-caption-settings .vjs-tracksetting span {
@@ -68,9 +68,7 @@
 .vjs-caption-settings select {
   display: block;
   width: 20em;
-  margin-bottom: 0.8em;
-  padding: 0.4em;
-  // padding-left: 0.6em;
+  margin-bottom: 1.2em;
   font-family: inherit;
   font-size: inherit;
   color: $menu-text-color;
@@ -95,4 +93,3 @@
     background-color: $menu-background-color-highlight;
   }
 }
-
