@@ -111,6 +111,7 @@ body.vjs-full-window {
   margin: 0;
   padding: 0;
 }
+
 .vjs-full-window .video-js.vjs-fullscreen {
   position: fixed;
   z-index: 1000;
@@ -120,16 +121,17 @@ body.vjs-full-window {
   left: 0;
   overflow: hidden;
 }
+
 .video-js.vjs-fullscreen {
   width: 100% !important;
   height: 100% !important;
   // Undo any aspect ratio padding for fluid layouts
   padding-top: 0 !important;
 }
+
 .video-js.vjs-fullscreen.vjs-user-inactive {
   cursor: none;
 }
-
 
 // Hide disabled or unsupported controls.
 .vjs-hidden {
