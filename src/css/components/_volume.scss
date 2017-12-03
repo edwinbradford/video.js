@@ -51,9 +51,109 @@
 }
 
 .video-js .vjs-volume-control {
+  cursor: pointer;
+  margin-right: 1em;
+  @include display-flex;
+}
+.video-js .vjs-volume-control.vjs-volume-horizontal {
   width: 5em;
-  @include flex(none);
-  @include display-flex(center);
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control {
+  visibility: visible;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin-left: -1px;
+
+}
+.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  & .vjs-volume-bar,
+  & .vjs-volume-level {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  }
+}
+
+.video-js .vjs-volume-panel {
+  &:hover  .vjs-volume-control,
+  &:active .vjs-volume-control,
+  &:focus  .vjs-volume-control,
+  & .vjs-volume-control:hover  ,
+  & .vjs-volume-control:active ,
+  & .vjs-volume-control:focus  ,
+  & .vjs-mute-control:hover  ~ .vjs-volume-control,
+  & .vjs-mute-control:active ~ .vjs-volume-control,
+  & .vjs-mute-control:focus  ~ .vjs-volume-control,
+  & .vjs-volume-control.vjs-slider-active {
+    &.vjs-volume-horizontal {
+      width: 5em;
+      height: 3em;
+    }
+
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+
+    &.vjs-volume-vertical {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+      & .vjs-volume-bar,
+      & .vjs-volume-level {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+      }
+    }
+
+    $transition-property: visibility 0.1s, opacity 0.1s, height 0.1s, width 0.1s, left 0s, top 0s;
+    @include transition($transition-property);
+  }
+
+  &.vjs-volume-panel-horizontal {
+    &:hover,
+    &:focus,
+    &:active,
+    &.vjs-slider-active {
+      width: 9em;
+
+      @include transition(width 0.1s);
+    }
+  }
+
+  @include transition(width 1s);
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  height: 8em;
+  width: 3em;
+  left: -3.5em;
+
+  $transition-property: visibility 1s, opacity 1s, height 1s 1s, width 1s 1s, left 1s 1s, top 1s 1s;
+  @include transition($transition-property)
+}
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  $transition-property: visibility 1s, opacity 1s, height 1s 1s, width 1s, left 1s 1s, top 1s 1s;
+  @include transition($transition-property)
+}
+
+.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  width: 5em;
+  height: 3em;
+
+  visibility: visible;
+  opacity: 1;
+  position: relative;
+
+  @include transition(none);
+}
+
+.video-js.vjs-no-flex .vjs-volume-control.vjs-volume-vertical,
+.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  position: absolute;
+  bottom: 3em;
+  left: 0.5em;
+}
+
+.video-js .vjs-volume-panel {
+  @include display-flex;
 }
 
 .video-js .vjs-volume-bar {
@@ -110,6 +210,10 @@
     right: -0.5em;
     @include box-shadow(0 0 4px rgba(0,0,0,0.4));
   }
+}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-vertical {
+  width: 4em;
 }
 
 // Assumes volume starts at 1.0.

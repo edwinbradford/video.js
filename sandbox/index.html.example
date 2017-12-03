@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <title>Videojs Neue Sandbox</title>
-    
+
     <style>
       html {
         width: 100%;
         height: 100%;
         font-family: consolas;
         font-size: 10px;
-        background-color:#e5e5e5;    
+        background-color:#e5e5e5;
       }
       video {
         margin: 0;
@@ -45,7 +45,7 @@
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
-      
+
     <div class="instructions">
       <p>You can use /sandbox/ for writing and testing your own code. Nothing in /sandbox/ will get checked into the repo, except files that end in .example (so don't edit or add those files). To get started make a copy of index.html.example and rename it to index.html.</p>
       <pre>cp sandbox/index.html.example sandbox/index.html</pre>
@@ -53,7 +53,7 @@
       <pre>grunt connect</pre>
       <pre>open http://localhost:9999/sandbox/index.html</pre>
     </div>
-    
+
     <script>
       videojs(document.getElementById('videoJSElement'), {
         "html5": {
@@ -70,6 +70,6 @@
         // Callback.
       });
      </script>
-     
+
   </body>
 </html>

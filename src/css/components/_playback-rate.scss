@@ -25,22 +25,26 @@
   }
 }
 
+// Disabled for Neue theme in favor of submenu
+/*
+.vjs-playback-rate > .vjs-menu-button,
 .vjs-playback-rate .vjs-playback-rate-value {
-  // Disabled for Neue theme in favor of submenu
-  /*
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  font-size: 1.2rem;
+}
+
+.vjs-playback-rate .vjs-playback-rate-value {
+  pointer-events: none;
+  font-size: 1.5em;
   line-height: 2;
   text-align: center;
-  */
 }
+*/
 
 .vjs-playback-rate .vjs-menu {
   width: $menu-popup-width / 2;
   text-align: right;
 }
-

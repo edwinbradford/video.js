@@ -20,7 +20,9 @@
   .vjs-volume-menu-button,
   .vjs-chapters-button,
   .vjs-captions-button,
-  .vjs-subtitles-button {
+  .vjs-subtitles-button,
+  .vjs-descriptions-button,
+  .vjs-audio-button {
     display: none;
   }
 }
@@ -39,12 +41,13 @@
   .vjs-volume-control,
   .vjs-volume-menu-button,
   .vjs-chapters-button,
+  .vjs-descriptions-button,
   .vjs-captions-button,
-  .vjs-subtitles-button {
+  .vjs-subtitles-button,
+  .vjs-audio-button {
     display: none;
   }
 }
-
 
 // When the player is small, display nothing but:
 // - Play button
@@ -61,8 +64,10 @@
   .vjs-mute-control,
   .vjs-volume-control,
   .vjs-chapters-button,
+  .vjs-descriptions-button,
   .vjs-captions-button,
-  .vjs-subtitles-button {
+  .vjs-subtitles-button,
+  .vjs-audio-button {
     display: none;
   }
 }

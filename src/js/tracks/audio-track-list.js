@@ -6,41 +6,41 @@ import * as browser from '../utils/browser.js';
 import document from 'global/document';
 
 /**
- * anywhere we call this function we diverge from the spec
+ * Anywhere we call this function we diverge from the spec
  * as we only support one enabled audiotrack at a time
  *
- * @param {Array|AudioTrackList} list list to work on
- * @param {AudioTrack} track the track to skip
+ * @param {AudioTrackList} list
+ *        list to work on
+ *
+ * @param {AudioTrack} track
+ *        The track to skip
+ *
+ * @private
  */
 const disableOthers = function(list, track) {
   for (let i = 0; i < list.length; i++) {
-    if (track.id === list[i].id) {
+    if (!Object.keys(list[i]).length || track.id === list[i].id) {
       continue;
     }
     // another audio track is enabled, disable it
     list[i].enabled = false;
   }
 };
+
 /**
- * A list of possible audio tracks. All functionality is in the
- * base class Tracklist and the spec for AudioTrackList is located at:
- * @link https://html.spec.whatwg.org/multipage/embedded-content.html#audiotracklist
+ * The current list of {@link AudioTrack} for a media file.
  *
- * interface AudioTrackList : EventTarget {
- *   readonly attribute unsigned long length;
- *   getter AudioTrack (unsigned long index);
- *   AudioTrack? getTrackById(DOMString id);
- *
- *   attribute EventHandler onchange;
- *   attribute EventHandler onaddtrack;
- *   attribute EventHandler onremovetrack;
- * };
- *
- * @param {AudioTrack[]} tracks a list of audio tracks to instantiate the list with
+ * @see [Spec]{@link https://html.spec.whatwg.org/multipage/embedded-content.html#audiotracklist}
  * @extends TrackList
- * @class AudioTrackList
  */
 class AudioTrackList extends TrackList {
+
+  /**
+   * Create an instance of this class.
+   *
+   * @param {AudioTrack[]} [tracks=[]]
+   *        A list of `AudioTrack` to instantiate the list with.
+   */
   constructor(tracks = []) {
     let list;
 
@@ -57,12 +57,12 @@ class AudioTrackList extends TrackList {
     // as it does not support Object.defineProperty properly
     if (browser.IS_IE8) {
       list = document.createElement('custom');
-      for (let prop in TrackList.prototype) {
+      for (const prop in TrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = TrackList.prototype[prop];
         }
       }
-      for (let prop in AudioTrackList.prototype) {
+      for (const prop in AudioTrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = AudioTrackList.prototype[prop];
         }
@@ -75,17 +75,29 @@ class AudioTrackList extends TrackList {
     return list;
   }
 
-  addTrack_(track) {
+  /**
+   * Add an {@link AudioTrack} to the `AudioTrackList`.
+   *
+   * @param {AudioTrack} track
+   *        The AudioTrack to add to the list
+   *
+   * @fires TrackList#addtrack
+   */
+  addTrack(track) {
     if (track.enabled) {
       disableOthers(this, track);
     }
 
-    super.addTrack_(track);
+    super.addTrack(track);
     // native tracks don't have this
     if (!track.addEventListener) {
       return;
     }
 
+    /**
+     * @listens AudioTrack#enabledchange
+     * @fires TrackList#change
+     */
     track.addEventListener('enabledchange', () => {
       // when we are disabling other tracks (since we don't support
       // more than one track at a time) we will set changing_
@@ -99,15 +111,6 @@ class AudioTrackList extends TrackList {
       this.trigger('change');
     });
   }
-
-  addTrack(track) {
-    this.addTrack_(track);
-  }
-
-  removeTrack(track) {
-    super.removeTrack_(track);
-  }
-
 }
 
 export default AudioTrackList;

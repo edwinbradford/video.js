@@ -3,23 +3,24 @@
  */
 import Component from './component';
 import ModalDialog from './modal-dialog';
-
-import * as Dom from './utils/dom';
 import mergeOptions from './utils/merge-options';
 
 /**
- * Display that an error has occurred making the video unplayable.
+ * A display that indicates an error has occurred. This means that the video
+ * is unplayable.
  *
  * @extends ModalDialog
- * @class ErrorDisplay
  */
 class ErrorDisplay extends ModalDialog {
 
   /**
-   * Constructor for error display modal.
+   * Creates an instance of this class.
    *
    * @param  {Player} player
+   *         The `Player` that this class should be attached to.
+   *
    * @param  {Object} [options]
+   *         The key/value store of player options.
    */
   constructor(player, options) {
     super(player, options);
@@ -27,30 +28,37 @@ class ErrorDisplay extends ModalDialog {
   }
 
   /**
-   * Include the old class for backward-compatibility.
+   * Builds the default DOM `className`.
    *
-   * This can be removed in 6.0.
+   * @return {string}
+   *         The DOM `className` for this object.
    *
-   * @method buildCSSClass
-   * @deprecated
-   * @return {String}
+   * @deprecated Since version 5.
    */
   buildCSSClass() {
     return `vjs-error-display ${super.buildCSSClass()}`;
   }
 
   /**
-   * Generates the modal content based on the player error.
+   * Gets the localized error message based on the `Player`s error.
    *
-   * @return {String|Null}
+   * @return {string}
+   *         The `Player`s error message localized or an empty string.
    */
   content() {
-    let error = this.player().error();
+    const error = this.player().error();
+
     return error ? this.localize(error.message) : '';
   }
 }
 
+/**
+ * The default options for an `ErrorDisplay`.
+ *
+ * @private
+ */
 ErrorDisplay.prototype.options_ = mergeOptions(ModalDialog.prototype.options_, {
+  pauseOnOpen: false,
   fillAlways: true,
   temporary: false,
   uncloseable: true

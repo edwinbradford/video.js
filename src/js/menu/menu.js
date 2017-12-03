@@ -7,16 +7,29 @@ import * as Fn from '../utils/fn.js';
 import * as Events from '../utils/events.js';
 
 /**
- * The Menu component is used to build pop up menus, including subtitle and
+ * The Menu component is used to build popup menus, including subtitle and
  * captions selection menus.
  *
  * @extends Component
- * @class Menu
  */
 class Menu extends Component {
 
-  constructor (player, options) {
+  /**
+   * Create an instance of this class.
+   *
+   * @param {Player} player
+   *        the player that this component should attach to
+   *
+   * @param {Object} [options]
+   *        Object of option names and values
+   *
+   */
+  constructor(player, options) {
     super(player, options);
+
+    if (options) {
+      this.menuButton_ = options.menuButton;
+    }
 
     this.focusedChild_ = -1;
 
@@ -24,16 +37,17 @@ class Menu extends Component {
   }
 
   /**
-   * Add a menu item to the menu
+   * Add a {@link MenuItem} to the menu.
    *
-   * @param {Object|String} component Component or component type to add
-   * @method addItem
+   * @param {Object|string} component
+   *        The name or instance of the `MenuItem` to add.
+   *
    */
   addItem(component) {
     this.addChild(component);
     component.on('click', Fn.bind(this, function(){
       this.unlockShowing();
-      
+
       // Neue theme click events
       this.el_.parentNode.setAttribute('aria-expanded', 'false');
       this.el_.parentNode.focus();
@@ -42,27 +56,30 @@ class Menu extends Component {
   }
 
   /**
-   * Create the component's DOM element
+   * Create the `Menu`s DOM element.
    *
    * @return {Element}
-   * @method createEl
+   *         the element that was created
    */
   createEl() {
-    let contentElType = this.options_.contentElType || 'ul';
+    const contentElType = this.options_.contentElType || 'ul';
+
     this.contentEl_ = Dom.createEl(contentElType, {
       className: 'vjs-menu-content'
     });
+
     this.contentEl_.setAttribute('role', 'menu');
-    var el = super.createEl('div', {
+
+    const el = super.createEl('div', {
       append: this.contentEl_,
       className: 'vjs-menu'
     });
-    el.setAttribute('role', 'presentation');
+
     el.appendChild(this.contentEl_);
 
     // Prevent clicks from bubbling up. Needed for Menu Buttons,
     // where a click on the parent is significant
-    Events.on(el, 'click', function(event){
+    Events.on(el, 'click', function(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
     });
@@ -70,42 +87,49 @@ class Menu extends Component {
     return el;
   }
 
+  dispose() {
+    this.contentEl_ = null;
+
+    super.dispose();
+  }
+
   /**
-   * Handle key press for menu
+   * Handle a `keydown` event on this menu. This listener is added in the constructor.
    *
-   * @param {Object} event Event object
-   * @method handleKeyPress
+   * @param {EventTarget~Event} event
+   *        A `keydown` event that happened on the menu.
+   *
+   * @listens keydown
    */
-  handleKeyPress (event) {
-    if (event.which === 37 || event.which === 40) { // Left and Down Arrows
+  handleKeyPress(event) {
+    // Left and Down Arrows
+    if (event.which === 37 || event.which === 40) {
       event.preventDefault();
       this.stepForward();
-    } else if (event.which === 38 || event.which === 39) { // Up and Right Arrows
+
+    // Up and Right Arrows
+    } else if (event.which === 38 || event.which === 39) {
       event.preventDefault();
       this.stepBack();
     }
   }
 
   /**
-   * Move to next (lower) menu item for keyboard users
-   *
-   * @method stepForward
+   * Move to next (lower) menu item for keyboard users.
    */
-   stepForward () {
-     let stepChild = 0;
+  stepForward() {
+    let stepChild = 0;
 
-     if (this.focusedChild_ !== undefined) {
-       stepChild = this.focusedChild_ + 1;
-     }
-     this.focus(stepChild);
-   }
+    if (this.focusedChild_ !== undefined) {
+      stepChild = this.focusedChild_ + 1;
+    }
+    this.focus(stepChild);
+  }
 
-   /**
-    * Move to previous (higher) menu item for keyboard users
-    *
-    * @method stepBack
-    */
-  stepBack () {
+  /**
+   * Move to previous (higher) menu item for keyboard users.
+   */
+  stepBack() {
     let stepChild = 0;
 
     if (this.focusedChild_ !== undefined) {
@@ -113,20 +137,21 @@ class Menu extends Component {
     }
     this.focus(stepChild);
   }
-  
+
   /* Menu item focusing does not play well with VideoJSNeue so is disabled */
-  
+
   /**
-   * Set focus on a menu item in the menu
+   * Set focus on a {@link MenuItem} in the `Menu`.
    *
-   * @param {Object|String} item Index of child item set focus on
-   * @method focus
+   * @param {Object|string} [item=0]
+   *        Index of child item set focus on.
    */
+
    /*
-  focus (item = 0) {
-    let children = this.children().slice();
-    let haveTitle = children.length && children[0].className &&
-      /vjs-menu-title/.test(children[0].className);
+  focus(item = 0) {
+    const children = this.children().slice();
+    const haveTitle = children.length && children[0].className &&
+      (/vjs-menu-title/).test(children[0].className);
 
     if (haveTitle) {
       children.shift();

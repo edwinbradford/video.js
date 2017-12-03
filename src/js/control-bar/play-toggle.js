@@ -5,38 +5,51 @@ import Button from '../button.js';
 import Component from '../component.js';
 
 /**
- * Button to toggle between play and pause
+ * Button to toggle between play and pause.
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends Button
- * @class PlayToggle
  */
 class PlayToggle extends Button {
 
-  constructor(player, options){
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
     super(player, options);
 
     this.on(player, 'play', this.handlePlay);
     this.on(player, 'pause', this.handlePause);
+    this.on(player, 'ended', this.handleEnded);
   }
 
   /**
-   * Allow sub components to stack CSS class names
+   * Builds the default DOM `className`.
    *
-   * @return {String} The constructed class name
-   * @method buildCSSClass
+   * @return {string}
+   *         The DOM `className` for this object.
    */
   buildCSSClass() {
     return `vjs-play-control ${super.buildCSSClass()}`;
   }
 
   /**
-   * Handle click to toggle between play and pause
+   * This gets called when an `PlayToggle` is "clicked". See
+   * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @method handleClick
+   * @param {EventTarget~Event} [event]
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
    */
-  handleClick() {
+  handleClick(event) {
     if (this.player_.paused()) {
       this.player_.play();
     } else {
@@ -45,29 +58,80 @@ class PlayToggle extends Button {
   }
 
   /**
-   * Add the vjs-playing class to the element so it can change appearance
+   * This gets called once after the video has ended and the user seeks so that
+   * we can change the replay button back to a play button.
    *
-   * @method handlePlay
+   * @param {EventTarget~Event} [event]
+   *        The event that caused this function to run.
+   *
+   * @listens Player#seeked
    */
-  handlePlay() {
-    this.removeClass('vjs-paused');
-    this.addClass('vjs-playing');
-    this.controlText('Pause'); // change the button text to "Pause"
+  handleSeeked(event) {
+    this.removeClass('vjs-ended');
+
+    if (this.player_.paused()) {
+      this.handlePause(event);
+    } else {
+      this.handlePlay(event);
+    }
   }
 
   /**
-   * Add the vjs-paused class to the element so it can change appearance
+   * Add the vjs-playing class to the element so it can change appearance.
    *
-   * @method handlePause
+   * @param {EventTarget~Event} [event]
+   *        The event that caused this function to run.
+   *
+   * @listens Player#play
    */
-  handlePause() {
-    this.removeClass('vjs-playing');
-    this.addClass('vjs-paused');
-    this.controlText('Play'); // change the button text to "Play"
+  handlePlay(event) {
+    this.removeClass('vjs-ended');
+    this.removeClass('vjs-paused');
+    this.addClass('vjs-playing');
+    // change the button text to "Pause"
+    this.controlText('Pause');
   }
 
+  /**
+   * Add the vjs-paused class to the element so it can change appearance.
+   *
+   * @param {EventTarget~Event} [event]
+   *        The event that caused this function to run.
+   *
+   * @listens Player#pause
+   */
+  handlePause(event) {
+    this.removeClass('vjs-playing');
+    this.addClass('vjs-paused');
+    // change the button text to "Play"
+    this.controlText('Play');
+  }
+
+  /**
+   * Add the vjs-ended class to the element so it can change appearance
+   *
+   * @param {EventTarget~Event} [event]
+   *        The event that caused this function to run.
+   *
+   * @listens Player#ended
+   */
+  handleEnded(event) {
+    this.removeClass('vjs-playing');
+    this.addClass('vjs-ended');
+    // change the button text to "Replay"
+    this.controlText('Replay');
+
+    // on the next seek remove the replay button
+    this.one(this.player_, 'seeked', this.handleSeeked);
+  }
 }
 
+/**
+ * The text that should display over the `PlayToggle`s controls. Added for localization.
+ *
+ * @type {string}
+ * @private
+ */
 PlayToggle.prototype.controlText_ = 'Play';
 
 Component.registerComponent('PlayToggle', PlayToggle);

@@ -3,40 +3,51 @@
  */
 import MenuItem from '../../menu/menu-item.js';
 import Component from '../../component.js';
-import * as Fn from '../../utils/fn.js';
 import window from 'global/window';
 import document from 'global/document';
 
 /**
  * The specific menu item type for selecting a language within a text track kind
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends MenuItem
- * @class TextTrackMenuItem
  */
 class TextTrackMenuItem extends MenuItem {
 
-  constructor(player, options){
-    let track = options['track'];
-    let tracks = player.textTracks();
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
+    const track = options.track;
+    const tracks = player.textTracks();
 
     // Modify options for parent MenuItem class's init.
-    options['label'] = track['label'] || track['language'] || 'Unknown';
-    options['selected'] = track['default'] || track['mode'] === 'showing';
+    options.label = track.label || track.language || 'Unknown';
+    options.selected = track.mode === 'showing';
 
     super(player, options);
 
     this.track = track;
+    const changeHandler = (...args) => {
+      this.handleTracksChange.apply(this, args);
+    };
+    const selectedLanguageChangeHandler = (...args) => {
+      this.handleSelectedLanguageChange.apply(this, args);
+    };
 
-    if (tracks) {
-      let changeHandler = Fn.bind(this, this.handleTracksChange);
-
-      tracks.addEventListener('change', changeHandler);
-      this.on('dispose', function() {
-        tracks.removeEventListener('change', changeHandler);
-      });
-    }
+    player.on(['loadstart', 'texttrackchange'], changeHandler);
+    tracks.addEventListener('change', changeHandler);
+    tracks.addEventListener('selectedlanguagechange', selectedLanguageChangeHandler);
+    this.on('dispose', function() {
+      player.off(['loadstart', 'texttrackchange'], changeHandler);
+      tracks.removeEventListener('change', changeHandler);
+      tracks.removeEventListener('selectedlanguagechange', selectedLanguageChangeHandler);
+    });
 
     // iOS7 doesn't dispatch change events to TextTrackLists when an
     // associated track's mode changes. Without something like
@@ -44,7 +55,7 @@ class TextTrackMenuItem extends MenuItem {
     // possible to detect changes to the mode attribute and polyfill
     // the change event. As a poor substitute, we manually dispatch
     // change events whenever the controls modify the mode.
-    if (tracks && tracks.onchange === undefined) {
+    if (tracks.onchange === undefined) {
       let event;
 
       this.on(['tap', 'click'], function() {
@@ -52,7 +63,9 @@ class TextTrackMenuItem extends MenuItem {
           // Android 2.3 throws an Illegal Constructor error for window.Event
           try {
             event = new window.Event('change');
-          } catch(err){}
+          } catch (err) {
+            // continue regardless of error
+          }
         }
 
         if (!event) {
@@ -66,40 +79,80 @@ class TextTrackMenuItem extends MenuItem {
   }
 
   /**
-   * Handle click on text track
+   * This gets called when an `TextTrackMenuItem` is "clicked". See
+   * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @method handleClick
+   * @param {EventTarget~Event} event
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
    */
   handleClick(event) {
-    let kind = this.track['kind'];
-    let tracks = this.player_.textTracks();
+    const kind = this.track.kind;
+    let kinds = this.track.kinds;
+    const tracks = this.player_.textTracks();
+
+    if (!kinds) {
+      kinds = [kind];
+    }
 
     super.handleClick(event);
 
-    if (!tracks) return;
+    if (!tracks) {
+      return;
+    }
 
     for (let i = 0; i < tracks.length; i++) {
-      let track = tracks[i];
+      const track = tracks[i];
 
-      if (track['kind'] !== kind) {
-        continue;
-      }
-
-      if (track === this.track) {
-        track['mode'] = 'showing';
-      } else {
-        track['mode'] = 'disabled';
+      if (track === this.track && (kinds.indexOf(track.kind) > -1)) {
+        if (track.mode !== 'showing') {
+          track.mode = 'showing';
+        }
+      } else if (track.mode !== 'disabled') {
+        track.mode = 'disabled';
       }
     }
   }
 
   /**
-   * Handle text track change
+   * Handle text track list change
    *
-   * @method handleTracksChange
+   * @param {EventTarget~Event} event
+   *        The `change` event that caused this function to be called.
+   *
+   * @listens TextTrackList#change
    */
-  handleTracksChange(event){
-    this.selected(this.track['mode'] === 'showing');
+  handleTracksChange(event) {
+    this.selected(this.track.mode === 'showing');
+  }
+
+  handleSelectedLanguageChange(event) {
+    if (this.track.mode === 'showing') {
+      const selectedLanguage = this.player_.cache_.selectedLanguage;
+
+      // Don't replace the kind of track across the same language
+      if (selectedLanguage && selectedLanguage.enabled &&
+        selectedLanguage.language === this.track.language &&
+        selectedLanguage.kind !== this.track.kind) {
+        return;
+      }
+
+      this.player_.cache_.selectedLanguage = {
+        enabled: true,
+        language: this.track.language,
+        kind: this.track.kind
+      };
+    }
+  }
+
+  dispose() {
+    // remove reference to track object on dispose
+    this.track = null;
+
+    super.dispose();
   }
 
 }

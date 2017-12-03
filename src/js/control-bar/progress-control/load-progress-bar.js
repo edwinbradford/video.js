@@ -5,25 +5,32 @@ import Component from '../../component.js';
 import * as Dom from '../../utils/dom.js';
 
 /**
- * Shows load progress
+ * Shows loading progress
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends Component
- * @class LoadProgressBar
  */
 class LoadProgressBar extends Component {
 
-  constructor(player, options){
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
     super(player, options);
+    this.partEls_ = [];
     this.on(player, 'progress', this.update);
   }
 
   /**
-   * Create the component's DOM element
+   * Create the `Component`'s DOM element
    *
    * @return {Element}
-   * @method createEl
+   *         The element that was created.
    */
   createEl() {
     return super.createEl('div', {
@@ -32,20 +39,31 @@ class LoadProgressBar extends Component {
     });
   }
 
+  dispose() {
+    this.partEls_ = null;
+
+    super.dispose();
+  }
+
   /**
    * Update progress bar
    *
-   * @method update
+   * @param {EventTarget~Event} [event]
+   *        The `progress` event that caused this function to run.
+   *
+   * @listens Player#progress
    */
-  update() {
-    let buffered = this.player_.buffered();
-    let duration = this.player_.duration();
-    let bufferedEnd = this.player_.bufferedEnd();
-    let children = this.el_.children;
+  update(event) {
+    const buffered = this.player_.buffered();
+    const duration = this.player_.duration();
+    const bufferedEnd = this.player_.bufferedEnd();
+    const children = this.partEls_;
 
     // get the percent width of a time compared to the total end
-    let percentify = function (time, end){
-      let percent = (time / end) || 0; // no NaN
+    const percentify = function(time, end) {
+      // no NaN
+      const percent = (time / end) || 0;
+
       return ((percent >= 1 ? 1 : percent) * 100) + '%';
     };
 
@@ -54,12 +72,13 @@ class LoadProgressBar extends Component {
 
     // add child elements to represent the individual buffered time ranges
     for (let i = 0; i < buffered.length; i++) {
-      let start = buffered.start(i);
-      let end = buffered.end(i);
+      const start = buffered.start(i);
+      const end = buffered.end(i);
       let part = children[i];
 
       if (!part) {
         part = this.el_.appendChild(Dom.createEl());
+        children[i] = part;
       }
 
       // set the percent based on the width of the progress bar (bufferedEnd)
@@ -69,8 +88,9 @@ class LoadProgressBar extends Component {
 
     // remove unused buffered range elements
     for (let i = children.length; i > buffered.length; i--) {
-      this.el_.removeChild(children[i-1]);
+      this.el_.removeChild(children[i - 1]);
     }
+    children.length = buffered.length;
   }
 
 }

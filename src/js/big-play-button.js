@@ -3,43 +3,86 @@
  */
 import Button from './button.js';
 import Component from './component.js';
+import {isPromise} from './utils/promise';
 
 /**
- * Initial play button. Shows before the video has played. The hiding of the
- * big play button is done via CSS and player states.
+ * The initial play button that shows before the video has played. The hiding of the
+ * `BigPlayButton` get done via CSS and `Player` states.
  *
- * @param {Object} player  Main Player
- * @param {Object=} options Object of option names and values
  * @extends Button
- * @class BigPlayButton
  */
 class BigPlayButton extends Button {
-
   constructor(player, options) {
     super(player, options);
+
+    this.mouseused_ = false;
+
+    this.on('mousedown', this.handleMouseDown);
   }
 
   /**
-   * Allow sub components to stack CSS class names
+   * Builds the default DOM `className`.
    *
-   * @return {String} The constructed class name
-   * @method buildCSSClass
+   * @return {string}
+   *         The DOM `className` for this object. Always returns 'vjs-big-play-button'.
    */
   buildCSSClass() {
     return 'vjs-big-play-button';
   }
 
   /**
-   * Handles click for play
+   * This gets called when a `BigPlayButton` "clicked". See {@link ClickableComponent}
+   * for more detailed information on what a click can be.
    *
-   * @method handleClick
+   * @param {EventTarget~Event} event
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
    */
-  handleClick() {
-    this.player_.play();
+  handleClick(event) {
+    const playPromise = this.player_.play();
+
+    // exit early if clicked via the mouse
+    if (this.mouseused_ && event.clientX && event.clientY) {
+      return;
+    }
+
+    const cb = this.player_.getChild('controlBar');
+    const playToggle = cb && cb.getChild('playToggle');
+
+    if (!playToggle) {
+      this.player_.focus();
+      return;
+    }
+
+    const playFocus = () => playToggle.focus();
+
+    if (isPromise(playPromise)) {
+      playPromise.then(playFocus, () => {});
+    } else {
+      this.setTimeout(playFocus, 1);
+    }
   }
 
+  handleKeyPress(event) {
+    this.mouseused_ = false;
+
+    super.handleKeyPress(event);
+  }
+
+  handleMouseDown(event) {
+    this.mouseused_ = true;
+  }
 }
 
+/**
+ * The text that should display over the `BigPlayButton`s controls. Added to for localization.
+ *
+ * @type {string}
+ * @private
+ */
 BigPlayButton.prototype.controlText_ = 'Play Video';
 
 Component.registerComponent('BigPlayButton', BigPlayButton);

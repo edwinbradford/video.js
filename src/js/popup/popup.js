@@ -10,48 +10,57 @@ import * as Events from '../utils/events.js';
  * The Popup component is used to build pop up controls.
  *
  * @extends Component
- * @class Popup
  */
 class Popup extends Component {
 
   /**
    * Add a popup item to the popup
    *
-   * @param {Object|String} component Component or component type to add
-   * @method addItem
+   * @param {Object|string} component
+   *        Component or component type to add
+   *
    */
   addItem(component) {
     this.addChild(component);
-    component.on('click', Fn.bind(this, function(){
+    component.on('click', Fn.bind(this, function() {
       this.unlockShowing();
     }));
   }
 
   /**
-   * Create the component's DOM element
+   * Create the `PopupButton`s DOM element.
    *
    * @return {Element}
-   * @method createEl
+   *         The element that gets created.
    */
   createEl() {
-    let contentElType = this.options_.contentElType || 'ul';
+    const contentElType = this.options_.contentElType || 'ul';
+
     this.contentEl_ = Dom.createEl(contentElType, {
       className: 'vjs-menu-content'
     });
-    var el = super.createEl('div', {
+
+    const el = super.createEl('div', {
       append: this.contentEl_,
       className: 'vjs-menu'
     });
+
     el.appendChild(this.contentEl_);
 
     // Prevent clicks from bubbling up. Needed for Popup Buttons,
     // where a click on the parent is significant
-    Events.on(el, 'click', function(event){
+    Events.on(el, 'click', function(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
     });
 
     return el;
+  }
+
+  dispose() {
+    this.contentEl_ = null;
+
+    super.dispose();
   }
 }
 

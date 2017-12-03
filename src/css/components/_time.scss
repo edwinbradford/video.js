@@ -21,6 +21,12 @@
   left: 0;
 }
 
+// IE 8 + IE 9 width: auto container fix
+.vjs-no-flex .vjs-remaining-time.vjs-time-control.vjs-control {
+  width: 0px !important;
+  white-space: nowrap;
+}
+
 .video-js .vjs-duration,
 .vjs-no-flex .vjs-duration {
   justify-content: flex-end;

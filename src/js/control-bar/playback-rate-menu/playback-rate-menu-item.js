@@ -5,22 +5,30 @@ import MenuItem from '../../menu/menu-item.js';
 import Component from '../../component.js';
 
 /**
- * The specific menu item type for selecting a playback rate
+ * The specific menu item type for selecting a playback rate.
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends MenuItem
- * @class PlaybackRateMenuItem
  */
 class PlaybackRateMenuItem extends MenuItem {
 
-  constructor(player, options){
-    let label = options['rate'];
-    let rate = parseFloat(label, 10);
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
+    const label = options.rate;
+    const rate = parseFloat(label, 10);
 
     // Modify options for parent MenuItem class's init.
-    options['label'] = label;
-    options['selected'] = rate === 1;
+    options.label = label;
+    options.selected = rate === 1;
+    options.selectable = true;
+
     super(player, options);
 
     this.label = label;
@@ -30,15 +38,21 @@ class PlaybackRateMenuItem extends MenuItem {
   }
 
   /**
-   * Handle click on menu item
+   * This gets called when an `PlaybackRateMenuItem` is "clicked". See
+   * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @method handleClick
+   * @param {EventTarget~Event} [event]
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
    */
 
-  handleClick() {
+  handleClick(event) {
     super.handleClick();
     this.player().playbackRate(this.rate);
-    
+
     // Neue theme click events
     // function 'findAncestor' is defined in components.js
     let playbackMenu = this.findAncestor(this.el_, 'vjs-lock-showing');
@@ -48,16 +62,25 @@ class PlaybackRateMenuItem extends MenuItem {
   }
 
   /**
-   * Update playback rate with selected rate
+   * Update the PlaybackRateMenuItem when the playbackrate changes.
    *
-   * @method update
+   * @param {EventTarget~Event} [event]
+   *        The `ratechange` event that caused this function to run.
+   *
+   * @listens Player#ratechange
    */
-  update() {
+  update(event) {
     this.selected(this.player().playbackRate() === this.rate);
   }
 
 }
 
+/**
+ * The text that should display over the `PlaybackRateMenuItem`s controls. Added for localization.
+ *
+ * @type {string}
+ * @private
+ */
 PlaybackRateMenuItem.prototype.contentElType = 'button';
 
 Component.registerComponent('PlaybackRateMenuItem', PlaybackRateMenuItem);

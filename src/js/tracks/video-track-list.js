@@ -6,43 +6,40 @@ import * as browser from '../utils/browser.js';
 import document from 'global/document';
 
 /**
- * disable other video tracks before selecting the new one
+ * Un-select all other {@link VideoTrack}s that are selected.
  *
- * @param {Array|VideoTrackList} list list to work on
- * @param {VideoTrack} track the track to skip
+ * @param {VideoTrackList} list
+ *        list to work on
+ *
+ * @param {VideoTrack} track
+ *        The track to skip
+ *
+ * @private
  */
 const disableOthers = function(list, track) {
   for (let i = 0; i < list.length; i++) {
-    if (track.id === list[i].id) {
+    if (!Object.keys(list[i]).length || track.id === list[i].id) {
       continue;
     }
-    // another audio track is enabled, disable it
+    // another video track is enabled, disable it
     list[i].selected = false;
   }
 };
 
 /**
-* A list of possiblee video tracks. Most functionality is in the
- * base class Tracklist and the spec for VideoTrackList is located at:
- * @link https://html.spec.whatwg.org/multipage/embedded-content.html#videotracklist
+ * The current list of {@link VideoTrack} for a video.
  *
- * interface VideoTrackList : EventTarget {
- *   readonly attribute unsigned long length;
- *   getter VideoTrack (unsigned long index);
- *   VideoTrack? getTrackById(DOMString id);
- *   readonly attribute long selectedIndex;
- *
- *   attribute EventHandler onchange;
- *   attribute EventHandler onaddtrack;
- *   attribute EventHandler onremovetrack;
- * };
- *
- * @param {VideoTrack[]} tracks a list of video tracks to instantiate the list with
- # @extends TrackList
- * @class VideoTrackList
+ * @see [Spec]{@link https://html.spec.whatwg.org/multipage/embedded-content.html#videotracklist}
+ * @extends TrackList
  */
 class VideoTrackList extends TrackList {
 
+  /**
+   * Create an instance of this class.
+   *
+   * @param {VideoTrack[]} [tracks=[]]
+   *        A list of `VideoTrack` to instantiate the list with.
+   */
   constructor(tracks = []) {
     let list;
 
@@ -59,12 +56,12 @@ class VideoTrackList extends TrackList {
     // as it does not support Object.defineProperty properly
     if (browser.IS_IE8) {
       list = document.createElement('custom');
-      for (let prop in TrackList.prototype) {
+      for (const prop in TrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = TrackList.prototype[prop];
         }
       }
-      for (let prop in VideoTrackList.prototype) {
+      for (const prop in VideoTrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = VideoTrackList.prototype[prop];
         }
@@ -74,6 +71,10 @@ class VideoTrackList extends TrackList {
     list = super(tracks, list);
     list.changing_ = false;
 
+    /**
+     * @member {number} VideoTrackList#selectedIndex
+     *         The current index of the selected {@link VideoTrack`}.
+     */
     Object.defineProperty(list, 'selectedIndex', {
       get() {
         for (let i = 0; i < this.length; i++) {
@@ -89,16 +90,29 @@ class VideoTrackList extends TrackList {
     return list;
   }
 
-  addTrack_(track) {
+  /**
+   * Add a {@link VideoTrack} to the `VideoTrackList`.
+   *
+   * @param {VideoTrack} track
+   *        The VideoTrack to add to the list
+   *
+   * @fires TrackList#addtrack
+   */
+  addTrack(track) {
     if (track.selected) {
       disableOthers(this, track);
     }
 
-    super.addTrack_(track);
+    super.addTrack(track);
     // native tracks don't have this
     if (!track.addEventListener) {
       return;
     }
+
+    /**
+     * @listens VideoTrack#selectedchange
+     * @fires TrackList#change
+     */
     track.addEventListener('selectedchange', () => {
       if (this.changing_) {
         return;
@@ -109,15 +123,6 @@ class VideoTrackList extends TrackList {
       this.trigger('change');
     });
   }
-
-  addTrack(track) {
-    this.addTrack_(track);
-  }
-
-  removeTrack(track) {
-    super.removeTrack_(track);
-  }
-
 }
 
 export default VideoTrackList;

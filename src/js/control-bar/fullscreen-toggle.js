@@ -8,37 +8,77 @@ import Component from '../component.js';
  * Toggle fullscreen video
  *
  * @extends Button
- * @class FullscreenToggle
  */
 class FullscreenToggle extends Button {
 
   /**
-   * Allow sub components to stack CSS class names
+   * Creates an instance of this class.
    *
-   * @return {String} The constructed class name
-   * @method buildCSSClass
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
+    super(player, options);
+    this.on(player, 'fullscreenchange', this.handleFullscreenChange);
+  }
+
+  /**
+   * Builds the default DOM `className`.
+   *
+   * @return {string}
+   *         The DOM `className` for this object.
    */
   buildCSSClass() {
     return `vjs-fullscreen-control ${super.buildCSSClass()}`;
   }
 
   /**
-   * Handles click for full screen
+   * Handles fullscreenchange on the player and change control text accordingly.
    *
-   * @method handleClick
+   * @param {EventTarget~Event} [event]
+   *        The {@link Player#fullscreenchange} event that caused this function to be
+   *        called.
+   *
+   * @listens Player#fullscreenchange
    */
-  handleClick() {
-    if (!this.player_.isFullscreen()) {
-      this.player_.requestFullscreen();
+  handleFullscreenChange(event) {
+    if (this.player_.isFullscreen()) {
       this.controlText('Non-Fullscreen');
     } else {
-      this.player_.exitFullscreen();
       this.controlText('Fullscreen');
+    }
+  }
+
+  /**
+   * This gets called when an `FullscreenToggle` is "clicked". See
+   * {@link ClickableComponent} for more detailed information on what a click can be.
+   *
+   * @param {EventTarget~Event} [event]
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
+   */
+  handleClick(event) {
+    if (!this.player_.isFullscreen()) {
+      this.player_.requestFullscreen();
+    } else {
+      this.player_.exitFullscreen();
     }
   }
 
 }
 
+/**
+ * The text that should display over the `FullscreenToggle`s controls. Added for localization.
+ *
+ * @type {string}
+ * @private
+ */
 FullscreenToggle.prototype.controlText_ = 'Fullscreen';
 
 Component.registerComponent('FullscreenToggle', FullscreenToggle);

@@ -7,38 +7,100 @@ import * as Guid from '../utils/guid.js';
 import EventTarget from '../event-target';
 
 /**
- * setup the common parts of an audio, video, or text track
- * @link https://html.spec.whatwg.org/multipage/embedded-content.html
+ * A Track class that contains all of the common functionality for {@link AudioTrack},
+ * {@link VideoTrack}, and {@link TextTrack}.
  *
- * @param {String} type The type of track we are dealing with audio|video|text
- * @param {Object=} options Object of option names and values
+ * > Note: This class should not be used directly
+ *
+ * @see {@link https://html.spec.whatwg.org/multipage/embedded-content.html}
  * @extends EventTarget
- * @class Track
+ * @abstract
  */
 class Track extends EventTarget {
+
+  /**
+   * Create an instance of this class.
+   *
+   * @param {Object} [options={}]
+   *        Object of option names and values
+   *
+   * @param {string} [options.kind='']
+   *        A valid kind for the track type you are creating.
+   *
+   * @param {string} [options.id='vjs_track_' + Guid.newGUID()]
+   *        A unique id for this AudioTrack.
+   *
+   * @param {string} [options.label='']
+   *        The menu label for this track.
+   *
+   * @param {string} [options.language='']
+   *        A valid two character language code.
+   *
+   * @abstract
+   */
   constructor(options = {}) {
     super();
 
-    let track = this;
+    let track = this; // eslint-disable-line
+
     if (browser.IS_IE8) {
       track = document.createElement('custom');
-      for (let prop in Track.prototype) {
+      for (const prop in Track.prototype) {
         if (prop !== 'constructor') {
           track[prop] = Track.prototype[prop];
         }
       }
     }
 
-    let trackProps = {
+    const trackProps = {
       id: options.id || 'vjs_track_' + Guid.newGUID(),
       kind: options.kind || '',
       label: options.label || '',
       language: options.language || ''
     };
 
-    for (let key in trackProps) {
+    /**
+     * @memberof Track
+     * @member {string} id
+     *         The id of this track. Cannot be changed after creation.
+     * @instance
+     *
+     * @readonly
+     */
+
+    /**
+     * @memberof Track
+     * @member {string} kind
+     *         The kind of track that this is. Cannot be changed after creation.
+     * @instance
+     *
+     * @readonly
+     */
+
+    /**
+     * @memberof Track
+     * @member {string} label
+     *         The label of this track. Cannot be changed after creation.
+     * @instance
+     *
+     * @readonly
+     */
+
+    /**
+     * @memberof Track
+     * @member {string} language
+     *         The two letter language code for this track. Cannot be changed after
+     *         creation.
+     * @instance
+     *
+     * @readonly
+     */
+
+    for (const key in trackProps) {
       Object.defineProperty(track, key, {
-        get() { return trackProps[key]; },
+        get() {
+          return trackProps[key];
+        },
         set() {}
       });
     }

@@ -3,51 +3,85 @@
  */
 import Slider from '../../slider/slider.js';
 import Component from '../../component.js';
-import * as Fn from '../../utils/fn.js';
+import * as Dom from '../../utils/dom.js';
 
 // Required children
-import VolumeLevel from './volume-level.js';
+import './volume-level.js';
 
 /**
  * The bar that contains the volume level and can be clicked on to adjust the level
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends Slider
- * @class VolumeBar
  */
 class VolumeBar extends Slider {
 
-  constructor(player, options){
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options]
+   *        The key/value store of player options.
+   */
+  constructor(player, options) {
     super(player, options);
+    this.on('slideractive', this.updateLastVolume_);
     this.on(player, 'volumechange', this.updateARIAAttributes);
-    player.ready(Fn.bind(this, this.updateARIAAttributes));
+    player.ready(() => this.updateARIAAttributes());
   }
 
   /**
-   * Create the component's DOM element
+   * Create the `Component`'s DOM element
    *
    * @return {Element}
-   * @method createEl
+   *         The element that was created.
    */
   createEl() {
     return super.createEl('div', {
       className: 'vjs-volume-bar vjs-slider-bar'
     }, {
-      'aria-label': 'volume level'
+      'aria-label': this.localize('Volume Level'),
+      'aria-live': 'polite'
     });
   }
 
   /**
-   * Handle mouse move on volume bar
+   * Handle mouse down on volume bar
    *
-   * @method handleMouseMove
+   * @param {EventTarget~Event} event
+   *        The `mousedown` event that caused this to run.
+   *
+   * @listens mousedown
+   */
+  handleMouseDown(event) {
+    if (!Dom.isSingleLeftClick(event)) {
+      return;
+    }
+
+    super.handleMouseDown(event);
+  }
+
+  /**
+   * Handle movement events on the {@link VolumeMenuButton}.
+   *
+   * @param {EventTarget~Event} event
+   *        The event that caused this function to run.
+   *
+   * @listens mousemove
    */
   handleMouseMove(event) {
+    if (!Dom.isSingleLeftClick(event)) {
+      return;
+    }
+
     this.checkMuted();
     this.player_.volume(this.calculateDistance(event));
   }
 
+  /**
+   * If the player is muted unmute it.
+   */
   checkMuted() {
     if (this.player_.muted()) {
       this.player_.muted(false);
@@ -57,21 +91,18 @@ class VolumeBar extends Slider {
   /**
    * Get percent of volume level
    *
-   * @retun {Number} Volume level percent
-   * @method getPercent
+   * @return {number}
+   *         Volume level percent as a decimal number.
    */
   getPercent() {
     if (this.player_.muted()) {
       return 0;
-    } else {
-      return this.player_.volume();
     }
+    return this.player_.volume();
   }
 
   /**
    * Increase volume level for keyboard users
-   *
-   * @method stepForward
    */
   stepForward() {
     this.checkMuted();
@@ -80,8 +111,6 @@ class VolumeBar extends Slider {
 
   /**
    * Decrease volume level for keyboard users
-   *
-   * @method stepBack
    */
   stepBack() {
     this.checkMuted();
@@ -91,24 +120,65 @@ class VolumeBar extends Slider {
   /**
    * Update ARIA accessibility attributes
    *
-   * @method updateARIAAttributes
+   * @param {EventTarget~Event} [event]
+   *        The `volumechange` event that caused this function to run.
+   *
+   * @listens Player#volumechange
    */
-  updateARIAAttributes() {
-    // Current value of volume bar as a percentage
-    let volume = (this.player_.volume() * 100).toFixed(2);
-    this.el_.setAttribute('aria-valuenow', volume);
-    this.el_.setAttribute('aria-valuetext', volume + '%');
+  updateARIAAttributes(event) {
+    const ariaValue = this.player_.muted() ? 0 : this.volumeAsPercentage_();
+
+    this.el_.setAttribute('aria-valuenow', ariaValue);
+    this.el_.setAttribute('aria-valuetext', ariaValue + '%');
+  }
+
+  /**
+   * Returns the current value of the player volume as a percentage
+   *
+   * @private
+   */
+  volumeAsPercentage_() {
+    return Math.round(this.player_.volume() * 100);
+  }
+
+  /**
+   * When user starts dragging the VolumeBar, store the volume and listen for
+   * the end of the drag. When the drag ends, if the volume was set to zero,
+   * set lastVolume to the stored volume.
+   *
+   * @listens slideractive
+   * @private
+   */
+  updateLastVolume_() {
+    const volumeBeforeDrag = this.player_.volume();
+
+    this.one('sliderinactive', () => {
+      if (this.player_.volume() === 0) {
+        this.player_.lastVolume_(volumeBeforeDrag);
+      }
+    });
   }
 
 }
 
+/**
+ * Default options for the `VolumeBar`
+ *
+ * @type {Object}
+ * @private
+ */
 VolumeBar.prototype.options_ = {
   children: [
     'volumeLevel'
   ],
-  'barName': 'volumeLevel'
+  barName: 'volumeLevel'
 };
 
+/**
+ * Call the update event for this Slider when this event happens on the player.
+ *
+ * @type {string}
+ */
 VolumeBar.prototype.playerEvent = 'volumechange';
 
 Component.registerComponent('VolumeBar', VolumeBar);

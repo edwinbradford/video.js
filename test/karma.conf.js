@@ -10,9 +10,11 @@ module.exports = function(config) {
     // Compling tests here
     files: [
       '../build/temp/video-js.css',
-      '../build/temp/ie8/videojs-ie8.min.js',
+      '../build/temp/ie8/videojs-ie8.js',
       '../test/globals-shim.js',
       '../test/unit/**/*.js',
+      '../build/temp/browserify.js',
+      '../build/temp/webpack.js',
       { pattern: '../src/**/*.js', watched: true, included: false, served: false }
     ],
 
@@ -29,12 +31,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       plugin: ['proxyquireify/plugin'],
-      transform: [
-        require('babelify').configure({
-          sourceMapRelative: './',
-          loose: ['all']
-        })
-      ]
+      transform: ['babelify']
     },
 
     plugins: [
@@ -66,10 +63,14 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     captureTimeout: 300000,
     browserNoActivityTimeout: 300000,
+    browserDisconnectTimeout: 300000,
+    browserDisconnectTolerance: 3,
 
     browserStack: {
       name: process.env.TRAVIS_BUILD_NUMBER + process.env.TRAVIS_BRANCH,
-      pollingTimeout: 30000
+      pollingTimeout: 30000,
+      captureTimeout: 600,
+      timeout: 600
     },
     customLaunchers: getCustomLaunchers(),
 
@@ -89,25 +90,41 @@ module.exports = function(config) {
         },
         { type: 'text-summary' }
       ]
+    },
+
+    // make QUnit show the UI in karma runs
+    client: {
+      clearContext: false,
+      qunit: {
+        showUI: true,
+        testTimeout: 5000
+      }
     }
   };
 
-  if (process.env.TRAVIS) {
+  // Coverage reporting
+  // Coverage is enabled by passing the flag --coverage to npm test
+  var coverageFlag = process.env.npm_config_coverage;
+  var reportCoverage = process.env.TRAVIS || coverageFlag;
+  if (reportCoverage) {
     settings.browserify.transform.push('browserify-istanbul');
     settings.reporters.push('coverage');
+  }
 
+  if (process.env.TRAVIS) {
     if (process.env.BROWSER_STACK_USERNAME) {
       settings.browsers = [
         'chrome_bs',
         'firefox_bs',
         'safari_bs',
+        'edge_bs',
         'ie11_bs',
         'ie10_bs',
         'ie9_bs',
         'ie8_bs'
       ];
     } else {
-      settings.browsers = ['Firefox'];
+      settings.browsers = ['chrome_travis'];
     }
   }
 
@@ -116,6 +133,11 @@ module.exports = function(config) {
 
 function getCustomLaunchers(){
   return {
+    chrome_travis: {
+      base: 'Chrome',
+      flags: ['--no-sandbox']
+    },
+
     chrome_bs: {
       base: 'BrowserStack',
       browser: 'chrome',
@@ -135,6 +157,13 @@ function getCustomLaunchers(){
       browser: 'safari',
       os: 'OS X',
       os_version: 'Yosemite'
+    },
+
+    edge_bs: {
+      base: 'BrowserStack',
+      browser: 'edge',
+      os: 'Windows',
+      os_version: '10'
     },
 
     ie11_bs: {

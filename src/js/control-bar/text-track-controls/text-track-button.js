@@ -1,66 +1,80 @@
 /**
  * @file text-track-button.js
  */
-import MenuButton from '../../menu/menu-button.js';
+import TrackButton from '../track-button.js';
 import Component from '../../component.js';
-import * as Fn from '../../utils/fn.js';
 import TextTrackMenuItem from './text-track-menu-item.js';
 import OffTextTrackMenuItem from './off-text-track-menu-item.js';
 
 /**
  * The base class for buttons that toggle specific text track types (e.g. subtitles)
  *
- * @param {Player|Object} player
- * @param {Object=} options
  * @extends MenuButton
- * @class TextTrackButton
  */
-class TextTrackButton extends MenuButton {
+class TextTrackButton extends TrackButton {
 
-  constructor(player, options){
+  /**
+   * Creates an instance of this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options={}]
+   *        The key/value store of player options.
+   */
+  constructor(player, options = {}) {
+    options.tracks = player.textTracks();
+
     super(player, options);
-
-    let tracks = this.player_.textTracks();
-
-    if (this.items.length <= 1) {
-      this.hide();
-    }
-
-    if (!tracks) {
-      return;
-    }
-
-    let updateHandler = Fn.bind(this, this.update);
-    tracks.addEventListener('removetrack', updateHandler);
-    tracks.addEventListener('addtrack', updateHandler);
-
-    this.player_.on('dispose', function() {
-      tracks.removeEventListener('removetrack', updateHandler);
-      tracks.removeEventListener('addtrack', updateHandler);
-    });
   }
 
-  // Create a menu item for each text track
-  createItems(items=[]) {
+  /**
+   * Create a menu item for each text track
+   *
+   * @param {TextTrackMenuItem[]} [items=[]]
+   *        Existing array of items to use during creation
+   *
+   * @return {TextTrackMenuItem[]}
+   *         Array of menu items that were created
+   */
+  createItems(items = [], TrackMenuItem = TextTrackMenuItem) {
+
+    // Label is an overide for the [track] off label
+    // USed to localise captions/subtitles
+    let label;
+
+    if (this.label_) {
+      label = `${this.label_} off`;
+    }
     // Add an OFF menu item to turn all tracks off
-    items.push(new OffTextTrackMenuItem(this.player_, { 'kind': this.kind_ }));
+    items.push(new OffTextTrackMenuItem(this.player_, {
+      kinds: this.kinds_,
+      kind: this.kind_,
+      label
+    }));
 
-    let tracks = this.player_.textTracks();
+    this.hideThreshold_ += 1;
 
-    if (!tracks) {
-      return items;
+    const tracks = this.player_.textTracks();
+
+    if (!Array.isArray(this.kinds_)) {
+      this.kinds_ = [this.kind_];
     }
 
     for (let i = 0; i < tracks.length; i++) {
-      let track = tracks[i];
+      const track = tracks[i];
 
-      // only add tracks that are of the appropriate kind and have a label
-      if (track['kind'] === this.kind_) {
-        items.push(new TextTrackMenuItem(this.player_, {
+      // only add tracks that are of an appropriate kind and have a label
+      if (this.kinds_.indexOf(track.kind) > -1) {
+
+        const item = new TrackMenuItem(this.player_, {
+          track,
           // MenuItem is selectable
-          'selectable': true,
-          'track': track
-        }));
+          selectable: true
+        });
+
+        item.addClass(`vjs-${track.kind}-menu-item`);
+        items.push(item);
       }
     }
 
