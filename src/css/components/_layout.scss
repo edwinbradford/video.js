@@ -35,7 +35,8 @@
 
   &:-webkit-full-screen {
     width: 100% !important;
-    height: 100% !important;
+    //　Not required for Neue theme
+    //　height: 100% !important;
   }
 }
 
@@ -133,9 +134,12 @@ body.vjs-full-window {
 
 .video-js.vjs-fullscreen {
   width: 100% !important;
-  height: 100% !important;
+  // Removed for Neue theme
+  // height: 100% !important;
+
+  // Removed for Neue theme
   // Undo any aspect ratio padding for fluid layouts
-  padding-top: 0 !important;
+  // padding-top: 0 !important;
 }
 
 .video-js.vjs-fullscreen.vjs-user-inactive {
