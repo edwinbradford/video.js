@@ -196,6 +196,7 @@ class PlaybackRateMenuButton extends MenuButton {
    *
    * @listens Player#ratechange
    */
+  /*
     if (this.playbackRateSupported()) {
       this.labelEl_.innerHTML = this.player().playbackRate() + 'x';
     }

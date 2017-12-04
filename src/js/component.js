@@ -168,8 +168,9 @@ class Component {
 
   // Find parent element with designated class for Neue theme
   findAncestor(el, cls) {
-    while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
+    while ((el = el.parentElement) && !el.classList.contains(cls)) {
+      return el;
+    }
   }
 
   /**
