@@ -10,14 +10,17 @@
   background-color: $primary-background-color;
   @include display-flex(flex-start, flex-start);
   @extend %fill-parent;
-  @include linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));
+  // Not required for Neue theme
+  // @include linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));
 
+  /* Not required for Neue theme
   // This allows scrolling of content if need be.
   overflow: auto;
 
   // When combined with `overflow: auto;`, this fixes gaps left by
   // scrollbars in older IE versions.
   box-sizing: content-box;
+  */
 }
 
 // Reset box-sizing inside the modal dialog.
