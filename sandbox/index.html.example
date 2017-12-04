@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Videojs Neue Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Videojs Neue Example</title>
 
     <style>
       html {
@@ -11,6 +12,9 @@
         font-family: consolas;
         font-size: 10px;
         background-color:#e5e5e5;
+      }
+      body {
+        margin: 0;
       }
       video {
         margin: 0;
@@ -27,20 +31,23 @@
       }
     </style>
 
-    <!-- Add ES5 shim and sham for IE8 -->
-    <script src="../build/temp/ie8/videojs-ie8.js"></script>
-
-    <!-- Load the source files -->
+    <!-- Load the css files -->
     <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
-    <script src="../build/temp/video.js"></script>
+
+    <!-- Add ES5 shim and sham for IE8 -->
+    <script src="../dist/ie8/videojs-ie8.js"></script>
+
+    <!-- Load Javascript files -->
+    <script src="../dist/video.js"></script>
+    <script src="../node_modules/videojs-flash/dist/videojs-flash.js"></script>
 
     <!-- Set the location of the flash SWF -->
-    <script>videojs.options.flash.swf = '../build/temp/video-js.swf';</script>
+    <script>videojs.options.flash.swf = '../node_modules/videojs-flash/node_modules/videojs-swf/dist/video-js.swf';</script>
 
   </head>
   <body>
 
-    <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
+    <video id="videoJSElement" class="video-js vjs-fluid vjs-big-play-centered" poster="poster.jpg">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
@@ -59,10 +66,13 @@
         "html5": {
           nativeTextTracks: true // Set false to test descriptions
         },
+        // Fluid has a black border with mpeg-dash, use vjs-16-9 style instead
+        // "fluid": true,
         "controls": true,
         "preload": "auto",
         "autoplay": false,
         "controlBar": {
+          // this.createModal('foo');
           // muteToggle: false // example component toggle
         }
       },
@@ -70,6 +80,8 @@
         // Callback.
       });
      </script>
+
+     <!--<script>player.createModal('foo');</script>-->
 
   </body>
 </html>
