@@ -167,11 +167,11 @@ class Component {
   }
 
   // Find parent element with designated class for Neue theme
-  findAncestor (el, cls) {
+  findAncestor(el, cls) {
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el;
-  }  
-  
+  }
+
   /**
    * Deep merge of options objects with new options.
    * > Note: When both `obj` and `options` contain properties whose values are objects.

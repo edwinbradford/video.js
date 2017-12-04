@@ -45,7 +45,7 @@ class Menu extends Component {
    */
   addItem(component) {
     this.addChild(component);
-    component.on('click', Fn.bind(this, function(){
+    component.on('click', Fn.bind(this, function() {
       this.unlockShowing();
 
       // Neue theme click events

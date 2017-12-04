@@ -41,8 +41,8 @@ class LiveDisplay extends Component {
     });
 
     this.contentEl_ = Dom.createEl('div', {
-        className: 'vjs-live-display',
-        innerHTML: `<span class="vjs-control-text">${this.localize('Stream Type')}</span><span class="vjs-live-middot">&#9899</span>&nbsp;${this.localize('Live')}`
+      className: 'vjs-live-display',
+      innerHTML: `<span class="vjs-control-text">${this.localize('Stream Type')}</span><span class="vjs-live-middot">&#9899</span>&nbsp;${this.localize('Live')}`
     }, {
       'aria-live': 'off'
     });

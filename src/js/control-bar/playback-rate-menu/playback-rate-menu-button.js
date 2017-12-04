@@ -56,7 +56,6 @@ class PlaybackRateMenuButton extends MenuButton {
 
     return el;
   }
-   */
 
   dispose() {
     this.labelEl_ = null;
