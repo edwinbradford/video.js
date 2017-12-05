@@ -1,8 +1,10 @@
+.video-js .vjs-control-bar .vjs-mute-control {
+  // Overwrite control buttons right hand margin for volume slider
+  margin-right: 0;
+}
+
 .video-js .vjs-mute-control,
 .video-js .vjs-volume-menu-button {
-  position: absolute;
-  top: 0;
-  left: 0;
   overflow: inherit;
   cursor: pointer;
   background-size: contain;
@@ -52,22 +54,25 @@
 
 .video-js .vjs-volume-control {
   cursor: pointer;
-  margin-right: 1em;
+  // margin-right: 1em; // Redundant VideoJS style
   @include display-flex;
-}
-.video-js .vjs-volume-control.vjs-volume-horizontal {
-  width: 5em;
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control {
   visibility: visible;
   opacity: 0;
-  width: 1px;
-  height: 1px;
-  margin-left: -1px;
-
+  // We do not slide volume slider into view for VideJS Neue theme
+  // width: 1px;
+  // height: 1px;
+  // margin-left: -1px;
 }
+
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  width: $volume-menu-width;
+}
+
 .vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  height: $volume-menu-height;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   & .vjs-volume-bar,
   & .vjs-volume-level {
@@ -87,8 +92,9 @@
   & .vjs-mute-control:focus  ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
     &.vjs-volume-horizontal {
-      width: 5em;
-      height: 3em;
+      // We do not slide volume slider into view for VideJS Neue theme
+      // width: 5em;
+      // height: 3em;
     }
 
     visibility: visible;
@@ -112,7 +118,8 @@
     &:focus,
     &:active,
     &.vjs-slider-active {
-      width: 9em;
+      // We do not slide volume slider into view for VideJS Neue theme
+      // width: 9em;
 
       @include transition(width 0.1s);
     }
@@ -122,9 +129,10 @@
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  height: 8em;
-  width: 3em;
-  left: -3.5em;
+  // We do not slide volume slider into view for VideJS Neue theme
+  // height: 8em;
+  // width: 3em;
+  // left: -3.5em;
 
   $transition-property: visibility 1s, opacity 1s, height 1s 1s, width 1s 1s, left 1s 1s, top 1s 1s;
   @include transition($transition-property)
@@ -135,8 +143,9 @@
 }
 
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  width: 5em;
-  height: 3em;
+  // Not changed for VideJS Neue theme
+  // width: 5em;
+  // height: 3em;
 
   visibility: visible;
   opacity: 1;
@@ -147,16 +156,21 @@
 
 .video-js.vjs-no-flex .vjs-volume-control.vjs-volume-vertical,
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  position: absolute;
-  bottom: 3em;
-  left: 0.5em;
+  // Not changed for VideJS Neue theme
+  // position: absolute;
+  // bottom: 3em;
+  // left: 0.5em;
 }
 
 .video-js .vjs-volume-panel {
   @include display-flex;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .video-js .vjs-volume-bar {
+  // Not used for Neue theme
   // margin: 1.35rem 0.45rem;
 }
 
@@ -212,8 +226,16 @@
   }
 }
 
-.video-js .vjs-volume-panel.vjs-volume-panel-vertical {
-  width: 4em;
+.video-js .vjs-control-bar .vjs-volume-panel.vjs-volume-panel-horizontal {
+  flex-direction: row;
+  justify-content: center;
+  height: $control-button-height;
+}
+
+.video-js .vjs-control-bar .vjs-volume-panel.vjs-volume-panel-vertical {
+  flex-direction: column;
+  justify-content: center;
+  width: $control-button-width;
 }
 
 // Assumes volume starts at 1.0.

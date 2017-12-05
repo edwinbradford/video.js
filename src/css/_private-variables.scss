@@ -18,7 +18,7 @@ $secondary-background-transparency: 1 !default; // not used
 // Filters
 $filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.6));
 
-// Progress and volume sliders
+// Progress and sliders
 $slider-height: 0.2em; // Slider height
 $slider-height-increase: 1; // Hover height is this factor bigger than $slider-height
 $slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
@@ -35,9 +35,12 @@ $big-play-button--height: 6.4em !default;
 $controls-margin: 2.4em;
 $control-button-width: 2.4em;
 $control-button-height: 1.8em;
-
 $control-button-spacing: 2.4em;
-$volume-menu-width: 8em;
+
+// Volume
+$volume-menu-width: 16em;
+$volume-menu-height: 16em;
+
 
 $text-time-size: 1.4em;
 $text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
