@@ -1,10 +1,80 @@
-.video-js .vjs-play-control .vjs-icon-placeholder {
+.video-js .vjs-play-control {
   cursor: pointer;
-  // @extend .vjs-icon-play;
+  position: absolute; // Remove from flex model for positioning
+  left: 0;
+  bottom: $control-button-height + $control-button-spacing;
+  background-size: contain;
+  @extend .icon-chapters;
+  @include transition(opacity 0.5s);
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-chapters-highlight;
+    @include transition(opacity 0.5s);
+  }
+  &:hover {
+    @include transition(opacity 0.5s);
+    &:before {
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
 }
-.video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder {
-  // @extend .vjs-icon-pause;
+
+.video-js .vjs-play-control.vjs-playing {
+  position: relative; // Required for positioning of pseudo content
+  background-size: contain;
+  @extend .icon-chapters;
+  @include transition(opacity 0.5s);
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-chapters-highlight;
+    @include transition(opacity 0.5s);
+  }
+  &:hover {
+    @include transition(opacity 0.5s);
+    &:before {
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
 }
-.video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder {
-  // @extend .vjs-icon-replay;
+
+.video-js .vjs-play-control.vjs-ended {
+  position: relative; // Required for positioning of pseudo content
+  background-size: contain;
+  @extend .icon-chapters;
+  @include transition(opacity 0.5s);
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-chapters-highlight;
+    @include transition(opacity 0.5s);
+  }
+  &:hover {
+    @include transition(opacity 0.5s);
+    &:before {
+      opacity: 1;
+      @include transition(opacity 0.5s);
+    }
+  }
 }
