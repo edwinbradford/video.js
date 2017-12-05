@@ -1,4 +1,5 @@
-@import "utilities/linear-gradient";
+// Gradients are not used in VideoJS Neue theme
+// @import "utilities/linear-gradient";
 
 @mixin background-color-with-alpha($color, $alpha) {
   background-color: $color;

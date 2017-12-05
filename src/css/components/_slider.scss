@@ -5,7 +5,8 @@
   padding: 0;
   margin: 0 0.45em 0 0.45em;
 
-  @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
+  // Not used in VideoJS Neue theme
+  // @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
 }
 
 .video-js .vjs-slider:focus {
