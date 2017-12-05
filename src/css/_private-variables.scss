@@ -1,18 +1,51 @@
-// Text, icons, hover states
-$primary-foreground-color: #fff !default;
+// Global
+$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
+$text-em-size: 10px;
 
-// Control backgrounds (control bar, big play, menus)
-$primary-background-color: #2B333F !default;
-$primary-background-transparency: 0.7 !default;
+// Colors
+$accent-color: #e50000;
+$primary-foreground-color: #e6e6e6 !default;
+$primary-background-color: #1a1a1a !default;
+$menu-text-color: #999;
+$menu-text-color-highlight: #ccc;
+$menu-background-color-highlight: #666 !default;
+$menu-background-color: #333 !default; // menus
 
-// Hover states, slider backgrounds
-$secondary-background-color: lighten($primary-background-color, 33%) !default;
-$secondary-background-transparency: 0.5 !default;
+// Transparency
+$primary-background-transparency: 1 !default;
+$secondary-background-transparency: 1 !default; // not used
 
-// Avoiding helvetica: issue #376
-$text-font-family: Arial, Helvetica, sans-serif !default;
+// Filters
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.6));
 
+// Progress and volume sliders
+$slider-height: 0.2em; // Slider height
+$slider-height-increase: 1; // Hover height is this factor bigger than $slider-height
+$slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
+$slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
+$slider-hover-height: 8; // Height of progress bar hover area
+$progress-bar-margin: 5.4em; // Side margins for progress bar
+
+// Big play button
 // Using the '--' naming for component-specific styles
-$big-play-button--width: 3em !default;
-$big-play-button--height: 1.5em !default;
-$big-play-button--transparency: 0.8 !default;
+$big-play-button--width: 6.4em !default;
+$big-play-button--height: 6.4em !default;
+
+// Controls
+$controls-margin: 2.4em;
+$control-button-width: 2.4em;
+$control-button-height: 1.8em;
+
+$control-button-spacing: 2.4em;
+$volume-menu-width: 8em;
+
+$text-time-size: 1.4em;
+$text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
+$text-time-width: 5em;
+
+// Modal and error
+$text-modal-size: 1.2em;
+$text-modal-line-height: 1.8;
+
+// Menus
+$menu-popup-width: 16em;

@@ -158,19 +158,17 @@ Deprecated in Video JS Merge 2017.12.03
 .vjs-track-settings-controls button:active {
   outline-style: solid;
   outline-width: medium;
-  background-image: linear-gradient(0deg, $primary-foreground-color 88%, $secondary-background-color 100%);
+  background-color: $menu-background-color-highlight;
 }
 
 .vjs-track-settings-controls button:hover {
-  color: rgba(#2B333F, 0.75);
+  color: $menu-text-color-highlight;
 }
 
 .vjs-track-settings-controls button {
-  background-color: $primary-foreground-color;
-  background-image: linear-gradient(-180deg, $primary-foreground-color 88%, $secondary-background-color 100%);
-  color: #2B333F;
+  background-color: $menu-background-color;
+  color: $menu-text-color;
   cursor: pointer;
-  border-radius: 2px;
 }
 
 .vjs-track-settings-controls .vjs-default-button {
