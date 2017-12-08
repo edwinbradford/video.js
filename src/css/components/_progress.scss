@@ -16,7 +16,8 @@
   pointer-events: all; // Make buttons clickable
   opacity: 0;
   background-color: transparent;
-  @include transition(all 0.5s);
+  $transition-property: opacity $icon-highlight-time;
+  @include transition($transition-property);
 }
 
 .vjs-live .vjs-progress-control {
@@ -33,8 +34,7 @@
   padding: 0;
   cursor: pointer;
   outline: 0;
-  @include background-color-with-alpha($primary-background-color, 0.4);
-  @include transition(all 0.5s);
+  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
 }
 
 // Height and position of drag handle
@@ -51,7 +51,8 @@
     background-color: inherit;
     @include border-radius(50%);
     @include box-shadow(0 0 0.4em rgba(0,0,0,0.4));
-    @include transition(all 0.5s);
+    $transition-property: height $slider-handle-resize-time, width $slider-handle-resize-time, right $slider-handle-resize-time, top $slider-handle-resize-time;
+    @include transition($transition-property);
   }
 }
 
@@ -67,12 +68,10 @@
 .vjs-has-started .vjs-progress-control {
   visibility: visible;
   opacity: 1;
-  @include transition(all 2s);
   &:hover {
     // Progress bars hover
     .vjs-progress-holder {
       height: $slider-height * $slider-height-increase;
-      @include transition(all 0.5s);
     }
     // Handle hover
     .vjs-play-progress:before {
@@ -80,7 +79,6 @@
       right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
       width: $slider-height * $slider-handle-height-increase;
       height: $slider-height * $slider-handle-height-increase;
-      @include transition(all 0.5s);
     }
   }
 }
@@ -88,7 +86,7 @@
 // Buffer
 .video-js .vjs-load-progress {
   height: 100%;
-  @include background-color-with-alpha($accent-color, 0.4);
+  @include background-color-with-alpha($accent-color, $primary-background-transparency);
 }
 
 // Current time tooltip
@@ -160,13 +158,17 @@
   display: none;
 }
 
+// These child elements of the load progress bar are not used for VideoJS Neue theme
+
 // there are child elements of the load progress bar that represent the
 // specific time ranges that have been buffered
 .video-js .vjs-load-progress div {
+  /*
   // For IE8 we'll lighten the color
   background: lighten($menu-background-color, 50%);
   // Otherwise we'll rely on stacked opacities
   background: rgba($menu-background-color, 0.75);
+  */
 }
 
 .video-js.vjs-no-flex .vjs-progress-control {
@@ -174,7 +176,8 @@
 }
 
 // Graphic under mouse when over progress bar
-// Not used for Neue theme
+// .vjs-time-tooltip is not used for VideoJS Neue theme
+
 .video-js .vjs-time-tooltip {
   display: none;
   /*
@@ -183,7 +186,6 @@
   right: -1.9em;
   float: right;
   height: 2.4em;
-  */
 
   // The font-size should translate to a consistent 10px for time tooltips in
   // all states. This is tricky because the .vjs-progress-holder element
@@ -195,6 +197,7 @@
   top: -3.4em;
   visibility: hidden;
   z-index: 1;
+  */
 }
 
 .video-js .vjs-progress-holder:focus .vjs-time-tooltip {
@@ -203,43 +206,49 @@
 
 .video-js .vjs-progress-control:hover .vjs-time-tooltip,
 .video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
-  display: block;
+  display: none;
 
   // Ensure that we maintain a font-size of ~10px.
-  font-size: 0.6em;
-  visibility: visible;
+  // font-size: 0.6em;
+  // visibility: visible;
 }
 
 .video-js .vjs-progress-control.disabled:hover .vjs-time-tooltip {
-  font-size: 1em;
+  // font-size: 1em;
 }
 
-// .vjs-mouse-display / MouseTimeDisplay
+// .vjs-mouse-display / MouseTimeDisplay are not used for VideoJS Neue theme
 //
 // This element tracks the mouse position along the progress control and
 // includes a tooltip, which displays the time at that point in the media.
+
 .video-js .vjs-progress-control .vjs-mouse-display {
   display: none;
+  /*
   position: absolute;
   z-index: 1;
   width: 1px;
   height: 100%;
   background-color: #000;
+  */
 }
 
 .vjs-no-flex .vjs-progress-control .vjs-mouse-display {
-  z-index: 0;
+  // z-index: 0;
 }
 
 .video-js .vjs-progress-control:hover .vjs-mouse-display {
-  display: block;
+  display: none;
 }
 
 .video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display {
+  display: none;
+  /*
   visibility: hidden;
   opacity: 0;
   $trans: visibility 1.0s, opacity 1.0s;
   @include transition($trans);
+  */
 }
 
 .video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display {
@@ -247,6 +256,8 @@
 }
 
 .vjs-mouse-display .vjs-time-tooltip {
+  /*
   color: #fff;
   @include background-color-with-alpha(#000, 0.8);
+  */
 }

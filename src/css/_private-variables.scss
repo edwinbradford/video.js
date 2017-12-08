@@ -12,8 +12,8 @@ $menu-background-color-highlight: #666 !default;
 $menu-background-color: #333 !default; // menus
 
 // Transparency
-$primary-background-transparency: 1 !default;
-$secondary-background-transparency: 1 !default; // not used
+$primary-background-transparency: 0.4 !default; // Used for progress holder
+$secondary-background-transparency: 0.4 !default; // Not used for VideoJS Neue theme
 
 // Filters
 $filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.6));
@@ -41,7 +41,6 @@ $control-button-spacing: 2.4em;
 $volume-menu-width: 16em;
 $volume-menu-height: 16em;
 
-
 $text-time-size: 1.4em;
 $text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
 $text-time-width: 5em;
@@ -52,3 +51,7 @@ $text-modal-line-height: 1.8;
 
 // Menus
 $menu-popup-width: 16em;
+
+// Animations
+$icon-highlight-time: 0.5s;
+$slider-handle-resize-time: 0.5s;
