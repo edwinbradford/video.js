@@ -14,7 +14,8 @@
   opacity: 1;
   background-size: contain;
   @extend .icon-big-play;
-  @include transition(opacity 0.5s);
+  $transition-property: opacity $icon-highlight-time;
+  @include transition($transition-property);
   &:before {
     display: block;
     position: absolute;
@@ -25,7 +26,8 @@
     content: "";
     opacity: 0;
     @extend .icon-big-play-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
 }
 
@@ -41,10 +43,8 @@
 .video-js .vjs-big-play-button:hover,
 .video-js .vjs-big-play-button:focus {
   outline: 0;
-  @include transition(opacity 0.5s);
   &:before {
     opacity: 1;
-    @include transition(opacity 0.5s);
   }
 }
 
@@ -59,14 +59,12 @@
 .vjs-has-started .vjs-big-play-button {
   pointer-events: none;
   opacity: 0;
-  @include transition(opacity 0.5s);
 }
 
 // Show if the video is paused
 .vjs-paused .vjs-big-play-button {
   pointer-events: all;
   opacity: 1;
-  @include transition(opacity 0.5s);
 }
 
 // Show big play button if video is paused and .vjs-show-big-play-button-on-pause is set on video element
