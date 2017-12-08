@@ -10,7 +10,6 @@
   background-size: contain;
   @include flex(none);
   @extend .icon-volume;
-  @include transition(all 0.5s);
   &:before {
     display: block;
     position: absolute;
@@ -21,13 +20,12 @@
     content: "";
     opacity: 0;
     @extend .icon-volume-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
   &:hover {
-    @include transition(all 0.5s);
     &:before {
       opacity: 1;
-      @include transition(opacity 0.5s);
     }
   }
 }
@@ -60,7 +58,9 @@
 
 .video-js .vjs-volume-panel .vjs-volume-control {
   visibility: visible;
-  opacity: 0;
+  opacity: 1; // Temporary debug value should be zero
+  $transition-property: visibility $icon-fade-time, opacity $icon-fade-time;
+  @include transition($transition-property);
   // We do not slide volume slider into view for VideJS Neue theme
   // width: 1px;
   // height: 1px;
@@ -91,16 +91,20 @@
   & .vjs-mute-control:active ~ .vjs-volume-control,
   & .vjs-mute-control:focus  ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
+
+    // Display VideoJS Neue Volume Slider
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+
+    // Horizontal attributes
     &.vjs-volume-horizontal {
       // We do not slide volume slider into view for VideJS Neue theme
       // width: 5em;
       // height: 3em;
     }
 
-    visibility: visible;
-    opacity: 1;
-    position: relative;
-
+    // Vertical attributes
     &.vjs-volume-vertical {
       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
       & .vjs-volume-bar,
@@ -108,11 +112,9 @@
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
       }
     }
-
-    $transition-property: visibility 0.1s, opacity 0.1s, height 0.1s, width 0.1s, left 0s, top 0s;
-    @include transition($transition-property);
   }
-
+  /*
+   * Not required for VideoJS Neue theme
   &.vjs-volume-panel-horizontal {
     &:hover,
     &:focus,
@@ -120,26 +122,58 @@
     &.vjs-slider-active {
       // We do not slide volume slider into view for VideJS Neue theme
       // width: 9em;
-
+      background-color: #ffff66;
       @include transition(width 0.1s);
     }
   }
-
-  @include transition(width 1s);
+  */
 }
 
+// Increase Volume Slider Handle size on hover
+.video-js .vjs-volume-panel .vjs-volume-control {
+  &:hover,
+  &:focus,
+  &:active {
+    .vjs-volume-bar .vjs-volume-level:before  {
+      // We do not slide volume slider into view for VideJS Neue theme
+      width: $slider-height * $slider-handle-height-increase;
+      height: $slider-height * $slider-handle-height-increase;
+    }
+  }
+}
+
+// Position Volume Slider Handle for horizontal menus
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  &:hover,
+  &:focus,
+  &:active {
+    .vjs-volume-bar .vjs-volume-level:before  {
+      top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
+      right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+    }
+  }
+}
+
+// Position Volume Slider Handle for vertical menus
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  &:hover,
+  &:focus,
+  &:active {
+    .vjs-volume-bar .vjs-volume-level:before  {
+      left: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar horizontal center - handle radius
+      top: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+    }
+  }
+}
+
+// Position Volume Slider Handle for vertical menus
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
   // We do not slide volume slider into view for VideJS Neue theme
-  // height: 8em;
-  // width: 3em;
-  // left: -3.5em;
-
-  $transition-property: visibility 1s, opacity 1s, height 1s 1s, width 1s 1s, left 1s 1s, top 1s 1s;
-  @include transition($transition-property)
 }
+
+// Position Volume Slider Handle for horizontal menus
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  $transition-property: visibility 1s, opacity 1s, height 1s 1s, width 1s, left 1s 1s, top 1s 1s;
-  @include transition($transition-property)
+  // We do not slide volume slider into view for VideJS Neue theme
 }
 
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
@@ -156,10 +190,7 @@
 
 .video-js.vjs-no-flex .vjs-volume-control.vjs-volume-vertical,
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  // Not changed for VideJS Neue theme
-  // position: absolute;
-  // bottom: 3em;
-  // left: 0.5em;
+  // Not used for VideJS Neue theme
 }
 
 .video-js .vjs-volume-panel {
@@ -170,8 +201,7 @@
 }
 
 .video-js .vjs-volume-bar {
-  // Not used for Neue theme
-  // margin: 1.35rem 0.45rem;
+  // Not used for VideoJS Neue theme
 }
 
 .vjs-volume-bar.vjs-slider-horizontal {
@@ -194,7 +224,7 @@
   position: relative;
   background-color: $accent-color;
 
-  // Volume handle
+  // VideoJS Neue Volume handle
   &:before {
     position: absolute;
     width: $slider-height * $slider-handle-height;
@@ -202,26 +232,27 @@
     content: "";
     background-color: inherit;
     @include border-radius(50%);
+    // Transition handle size in and out
+    $transition-property: height $slider-handle-resize-time, width $slider-handle-resize-time, left $slider-handle-resize-time, right $slider-handle-resize-time, top $slider-handle-resize-time;
+    @include transition($transition-property);
   }
 }
 
 .vjs-slider-vertical .vjs-volume-level {
-  width: 0.2em;
-
+  width: $slider-height;
   // Volume handle
   &:before {
-    top: -0.5rem;
-    left: -0.3rem;
+    left: ($slider-height * -2) + ($slider-height / 2);
+    top: ($slider-height * $slider-handle-height) / -2;
     @include box-shadow(0 0 4px rgba(0,0,0,0.4));
   }
 }
 .vjs-slider-horizontal .vjs-volume-level {
-  height: 0.2em;
-
+  height: $slider-height;
   // Volume handle
   &:before {
-    top: -0.3em;
-    right: -0.5em;
+    top: ($slider-height * -2) + ($slider-height / 2);
+    right: ($slider-height * $slider-handle-height) / -2;
     @include box-shadow(0 0 4px rgba(0,0,0,0.4));
   }
 }
