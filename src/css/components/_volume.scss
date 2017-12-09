@@ -58,7 +58,7 @@
 
 .video-js .vjs-volume-panel .vjs-volume-control {
   visibility: visible;
-  opacity: 1; // Temporary debug value should be zero
+  opacity: 0;
   $transition-property: visibility $icon-fade-time, opacity $icon-fade-time;
   @include transition($transition-property);
   // We do not slide volume slider into view for VideJS Neue theme
