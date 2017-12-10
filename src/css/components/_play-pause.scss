@@ -4,7 +4,7 @@
   left: 0;
   bottom: $control-button-height + $control-button-spacing;
   background-size: contain;
-  @extend .icon-chapters;
+  @extend .icon-pause-play;
   $transition-property: opacity $icon-highlight-time;
   @include transition($transition-property);
   &:before {
@@ -16,7 +16,7 @@
     height: inherit;
     content: "";
     opacity: 0;
-    @extend .icon-chapters-highlight;
+    @extend .icon-pause-play;
     $transition-property: opacity $icon-highlight-time;
     @include transition($transition-property);
   }
@@ -28,23 +28,10 @@
 }
 
 .video-js .vjs-play-control.vjs-playing {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-chapters;
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
+  @extend .icon-pause;
   &:before {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
     opacity: 0;
-    @extend .icon-chapters-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
+    @extend .icon-pause;
   }
   &:hover {
     &:before {
@@ -54,23 +41,10 @@
 }
 
 .video-js .vjs-play-control.vjs-ended {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-chapters;
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
+  @extend .icon-pause-play;
   &:before {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
     opacity: 0;
-    @extend .icon-chapters-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
+    @extend .icon-pause-play;
   }
   &:hover {
     &:before {
