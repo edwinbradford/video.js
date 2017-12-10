@@ -2,7 +2,8 @@
   position: relative; // Required for positioning of pseudo content
   background-size: contain;
   @extend .icon-chapters;
-  @include transition(opacity 0.5s);
+  $transition-property: opacity $icon-highlight-time;
+  @include transition($transition-property);
   &:before {
     display: block;
     position: absolute;
@@ -13,13 +14,12 @@
     content: "";
     opacity: 0;
     @extend .icon-chapters-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
   &:hover {
-    @include transition(opacity 0.5s);
     &:before {
       opacity: 1;
-      @include transition(opacity 0.5s);
     }
   }
 }

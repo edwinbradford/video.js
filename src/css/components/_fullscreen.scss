@@ -4,7 +4,8 @@
   opacity: 1;
   background-size: contain;
   @extend .icon-fullscreen-enter;
-  @include transition(opacity 0.5s);
+  $transition-property: opacity $icon-highlight-time;
+  @include transition($transition-property);
   &:before {
     display: block;
     position: absolute;
@@ -15,13 +16,12 @@
     content: "";
     opacity: 0;
     @extend .icon-fullscreen-enter-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
   &:hover {
-    @include transition(opacity 0.5s);
     &:before {
       opacity: 1;
-      @include transition(opacity 0.5s);
     }
   }
 }

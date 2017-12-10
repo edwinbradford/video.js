@@ -1,7 +1,27 @@
 // North America uses 'CC' icon
 .video-js:lang(en) .vjs-subs-caps-button,
 .video-js:lang(fr-CA) .vjs-subs-caps-button {
-  // @extend .vjs-icon-captions;
+  position: relative; // Required for positioning of pseudo content
+  background-size: contain;
+  @extend .icon-closed-captions;
+  @include transition(opacity $icon-highlight-time);
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-closed-captions-highlight;
+    @include transition(opacity $icon-highlight-time);
+  }
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
 }
 
 // ROW uses 'subtitles'
@@ -11,7 +31,27 @@
 .video-js.video-js:lang(en-IE) .vjs-subs-caps-button,
 .video-js.video-js:lang(en-AU) .vjs-subs-caps-button,
 .video-js.video-js:lang(en-NZ) .vjs-subs-caps-button {
-  // @extend .vjs-icon-subtitles;
+  position: relative; // Required for positioning of pseudo content
+  background-size: contain;
+  @extend .icon-closed-captions;
+  @include transition(opacity $icon-highlight-time);
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-closed-captions-highlight;
+    @include transition(opacity $icon-highlight-time);
+  }
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
 }
 
 .video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text {

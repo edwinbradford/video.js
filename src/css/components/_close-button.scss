@@ -9,7 +9,8 @@
   opacity: 1;
   background-size: contain;
   @extend .icon-close;
-  @include transition(opacity 0.5s);
+  $transition-property: opacity $icon-highlight-time;
+  @include transition($transition-property);
   &:before {
     display: block;
     position: absolute;
@@ -20,13 +21,12 @@
     content: "";
     opacity: 0;
     @extend .icon-close-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
   &:hover {
-    @include transition(opacity 0.5s);
     &:before {
       opacity: 1;
-      @include transition(opacity 0.5s);
     }
   }
 }

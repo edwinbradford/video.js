@@ -1,3 +1,25 @@
 .video-js .vjs-audio-button {
-  // @extend .vjs-icon-audio;
+  overflow: inherit;
+  cursor: pointer;
+  background-size: contain;
+  @include flex(none);
+  @extend .icon-volume;
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    content: "";
+    opacity: 0;
+    @extend .icon-volume-highlight;
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
+  }
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
 }

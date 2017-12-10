@@ -15,13 +15,12 @@
     content: "";
     opacity: 0;
     @extend .icon-closed-captions-highlight;
-    @include transition(opacity 0.5s);
+    $transition-property: opacity $icon-highlight-time;
+    @include transition($transition-property);
   }
   &:hover {
-    @include transition(opacity 0.5s);
     &:before {
       opacity: 1;
-      @include transition(opacity 0.5s);
     }
   }
 }
