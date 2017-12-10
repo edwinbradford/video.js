@@ -24,15 +24,11 @@
     <!-- Load the css files -->
     <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Add ES5 shim and sham for IE8 -->
-    <script src="../dist/ie8/videojs-ie8.js"></script>
+    <!-- Prevent VideoJS from injecting Header styles -->
+    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Javascript files -->
+    <!-- Load VideoJS Javascript files -->
     <script src="../dist/video.js"></script>
-    <script src="../node_modules/videojs-flash/dist/videojs-flash.js"></script>
-
-    <!-- Set the location of the flash SWF -->
-    <script>videojs.options.flash.swf = '../node_modules/videojs-flash/node_modules/videojs-swf/dist/video-js.swf';</script>
 
   </head>
   <body>
@@ -40,32 +36,53 @@
     <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
-      <!-- Tracks need an ending tag thanks to IE9 -->
-      <track kind="captions" src="../docs/examples/elephantsdream/captions.en.vtt" srclang="en" label="English" default></track>
-      <track kind="captions" src="../docs/examples/elephantsdream/captions.sv.vtt" srclang="sv" label="Swedish"></track>
-      <track kind="captions" src="../docs/examples/elephantsdream/captions.ru.vtt" srclang="ru" label="Russian"></track>
-      <track kind="captions" src="../docs/examples/elephantsdream/captions.ja.vtt" srclang="ja" label="Japanese"></track>
-      <track kind="captions" src="../docs/examples/elephantsdream/captions.ar.vtt" srclang="ar" label="Arabic"></track>
-      <track kind="descriptions" src="../docs/examples/elephantsdream/descriptions.en.vtt" srclang="en" label="English"></track>
-      <track kind="chapters" src="../docs/examples/elephantsdream/chapters.en.vtt" srclang="en" label="English"></track>
-      <track kind="subtitles" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English"></track>
+      <track kind="captions" src="../docs/examples/elephantsdream/captions.en.vtt" srclang="en" label="English" default>
+      <track kind="captions" src="../docs/examples/elephantsdream/captions.sv.vtt" srclang="sv" label="Swedish">
+      <track kind="captions" src="../docs/examples/elephantsdream/captions.ru.vtt" srclang="ru" label="Russian">
+      <track kind="captions" src="../docs/examples/elephantsdream/captions.ja.vtt" srclang="ja" label="Japanese">
+      <track kind="captions" src="../docs/examples/elephantsdream/captions.ar.vtt" srclang="ar" label="Arabic">
+      <track kind="descriptions" src="../docs/examples/elephantsdream/descriptions.en.vtt" srclang="en" label="English" default>
+      <track kind="chapters" src="../docs/examples/elephantsdream/chapters.en.vtt" srclang="en" label="English" default>
+      <track kind="subtitles" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English" default>
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
     <script>
-      var player = videojs(document.getElementById('videoJSElement'), {
-        "html5": {
-          nativeTextTracks: true, // Set false to test descriptions
+      var player = videojs('videoJSElement', {
+
+        // Native HTML5 options
+        'autoplay': false,
+        'controls': true,
+        'loop': false,
+        'muted': false,
+        'preload': 'auto',
+
+        // Non-native HTML5 options
+        'controlBar': {
+          'audioTrackButton': true,
+          'chaptersButton': true, // Visibility is dependent on nativeTextTracks value
+          'currentTimeDisplay': true,
+          'customControlSpacer': true,
+          'descriptionsButton': true, // Visibility is dependent on nativeTextTracks value
+          'durationDisplay': true,
+          'liveDisplay': true,
+          'muteToggle': false,
+          'playbackRateMenuButton': true,
+          'playToggle': true,
+          'progressControl': true,
+          'remainingTimeDisplay': true,
+          'subsCapsButton': true, // Visibility is dependent on nativeTextTracks value
+          'timeDivider': true,
+          'volumePanel': true,
         },
-        // Fluid has a black border with mpeg-dash, use vjs-16-9 style instead
-        // "fluid": true,
-        "controls": true,
-        "preload": "auto",
-        "autoplay": false,
-        "controlBar": {
-          // "muteToggle": false
+        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
+        'html5': {
+          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
+          nativeControlsForTouch: false, // Enables OS controls on touch devices
+          nativeAudioTracks: true,
+          nativeVideoTracks: true,
         },
-        "playbackRates": [0.5, 1, 1.5, 2]
+        'playbackRates': [0.5, 1, 1.5, 2],
       },
       function() {
         // this.createModal('foo');
