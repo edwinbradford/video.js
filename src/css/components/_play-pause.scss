@@ -1,10 +1,19 @@
+.video-js .vjs-control-bar .vjs-play-control {
+  width: $big-play-button--width;
+  height: $big-play-button--height;
+}
+
 .video-js .vjs-play-control {
   cursor: pointer;
   position: absolute; // Remove from flex model for positioning
-  left: 0;
-  bottom: $control-button-height + $control-button-spacing;
+  // left: 0; // If placed bottom left
+  // bottom: $control-button-height + $control-button-spacing; // If placed bottom left
+  left: 50%;
+  top: 50%;
+  margin-left: $big-play-button--width * -1/2;
+  margin-top: $big-play-button--height * -1/2;
   background-size: contain;
-  @extend .icon-pause-play;
+  // @extend .icon-pause-play; // We don't want a second play button for videoJS Neue
   $transition-property: opacity $icon-highlight-time;
   @include transition($transition-property);
   &:before {
@@ -15,14 +24,13 @@
     width: inherit;
     height: inherit;
     content: "";
-    opacity: 0;
-    @extend .icon-pause-play;
+    // @extend .icon-pause-play-highlight // We don't want the second play button highlight for videoJS Neue
     $transition-property: opacity $icon-highlight-time;
     @include transition($transition-property);
   }
   &:hover {
     &:before {
-      opacity: 1;
+      // opacity: 1; // No highlight for VideoJS Neue
     }
   }
 }
@@ -30,25 +38,25 @@
 .video-js .vjs-play-control.vjs-playing {
   @extend .icon-pause;
   &:before {
-    opacity: 0;
-    @extend .icon-pause;
+    // opacity: 0; // Highlight doesn't work well for VideoJS Neue theme
+    // @extend .icon-pause-highlight; // Highlight doesn't work well for VideoJS Neue theme
   }
   &:hover {
     &:before {
-      opacity: 1;
+      // opacity: 1; // Highlight doesn't work well for VideoJS Neue theme
     }
   }
 }
 
 .video-js .vjs-play-control.vjs-ended {
-  @extend .icon-pause-play;
+  // @extend .icon-pause-play;
   &:before {
-    opacity: 0;
-    @extend .icon-pause-play;
+    // opacity: 0;
+    // @extend .icon-pause-play-highlight;
   }
   &:hover {
     &:before {
-      opacity: 1;
+      // opacity: 1; // No highlight for VideJS Neue theme
     }
   }
 }
