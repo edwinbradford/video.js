@@ -3,16 +3,15 @@
   position: absolute;
   top: $control-button-height + 0.8em;
   right: 0;
-  width: $menu-popup-width;
-  height: 2.4em; // For debug visibility only
-  margin-bottom: 0;
+  white-space: nowrap;
+  // width: $menu-popup-width;
   border-top-color: rgba($primary-background-color, 1); // Same as ul background
 }
 
 // Button Pop-up Menu
 .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-  position: absolute;
-  width: 100%;
+  // position: absolute;
+  // width: 100%;
   @include background-color-with-alpha($primary-background-color, 1);
 }
 

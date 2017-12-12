@@ -55,11 +55,8 @@
 }
 
 .video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text {
-  position: absolute;
+  // Not used for VideoJS Neue
 }
 .video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text:before {
-  font-family: VideoJS;
-  content: "\f10d";
-  font-size: 1.5em;
-  line-height: inherit;
+  // Not used for VideoJS Neue
 }
