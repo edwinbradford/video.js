@@ -1,105 +1,3 @@
-
-/*
-Deprecated in Video JS Merge 2017.12.03
-
-.vjs-caption-settings {
-  position: relative;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  padding-top: 1.2rem;
-  overflow: auto;
-  font-size: 1.2em;
-  color: $menu-text-color;
-  background-color: $primary-background-color;
-}
-
-.vjs-caption-settings .vjs-tracksettings-colors,
-.vjs-caption-settings .vjs-tracksettings-font {
-  // float: left;
-}
-
-.vjs-caption-settings .vjs-tracksettings-font {
-  //
-}
-
-.vjs-caption-settings .vjs-tracksettings-controls {
-  padding: 2.4em;
-}
-
-.vjs-caption-settings .vjs-tracksetting {
-  overflow: auto;
-  min-height: 4em;
-  padding: 2.4em;
-  padding-top: 1.2em;
-  padding-bottom: 0;
-}
-
-.vjs-caption-settings .vjs-font-percent,
-.vjs-caption-settings .vjs-edge-style {
-  display: block;
-}
-
-.vjs-caption-settings .vjs-tracksetting label {
-  display: block;
-  margin-bottom: 1.2em;
-}
-
-.vjs-caption-settings .vjs-tracksetting span {
-  display: inline;
-}
-
-.vjs-caption-settings .vjs-tracksetting > div {
-  min-height: 2em;
-  margin-bottom: 0.5em;
-}
-
-.vjs-caption-settings .vjs-tracksetting > div:last-child {
-  min-height: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.vjs-caption-settings label > input {
-  margin-right: 1em;
-}
-
-.vjs-caption-settings input[type="button"] {
-  width: 4em;
-  height: 4em;
-}
-
-.vjs-caption-settings select {
-  display: block;
-  width: 20em;
-  margin-bottom: 1.2em;
-  font-family: inherit;
-  font-size: inherit;
-  color: $menu-text-color;
-  border: 0 none transparent;
-  background-color: $menu-background-color;
-}
-
-.vjs-caption-settings .vjs-default-button,
-.vjs-caption-settings .vjs-done-button {
-  margin-right: 0.4em;
-  padding: 0.6em;
-  outline: 0;
-  background-color: $menu-background-color;
-  @include transition(background-color 0.5s, color 0.5s);
-  &:hover {
-    color: $menu-text-color-highlight;
-    background-color: $menu-background-color-highlight;
-    @include transition(background-color 0.5s, color 0.5s);
-  }
-  &:active {
-    color: $menu-text-color-highlight;
-    background-color: $menu-background-color-highlight;
-  }
-
-*/
-// VideoJS merge 2017.12.03
-
 .vjs-modal-dialog.vjs-text-track-settings {
   background-color: $primary-background-color;
   background-color: rgba($primary-background-color, 0.75);
@@ -121,22 +19,23 @@ Deprecated in Video JS Merge 2017.12.03
 }
 
 .vjs-text-track-settings .vjs-track-settings-controls {
-  margin-top: 2em;
+  margin-top: 3.2em;
 }
 
 // Form elements
 .vjs-text-track-settings fieldset {
   margin: 0;
   // margin-bottom: 1.6em;
+  margin-top: 1.6em;
   padding: 0;
   border: none;
   select {
     margin-right: 0.8em;
-    margin-bottom: 0.8em;
+    // margin-bottom: 0.8em;
   }
   span {
+    margin-top: 0.8em;
     display: inline-block;
-    margin-bottom: 1.6em;
   }
 }
 
@@ -159,10 +58,6 @@ Deprecated in Video JS Merge 2017.12.03
   overflow: hidden;
 }
 
-.vjs-track-settings-controls button:focus,
-.vjs-track-settings-controls button:active {
-}
-
 .vjs-track-settings-controls button {
   padding: 0.6em 1.2em;
   background-color: $menu-background-color;
@@ -179,5 +74,5 @@ Deprecated in Video JS Merge 2017.12.03
 }
 
 .vjs-track-settings-controls .vjs-default-button {
-  margin-right: 0.8em;
+  margin-right: 1.2em;
 }
