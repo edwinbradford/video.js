@@ -104,35 +104,40 @@ Deprecated in Video JS Merge 2017.12.03
   background-color: $primary-background-color;
   background-color: rgba($primary-background-color, 0.75);
   color: $primary-foreground-color;
-  height: 70%;
+  // height: 70%;
 }
 
 // Layout divs
 .vjs-text-track-settings .vjs-modal-dialog-content {
-  display: table;
+  // Disabled. Layout is vertical for VideoJS Neue theme
+  // display: table;
 }
 
 .vjs-text-track-settings .vjs-track-settings-colors,
 .vjs-text-track-settings .vjs-track-settings-font,
 .vjs-text-track-settings .vjs-track-settings-controls {
-  display: table-cell;
+  // Disabled. Layout is vertical for VideoJS Neue theme
+  // display: table-cell;
 }
 
 .vjs-text-track-settings .vjs-track-settings-controls {
-  text-align: right;
-  vertical-align: bottom;
+  margin-top: 2em;
 }
 
 // Form elements
 .vjs-text-track-settings fieldset {
-  margin: 5px;
-  padding: 3px;
+  margin: 0;
+  // margin-bottom: 1.6em;
+  padding: 0;
   border: none;
-}
-
-.vjs-text-track-settings fieldset span {
-  display: inline-block;
-  margin-left: 5px;
+  select {
+    margin-right: 0.8em;
+    margin-bottom: 0.8em;
+  }
+  span {
+    display: inline-block;
+    margin-bottom: 1.6em;
+  }
 }
 
 .vjs-text-track-settings legend {
@@ -156,21 +161,23 @@ Deprecated in Video JS Merge 2017.12.03
 
 .vjs-track-settings-controls button:focus,
 .vjs-track-settings-controls button:active {
-  outline-style: solid;
-  outline-width: medium;
-  background-color: $menu-background-color-highlight;
-}
-
-.vjs-track-settings-controls button:hover {
-  color: $menu-text-color-highlight;
 }
 
 .vjs-track-settings-controls button {
+  padding: 0.6em 1.2em;
   background-color: $menu-background-color;
   color: $menu-text-color;
   cursor: pointer;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $menu-text-color-highlight;
+    background-color: $menu-background-color-highlight;
+    outline-style: none;
+    outline-width: 0;
+  }
 }
 
 .vjs-track-settings-controls .vjs-default-button {
-  margin-right: 1em;
+  margin-right: 0.8em;
 }

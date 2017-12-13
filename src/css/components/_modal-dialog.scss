@@ -1,31 +1,29 @@
 .vjs-modal-dialog-content {
   z-index: 1;
-  font-size: $text-modal-size; // 12px
-  line-height: $text-modal-line-height; // 18px
+  font-size: $text-modal-size;
+  line-height: $text-modal-line-height;
 }
 
 .video-js .vjs-modal-dialog {
-  padding: 4.8em;
-  padding-right: 5.6em;
+  padding: $controls-margin;
+  // padding-right: 5.6em;
   background-color: $primary-background-color;
+  overflow: auto;
   @include display-flex(flex-start, flex-start);
   @extend %fill-parent;
   // Not required for Neue theme
   // @include linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));
 
-  /* Not required for Neue theme
-  // This allows scrolling of content if need be.
-  overflow: auto;
 
   // When combined with `overflow: auto;`, this fixes gaps left by
   // scrollbars in older IE versions.
-  box-sizing: content-box;
-  */
+  // box-sizing: content-box;
 }
 
-// Reset box-sizing inside the modal dialog.
+// Reset box-sizing inside the modal dialog
+// But we don't use the IE fix above for VideoJS Neue
 .video-js .vjs-modal-dialog > * {
-  box-sizing: border-box;
+  // box-sizing: border-box;
 }
 
 .vjs-modal-dialog .vjs-modal-dialog-content {
