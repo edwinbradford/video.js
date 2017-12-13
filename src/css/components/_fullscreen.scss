@@ -1,8 +1,7 @@
 .video-js .vjs-fullscreen-control {
   position: relative; // Required for positioning of pseudo content
   cursor: pointer;
-  opacity: 1;
-  background-size: contain;
+  background-size: cover;
   @extend .icon-fullscreen-enter;
   $transition-property: opacity $icon-highlight-time;
   @include transition($transition-property);
