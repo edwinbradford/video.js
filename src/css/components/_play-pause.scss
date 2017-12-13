@@ -1,13 +1,12 @@
-.video-js .vjs-control-bar .vjs-play-control {
+.video-js .vjs-control-bar button.vjs-play-control {
   width: $big-play-button--width;
   height: $big-play-button--height;
+  margin-right: 0; // Overides right hand margin for control buttons
 }
 
-.video-js .vjs-play-control {
+.video-js button.vjs-play-control {
   cursor: pointer;
   position: absolute; // Remove from flex model for positioning
-  // left: 0; // If placed bottom left
-  // bottom: $control-button-height + $control-button-spacing; // If placed bottom left
   left: 50%;
   top: 50%;
   margin-left: $big-play-button--width * -1/2;

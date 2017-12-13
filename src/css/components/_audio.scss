@@ -1,4 +1,6 @@
-.video-js .vjs-audio-button {
+// Audio Tracks
+.video-js button.vjs-audio-button {
+  position: relative; // Required for positioning of pseudo content
   overflow: inherit;
   cursor: pointer;
   background-size: contain;

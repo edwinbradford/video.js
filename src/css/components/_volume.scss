@@ -3,8 +3,9 @@
   margin-right: 0;
 }
 
-.video-js .vjs-mute-control,
-.video-js .vjs-volume-menu-button {
+// .video-js .vjs-volume-menu-button, // Can't locate this class in the dom
+.video-js button.vjs-mute-control {
+  position: relative; // Required for positioning of pseudo content
   overflow: inherit;
   cursor: pointer;
   background-size: contain;
