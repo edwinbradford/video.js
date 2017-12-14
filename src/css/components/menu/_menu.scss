@@ -2,6 +2,11 @@
   cursor: pointer;
 }
 
+// divs but not child buttons with the same class
+div.vjs-menu-button {
+  position: relative; // Required for child absolute positioning
+}
+
 // Change cursor back to default if the menu button is disabled
 .vjs-menu-button.vjs-disabled {
   cursor: default;
