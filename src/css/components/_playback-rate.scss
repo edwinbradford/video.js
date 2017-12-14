@@ -1,32 +1,35 @@
-.video-js button.vjs-playback-rate {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-playback-rate;
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
-  &:before {
+.video-js .vjs-playback-rate {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-playback-rate-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
-  }
-  &:hover {
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-menu;
+    @include transition(opacity $icon-highlight-time);
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-menu-highlight;
+      @include transition(opacity $icon-highlight-time);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }
 
 // TODO: I feel like this should be a generic menu. Research later.
 .vjs-playback-rate > .vjs-menu-button {
-  // 
+  //
 }
 
 .vjs-playback-rate .vjs-playback-rate-value {

@@ -1,59 +1,70 @@
-.video-js .vjs-control-bar .vjs-mute-control {
+.video-js .vjs-control-bar .vjs-volume-panel .vjs-mute-control {
   // Overwrite control buttons right hand margin for volume slider
   margin-right: 0;
 }
 
 // .video-js .vjs-volume-menu-button, // Can't locate this class in the dom
-.video-js button.vjs-mute-control {
-  position: relative; // Required for positioning of pseudo content
-  overflow: inherit;
-  cursor: pointer;
-  background-size: contain;
-  @include flex(none);
-  @extend .icon-volume;
-  &:before {
+.video-js .vjs-mute-control {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-volume-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
-  }
-  &:hover {
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    overflow: inherit;
+    cursor: pointer;
+    background-size: contain;
+    @include flex(none);
+    @extend .icon-volume;
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-volume-highlight;
+      $transition-property: opacity $icon-highlight-time;
+      @include transition($transition-property);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }
 
 .video-js .vjs-mute-control.vjs-vol-0,
 .video-js .vjs-volume-menu-button.vjs-vol-0 {
-  background-size: contain;
-  @extend .icon-mute;
-  &:before {
+  span.vjs-icon-placeholder {
     background-size: contain;
-    @extend .icon-mute-highlight;
+    @extend .icon-mute;
+    &:before {
+      background-size: contain;
+      @extend .icon-mute-highlight;
+    }
+
   }
 }
 .video-js .vjs-mute-control.vjs-vol-1,
 .video-js .vjs-volume-menu-button.vjs-vol-1 {
-  background-size: contain;
-  @extend .icon-volume;
+  span.vjs-icon-placeholder {
+    background-size: contain;
+    @extend .icon-volume;
+  }
 }
 .video-js .vjs-mute-control.vjs-vol-2,
 .video-js .vjs-volume-menu-button.vjs-vol-2 {
-  background-size: contain;
-  @extend .icon-volume;
+  span.vjs-icon-placeholder {
+    background-size: contain;
+    @extend .icon-volume;
+  }
 }
 
 .video-js .vjs-volume-control {
   cursor: pointer;
-  // margin-right: 1em; // Redundant VideoJS style
   @include display-flex;
 }
 

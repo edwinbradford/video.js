@@ -1,25 +1,28 @@
 .video-js .vjs-descriptions-button {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-descriptions;
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
-  &:before {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-descriptions-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
-  }
-  &:hover {
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-descriptions;
+    @include transition(opacity $icon-highlight-time);
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-descriptions-highlight;
+      @include transition(opacity $icon-highlight-time);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }

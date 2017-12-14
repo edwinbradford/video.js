@@ -1,61 +1,72 @@
-.video-js .vjs-control-bar button.vjs-play-control {
-  width: $big-play-button--width;
-  height: $big-play-button--height;
-  margin-right: 0; // Overides right hand margin for control buttons
-}
-
-.video-js button.vjs-play-control {
+.video-js .vjs-control-bar .vjs-play-control.vjs-control.vjs-button {
   cursor: pointer;
   position: absolute; // Remove from flex model for positioning
   left: 50%;
   top: 50%;
-  margin-left: $big-play-button--width * -1/2;
+  width: $big-play-button--width;
+  height: $big-play-button--height;
   margin-top: $big-play-button--height * -1/2;
-  background-size: contain;
-  // @extend .icon-pause-play; // We don't want a second play button for videoJS Neue
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
-  &:before {
+  margin-left: $big-play-button--width * -1/2;
+  margin-right: 0; // Overides right hand margin for control buttons
+}
+
+.video-js .vjs-play-control {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    // @extend .icon-pause-play-highlight // We don't want the second play button highlight for videoJS Neue
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    // @extend .icon-pause-play; // We don't want a big play and small play button for videoJS Neue
     $transition-property: opacity $icon-highlight-time;
     @include transition($transition-property);
-  }
-  &:hover {
     &:before {
-      // opacity: 1; // No highlight for VideoJS Neue
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      // @extend .icon-pause-play-highlight // We don't want the second play button highlight for videoJS Neue
+      $transition-property: opacity $icon-highlight-time;
+      @include transition($transition-property);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }
 
 .video-js .vjs-play-control.vjs-playing {
-  @extend .icon-pause;
-  &:before {
-    // opacity: 0; // Highlight doesn't work well for VideoJS Neue theme
-    // @extend .icon-pause-highlight; // Highlight doesn't work well for VideoJS Neue theme
-  }
-  &:hover {
+  span.vjs-icon-placeholder {
+    @extend .icon-pause;
     &:before {
-      // opacity: 1; // Highlight doesn't work well for VideoJS Neue theme
+      // opacity: 0; // Highlight doesn't work well for VideoJS Neue theme
+      // @extend .icon-pause-highlight; // Highlight doesn't work well for VideoJS Neue theme
+    }
+    &:hover {
+      &:before {
+        // opacity: 1; // Highlight doesn't work well for VideoJS Neue theme
+      }
     }
   }
 }
 
 .video-js .vjs-play-control.vjs-ended {
-  // @extend .icon-pause-play;
-  &:before {
-    // opacity: 0;
-    // @extend .icon-pause-play-highlight;
-  }
-  &:hover {
+  span.vjs-icon-placeholder {
+    // @extend .icon-pause-play;
     &:before {
-      // opacity: 1; // No highlight for VideJS Neue theme
+      // opacity: 0;
+      // @extend .icon-pause-play-highlight;
+    }
+    &:hover {
+      &:before {
+        // opacity: 1; // No highlight for VideJS Neue theme
+      }
     }
   }
 }

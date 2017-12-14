@@ -1,27 +1,29 @@
 // Audio Tracks
-.video-js button.vjs-audio-button {
-  position: relative; // Required for positioning of pseudo content
-  overflow: inherit;
-  cursor: pointer;
-  background-size: contain;
-  @include flex(none);
-  @extend .icon-volume;
-  &:before {
+.video-js .vjs-audio-button {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-volume-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
-  }
-  &:hover {
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-menu;
+    @include transition(opacity $icon-highlight-time);
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-menu-highlight;
+      @include transition(opacity $icon-highlight-time);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }

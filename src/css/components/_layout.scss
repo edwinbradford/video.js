@@ -151,7 +151,8 @@ body.vjs-full-window {
   display: none !important;
 }
 
-.vjs-disabled {
+// Apply disabled effect to div but not again to child items with same class
+div.vjs-disabled {
   cursor: default;
   opacity: 0.5;
 }

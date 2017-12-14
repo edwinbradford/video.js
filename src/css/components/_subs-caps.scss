@@ -1,25 +1,31 @@
 // North America uses 'CC' icon
 .video-js:lang(en) .vjs-subs-caps-button,
 .video-js:lang(fr-CA) .vjs-subs-caps-button {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-closed-captions;
-  @include transition(opacity $icon-highlight-time);
-  &:before {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-closed-captions-highlight;
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-closed-captions;
     @include transition(opacity $icon-highlight-time);
-  }
-  &:hover {
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-closed-captions-highlight;
+      $transition-property: opacity $icon-highlight-time;
+      @include transition($transition-property);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }
@@ -31,25 +37,31 @@
 .video-js.video-js:lang(en-IE) .vjs-subs-caps-button,
 .video-js.video-js:lang(en-AU) .vjs-subs-caps-button,
 .video-js.video-js:lang(en-NZ) .vjs-subs-caps-button {
-  position: relative; // Required for positioning of pseudo content
-  background-size: contain;
-  @extend .icon-closed-captions;
-  @include transition(opacity $icon-highlight-time);
-  &:before {
+  span.vjs-icon-placeholder {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    content: "";
-    opacity: 0;
-    @extend .icon-closed-captions-highlight;
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-closed-captions;
     @include transition(opacity $icon-highlight-time);
-  }
-  &:hover {
     &:before {
-      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-closed-captions-highlight;
+      $transition-property: opacity $icon-highlight-time;
+      @include transition($transition-property);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+      }
     }
   }
 }

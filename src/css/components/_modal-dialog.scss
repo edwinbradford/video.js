@@ -1,11 +1,11 @@
 .vjs-modal-dialog-content {
   z-index: 1;
-  font-size: $text-modal-size;
-  line-height: $text-modal-line-height;
+  font-size: $modal-text-size;
+  line-height: $modal-text-line-height;
 }
 
 .video-js .vjs-modal-dialog {
-  padding: $controls-margin;
+  padding: $modal-padding;
   // padding-right: 5.6em;
   background-color: $primary-background-color;
   overflow: auto;

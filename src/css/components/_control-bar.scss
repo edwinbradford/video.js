@@ -10,9 +10,11 @@
   // background-color: rgba(255,255,0,0.5); // yellow debug background
   pointer-events: none; // Stop overlay from preventing buttons below from working
   @include display-flex( flex-start, flex-end);
-  // Button spacing
-  .vjs-button {
-    width: $control-button-width;
+
+  // will target parent vjs-button divs but not child vjs-button buttons
+  .vjs-control.vjs-button {
+    width: $control-button-width; // don't allow buttons to scale down on tiny screens
+    min-width: $control-button-width; // don't allow buttons to scale down on tiny screens
     height: $control-button-height;
     margin-right: $control-button-spacing;
     &:last-child {
