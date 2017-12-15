@@ -45,13 +45,17 @@ class Menu extends Component {
    */
   addItem(component) {
     this.addChild(component);
-    component.on('click', Fn.bind(this, function() {
-      this.unlockShowing();
+    component.on('click', Fn.bind(this, function(event) {
+      // Unpress the associated MenuButton, and move focus back to it
+      if (this.menuButton_) {
+        this.menuButton_.unpressButton();
 
-      // Neue theme click events
-      this.el_.parentNode.setAttribute('aria-expanded', 'false');
-      this.el_.parentNode.focus();
-      // console.log(this.el_.parentNode);
+        // don't focus menu button if item is a caption settings item
+        // because focus will move elsewhere and it logs an error on IE8
+        if (component.name() !== 'CaptionSettingsMenuItem') {
+          this.menuButton_.focus();
+        }
+      }
     }));
   }
 
@@ -138,16 +142,12 @@ class Menu extends Component {
     this.focus(stepChild);
   }
 
-  /* Menu item focusing does not play well with VideoJSNeue so is disabled */
-
   /**
    * Set focus on a {@link MenuItem} in the `Menu`.
    *
    * @param {Object|string} [item=0]
    *        Index of child item set focus on.
    */
-
-   /*
   focus(item = 0) {
     const children = this.children().slice();
     const haveTitle = children.length && children[0].className &&
@@ -169,7 +169,6 @@ class Menu extends Component {
       children[item].el_.focus();
     }
   }
-  */
 }
 
 Component.registerComponent('Menu', Menu);

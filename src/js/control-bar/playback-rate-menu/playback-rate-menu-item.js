@@ -48,18 +48,9 @@ class PlaybackRateMenuItem extends MenuItem {
    * @listens tap
    * @listens click
    */
-
   handleClick(event) {
     super.handleClick();
     this.player().playbackRate(this.rate);
-
-    // Neue theme click events
-    // function 'findAncestor' is defined in components.js
-    const playbackMenu = this.findAncestor(this.el_, 'vjs-lock-showing');
-
-    playbackMenu.classList.remove('vjs-lock-showing');
-    playbackMenu.parentNode.setAttribute('aria-expanded', 'false');
-    playbackMenu.parentNode.focus();
   }
 
   /**

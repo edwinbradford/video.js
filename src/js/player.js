@@ -297,7 +297,7 @@ class Player extends Component {
       if (typeof tag.closest === 'function') {
         const closest = tag.closest('[lang]');
 
-        if (closest) {
+        if (closest && closest.getAttribute) {
           options.language = closest.getAttribute('lang');
         }
       } else {
@@ -1789,6 +1789,9 @@ class Player extends Component {
    */
   currentTime(seconds) {
     if (typeof seconds !== 'undefined') {
+      if (seconds < 0) {
+        seconds = 0;
+      }
       this.techCall_('setCurrentTime', seconds);
       return;
     }

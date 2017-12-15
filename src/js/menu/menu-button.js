@@ -69,17 +69,14 @@ class MenuButton extends Component {
     this.menu = menu;
     this.addChild(menu);
 
-    /*
+    /**
      * Track the state of the menu button
      *
      * @type {Boolean}
      * @private
      */
-
-    // Remove buttonPressed_ variable test for Neue theme
-    this.el_.setAttribute('aria-expanded', 'false');
-    // this.buttonPressed_ = false;
-    // this.menuButton_.el_.setAttribute('aria-expanded', 'false');
+    this.buttonPressed_ = false;
+    this.menuButton_.el_.setAttribute('aria-expanded', 'false');
 
     if (this.items && this.items.length <= this.hideThreshold_) {
       this.hide();
@@ -208,21 +205,31 @@ class MenuButton extends Component {
    * @return {string}
    *         - The control text when getting
    */
+  controlText(text, el = this.menuButton_.el()) {
+    return this.menuButton_.controlText(text, el);
+  }
 
-  handleClick() {
-    /*
-    // Remove mouseout function for Neue theme
-    this.one('mouseout', Fn.bind(this, function(){
-      this.menu.unlockShowing();
+  /**
+   * Handle a click on a `MenuButton`.
+   * See {@link ClickableComponent#handleClick} for instances where this is called.
+   *
+   * @param {EventTarget~Event} event
+   *        The `keydown`, `tap`, or `click` event that caused this function to be
+   *        called.
+   *
+   * @listens tap
+   * @listens click
+   */
+  handleClick(event) {
+    // When you click the button it adds focus, which will show the menu.
+    // So we'll remove focus when the mouse leaves the button. Focus is needed
+    // for tab navigation.
+
+    this.one(this.menu.contentEl(), 'mouseleave', Fn.bind(this, function(e) {
+      this.unpressButton();
       this.el_.blur();
     }));
-    */
-
-    // Remove 'buttonPressed_' variable test for Neue theme...
-    // if (this.buttonPressed_){
-
-    // ...and replace with attribute test
-    if (this.el_.getAttribute('aria-expanded') === 'true') {
+    if (this.buttonPressed_) {
       this.unpressButton();
     } else {
       this.pressButton();
@@ -283,11 +290,7 @@ class MenuButton extends Component {
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {
-      // Remove variable test for Neue theme
-      // if (this.buttonPressed_) {
-
-      // ...and replace with attribute test
-      if (this.el_.getAttribute('aria-expanded') === 'true') {
+      if (this.buttonPressed_) {
         this.unpressButton();
       }
       // Don't preventDefault for Tab key - we still want to lose focus
@@ -298,11 +301,7 @@ class MenuButton extends Component {
       }
     // Up (38) key or Down (40) key press the 'button'
     } else if (event.which === 38 || event.which === 40) {
-      // Remove variable test for Neue theme
-      // if (!this.buttonPressed_) {
-
-      // ...and replace with attribute test
-      if (this.el_.getAttribute('aria-expanded') === 'false') {
+      if (!this.buttonPressed_) {
         this.pressButton();
         event.preventDefault();
       }
@@ -322,11 +321,7 @@ class MenuButton extends Component {
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {
-      // Remove variable test for Neue theme
-      // if (this.buttonPressed_) {
-
-      // ...and replace with attribute test
-      if (this.el_.getAttribute('aria-expanded') === 'true') {
+      if (this.buttonPressed_) {
         this.unpressButton();
       }
       // Don't preventDefault for Tab key - we still want to lose focus
@@ -343,8 +338,7 @@ class MenuButton extends Component {
    */
   pressButton() {
     if (this.enabled_) {
-      // Remove variable test for neue theme
-      // this.buttonPressed_ = true;
+      this.buttonPressed_ = true;
       this.menu.lockShowing();
       this.menuButton_.el_.setAttribute('aria-expanded', 'true');
 
@@ -361,8 +355,7 @@ class MenuButton extends Component {
    */
   unpressButton() {
     if (this.enabled_) {
-      // Remove variable test for neue theme
-      // this.buttonPressed_ = false;
+      this.buttonPressed_ = false;
       this.menu.unlockShowing();
       this.menuButton_.el_.setAttribute('aria-expanded', 'false');
     }
@@ -372,12 +365,7 @@ class MenuButton extends Component {
    * Disable the `MenuButton`. Don't allow it to be clicked.
    */
   disable() {
-    // Unpress, but don't force focus on this button
-
-    // Remove variable test for neue theme
-    // this.buttonPressed_ = false;
-    this.menu.unlockShowing();
-    this.el_.setAttribute('aria-expanded', 'false');
+    this.unpressButton();
 
     this.enabled_ = false;
     this.addClass('vjs-disabled');

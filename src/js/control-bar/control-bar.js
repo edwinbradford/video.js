@@ -47,8 +47,6 @@ class ControlBar extends Component {
   }
 }
 
-// Add and remove components here by commenting out unwanted features
-
 /**
  * Default options for `ControlBar`
  *

@@ -27,14 +27,10 @@ class PlaybackRateMenuButton extends MenuButton {
     super(player, options);
 
     this.updateVisibility();
-
-    // Disable label update for Neue theme
-    // this.updateLabel();
+    this.updateLabel();
 
     this.on(player, 'loadstart', this.updateVisibility);
-
-    // Disable label update for Neue theme
-    // this.on(player, 'ratechange', this.updateLabel);
+    this.on(player, 'ratechange', this.updateLabel);
   }
 
   /**
@@ -43,7 +39,6 @@ class PlaybackRateMenuButton extends MenuButton {
    * @return {Element}
    *         The element that was created.
    */
-
   createEl() {
     const el = super.createEl();
 
@@ -106,14 +101,7 @@ class PlaybackRateMenuButton extends MenuButton {
     this.el().setAttribute('aria-valuenow', this.player().playbackRate());
   }
 
-  /*
-   * Disable handleClick events below for Neue theme as they
-   * override button toggle states with playback rate updates
-   *
-   * Handle menu item click
-   *
-   * @method handleClick
-   *
+  /**
    * This gets called when an `PlaybackRateMenuButton` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
@@ -123,6 +111,7 @@ class PlaybackRateMenuButton extends MenuButton {
    *
    * @listens tap
    * @listens click
+   */
   handleClick(event) {
     // select next rate option
     const currentRate = this.player().playbackRate();
@@ -139,9 +128,8 @@ class PlaybackRateMenuButton extends MenuButton {
     }
     this.player().playbackRate(newRate);
   }
-  */
 
-  /*
+  /**
    * Get possible playback rates
    *
    * @return {Array}
@@ -185,23 +173,17 @@ class PlaybackRateMenuButton extends MenuButton {
   /**
    * Update button label when rate changed
    *
-   * Not required for Neue theme
-   *
-   * @method updateLabel
-   */
-  /*
-  updateLabel(event) {
    * @param {EventTarget~Event} [event]
    *        The event that caused this function to run.
    *
    * @listens Player#ratechange
    */
-  /*
+  updateLabel(event) {
     if (this.playbackRateSupported()) {
       this.labelEl_.innerHTML = this.player().playbackRate() + 'x';
     }
   }
-   */
+
 }
 
 /**
