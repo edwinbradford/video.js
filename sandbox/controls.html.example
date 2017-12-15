@@ -78,9 +78,9 @@
         // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
         'html5': {
           nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
-          nativeControlsForTouch: false, // Enables OS controls on touch devices
-          nativeAudioTracks: true,
-          nativeVideoTracks: true,
+          nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+          nativeAudioTracks: false,
+          nativeVideoTracks: false,
         },
         'playbackRates': [0.5, 1, 1.5, 2],
       },

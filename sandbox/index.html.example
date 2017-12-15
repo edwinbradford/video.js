@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Videojs Neue Example</title>
+    <title>Videojs Neue Basic Example</title>
 
     <style>
       html {
@@ -34,20 +34,16 @@
     <!-- Load the css files -->
     <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Add ES5 shim and sham for IE8 -->
-    <script src="../dist/ie8/videojs-ie8.js"></script>
+    <!-- Prevent VideoJS from injecting Header styles -->
+    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Javascript files -->
+    <!-- Load VideoJS Javascript files -->
     <script src="../dist/video.js"></script>
-    <script src="../node_modules/videojs-flash/dist/videojs-flash.js"></script>
-
-    <!-- Set the location of the flash SWF -->
-    <script>videojs.options.flash.swf = '../node_modules/videojs-flash/node_modules/videojs-swf/dist/video-js.swf';</script>
 
   </head>
   <body>
 
-    <video id="videoJSElement" class="video-js vjs-fluid vjs-big-play-centered" poster="poster.jpg">
+    <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
@@ -62,24 +58,34 @@
     </div>
 
     <script>
-      videojs(document.getElementById('videoJSElement'), {
-        "html5": {
-          nativeTextTracks: true // Set false to test descriptions
+      var player = videojs('videoJSElement', {
+
+        // Native HTML5 options
+        'autoplay': false,
+        'controls': true,
+        'loop': false,
+        'muted': false,
+        'preload': 'auto',
+
+        // Non-native HTML5 options
+        'controlBar': {
+          'durationDisplay': true,
+          'remainingTimeDisplay': false,
+          'timeDivider': false,
         },
-        // Fluid has a black border with mpeg-dash, use vjs-16-9 style instead
-        // "fluid": true,
-        "controls": true,
-        "preload": "auto",
-        "autoplay": false,
-        "controlBar": {
-          // this.createModal('foo');
-          // muteToggle: false // example component toggle
-        }
+        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
+        'html5': {
+          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
+          nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+          nativeAudioTracks: false,
+          nativeVideoTracks: false,
+        },
       },
       function() {
+        // this.createModal('foo');
         // Callback.
       });
-     </script>
+    </script>
 
      <!--<script>player.createModal('foo');</script>-->
 

@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VideoJS Playback Rate Example</title>
 
   <style>
@@ -10,27 +11,29 @@
       height: 100%;
       font-family: consolas;
       font-size: 10px;
-      background-color:#e5e5e5;    
+      background-color:#e5e5e5;
+    }
+    body {
+      margin: 0;
     }
     video {
       margin: 0;
     }
   </style>
 
-  <!-- Add ES5 shim and sham for IE8 -->
-    <script src="../build/temp/ie8/videojs-ie8.js"></script>
+  <!-- Load the css files -->
+  <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Load the source files -->
-    <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
-    <script src="../build/temp/video.js"></script>
+  <!-- Prevent VideoJS from injecting Header styles -->
+  <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Set the location of the flash SWF -->
-    <script>videojs.options.flash.swf = '../build/temp/video-js.swf';</script>
-    
+  <!-- Load VideoJS Javascript files -->
+  <script src="../dist/video.js"></script>
+
   </head>
   <body>
-  
-    <video id="videoJSElement" class="video-js vjs-big-play-centered" width="640" height="360" poster="poster.jpg">
+
+    <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
 
@@ -40,19 +43,33 @@
     </video>
 
     <script>
-      videojs(document.getElementById('videoJSElement'), {
-        "html5": {
-          nativeTextTracks: true // Set false to test descriptions
+      var player = videojs('videoJSElement', {
+
+        // Native HTML5 options
+        'autoplay': false,
+        'controls': true,
+        'loop': false,
+        'muted': false,
+        'preload': 'auto',
+
+        // Non-native HTML5 options
+        'controlBar': {
+          'durationDisplay': true,
+          'playbackRateMenuButton': true,
+          'remainingTimeDisplay': false,
+          'timeDivider': false,
         },
-        "controls": true,
-        "preload": "auto",
-        "autoplay": false,
-        "controlBar": {
-            // "muteToggle": false
+        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
+        'html5': {
+          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
+          nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+          nativeAudioTracks: false,
+          nativeVideoTracks: false,
         },
-        "playbackRates": [0.5, 1, 1.5, 2]
+        'playbackRates': [0.5, 1, 1.5, 2],
       },
       function() {
+        // this.createModal('foo');
         // Callback.
       });
     </script>

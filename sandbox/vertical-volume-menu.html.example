@@ -24,15 +24,11 @@
     <!-- Load the css files -->
     <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Add ES5 shim and sham for IE8 -->
-    <script src="../dist/ie8/videojs-ie8.js"></script>
+    <!-- Prevent VideoJS from injecting Header styles -->
+    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Javascript files -->
+    <!-- Load VideoJS Javascript files -->
     <script src="../dist/video.js"></script>
-    <script src="../node_modules/videojs-flash/dist/videojs-flash.js"></script>
-
-    <!-- Set the location of the flash SWF -->
-    <script>videojs.options.flash.swf = '../node_modules/videojs-flash/node_modules/videojs-swf/dist/video-js.swf';</script>
 
   </head>
   <body>
@@ -54,23 +50,31 @@
   </video>
 
   <script>
-    var player = videojs(document.getElementById('videoJSElement'), {
-      "html5": {
-        nativeTextTracks: true // Set false to test descriptions
+    var player = videojs('videoJSElement', {
+
+      // Native HTML5 options
+      'autoplay': false,
+      'controls': true,
+      'loop': false,
+      'muted': false,
+      'preload': 'auto',
+
+      // Non-native HTML5 options
+      'controlBar': {
+        'durationDisplay': true,
+        'remainingTimeDisplay': false,
+        'timeDivider': false,
+        'volumePanel': {
+          inline: false
+        },
       },
-      // Fluid has a black border with mpeg-dash, use vjs-16-9 style instead
-      // "fluid": true,
-      "controls": true,
-      "preload": "auto",
-      "autoplay": false,
-      "controlBar": {
-          volumeMenuButton: {
-            inline: false,
-            vertical: true
-          }
-          // muteToggle: false // example component toggle
+      // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
+      'html5': {
+        nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
+        nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+        nativeAudioTracks: false,
+        nativeVideoTracks: false,
       },
-      "playbackRates": [0.5, 1, 1.5, 2]
     },
     function() {
       // this.createModal('foo');
