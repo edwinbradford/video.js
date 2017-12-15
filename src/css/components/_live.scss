@@ -4,7 +4,7 @@
 .video-js .vjs-live-control,
 .vjs-no-flex .vjs-live-control {
   position: absolute;
-  bottom: 0;
+  bottom: $control-button-height;
   left: 0;
   height: 1em;
   font-size: $text-time-size;
@@ -24,5 +24,13 @@
 }
 
 .vjs-live-middot {
-  color: $accent-color;
+  display: block;
+  width: 1em;
+  height: 1em;
+  background-color: $accent-color;
+  @include border-radius(50%);
+}
+
+.vjs-live-display-text {
+  display: none;
 }
