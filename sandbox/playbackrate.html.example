@@ -66,6 +66,7 @@
           nativeAudioTracks: false,
           nativeVideoTracks: false,
         },
+        'inactivityTimeout': 1000,
         'playbackRates': [0.5, 1, 1.5, 2],
       },
       function() {
