@@ -55,70 +55,95 @@
   </div>
 
   <script>
+    /*
+     * Unfinished VideoJS Neue Playback Rate Plugin.
+     * Work in progress.
+     *
+     */
+    const PRMB = videojs.getComponent('PlaybackRateMenuButton');
+
+    class MyPRMB extends PRMB {
+
+      // Override the default handleClick with this one
+      handleClick() {
+        videojs.log('Playback Rate Menu Button Clicked');
+      }
+    }
+
+    videojs.registerComponent('MyPRMB', MyPRMB);
+
     var player = videojs('videoJSElement', {
 
-      // Native HTML5 options
-      'autoplay': false,
+      // Player setup
       'controls': true,
-      'loop': false,
-      'muted': false,
-      'preload': 'auto',
-
-      // Non-native HTML5 options
       'controlBar': {
-        'audioTrackButton': true,
-        'chaptersButton': true, // Visibility is dependent on nativeTextTracks value
-        'currentTimeDisplay': true,
-        'customControlSpacer': true,
-        'descriptionsButton': true, // Visibility is dependent on nativeTextTracks value
-        'durationDisplay': true,
-        'liveDisplay': true,
-        'muteToggle': false,
-        'playbackRateMenuButton': true,
-        'playToggle': true,
-        'progressControl': true,
-        'remainingTimeDisplay': true,
-        'subsCapsButton': true, // Visibility is dependent on nativeTextTracks value
-        'timeDivider': true,
-        'volumePanel': true,
+        'MyPRMB':true, // Add Custom Component
+        'playbackRateMenuButton': false, // Remove default Component
       },
-      // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
-      'inactivityTimeout': 1000,
-      'html5': {
-        nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
-        nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
-        nativeAudioTracks: false,
-        nativeVideoTracks: false,
-      },
-      'playbackRates': [0.5, 1, 1.5, 2],
+      'playbackRates': [0.5, 1, 1.5, 2], // Enable playback rates
     },
     function() {
       // this.createModal('foo');
       // Callback
-      //
-      // Plugin starts here
-      (function() {
-        var vid1, progressed;
-
-        // create a really simple plugin
-        // this one just logs the buffered percentage to the console whenever
-        // more data is downloaded
-        progressed = function(options) {
-          this.on('progress', function(e) {
-            console.log(this.bufferedPercent());
-          });
-        };
-
-        // register the plugin
-        videojs.registerPlugin('progressed', progressed);
-
-        // initialize it
-        vid1 = videojs('videoJSElement');
-        vid1.progressed();
-      })();
-      // Plugin ends here
-
     });
+  </script>
+
+  <script>
+    /*
+     * Example plugin from guide.
+     */
+    const Plugin = videojs.getPlugin('plugin');
+
+    class ExamplePlugin extends Plugin {
+
+      constructor(player, options) {
+        super(player, options);
+
+        // Add customClass to the videojs classes
+        if (options.customClass) {
+          player.addClass(options.customClass);
+        }
+        videojs.log('Plugin loaded!');
+      }
+    }
+
+    videojs.registerPlugin('examplePlugin', ExamplePlugin);
+
+    var player = videojs('videoJSElement');
+
+    // The class "example-class" will be added to the videojs container div
+    player.examplePlugin({customClass: 'example-class'});
+
+  </script>
+
+  <script>
+    /*
+     * Sandbox plugin from VideoJS.
+     * Uncomment last line to enable.
+     *
+     */
+    (function() {
+      var vid1, progressed;
+
+      // create a really simple plugin
+      // this one just logs the buffered percentage to the console whenever
+      // more data is downloaded
+      progressed = function(options) {
+        this.on('progress', function(e) {
+          console.log(this.bufferedPercent());
+        });
+      };
+
+      // register the plugin
+      videojs.registerPlugin('progressed', progressed);
+
+      // initialize it
+      vid1 = videojs('videoJSElement');
+
+      // Uncomment next line to enable plugin
+      // vid1.progressed();
+    })();
+
   </script>
 
 </body>
