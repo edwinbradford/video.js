@@ -83,6 +83,12 @@
   }
 }
 
+// Hide progress bar at end of video for aesthetics
+.vjs-has-started.vjs-ended .vjs-progress-control {
+  visibility: hidden;
+  opacity: 0;
+}
+
 // Buffer
 .video-js .vjs-load-progress {
   height: 100%;
