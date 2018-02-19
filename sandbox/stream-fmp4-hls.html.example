@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VideoJS Neue HLS Example</title>
+
+    <style>
+      html {
+        width: 100%;
+        height: 100%;
+        font-family: consolas;
+        font-size: 10px;
+        background-color:#e5e5e5;
+      }
+      body {
+        margin: 0;
+      }
+      video {
+        margin: 0;
+      }
+    </style>
+
+    <!-- Load the css styles -->
+    <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
+
+    <!-- Prevent VideoJS from injecting Header styles -->
+    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
+
+    <!-- Load VideoJS Javascript files -->
+    <script src="../dist/video.js"></script>
+
+    <!-- HLS support -->
+    <script src="../../videojs-contrib-hls/dist/videojs-contrib-hls.min.js"></script>
+
+  </head>
+  <body>
+
+    <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
+      <source src="http://localhost/projects/stream-fmp4/fmp4/media.m3u8" type="application/x-mpegURL">
+
+      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    </video>
+
+    <script>
+      var player = videojs('videoJSElement', {
+
+        // Native HTML5 options
+        'autoplay': false,
+        'controls': true,
+        'loop': false,
+        'muted': false,
+        'preload': 'auto',
+
+        // Non-native HTML5 options
+        'controlBar': {
+          'durationDisplay': true,
+          'remainingTimeDisplay': false,
+          'timeDivider': false,
+        },
+        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
+        'inactivityTimeout': 1000,
+        'html5': {
+          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
+          nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+          nativeAudioTracks: false,
+          nativeVideoTracks: false,
+        },
+      },
+      function() {
+        // this.createModal('foo');
+        // Callback.
+      });
+    </script>
+
+    <!--<script>player.createModal('foo');</script>-->
+
+  </body>
+</html>
