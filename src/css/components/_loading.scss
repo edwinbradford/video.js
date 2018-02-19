@@ -4,13 +4,13 @@
   top: 50%;
   left: 50%;
   box-sizing: border-box;
-  width: 5em;
-  height: 5em;
-  margin: -2.5em 0 0 -2.5em;
+  width: $loading-spinner-size;
+  height: $loading-spinner-size;
+  margin: $loading-spinner-size/-2 0 0 $loading-spinner-size/-2;
   // Need to fix centered page layouts
   text-align: left;
   opacity: 1;
-  border: 0.3em solid rgba($primary-background-color, 0);
+  border: $loading-spinner-stroke solid rgba($primary-background-color, 0);
   @include border-radius(50%);
   background-clip: padding-box;
 }
@@ -26,7 +26,7 @@
   box-sizing: inherit;
   width: inherit;
   height: inherit;
-  margin: -0.3em;
+  margin: $loading-spinner-stroke * -1;
   content: "";
   // Keep 100% opacity so they don't show through each other
   opacity: 1;
