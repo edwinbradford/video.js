@@ -31,14 +31,14 @@
     <script src="../dist/video.js"></script>
 
     <!-- MPEG DASH support -->
-    <script src="../../dash.js/dist/dash.all.min.js"></script>
-    <script src="../../videojs-contrib-dash/dist/videojs-dash.min.js"></script>
+    <script src="http://localhost/packages/dash.js/dist/dash.all.min.js"></script>
+    <script src="http://localhost/packages/videojs-contrib-dash/dist/videojs-dash.min.js"></script>
 
   </head>
   <body>
 
     <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
-      <source src="http://localhost/projects/stream-fmp4/mpd/stream.mpd" type="application/dash+xml">
+      <source src="http://localhost/projects/stream.fmp4/mpd/stream.mpd" type="application/dash+xml">
       <!--<source src="http://dash.edgesuite.net/akamai/test/caption_test/ElephantsDream/elephants_dream_480p_heaac5_1.mpd" type="application/dash+xml">-->
       <!--<source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">-->
 
