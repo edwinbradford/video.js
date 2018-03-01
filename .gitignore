@@ -33,5 +33,5 @@ es5/*
 .idea/
 
 RunSass.bat
-
 .htaccess
+.csscomb.json
