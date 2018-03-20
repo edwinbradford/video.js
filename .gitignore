@@ -34,6 +34,7 @@ es5/*
 .sass-cache
 .htaccess
 .csscomb.json
+.favicon.ico
 
 RunSass.bat
 index.php
