@@ -25,13 +25,15 @@ sandbox/*
 
 test/coverage/*
 .coveralls.yml
-.sass-cache
 
 dist/*
 es5/*
 
 .idea/
 
-RunSass.bat
+.sass-cache
 .htaccess
 .csscomb.json
+
+RunSass.bat
+index.php
