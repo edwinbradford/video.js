@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Videojs Neue Basic Example</title>
+    <title>AV Neue Basic Example</title>
 
     <style>
       html {
@@ -77,7 +77,7 @@
         'inactivityTimeout': 1000,
         'html5': {
           nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
-          nativeControlsForTouch: false, // Overides VideoJS Neue theme with OS controls on touch devices
+          nativeControlsForTouch: false, // Overides AV Neue theme with OS controls on touch devices
           nativeAudioTracks: false,
           nativeVideoTracks: false,
         },
