@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 .video-js .vjs-control-bar .vjs-play-control.vjs-control.vjs-button {
   cursor: pointer;
   position: absolute; // Remove from flex model for positioning
@@ -17,7 +19,7 @@
     width: 100%;
     height: 100%;
     background-size: contain;
-    // @extend .icon-pause-play; // We don't want a big play and small play button for videoJS Neue
+    // @extend .icon-pause-play; // We don't want a big play and small play button for AV Neue theme
     $transition-property: opacity $icon-highlight-time;
     @include transition($transition-property);
     &:before {
@@ -29,7 +31,7 @@
       height: inherit;
       content: "";
       opacity: 0;
-      // @extend .icon-pause-play-highlight // We don't want the second play button highlight for videoJS Neue
+      // @extend .icon-pause-play-highlight // We don't want the second play button highlight for AV Neue theme
       $transition-property: opacity $icon-highlight-time;
       @include transition($transition-property);
     }
@@ -45,12 +47,12 @@
   span.vjs-icon-placeholder {
     @extend .icon-pause;
     &:before {
-      // opacity: 0; // Highlight doesn't work well for VideoJS Neue theme
-      // @extend .icon-pause-highlight; // Highlight doesn't work well for VideoJS Neue theme
+      // opacity: 0; // Highlight doesn't work well for AV Neue theme
+      // @extend .icon-pause-highlight; // Highlight doesn't work well for AV Neue theme
     }
     &:hover {
       &:before {
-        // opacity: 1; // Highlight doesn't work well for VideoJS Neue theme
+        // opacity: 1; // Highlight doesn't work well for AV Neue theme
       }
     }
   }
@@ -65,7 +67,7 @@
     }
     &:hover {
       &:before {
-        // opacity: 1; // No highlight for VideJS Neue theme
+        // opacity: 1; // No highlight for AV Neue theme
       }
     }
   }

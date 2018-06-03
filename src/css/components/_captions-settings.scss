@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 .vjs-modal-dialog.vjs-text-track-settings {
   background-color: $primary-background-color;
   background-color: rgba($primary-background-color, 0.75);
@@ -7,14 +9,14 @@
 
 // Layout divs
 .vjs-text-track-settings .vjs-modal-dialog-content {
-  // Disabled. Layout is vertical for VideoJS Neue theme
+  // Disabled. Layout is vertical for AV Neue theme
   // display: table;
 }
 
 .vjs-text-track-settings .vjs-track-settings-colors,
 .vjs-text-track-settings .vjs-track-settings-font,
 .vjs-text-track-settings .vjs-track-settings-controls {
-  // Disabled. Layout is vertical for VideoJS Neue theme
+  // Disabled. Layout is vertical for AV Neue theme
   // display: table-cell;
 }
 

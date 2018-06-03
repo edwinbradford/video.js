@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 .video-js .vjs-time-control {
   display: flex;
   align-items: center;
@@ -40,7 +42,7 @@
   background-color: #ff0; // Color for debug purposes
 }
 
-// Hidden - not used for Neue theme 
+// Hidden - not used for Neue theme
 .vjs-time-divider {
   visibility: hidden; // Can't use display none on a flex item
   // debug colour

@@ -1,3 +1,4 @@
+// main: ../video-js.scss
 
 // Container for all progress sliders
 // Also acts as hover area
@@ -164,7 +165,7 @@
   display: none;
 }
 
-// These child elements of the load progress bar are not used for VideoJS Neue theme
+// These child elements of the load progress bar are not used for AV Neue theme
 
 // there are child elements of the load progress bar that represent the
 // specific time ranges that have been buffered
@@ -182,7 +183,7 @@
 }
 
 // Graphic under mouse when over progress bar
-// .vjs-time-tooltip is not used for VideoJS Neue theme
+// .vjs-time-tooltip is not used for AV Neue theme
 
 .video-js .vjs-time-tooltip {
   display: none;
@@ -223,7 +224,7 @@
   // font-size: 1em;
 }
 
-// .vjs-mouse-display / MouseTimeDisplay are not used for VideoJS Neue theme
+// .vjs-mouse-display / MouseTimeDisplay are not used for AV Neue theme
 //
 // This element tracks the mouse position along the progress control and
 // includes a tooltip, which displays the time at that point in the media.

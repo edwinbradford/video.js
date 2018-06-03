@@ -1,3 +1,5 @@
+// main: video-js.scss
+
 // Global
 $text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
 $text-em-size: 10px;
@@ -28,11 +30,11 @@ $progress-bar-margin: 5.4em; // Side margins for progress bar
 
 // Big play button
 // Using the '--' naming for component-specific styles
-$big-play-button--width: 8em !default;
-$big-play-button--height: 8em !default;
+$big-play-button--width: 6.4em !default;
+$big-play-button--height: 6.4em !default;
 
 // Loading vjs-spinner-fade
-$loading-spinner-size: 8em;
+$loading-spinner-size: 6.4em;
 $loading-spinner-stroke: 0.4em;
 
 

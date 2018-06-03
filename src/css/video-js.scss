@@ -1,6 +1,8 @@
+// compileCompressed: ../../build/temp/$1.css
 
 @import "private-variables";
 @import "utilities";
+// @import "variables"; // References deprecated font icons
 
 @import "components/svgs";
 

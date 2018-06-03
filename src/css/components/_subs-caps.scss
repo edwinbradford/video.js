@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 // North America uses 'CC' icon
 .video-js:lang(en) .vjs-subs-caps-button,
 .video-js:lang(fr-CA) .vjs-subs-caps-button {
@@ -67,8 +69,8 @@
 }
 
 .video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text {
-  // Not used for VideoJS Neue
+  // Not used for AV Neue theme
 }
 .video-js .vjs-subs-caps-button + .vjs-menu .vjs-captions-menu-item .vjs-menu-item-text:before {
-  // Not used for VideoJS Neue
+  // Not used for AV Neue theme
 }

@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 .vjs-modal-dialog-content {
   z-index: 1;
   font-size: $modal-text-size;
@@ -21,7 +23,7 @@
 }
 
 // Reset box-sizing inside the modal dialog
-// But we don't use the IE fix above for VideoJS Neue
+// But we don't use the IE fix above for AV Neue theme
 .video-js .vjs-modal-dialog > * {
   // box-sizing: border-box;
 }

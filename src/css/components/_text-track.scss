@@ -1,3 +1,5 @@
+// main: ../video-js.scss
+
 // Emulated tracks
 .vjs-text-track-display {
   position: absolute;
@@ -43,7 +45,7 @@ video::-webkit-media-text-track-display {
   @include transform(translateY(-3.2rem));
 }
 
-// Native caption styling for Neue theme 
+// Native caption styling for Neue theme
 // ::cue will not inherit font family correctly
 ::cue {
   font-family: $text-font-family;
