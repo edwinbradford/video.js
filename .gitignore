@@ -33,7 +33,6 @@ es5/*
 
 .sass-cache
 .htaccess
-.csscomb.json
 
 RunSass.bat
 index.php
