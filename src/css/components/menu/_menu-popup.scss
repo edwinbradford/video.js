@@ -12,16 +12,16 @@
 
 // Button Pop-up Menu
 .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-  // position: absolute;
-  // width: 100%;
   @include background-color-with-alpha($primary-background-color, 1);
 }
 
+// Comment out the next line and change to 'display: none' for AV Neue theme
+// .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu,
 .vjs-menu-button-popup .vjs-menu .vjs-lock-showing {
   display: block;
 }
 
-// show menus when hovering over button
+// The AV Neue theme does not show menus when hovering https://goo.gl/2buZ1v
 .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu {
-  // display: block; // Disabled for Neue theme
+  display: none;
 }
