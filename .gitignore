@@ -31,6 +31,10 @@ es5/*
 
 .idea/
 
+core.js
+
+# AV Neue ignore files below this line
+
 .sass-cache
 .htaccess
 

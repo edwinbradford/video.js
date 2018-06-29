@@ -62,14 +62,8 @@ function classRegExp(className) {
  * @return {Boolean}
  */
 export function isReal() {
-  return (
-
     // Both document and window will never be undefined thanks to `global`.
-    document === window.document &&
-
-    // In IE < 9, DOM methods return "object" as their type, so all we can
-    // confidently check is that it exists.
-    typeof document.createElement !== 'undefined');
+  return document === window.document;
 }
 
 /**
@@ -326,7 +320,7 @@ export function removeClass(element, classToRemove) {
  */
 export function toggleClass(element, classToToggle, predicate) {
 
-  // This CANNOT use `classList` internally because IE does not support the
+  // This CANNOT use `classList` internally because IE11 does not support the
   // second parameter to the `classList.toggle()` method! Which is fine because
   // `classList` will be used by the add/remove functions.
   const has = hasClass(element, classToToggle);
@@ -391,8 +385,8 @@ export function getAttributes(tag) {
   const obj = {};
 
   // known boolean attributes
-  // we can check for matching boolean properties, but older browsers
-  // won't know about HTML5 boolean attributes that we still read from
+  // we can check for matching boolean properties, but not all browsers
+  // and not all tags know about these attributes, so, we still want to check them manually
   const knownBooleans = ',' + 'autoplay,controls,playsinline,loop,muted,default,defaultMuted' + ',';
 
   if (tag && tag.attributes && tag.attributes.length > 0) {
@@ -761,7 +755,7 @@ export function isSingleLeftClick(event) {
   // otherwise `mousedown` should be enough for a button
 
   if (event.button === undefined && event.buttons === undefined) {
-    // Why do we need `butttons` ?
+    // Why do we need `buttons` ?
     // Because, middle mouse sometimes have this:
     // e.button === 0 and e.buttons === 4
     // Furthermore, we want to prevent combination click, something like

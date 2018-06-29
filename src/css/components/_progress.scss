@@ -1,11 +1,14 @@
 // main: ../video-js.scss
 
-// Container for all progress sliders
+// .vjs-progress-control / ProgressControl
+//
+// This is the container for all progress bar-related components/elements.
 // Also acts as hover area
 // Hide until play starts
 .video-js .vjs-progress-control {
-  display: flex;
-  align-items: center;
+  cursor: pointer;
+  @include flex(auto);
+  @include display-flex(center);
   visibility: hidden;
   position: absolute;
   right: $progress-bar-margin;
@@ -15,6 +18,7 @@
   height: $text-time-size;
   // background-color: rgba(255,255,0,0.5); // debug
   pointer-events: all; // Make buttons clickable
+  touch-action: none;
   opacity: 0;
   background-color: transparent;
   $transition-property: opacity $icon-highlight-time;
@@ -165,18 +169,15 @@
   display: none;
 }
 
-// These child elements of the load progress bar are not used for AV Neue theme
-
+/*
+ * These child elements of the load progress bar are not used for AV Neue theme
+ *
 // there are child elements of the load progress bar that represent the
 // specific time ranges that have been buffered
 .video-js .vjs-load-progress div {
-  /*
-  // For IE8 we'll lighten the color
-  background: lighten($menu-background-color, 50%);
-  // Otherwise we'll rely on stacked opacities
-  background: rgba($menu-background-color, 0.75);
-  */
+  background: rgba($secondary-background-color, 0.75);
 }
+*/
 
 .video-js.vjs-no-flex .vjs-progress-control {
   width: auto;

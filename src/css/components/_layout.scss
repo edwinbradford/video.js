@@ -40,6 +40,9 @@
     //　Not required for Neue theme
     //　height: 100% !important;
   }
+
+  // reset word-break inside the player div
+  word-break: initial;
 }
 
 .video-js[tabindex="-1"] {
@@ -117,11 +120,9 @@
 
 // Fullscreen Styles
 body.vjs-full-window {
-  // Fix for IE6 full-window. http://www.cssplay.co.uk/layouts/fixed.html
-  overflow-y: auto;
-  height: 100%;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  height: 100%;
 }
 
 .vjs-full-window .video-js.vjs-fullscreen {
@@ -174,10 +175,8 @@ div.vjs-disabled {
   opacity: 1;
 }
 
-//  In IE8 w/ no JavaScript (no HTML5 shim), the video tag doesn't register.
-// The .video-js classname on the video tag also isn't considered.
 // This optional paragraph inside the video tag can provide a message to users
-// about what's required to play video.
+// about what's required to play video when JavaScript is disabled
 .vjs-no-js {
   width: 640px;
   height: 360px;

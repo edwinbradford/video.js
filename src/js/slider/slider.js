@@ -4,6 +4,7 @@
 import Component from '../component.js';
 import * as Dom from '../utils/dom.js';
 import {assign} from '../utils/obj';
+import {IS_CHROME} from '../utils/browser.js';
 
 /**
  * The base functionality for a slider. Can be vertical or horizontal.
@@ -100,7 +101,7 @@ class Slider extends Component {
   }
 
   /**
-   * Create the `Button`s DOM element.
+   * Create the `Slider`s DOM element.
    *
    * @param {string} type
    *        Type of element to create.
@@ -145,7 +146,16 @@ class Slider extends Component {
   handleMouseDown(event) {
     const doc = this.bar.el_.ownerDocument;
 
-    event.preventDefault();
+    if (event.type === 'mousedown') {
+      event.preventDefault();
+    }
+    // Do not call preventDefault() on touchstart in Chrome
+    // to avoid console warnings. Use a 'touch-action: none' style
+    // instead to prevent unintented scrolling.
+    // https://developers.google.com/web/updates/2017/01/scrolling-intervention
+    if (event.type === 'touchstart' && !IS_CHROME) {
+      event.preventDefault();
+    }
     Dom.blockTextSelection();
 
     this.addClass('vjs-sliding');
@@ -270,8 +280,8 @@ class Slider extends Component {
    *
    * @return {number}
    *         The current position of the Slider.
-   *         - postition.x for vertical `Slider`s
-   *         - postition.y for horizontal `Slider`s
+   *         - position.x for vertical `Slider`s
+   *         - position.y for horizontal `Slider`s
    */
   calculateDistance(event) {
     const position = Dom.getPointerPosition(this.el_, event);

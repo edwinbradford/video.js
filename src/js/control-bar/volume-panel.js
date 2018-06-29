@@ -2,7 +2,6 @@
  * @file volume-control.js
  */
 import Component from '../component.js';
-import checkVolumeSupport from './volume-control/check-volume-support';
 import {isPlain} from '../utils/obj';
 
 // Required children
@@ -42,16 +41,13 @@ class VolumePanel extends Component {
 
     super(player, options);
 
-    // hide this control if volume support is missing
-    checkVolumeSupport(this, player);
+    this.on(player, ['loadstart'], this.volumePanelState_);
 
     // while the slider is active (the mouse has been pressed down and
-    // is dragging) or in focus we do not want to hide the VolumeBar
+    // is dragging) we do not want to hide the VolumeBar
     this.on(this.volumeControl, ['slideractive'], this.sliderActive_);
-    this.on(this.muteToggle, 'focus', this.sliderActive_);
 
     this.on(this.volumeControl, ['sliderinactive'], this.sliderInactive_);
-    this.on(this.muteToggle, 'blur', this.sliderInactive_);
   }
 
   /**
@@ -72,6 +68,27 @@ class VolumePanel extends Component {
    */
   sliderInactive_() {
     this.removeClass('vjs-slider-active');
+  }
+
+  /**
+   * Adds vjs-hidden or vjs-mute-toggle-only to the VolumePanel
+   * depending on MuteToggle and VolumeControl state
+   *
+   * @listens Player#loadstart
+   * @private
+   */
+  volumePanelState_() {
+    // hide volume panel if neither volume control or mute toggle
+    // are displayed
+    if (this.volumeControl.hasClass('vjs-hidden') && this.muteToggle.hasClass('vjs-hidden')) {
+      this.addClass('vjs-hidden');
+    }
+
+    // if only mute toggle is visible we don't want
+    // volume panel expanding when hovered or active
+    if (this.volumeControl.hasClass('vjs-hidden') && !this.muteToggle.hasClass('vjs-hidden')) {
+      this.addClass('vjs-mute-toggle-only');
+    }
   }
 
   /**

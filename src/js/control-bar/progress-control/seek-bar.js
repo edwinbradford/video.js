@@ -3,10 +3,11 @@
  */
 import Slider from '../../slider/slider.js';
 import Component from '../../component.js';
-import {IE_VERSION, IS_IOS, IS_ANDROID} from '../../utils/browser.js';
+import {IS_IOS, IS_ANDROID} from '../../utils/browser.js';
 import * as Dom from '../../utils/dom.js';
 import * as Fn from '../../utils/fn.js';
 import formatTime from '../../utils/format-time.js';
+import {silencePromise} from '../../utils/promise';
 
 import './load-progress-bar.js';
 import './play-progress-bar.js';
@@ -37,17 +38,25 @@ class SeekBar extends Slider {
    */
   constructor(player, options) {
     super(player, options);
+    this.setEventHandlers_();
+  }
 
+  /**
+   * Sets the event handlers
+   *
+   * @private
+   */
+  setEventHandlers_() {
     this.update = Fn.throttle(Fn.bind(this, this.update), UPDATE_REFRESH_INTERVAL);
 
-    this.on(player, 'timeupdate', this.update);
-    this.on(player, 'ended', this.handleEnded);
+    this.on(this.player_, 'timeupdate', this.update);
+    this.on(this.player_, 'ended', this.handleEnded);
 
     // when playing, let's ensure we smoothly update the play progress bar
     // via an interval
     this.updateInterval = null;
 
-    this.on(player, ['playing'], () => {
+    this.on(this.player_, ['playing'], () => {
       this.clearInterval(this.updateInterval);
 
       this.updateInterval = this.setInterval(() =>{
@@ -57,11 +66,11 @@ class SeekBar extends Slider {
       }, UPDATE_REFRESH_INTERVAL);
     });
 
-    this.on(player, ['ended', 'pause', 'waiting'], () => {
+    this.on(this.player_, ['ended', 'pause', 'waiting'], () => {
       this.clearInterval(this.updateInterval);
     });
 
-    this.on(player, ['timeupdate', 'ended'], this.update);
+    this.on(this.player_, ['timeupdate', 'ended'], this.update);
   }
 
   /**
@@ -79,11 +88,11 @@ class SeekBar extends Slider {
   }
 
   /**
-   * This function updates the play progress bar and accessiblity
+   * This function updates the play progress bar and accessibility
    * attributes to whatever is passed in.
    *
    * @param {number} currentTime
-   *        The currentTime value that should be used for accessiblity
+   *        The currentTime value that should be used for accessibility
    *
    * @param {number} percent
    *        The percentage as a decimal that the bar should be filled from 0-1.
@@ -162,7 +171,7 @@ class SeekBar extends Slider {
   getPercent() {
     const percent = this.getCurrentTime_() / this.player_.duration();
 
-    return percent >= 1 ? 1 : percent;
+    return percent >= 1 ? 1 : (percent || 0);
   }
 
   /**
@@ -178,6 +187,8 @@ class SeekBar extends Slider {
       return;
     }
 
+    // Stop event propagation to prevent double fire in progress-control.js
+    event.stopPropagation();
     this.player_.scrubbing(true);
 
     this.videoWasPlaying = !this.player_.paused();
@@ -243,6 +254,10 @@ class SeekBar extends Slider {
   handleMouseUp(event) {
     super.handleMouseUp(event);
 
+    // Stop event propagation to prevent double fire in progress-control.js
+    if (event) {
+      event.stopPropagation();
+    }
     this.player_.scrubbing(false);
 
     /**
@@ -254,7 +269,7 @@ class SeekBar extends Slider {
      */
     this.player_.trigger({ type: 'timeupdate', target: this, manuallyTriggered: true });
     if (this.videoWasPlaying) {
-      this.player_.play();
+      silencePromise(this.player_.play());
     }
   }
 
@@ -325,8 +340,8 @@ SeekBar.prototype.options_ = {
   barName: 'playProgressBar'
 };
 
-// MouseTimeDisplay tooltips should not be added to a player on mobile devices or IE8
-if ((!IE_VERSION || IE_VERSION > 8) && !IS_IOS && !IS_ANDROID) {
+// MouseTimeDisplay tooltips should not be added to a player on mobile devices
+if (!IS_IOS && !IS_ANDROID) {
   SeekBar.prototype.options_.children.splice(1, 0, 'mouseTimeDisplay');
 }
 

@@ -85,25 +85,13 @@
   width: $volume-menu-width;
 }
 
-.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  height: $volume-menu-height;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  & .vjs-volume-bar,
-  & .vjs-volume-level {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  }
-}
-
 .video-js .vjs-volume-panel {
   &:hover  .vjs-volume-control,
   &:active .vjs-volume-control,
   &:focus  .vjs-volume-control,
   & .vjs-volume-control:hover  ,
   & .vjs-volume-control:active ,
-  & .vjs-volume-control:focus  ,
   & .vjs-mute-control:hover  ~ .vjs-volume-control,
-  & .vjs-mute-control:active ~ .vjs-volume-control,
-  & .vjs-mute-control:focus  ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
 
     // Display AV Neue Volume Slider
@@ -111,36 +99,7 @@
     opacity: 1;
     position: relative;
 
-    // Horizontal attributes
-    &.vjs-volume-horizontal {
-      // We do not slide volume slider into view for VideJS Neue theme
-      // width: 5em;
-      // height: 3em;
-    }
-
-    // Vertical attributes
-    &.vjs-volume-vertical {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-      & .vjs-volume-bar,
-      & .vjs-volume-level {
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-      }
-    }
   }
-  /*
-   * Not required for AV Neue theme
-  &.vjs-volume-panel-horizontal {
-    &:hover,
-    &:focus,
-    &:active,
-    &.vjs-slider-active {
-      // We do not slide volume slider into view for VideJS Neue theme
-      // width: 9em;
-      background-color: #ffff66;
-      @include transition(width 0.1s);
-    }
-  }
-  */
 }
 
 // Increase Volume Slider Handle size on hover

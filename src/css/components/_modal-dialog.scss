@@ -10,16 +10,13 @@
   padding: $modal-padding;
   // padding-right: 5.6em;
   background-color: $primary-background-color;
-  overflow: auto;
   @include display-flex(flex-start, flex-start);
   @extend %fill-parent;
-  // Not required for Neue theme
+  // Not required for AV Neue theme
   // @include linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));
 
-
-  // When combined with `overflow: auto;`, this fixes gaps left by
-  // scrollbars in older IE versions.
-  // box-sizing: content-box;
+  // This allows scrolling of content if need be.
+  overflow: auto;
 }
 
 // Reset box-sizing inside the modal dialog

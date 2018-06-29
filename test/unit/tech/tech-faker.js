@@ -28,6 +28,7 @@ class TechFaker extends Tech {
   }
   setPoster(val) {
     this.el().poster = val;
+    this.trigger('posterchange');
   }
 
   setControls(val) {}
@@ -35,6 +36,14 @@ class TechFaker extends Tech {
   setVolume(newVolume) {}
 
   setMuted() {}
+
+  setAutoplay(v) {
+    if (!v) {
+      this.options_.autoplay = false;
+    }
+
+    this.options_.autoplay = true;
+  }
 
   currentTime() {
     return 0;
@@ -54,11 +63,17 @@ class TechFaker extends Tech {
   muted() {
     return false;
   }
+  autoplay() {
+    return this.options_.autoplay || false;
+  }
   pause() {
     return false;
   }
   paused() {
     return true;
+  }
+  loop() {
+    return false;
   }
   play() {
     this.trigger('play');

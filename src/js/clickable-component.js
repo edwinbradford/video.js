@@ -1,5 +1,5 @@
 /**
- * @file button.js
+ * @file clickable-component.js
  */
 import Component from './component';
 import * as Dom from './utils/dom.js';
@@ -62,10 +62,7 @@ class ClickableComponent extends Component {
 
     // Add ARIA attributes for clickable element which is not a native HTML button
     attributes = assign({
-      'role': 'button',
-
-      // let the screen reader user know that the text of the element may change
-      'aria-live': 'polite'
+      role: 'button'
     }, attributes);
 
     this.tabIndex_ = props.tabIndex;
@@ -78,7 +75,7 @@ class ClickableComponent extends Component {
   }
 
   dispose() {
-    // remove controlTextEl_ on dipose
+    // remove controlTextEl_ on dispose
     this.controlTextEl_ = null;
 
     super.dispose();
@@ -96,6 +93,9 @@ class ClickableComponent extends Component {
   createControlTextEl(el) {
     this.controlTextEl_ = Dom.createEl('span', {
       className: 'vjs-control-text'
+    }, {
+      // let the screen reader user know that the text of the element may change
+      'aria-live': 'polite'
     });
 
     if (el) {

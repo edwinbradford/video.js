@@ -29,10 +29,6 @@ div.vjs-menu-button {
 
   // This allows scrolling of content if need be.
   overflow: auto;
-
-  // When combined with `overflow: auto;`, this fixes gaps left by
-  // scrollbars in older IE versions.
-  box-sizing: content-box;
 }
 
 // Reset box-sizing inside the menu.
@@ -40,8 +36,8 @@ div.vjs-menu-button {
   box-sizing: border-box;
 }
 
-// prevent menus from opening while scrubbing (FF, IE)
-.vjs-scrubbing .vjs-menu-button:hover .vjs-menu {
+// prevent menus from opening while scrubbing
+.vjs-scrubbing .vjs-control.vjs-menu-button:hover .vjs-menu {
   display: none;
 }
 

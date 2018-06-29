@@ -3,6 +3,7 @@
 ## Table of Contents
 
 * [Issues and Pull Requests](#issues-and-pull-requests)
+  * [Labels](#labels)
 * [Accepting changes](#accepting-changes)
   * [Involving the TSC](#involving-the-tsc)
 * [Landing a PR](#landing-a-pr)
@@ -29,6 +30,23 @@ Collaborators may manage issues they feel qualified to handle, being mindful of 
 Any issue and PR can be closed if they are not relevant, when in doubt leave it open for more discussion. Issues can always be re-opened if new information is made available.
 
 If issues or PRs are very short and don't contain much information, ask for more by linking to the [issue][issue template] or [PR][pr template] template. There is also a [response guide](https://github.com/videojs/video.js/wiki/New-Issue-Response-Guide) if you're unsure.
+
+### Labels
+
+There are labels that are useful to include on issues and PRs. A few of them are defined below:
+
+| Label | Issue or PR | Description |
+|-------|-------------|-------------|
+| confirmed | Issue and PR | Issue: marks as reproducible. PR: marks as ready to be merged|
+| 5.x | PR | Marks as a change to the 5.x branch only |
+| bug | Issue | Marks as a confirmed bug |
+| good first issue | Issue | Marks as a good bug or enhancement for first time contributors to Video.js |
+| first-timers-only | Issue | Marks as a good bug or enhancement to be done by a newcomer to open source |
+| minor, patch, major | PR | Marks PR with the expected semver classification of the change |
+| needs: LGTM | PR | Marks PR to be reviewed by a collaborator |
+| needs: more info | Issue | Marks as needing more information from the issue reporter |
+| needs: reduced test case | Issue | Marks as needing a reduced test case from the issue reporter |
+
 
 ## Accepting changes
 
@@ -64,7 +82,7 @@ When using the big green button on GitHub, make sure the "squash and merge" is s
 
 The commit message should follow our [conventional changelog conventions][conventions]. They are based on the angularjs changelog conventions. The changelog is then generated from these commit messages on release.
 
-The first line of the commit message -- the header and first text box on GitHub -- should be prefixed with a type and optional scope followed by a short description of the commit.
+The first line of the commit message -- the header, which is the first text box on GitHub -- should be prefixed with a type and optional scope followed by a short description of the commit.
 The type is required. Two common ones are `fix` and `feat` for bug fixes and new features. Scope is optional and can be anything.
 
 The body should contain extra information, potentially copied from the original comment of the PR.

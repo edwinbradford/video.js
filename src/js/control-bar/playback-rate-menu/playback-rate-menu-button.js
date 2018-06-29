@@ -112,10 +112,6 @@ class PlaybackRateMenuButton extends MenuButton {
    * @listens tap
    * @listens click
    */
-
-  /**
-   * Disabled for VideoJS Neue theme. Prevents menu from showing onClick.
-   *
   handleClick(event) {
     // select next rate option
     const currentRate = this.player().playbackRate();
@@ -132,7 +128,6 @@ class PlaybackRateMenuButton extends MenuButton {
     }
     this.player().playbackRate(newRate);
   }
-  */
 
   /**
    * Get possible playback rates

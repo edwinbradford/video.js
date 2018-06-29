@@ -55,22 +55,19 @@ export const ANDROID_VERSION = (function() {
   return null;
 }());
 
-// Old Android is defined as Version older than 2.3, and requiring a webkit version of the android browser
-export const IS_OLD_ANDROID = IS_ANDROID && (/webkit/i).test(USER_AGENT) && ANDROID_VERSION < 2.3;
 export const IS_NATIVE_ANDROID = IS_ANDROID && ANDROID_VERSION < 5 && appleWebkitVersion < 537;
 
 export const IS_FIREFOX = (/Firefox/i).test(USER_AGENT);
 export const IS_EDGE = (/Edge/i).test(USER_AGENT);
-export const IS_CHROME = !IS_EDGE && (/Chrome/i).test(USER_AGENT);
+export const IS_CHROME = !IS_EDGE && ((/Chrome/i).test(USER_AGENT) || (/CriOS/i).test(USER_AGENT));
 export const CHROME_VERSION = (function() {
-  const match = USER_AGENT.match(/Chrome\/(\d+)/);
+  const match = USER_AGENT.match(/(Chrome|CriOS)\/(\d+)/);
 
-  if (match && match[1]) {
-    return parseFloat(match[1]);
+  if (match && match[2]) {
+    return parseFloat(match[2]);
   }
   return null;
 }());
-export const IS_IE8 = (/MSIE\s8\.0/).test(USER_AGENT);
 export const IE_VERSION = (function() {
   const result = (/MSIE\s(\d+)\.\d/).exec(USER_AGENT);
   let version = result && parseFloat(result[1]);
@@ -84,13 +81,9 @@ export const IE_VERSION = (function() {
 }());
 
 export const IS_SAFARI = (/Safari/i).test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE;
-export const IS_ANY_SAFARI = IS_SAFARI || IS_IOS;
+export const IS_ANY_SAFARI = (IS_SAFARI || IS_IOS) && !IS_CHROME;
 
 export const TOUCH_ENABLED = Dom.isReal() && (
   'ontouchstart' in window ||
   window.DocumentTouch &&
   window.document instanceof window.DocumentTouch);
-
-export const BACKGROUND_SIZE_SUPPORTED = (
-  Dom.isReal() &&
-  'backgroundSize' in window.document.createElement('video').style);
