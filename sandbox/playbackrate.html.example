@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VideoJS Playback Rate Example</title>
+    <title>Video.js Playback Rate Example</title>
 
   <style>
     html {
@@ -22,12 +22,12 @@
   </style>
 
   <!-- Load the css files -->
-  <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
+  <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
-  <!-- Prevent VideoJS from injecting Header styles -->
+  <!-- Prevent Video.js from injecting Header styles -->
   <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-  <!-- Load VideoJS Javascript files -->
+  <!-- Load Video.js Javascript files -->
   <script src="../dist/video.js"></script>
 
   </head>

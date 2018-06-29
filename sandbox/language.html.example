@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>VideoJS Languages Demo</title>
+  <title>Video.js Languages Demo</title>
 
   <!-- Load the source files -->
   <link href="../dist/video-js.css" rel="stylesheet" type="text/css">

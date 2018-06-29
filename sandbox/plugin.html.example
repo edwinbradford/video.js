@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VideoJS Plugin Example</title>
+  <title>Video.js Plugin Example</title>
 
     <style>
       html {
@@ -32,12 +32,12 @@
     </style>
 
     <!-- Load the css files -->
-    <link href="../build/temp/video-js.css" rel="stylesheet" type="text/css">
+    <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Prevent VideoJS from injecting Header styles -->
+    <!-- Prevent Video.js from injecting Header styles -->
     <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load VideoJS Javascript files -->
+    <!-- Load Video.js Javascript files -->
     <script src="../dist/video.js"></script>
 
 </head>
@@ -118,7 +118,7 @@
 
   <script>
     /*
-     * Sandbox plugin from VideoJS.
+     * Sandbox plugin from Video.js.
      * Uncomment last line to enable.
      *
      */
