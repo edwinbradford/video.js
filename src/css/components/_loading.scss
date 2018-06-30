@@ -1,6 +1,7 @@
 // main: ../video-js.scss
 
 .vjs-loading-spinner {
+  display: none;
   visibility: hidden;
   position: absolute;
   top: 50%;
@@ -20,16 +21,17 @@
 .vjs-seeking .vjs-loading-spinner,
 .vjs-waiting .vjs-loading-spinner {
   display: block;
+  animation: 0s linear 0.3s forwards vjs-spinner-show;
 }
 
 .vjs-loading-spinner:before,
 .vjs-loading-spinner:after {
+  content: "";
   position: absolute;
   box-sizing: inherit;
   width: inherit;
   height: inherit;
   margin: $loading-spinner-stroke * -1;
-  content: "";
   // Keep 100% opacity so they don't show through each other
   opacity: 1;
   border: inherit;
