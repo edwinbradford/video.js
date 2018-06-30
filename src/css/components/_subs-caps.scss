@@ -10,7 +10,6 @@
     height: 100%;
     background-size: contain;
     @extend .icon-closed-captions;
-    @include transition(opacity $icon-highlight-time);
     &:before {
       display: block;
       position: absolute;
@@ -21,12 +20,12 @@
       content: "";
       opacity: 0;
       @extend .icon-closed-captions-highlight;
-      $transition-property: opacity $icon-highlight-time;
-      @include transition($transition-property);
+      @include transition(opacity $icon-unhighlight-time);
     }
     &:hover {
       &:before {
         opacity: 1;
+        @include transition(opacity $icon-highlight-time);
       }
     }
   }
@@ -46,7 +45,6 @@
     height: 100%;
     background-size: contain;
     @extend .icon-closed-captions;
-    @include transition(opacity $icon-highlight-time);
     &:before {
       display: block;
       position: absolute;
@@ -57,12 +55,12 @@
       content: "";
       opacity: 0;
       @extend .icon-closed-captions-highlight;
-      $transition-property: opacity $icon-highlight-time;
-      @include transition($transition-property);
+      @include transition(opacity $icon-unhighlight-time);
     }
     &:hover {
       &:before {
         opacity: 1;
+        @include transition(opacity $icon-highlight-time);
       }
     }
   }

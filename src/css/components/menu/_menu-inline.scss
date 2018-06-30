@@ -1,17 +1,16 @@
 // main: ../../video-js.scss
 
 .video-js .vjs-menu-button-inline {
-  overflow: hidden;
   @include transition(all 0.4s);
+  overflow: hidden;
 }
 
-// Not used for Neue theme? See VideoJS upstream.
+// Not used for AV Neue theme.
 .video-js .vjs-menu-button-inline:before {
-  /* Icon pseudoelement has a different base font size (1.8em), so we need to
-   * account for that in the width. 4em (standard button width) divided by 1.8
-   * to get the same button width as normal.
-  width: 2.222222222rem;
-   */
+  // Icon pseudoelement has a different base font size (1.8em), so we need to
+  // account for that in the width. 4em (standard button width) divided by 1.8
+  // to get the same button width as normal.
+  // width: 2.222222222em;
 }
 
 // Hover state
@@ -24,14 +23,17 @@
 }
 
 .vjs-menu-button-inline .vjs-menu {
-  position: absolute;
-  top: 0;
-  left: $control-button-width;
-  width: auto;
-  height: 100%;
-  margin: 0;
-  padding: 0;
   opacity: 0;
+  height: 100%;
+  width: auto;
+
+  position: absolute;
+  left: $control-button-width;
+  top: 0;
+
+  padding: 0;
+  margin: 0;
+
   @include transition(all 0.4s);
 }
 
@@ -56,8 +58,8 @@
 }
 
 .vjs-menu-button-inline .vjs-menu-content {
-  overflow: hidden;
   width: auto;
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }

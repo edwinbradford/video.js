@@ -27,12 +27,12 @@
       content: "";
       opacity: 0;
       @extend .icon-volume-highlight;
-      $transition-property: opacity $icon-highlight-time;
-      @include transition($transition-property);
+      @include transition(opacity $icon-unhighlight-time);
     }
     &:hover {
       &:before {
         opacity: 1;
+        @include transition(opacity $icon-highlight-time);
       }
     }
   }
@@ -73,12 +73,8 @@
 .video-js .vjs-volume-panel .vjs-volume-control {
   visibility: visible;
   opacity: 0;
-  $transition-property: visibility $icon-fade-time, opacity $icon-fade-time;
+  $transition-property: opacity $icon-fade-out-time;
   @include transition($transition-property);
-  // We do not slide volume slider into view for VideJS Neue theme
-  // width: 1px;
-  // height: 1px;
-  // margin-left: -1px;
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
@@ -98,6 +94,8 @@
     visibility: visible;
     opacity: 1;
     position: relative;
+    $transition-property: opacity $icon-fade-in-time;
+    @include transition($transition-property);
 
   }
 }
@@ -141,18 +139,15 @@
 
 // Position Volume Slider Handle for vertical menus
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  // We do not slide volume slider into view for VideJS Neue theme
+  // We do not slide volume slider into view for AV Neue theme
 }
 
 // Position Volume Slider Handle for horizontal menus
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  // We do not slide volume slider into view for VideJS Neue theme
+  // We do not slide volume slider into view for AV Neue theme
 }
 
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  // Not changed for VideJS Neue theme
-  // width: 5em;
-  // height: 3em;
 
   visibility: visible;
   opacity: 1;
@@ -195,7 +190,7 @@
 
 .video-js .vjs-volume-level {
   position: relative;
-  background-color: $accent-color;
+  background-color: $primary-foreground-color;
 
   // AV Neue Volume handle
   &:before {

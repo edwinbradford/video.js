@@ -8,7 +8,6 @@
     height: 100%;
     background-size: contain;
     @extend .icon-menu;
-    @include transition(opacity $icon-highlight-time);
     &:before {
       display: block;
       position: absolute;
@@ -19,11 +18,12 @@
       content: "";
       opacity: 0;
       @extend .icon-menu-highlight;
-      @include transition(opacity $icon-highlight-time);
+      @include transition(opacity $icon-unhighlight-time);
     }
     &:hover {
       &:before {
         opacity: 1;
+        @include transition(opacity $icon-highlight-time);
       }
     }
   }

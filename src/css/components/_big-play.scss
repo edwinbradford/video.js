@@ -3,12 +3,11 @@
 // Big play button shape and triangle
 .video-js .vjs-big-play-button {
   position: absolute;
-  // Neue theme play button has no top left style
   top: 50%;
   left: 50%;
+  z-index: 10; // In front of pause button when video is not playing
   width: $big-play-button--width;
   height: $big-play-button--height;
-  // Neue theme play button has no top left style
   margin-top: -($big-play-button--height / 2);
   margin-left: -($big-play-button--width / 2);
   padding: 0;
@@ -16,8 +15,6 @@
   opacity: 1;
   background-size: contain;
   @extend .icon-big-play;
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
   &:before {
     display: block;
     position: absolute;
@@ -28,17 +25,13 @@
     content: "";
     opacity: 0;
     @extend .icon-big-play-highlight;
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
+    @include transition(opacity $icon-unhighlight-time);
   }
 }
 
 // Allow people that hate their poster image to center the big play button.
 .vjs-big-play-centered .vjs-big-play-button {
-  top: 50%;
-  left: 50%;
-  margin-top: -($big-play-button--height / 2);
-  margin-left: -($big-play-button--width / 2);
+  // AV Neue theme play button is centered by default
 }
 
 // Play button hover changes
@@ -47,6 +40,7 @@
   outline: 0;
   &:before {
     opacity: 1;
+    @include transition(opacity $icon-highlight-time);
   }
 }
 

@@ -61,6 +61,8 @@ $modal-text-line-height: 1.8;
 $menu-popup-width: 16em;
 
 // Animations
-$icon-highlight-time: 0.5s;
-$icon-fade-time: 0.5s;
-$slider-handle-resize-time: 0.5s;
+$icon-highlight-time: 0ms;
+$icon-unhighlight-time: 1000ms;
+$icon-fade-in-time: 0ms;
+$icon-fade-out-time: 1000ms;
+$slider-handle-resize-time: 500ms;

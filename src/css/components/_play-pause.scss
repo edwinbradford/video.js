@@ -9,19 +9,22 @@
   height: $big-play-button--height;
   margin-top: $big-play-button--height * -1/2;
   margin-left: $big-play-button--width * -1/2;
-  margin-right: 0; // Overides right hand margin for control buttons
+  margin-right: 0; // Overides default right hand margin on control buttons
 }
 
 .video-js .vjs-play-control {
+  z-index: 5; // Behind play button when video is not playing
+}
+
+.video-js .vjs-play-control.vjs-playing {
+  z-index: 15; // In front of play button when video is playing
   span.vjs-icon-placeholder {
     display: block;
     position: relative; // Required for positioning of pseudo content
     width: 100%;
     height: 100%;
     background-size: contain;
-    // @extend .icon-pause-play; // We don't want a big play and small play button for AV Neue theme
-    $transition-property: opacity $icon-highlight-time;
-    @include transition($transition-property);
+    @extend .icon-pause;
     &:before {
       display: block;
       position: absolute;
@@ -31,44 +34,18 @@
       height: inherit;
       content: "";
       opacity: 0;
-      // @extend .icon-pause-play-highlight // We don't want the second play button highlight for AV Neue theme
-      $transition-property: opacity $icon-highlight-time;
-      @include transition($transition-property);
+      @extend .icon-pause-highlight;
+      @include transition(opacity $icon-unhighlight-time);
     }
     &:hover {
       &:before {
         opacity: 1;
-      }
-    }
-  }
-}
-
-.video-js .vjs-play-control.vjs-playing {
-  span.vjs-icon-placeholder {
-    @extend .icon-pause;
-    &:before {
-      // opacity: 0; // Highlight doesn't work well for AV Neue theme
-      // @extend .icon-pause-highlight; // Highlight doesn't work well for AV Neue theme
-    }
-    &:hover {
-      &:before {
-        // opacity: 1; // Highlight doesn't work well for AV Neue theme
+        @include transition(opacity $icon-highlight-time);
       }
     }
   }
 }
 
 .video-js .vjs-play-control.vjs-ended {
-  span.vjs-icon-placeholder {
-    // @extend .icon-pause-play;
-    &:before {
-      // opacity: 0;
-      // @extend .icon-pause-play-highlight;
-    }
-    &:hover {
-      &:before {
-        // opacity: 1; // No highlight for AV Neue theme
-      }
-    }
-  }
+  z-index: 5; // Behind play button when video is has ended
 }
