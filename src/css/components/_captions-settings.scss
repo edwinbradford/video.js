@@ -1,10 +1,10 @@
 // main: ../video-js.scss
 
-.vjs-modal-dialog.vjs-text-track-settings {
+.video-js .vjs-modal-dialog.vjs-text-track-settings {
   background-color: $primary-background-color;
-  background-color: rgba($primary-background-color, 0.75);
   color: $primary-foreground-color;
-  // height: 70%;
+  width: auto;
+  box-shadow: 0.2em 0 0.2em 0 rgba(0, 0, 0, 0.25);
 }
 
 // Layout divs
@@ -13,17 +13,19 @@
   // display: table;
 }
 
-.vjs-text-track-settings .vjs-track-settings-colors,
-.vjs-text-track-settings .vjs-track-settings-font,
-.vjs-text-track-settings .vjs-track-settings-controls {
-  // Disabled. Layout is vertical for AV Neue theme
-  // display: table-cell;
+.vjs-text-track-settings .vjs-track-settings-colors {
+  margin-bottom: 1.6em;
+}
+
+.vjs-text-track-settings .vjs-track-settings-font {
+  margin-bottom: 2.4em;
 }
 
 .vjs-text-track-settings .vjs-track-settings-controls {
-  margin-top: 3.2em;
+  //
 }
 
+/*
 // code that will only run if CSS Grid is supported by the browser
 @supports (display: grid) {
   .vjs-text-track-settings .vjs-modal-dialog-content {
@@ -49,6 +51,7 @@
 
   }
 }
+*/
 
 // Form elements
 .vjs-track-setting > select {
@@ -57,16 +60,17 @@
 
 .vjs-text-track-settings fieldset {
   margin: 0;
-  // margin-bottom: 1.6em;
   margin-top: 1.6em;
   padding: 0;
   border: none;
+  &:nth-of-type(1) {
+    margin-top: 0;
+  }
   select {
     margin-right: 0.8em;
     // margin-bottom: 0.8em;
   }
   span {
-    margin-top: 0.8em;
     display: inline-block;
   }
 }
@@ -91,7 +95,7 @@
 }
 
 .vjs-track-settings-controls button {
-  padding: 0.6em 1.2em;
+  padding: 0.25em 0.5em;
   background-color: $menu-background-color;
   color: $menu-text-color;
   cursor: pointer;
