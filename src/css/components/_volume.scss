@@ -71,7 +71,7 @@
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control {
-  visibility: visible;
+  display: none;
   opacity: 0;
   $transition-property: opacity $icon-fade-out-time;
   @include transition($transition-property);
@@ -91,7 +91,7 @@
   & .vjs-volume-control.vjs-slider-active {
 
     // Display AV Neue Volume Slider
-    visibility: visible;
+    @include display-flex;
     opacity: 1;
     position: relative;
     $transition-property: opacity $icon-fade-in-time;
@@ -149,7 +149,6 @@
 
 .video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
 
-  visibility: visible;
   opacity: 1;
   position: relative;
 
@@ -180,7 +179,7 @@
 }
 
 .vjs-volume-bar.vjs-slider-vertical {
-  display: flex;
+  @include display-flex;
   align-items: flex-end;
   width: $slider-height;
   height: $volume-menu-width;
