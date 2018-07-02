@@ -3,36 +3,24 @@
 // We are assuming there is no progress bar and using the live display
 // to fill in the middle space. Live+DVR will need to adjust this.
 
+// A Middot replaces text in the AV Neue theme
 .video-js .vjs-live-control,
 .vjs-no-flex .vjs-live-control {
+  @include display-flex(flex-start, center);
+  @include flex(auto);
+  @include border-radius(50%);
   position: absolute;
-  bottom: $control-button-height;
+  bottom: 2.8em;
   left: 0;
-  height: 1em;
+  height: 1.4em;
+  width: 1.4em;
+  background-color: $accent-color;
+}
+
+// Hide the text for the AV Neue theme
+.vjs-live-display {
+  display: none;
+  margin-left: 1.25em;
   font-size: $text-time-size;
   line-height: 1em;
-  // text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
-}
-
-.video-js .vjs-live-control {
-  @include display-flex(center);
-  @include flex(auto);
-}
-
-.vjs-no-flex .vjs-live-control {
-  display: table-cell;
-  width: auto;
-  text-align: left;
-}
-
-.vjs-live-middot {
-  display: block;
-  width: 1em;
-  height: 1em;
-  background-color: $accent-color;
-  @include border-radius(50%);
-}
-
-.vjs-live-display-text {
-  display: none;
 }

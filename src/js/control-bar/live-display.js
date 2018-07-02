@@ -40,10 +40,9 @@ class LiveDisplay extends Component {
       className: 'vjs-live-control vjs-control'
     });
 
-    // Add placeholder mid-dot span and separate the text for VideoJS Neue theme
     this.contentEl_ = Dom.createEl('div', {
       className: 'vjs-live-display',
-      innerHTML: `<span class="vjs-control-text">${this.localize('Stream Type')}</span><span class="vjs-live-middot"></span><span class="vjs-live-display-text">&nbsp;${this.localize('Live')}</span>`
+      innerHTML: `<span class="vjs-control-text">${this.localize('Stream Type')}\u00a0</span>${this.localize('LIVE')}`
     }, {
       'aria-live': 'off'
     });
