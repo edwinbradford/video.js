@@ -21,14 +21,14 @@
       }
     </style>
 
-    <!-- Load the css files -->
+    <!-- AV Neue -->
     <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
     <!-- Prevent Video.js from injecting Header styles -->
     <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Video.js Javascript files -->
-    <script src="../dist/video.js"></script>
+    <!-- Video.js v.7.0.5 core without VHS streaming -->
+    <script src="../dist/alt/video.core.min.js"></script>
 
   </head>
   <body>
@@ -36,14 +36,19 @@
     <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
+
       <track kind="captions" src="../docs/examples/elephantsdream/captions.en.vtt" srclang="en" label="English" default>
       <track kind="captions" src="../docs/examples/elephantsdream/captions.sv.vtt" srclang="sv" label="Swedish">
       <track kind="captions" src="../docs/examples/elephantsdream/captions.ru.vtt" srclang="ru" label="Russian">
       <track kind="captions" src="../docs/examples/elephantsdream/captions.ja.vtt" srclang="ja" label="Japanese">
       <track kind="captions" src="../docs/examples/elephantsdream/captions.ar.vtt" srclang="ar" label="Arabic">
+
       <track kind="descriptions" src="../docs/examples/elephantsdream/descriptions.en.vtt" srclang="en" label="English" default>
+
       <track kind="chapters" src="../docs/examples/elephantsdream/chapters.en.vtt" srclang="en" label="English" default>
+
       <track kind="subtitles" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English" default>
+
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
@@ -76,13 +81,13 @@
           'volumePanel': true,
         },
         // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
-        'inactivityTimeout': 1000,
         'html5': {
           nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
           nativeControlsForTouch: false, // Overides AV Neue theme with OS controls on touch devices
           nativeAudioTracks: false,
           nativeVideoTracks: false,
         },
+        'inactivityTimeout': 1000,
         'playbackRates': [0.5, 1, 1.5, 2],
       },
       function() {

@@ -21,29 +21,28 @@
       }
     </style>
 
-    <!-- Load the css styles -->
+    <!-- AV Neue -->
     <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
     <!-- Prevent Video.js from injecting Header styles -->
     <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Video.js Javascript files -->
-    <script src="../dist/video.js"></script>
+    <!-- Video.js v.7.0.5 core without VHS streaming -->
+    <script src="../dist/alt/video.core.min.js"></script>
 
-    <!-- MPEG DASH support -->
-    <script src="http://localhost/packages/dash.js/dist/dash.all.min.js"></script>
-    <script src="http://localhost/packages/videojs-contrib-dash/dist/videojs-dash.min.js"></script>
+    <!-- MPEG DASH plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.4/dash.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-dash/2.9.3/videojs-dash.min.js"></script>
 
-    <!-- HLS support -->
-    <script src="http://localhost/packages/videojs-contrib-hls/dist/videojs-contrib-hls.min.js"></script>
+    <!-- HLS plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.min.js"></script>
 
   </head>
   <body>
 
     <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
-      <source src="http://localhost/projects/stream.fmp4/mpd/stream.mpd" type="application/dash+xml">
-      <source src="http://localhost/projects/stream.fmp4/mpd/stream.m3u8" type="application/x-mpegURL">
-
+      <source src="https://raw.githubusercontent.com/edwinbradford/bakeware/master/mpd/stream.mpd" type="application/dash+xml">
+      <source src="https://raw.githubusercontent.com/edwinbradford/bakeware/master/mpd/stream.m3u8" type="application/x-mpegURL">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 

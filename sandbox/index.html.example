@@ -31,14 +31,14 @@
       }
     </style>
 
-    <!-- Load the css files -->
+    <!-- AV Neue -->
     <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
     <!-- Prevent Video.js from injecting Header styles -->
     <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
-    <!-- Load Video.js Javascript files -->
-    <script src="../dist/video.js"></script>
+    <!-- Video.js v.7.0.5 core without VHS streaming -->
+    <script src="../dist/alt/video.core.min.js"></script>
 
   </head>
   <body>
