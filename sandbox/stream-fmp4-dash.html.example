@@ -38,7 +38,7 @@
   <body>
 
     <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
-      <source src="https://raw.githubusercontent.com/edwinbradford/bakeware/master/mpd/stream.mpd" type="application/dash+xml">
+      <source src="https://raw.githubusercontent.com/edwinbradford/media/master/mpd/media.mpd" type="application/dash+xml">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
