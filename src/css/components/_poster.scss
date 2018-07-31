@@ -22,6 +22,11 @@
   display: none;
 }
 
+// Show the poster after the video has finished
+.vjs-ended .vjs-poster {
+  display: inline-block;
+}
+
 // Don't hide the poster if we're playing audio
 .vjs-audio.vjs-has-started .vjs-poster {
   display: block;
