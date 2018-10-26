@@ -1,12 +1,12 @@
 # Middleware
 
-Middleware is a Video.js feature that allows interaction with and modification of how the `Player` and `Tech` talk to each other. For more in-depth information, check out our [feature spotlight](http://blog.videojs.com/feature-spotlight-middleware/).
+Middleware is a Video.js feature that allows interaction with and modification of how the `Player` and `Tech` talk to each other. For more in-depth information, check out our [feature spotlight](https://blog.videojs.com/feature-spotlight-middleware/).
 
 ## Table of Contents
 
 * [Understanding Middleware](#understanding-middleware)
   * [setSource](#setsource)
-  * [setTech](#setTech)
+  * [setTech](#settech)
   * [Middleware Setters](#middleware-setters)
   * [Middleware Getters](#middleware-getters)
   * [Middleware Mediators](#middleware-mediators)
@@ -22,11 +22,15 @@ There are a few special methods that affect middleware: `setSource` and `setTech
 
 ### setSource
 
-`setSource` is a required method for all middleware and must be included in the returned object. This method will setup the routing between a specific source and middleware and eventually sets the source on the `Tech`.
+> _NOTE_: In versions of Video.js 7.0.5 and older, `setSource` was required for all middleware and had be included in the returned objects.
 
-If your middleware is not manipulating, redirecting or rejecting the source, you can pass along the source by doing the following:
+This method will setup the routing between a specific source and middleware and eventually sets the source on the `Tech`.
 
-```javascript
+If your middleware is not manipulating, redirecting or rejecting the source, you may leave this method out on newer versions of Video.js. Doing so will select middleware implicitly.
+
+In versions 7.0.5 and older, to get your middleware selected, you can pass along the source by doing the following:
+
+```js
 videojs.use('*', function(player) {
   return {
     setSource: function(srcObj, next) {
@@ -43,15 +47,13 @@ videojs.use('*', function(player) {
 
 ### Middleware Setters
 
-```
-+----------+                      +----------+
-|          |  setter middleware   |          |
-|          +---------------------->          |
-|  Player  |                      |   Tech   |
-|          <----------------------+          |
-|          |  getter middleware   |          |
-+----------+                      +----------+
-```
+    +----------+                      +----------+
+    |          |  setter middleware   |          |
+    |          +---------------------->          |
+    |  Player  |                      |   Tech   |
+    |          <----------------------+          |
+    |          |  getter middleware   |          |
+    +----------+                      +----------+
 
 Setters will be called on the `Player` first and run through middleware in the order they were registered in (from left to right in the diagram) before calling the method, with its arguments, on the `Tech`.
 
@@ -65,34 +67,29 @@ Mediators are methods that not only change the state of the `Tech`, but also ret
 
 Mediators are called on the `Player` first, run through middleware in the order they were registered (from left to right in the below diagram), then called on the `Tech`. The result is returned to the `Player` unchanged, while calling the middleware in the reverse order of how they were registered (from right to left in the diagram.) For more information on mediators, check out the [mediator section](#termination-and-mediators).
 
-```
-+----------+                      +----------+
-|          |                      |          |
-|          +---mediate-to-tech---->          |
-|  Player  |                      |   Tech   |
-|          <--mediate-to-player---+          |
-|          |                      |          |
-+----------+                      +----------+
-```
+    +----------+                      +----------+
+    |          |                      |          |
+    |          +---mediate-to-tech---->          |
+    |  Player  |                      |   Tech   |
+    |          <--mediate-to-player---+          |
+    |          |                      |          |
+    +----------+                      +----------+
 
 ### Termination and Mediators
 
 Mediators make a round trip: starting at the `Player`, mediating to the `Tech` and returning the result to the `Player` again. A `call{method}` method must be supplied by the middleware which is used when mediating to the `Tech`. On the way back to the `Player`, the `{method}` will be called instead, with 2 arguments: `terminated`, a Boolean indicating whether a middleware terminated during the mediation to the tech portion, and `value`, which is the value returned from the `Tech`.
 
-```
-+----------+                      +----------+
-|          |                      |          |
-|          +----+call{method}+---->          |
-|  Player  |                      |   Tech   |
-|          <------+{method}+------+          |
-|          |                      |          |
-+----------+                      +----------+
-
-```
+    +----------+                      +----------+
+    |          |                      |          |
+    |          +----+call{method}+---->          |
+    |  Player  |                      |   Tech   |
+    |          <------+{method}+------+          |
+    |          |                      |          |
+    +----------+                      +----------+
 
 A skeleton of a middleware with Mediator methods is given below:
 
-```
+```js
 var myMiddleware = function(player) {
   return {
     callPlay: function() {
@@ -114,19 +111,19 @@ Middleware termination occurs when a middleware method decides to stop mediating
 
 Middleware are registered to a video MIME type, and will be run for any source with that type.
 
-```javascript
+```js
 videojs.use('video/mp4', myMiddleware);
 ```
 
 You can also register a middleware on all sources by registering it on `*`.
 
-```javascript
+```js
 videojs.use('*', myMiddleware);
 ```
 
 Your middleware should be a function that is scoped to a player and returns an object, class instance, etc, with methods on it that match those on the `Tech`. An example of a middleware that returns an object is below:
 
-```javascript
+```js
 var myMiddleware = function(player) {
   return {
     setSource: function(srcObj, next) {
@@ -145,11 +142,28 @@ var myMiddleware = function(player) {
 videojs.use('*', myMiddleware);
 ```
 
+And the same example with `setSource` omitted:
+
+```js
+var myMiddleware = function(player) {
+  return {
+    currentTime: function(ct) {
+      return ct / 2;
+    },
+    setCurrentTime: function(time) {
+      return time * 2;
+    }
+  };
+};
+
+videojs.use('*', myMiddleware);
+```
+
 This middleware gives the appearance of the video source playing at double its speed, by halving the time we _get_ from the `Tech`, and doubling the time we _set_ on the `Tech`.
 
 An example of a middleware that uses Mediator methods is below:
 
-```javascript
+```js
 var myMiddleware = function(player) {
   return {
     setSource: function(srcObj, next) {
@@ -186,7 +200,7 @@ This middleware allows the call to `play()` to go through to the `Tech`, and che
 
 Mediator methods can terminate, by doing the following:
 
-```javascript
+```js
 var myMiddleware = function(player) {
   return {
     setSource: function(srcObj, next) {

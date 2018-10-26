@@ -247,9 +247,11 @@ QUnit.test('should do a deep merge of child options', function(assert) {
   assert.strictEqual(children.childThree, false, 'object two levels deep removed');
   assert.ok(children.childFour, 'object two levels deep added');
 
-  assert.strictEqual(Component.prototype.options_.example.childOne.foo,
-                     'bar',
-                     'prototype options were not overridden');
+  assert.strictEqual(
+    Component.prototype.options_.example.childOne.foo,
+    'bar',
+    'prototype options were not overridden'
+  );
 
   // Reset default component options to none
   Component.prototype.options_ = null;
@@ -350,8 +352,10 @@ QUnit.test('should dispose of component and children', function(assert) {
   assert.ok(!child.children(), 'child children were deleted');
   assert.ok(!child.el(), 'child element was deleted');
   assert.ok(!DomData.hasData(el), 'listener data nulled');
-  assert.ok(!Object.getOwnPropertyNames(data).length,
-  'original listener data object was emptied');
+  assert.ok(
+    !Object.getOwnPropertyNames(data).length,
+    'original listener data object was emptied'
+  );
 });
 
 QUnit.test('should add and remove event listeners to element', function(assert) {
@@ -448,11 +452,9 @@ QUnit.test('should add listeners to other components and remove when them other 
   const player = getFakePlayer();
   const comp1 = new Component(player);
   const comp2 = new Component(player);
-  let listenerFired = 0;
 
   const testListener = function() {
     assert.equal(this, comp1, 'listener has the first component as context');
-    listenerFired++;
   };
 
   comp1.on(comp2, 'test-event', testListener);
@@ -757,8 +759,10 @@ QUnit.test('should use a defined content el for appending children', function(as
 
   assert.ok(comp.children().length === 0, 'Length should now be zero');
   assert.ok(comp.el().childNodes[0].id === 'contentEl', 'Content El should still exist');
-  assert.ok(comp.el().childNodes[0].childNodes[0] !== child.el(),
-  'Child el should be removed.');
+  assert.ok(
+    comp.el().childNodes[0].childNodes[0] !== child.el(),
+    'Child el should be removed.'
+  );
 
   comp.dispose();
 });
@@ -953,6 +957,55 @@ QUnit.test('*AnimationFrame methods fall back to timers if rAF not supported', f
   assert.strictEqual(comp.clearTimeout.callCount, 1, 'Component#clearTimeout was called');
 
   comp.dispose();
+  window.requestAnimationFrame = oldRAF;
+  window.cancelAnimationFrame = oldCAF;
+});
+
+QUnit.test('setTimeout should remove dispose handler on trigger', function(assert) {
+  const comp = new Component(getFakePlayer());
+  const el = comp.el();
+  const data = DomData.getData(el);
+
+  comp.setTimeout(() => {}, 1);
+
+  assert.equal(data.handlers.dispose.length, 2, 'we got a new dispose handler');
+  assert.ok(/vjs-timeout-\d/.test(data.handlers.dispose[1].guid), 'we got a new dispose handler');
+
+  this.clock.tick(1);
+
+  assert.equal(data.handlers.dispose.length, 1, 'we removed our dispose handle');
+
+  comp.dispose();
+});
+
+QUnit.test('requestAnimationFrame should remove dispose handler on trigger', function(assert) {
+  const comp = new Component(getFakePlayer());
+  const el = comp.el();
+  const data = DomData.getData(el);
+  const oldRAF = window.requestAnimationFrame;
+  const oldCAF = window.cancelAnimationFrame;
+
+  // Stub the window.*AnimationFrame methods with window.setTimeout methods
+  // so we can control when the callbacks are called via sinon's timer stubs.
+  window.requestAnimationFrame = (fn) => window.setTimeout(fn, 1);
+  window.cancelAnimationFrame = (id) => window.clearTimeout(id);
+
+  // Make sure the component thinks it supports rAF.
+  comp.supportsRaf_ = true;
+
+  const spyRAF = sinon.spy();
+
+  comp.requestAnimationFrame(spyRAF);
+
+  assert.equal(data.handlers.dispose.length, 2, 'we got a new dispose handler');
+  assert.ok(/vjs-raf-\d/.test(data.handlers.dispose[1].guid), 'we got a new dispose handler');
+
+  this.clock.tick(1);
+
+  assert.equal(data.handlers.dispose.length, 1, 'we removed our dispose handle');
+
+  comp.dispose();
+
   window.requestAnimationFrame = oldRAF;
   window.cancelAnimationFrame = oldCAF;
 });

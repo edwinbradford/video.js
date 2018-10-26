@@ -43,7 +43,7 @@
 </head>
 <body>
 
-  <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
+  <video id="vid1" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
     <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
     <p>Video Playback Not Supported</p>
@@ -72,7 +72,7 @@
 
     videojs.registerComponent('MyPRMB', MyPRMB);
 
-    var player = videojs('videoJSElement', {
+    var player = videojs('vid1', {
 
       // Player setup
       'controls': true,
@@ -109,7 +109,7 @@
 
     videojs.registerPlugin('examplePlugin', ExamplePlugin);
 
-    var player = videojs('videoJSElement');
+    var player = videojs('vid1');
 
     // The class "example-class" will be added to the videojs container div
     player.examplePlugin({customClass: 'example-class'});
@@ -117,11 +117,6 @@
   </script>
 
   <script>
-    /*
-     * Sandbox plugin from Video.js.
-     * Uncomment last line to enable.
-     *
-     */
     (function() {
       var vid1, progressed;
 
@@ -138,7 +133,7 @@
       videojs.registerPlugin('progressed', progressed);
 
       // initialize it
-      vid1 = videojs('videoJSElement');
+      vid1 = videojs('vid1');
 
       // Uncomment next line to enable plugin
       // vid1.progressed();
