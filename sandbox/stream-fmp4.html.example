@@ -67,6 +67,7 @@
       function() {
         // this.createModal('foo');
         // Callback.
+        videojs.log.level('debug');
       });
     </script>
 
