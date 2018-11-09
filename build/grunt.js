@@ -1,76 +1,16 @@
-import {gruntCustomizer, gruntOptionsMaker} from './options-customizer.js';
 import isDocsOnly from './docs-only.js';
 
 module.exports = function(grunt) {
   require('time-grunt')(grunt);
 
-  let _ = require('lodash');
-  let pkg = grunt.file.readJSON('package.json');
-  let license = grunt.file.read('build/license-header.txt');
-  let bannerCommonData = _.pick(pkg, ['version', 'copyright']);
-  let verParts = pkg.version.split('.');
-  let version = {
+  const pkg = grunt.file.readJSON('package.json');
+  const verParts = pkg.version.split('.');
+  const version = {
     full: pkg.version,
     major: verParts[0],
     minor: verParts[1],
     patch: verParts[2]
   };
-
-  const browserifyGruntDefaults = {
-    browserifyOptions: {
-      standalone: 'videojs'
-    },
-    plugin: [
-      ['bundle-collapser/plugin'],
-      ['browserify-derequire']
-    ]
-  };
-
-  /**
-   * Customizes _.merge behavior in `browserifyGruntOptions` to concatenate
-   * arrays. This can be overridden on a per-call basis to
-   *
-   * @see https://lodash.com/docs#merge
-   * @function browserifyGruntCustomizer
-   * @private
-   * @param  {Mixed} objectValue
-   * @param  {Mixed} sourceValue
-   * @return {Object}
-   */
-  const browserifyGruntCustomizer = gruntCustomizer;
-
-  /**
-   * Creates a unique object of Browserify Grunt task options.
-   *
-   * @function browserifyGruntOptions
-   * @private
-   * @param  {Object} [options]
-   * @param  {Function} [customizer=browserifyGruntCustomizer]
-   *         If the default array-concatenation behavior is not desireable,
-   *         pass _.noop or a unique customizer (https://lodash.com/docs#merge).
-   *
-   * @return {Object}
-   */
-  const browserifyGruntOptions = gruntOptionsMaker(browserifyGruntDefaults, browserifyGruntCustomizer);
-
-  /**
-   * Creates processor functions for license banners.
-   *
-   * @function createLicenseProcessor
-   * @private
-   * @param  {Object} data Custom data overriding `bannerCommonData`. Will
-   *                       not be mutated.
-   * @return {Function}    A function which returns a processed grunt template
-   *                       using an object constructed from `bannerCommonData`
-   *                       and the `data` argument.
-   */
-  function createLicenseProcessor(data) {
-    return () => {
-      return grunt.template.process(license, {
-        data: _.merge({}, bannerCommonData, data)
-      });
-    };
-  }
 
   version.majorMinor = `${version.major}.${version.minor}`;
   grunt.vjsVersion = version;
@@ -78,65 +18,11 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg,
-    clean: {
-      build: ['build/temp/*', 'es5'],
-      dist: ['dist/*']
-    },
-    dist: {},
     watch: {
       lang: {
         files: ['lang/**/*.json'],
         tasks: ['vjslanguages']
       }
-    },
-    connect: {
-      dev: {
-        options: {
-          port: Number(process.env.VJS_CONNECT_PORT) || 9999,
-          livereload: true,
-          useAvailablePort: true
-        }
-      }
-    },
-    copy: {
-      fonts: { cwd: 'node_modules/videojs-font/fonts/', src: ['*'], dest: 'build/temp/font/', expand: true, filter: 'isFile' },
-      dist:  { cwd: 'build/temp/', src: ['**/**', '!test*'], dest: 'dist/', expand: true, filter: 'isFile' },
-      a11y:  { src: 'sandbox/descriptions.html.example', dest: 'sandbox/descriptions.test-a11y.html' }, // Can only test a file with a .html or .htm extension
-      examples: { cwd: 'docs/examples/', src: ['**/**'], dest: 'dist/examples/', expand: true, filter: 'isFile' }
-    },
-    karma: {
-      // this config file applies to all following configs except if overwritten
-      options: {
-        configFile: 'test/karma.conf.js'
-      },
-
-      defaults: {
-        detectBrowsers: {
-          enabled: !process.env.TRAVIS,
-          usePhantomJS: false
-        }
-      },
-
-      watch: {
-        autoWatch: true,
-        singleRun: false
-      },
-
-      // these are run locally on local browsers
-      dev: { browsers: ['Chrome', 'Firefox', 'Safari'] },
-      chromecanary: { browsers: ['ChromeCanary'] },
-      chrome:       { browsers: ['Chrome'] },
-      firefox:      { browsers: ['Firefox'] },
-      safari:       { browsers: ['Safari'] },
-      ie:           { browsers: ['IE'] },
-
-      // this only runs on PRs from the mainrepo on BrowserStack
-      browserstack: { browsers: ['chrome_bs'] },
-      chrome_bs:    { browsers: ['chrome_bs'] },
-      firefox_bs:   { browsers: ['firefox_bs'] },
-      safari_bs:    { browsers: ['safari_bs'] },
-      edge_bs:      { browsers: ['edge_bs'] },
-      ie11_bs:      { browsers: ['ie11_bs'] }
     },
     vjslanguages: {
       defaults: {
@@ -145,80 +31,85 @@ module.exports = function(grunt) {
         }
       }
     },
-    zip: {
-      dist: {
-        router: function (filepath) {
-          var path = require('path');
-          return path.relative('dist', filepath);
-        },
-        // compression: 'DEFLATE',
-        src: ['dist/**/*'],
-        dest: 'dist/video-js-' + version.full + '.zip'
-      }
-    },
-    browserify: {
-      tests: {
-        options: {
-          browserifyOptions: {
-            verbose: true,
-            standalone: false,
-            transform: ['babelify']
-          },
-          plugin: [
-            ['proxyquireify/plugin', 'bundle-collapser/plugin']
-          ],
-          banner: false,
-          watch: true,
-          keepAlive: true
-        },
-        files: {
-          'build/temp/tests.js': [
-            'test/globals-shim.js',
-            'test/unit/**/*.js'
-          ]
-        }
-      }
-    },
-    coveralls: {
-      options: {
-        // warn instead of failing when coveralls errors
-        // we've seen coveralls 503 relatively frequently
-        force: true
-      },
-      all: {
-        src: 'test/coverage/lcov.info'
-      }
-    },
     concurrent: {
       options: {
         logConcurrentOutput: true
       },
       tests: [
         'shell:babel',
-        'browserify:tests'
       ],
       dev: [
         'shell:sass',
         'shell:babel',
-        'browserify:tests',
         'watch:lang',
-        'copy:dist'
+        'shell:copy-dist',
+        'shell:karma-server'
       ],
       // Run multiple watch tasks in parallel
       // Needed so watchify can cache intelligently
       watchAll: [
         'watch',
-        'browserify:watch',
-        'browserify:watchnovtt',
-        'browserify:tests',
-        'karma:watch'
+        'shell:karma-server'
       ],
       watchSandbox: [
-        'watch',
-        'browserify:watch'
+        'watch'
       ]
     },
     shell: {
+      'copy-dist': {
+        command: 'npm run copy-dist',
+        options: {
+          preferLocal: true
+        }
+      },
+      'copy-fonts': {
+        command: 'npm run copy-fonts',
+        options: {
+          preferLocal: true
+        }
+      },
+      'copy-lang': {
+        command: 'npm run copy-lang',
+        options: {
+          preferLocal: true
+        }
+      },
+      'copy-a11y': {
+        command: 'npm run copy-a11y',
+        options: {
+          preferLocal: true
+        }
+      },
+      'copy-examples': {
+        command: 'npm run copy-examples',
+        options: {
+          preferLocal: true
+        }
+      },
+      clean: {
+        command: 'npm run clean',
+        options: {
+          preferLocal: true
+        }
+      },
+      'karma-server': {
+        command: 'npm run karma-server',
+        options: {
+          preferLocal: true
+        }
+      },
+      'karma-run': {
+        command: 'npm run karma-run',
+        options: {
+          preferLocal: true
+        }
+      },
+      'zip': {
+        command: 'npm run zip',
+        options: {
+          preferLocal: true
+        }
+      },
       cssmin: {
         command: 'npm run cssmin',
         options: {
@@ -300,23 +191,23 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'shell:lint',
-    'clean:build',
+    'shell:clean',
 
     'shell:rollupall',
 
     'shell:sass',
     'shell:cssmin',
 
-    'copy:fonts',
+    'shell:copy-fonts',
+    'shell:copy-lang',
     'vjslanguages'
   ]);
 
   grunt.registerTask('dist', [
-    'clean:dist',
     'build',
-    'copy:dist',
-    'copy:examples',
-    'zip:dist'
+    'shell:copy-dist',
+    'shell:copy-examples',
+    'shell:zip'
   ]);
 
   grunt.registerTask('skin', ['shell:sass']);
@@ -324,14 +215,13 @@ module.exports = function(grunt) {
   // Default task - build and test
   grunt.registerTask('default', ['test']);
 
-  // The test script includes coveralls only when the TRAVIS env var is set.
   grunt.registerTask('test', function() {
     const tasks = [
       'build',
       'shell:noderequire',
       'shell:browserify',
       'shell:webpack',
-      'karma:defaults',
+      'shell:karma-run',
       'test-a11y'
     ];
 
@@ -340,21 +230,19 @@ module.exports = function(grunt) {
         grunt.log.write('Not running any tests because only docs were changed');
         return;
       }
-
-      tasks.concat(process.env.TRAVIS && 'coveralls').filter(Boolean);
     }
 
     grunt.task.run(tasks);
   });
 
   // Run while developing
-  grunt.registerTask('dev', ['sandbox', 'connect:dev', 'concurrent:dev']);
-  grunt.registerTask('watchAll', ['build', 'connect:dev', 'concurrent:watchAll']);
-  grunt.registerTask('test-a11y', ['copy:a11y', 'accessibility']);
+  grunt.registerTask('dev', ['sandbox', 'concurrent:dev']);
+  grunt.registerTask('watchAll', ['build', 'concurrent:watchAll']);
+  grunt.registerTask('test-a11y', ['shell:copy-a11y', 'accessibility']);
 
   // Pick your testing, or run both in different terminals
-  grunt.registerTask('test-ui', ['browserify:tests']);
-  grunt.registerTask('test-cli', ['karma:watch']);
+  grunt.registerTask('test-ui', ['shell:karma-server']);
+  grunt.registerTask('test-cli', ['shell:karma-server']);
 
   // Load all the tasks in the tasks directory
   grunt.loadTasks('build/tasks');
