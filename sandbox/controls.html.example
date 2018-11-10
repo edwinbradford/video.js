@@ -15,6 +15,7 @@
       }
       body {
         margin: 0;
+        height: 100%;
       }
       video {
         margin: 0;
@@ -24,16 +25,13 @@
     <!-- AV Neue theme -->
     <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Prevent Video.js from injecting Header styles -->
-    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
-
-    <!-- Video.js core -->
+    <!-- Video.js -->
     <script src="../dist/video.min.js"></script>
 
   </head>
   <body>
 
-    <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
+    <video id="videojsElement" class="video-js vjs-big-play-centered" poster="poster.jpg">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
       <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
 
@@ -53,42 +51,50 @@
     </video>
 
     <script>
-      var player = videojs('videoJSElement', {
-
-        // Native HTML5 options
+      var player = videojs('videojsElement', {
         'autoplay': false,
         'controls': true,
         'loop': false,
         'muted': false,
         'preload': 'auto',
-
-        // Non-native HTML5 options
+        'responsive': true,
+        'fluid': true,          // (1) or...
+//      'fill': true            // (2) or...
+//      'aspectRatio': '16:9'   // (3)
+        'breakpoints': {
+          'tiny': 210,
+          'x-small': 320,
+          'small': 425,
+          'medium': 768,
+          'large': 1440,
+          'x-large': 2560,
+          'huge': Infinity
+        },
+        'html5': {
+          'nativeTextTracks': false,
+          'nativeControlsForTouch': false,
+          'nativeAudioTracks': false,
+          'nativeVideoTracks': false,
+        },
+        'inactivityTimeout': 1000,
+        'playbackRates': [0.5, 1, 1.5, 2],
         'controlBar': {
           'audioTrackButton': true,
-          'chaptersButton': true, // Visibility is dependent on nativeTextTracks value
+          'chaptersButton': true,
           'currentTimeDisplay': true,
           'customControlSpacer': true,
-          'descriptionsButton': true, // Visibility is dependent on nativeTextTracks value
+          'descriptionsButton': true,
           'durationDisplay': true,
           'liveDisplay': true,
           'muteToggle': false,
           'playbackRateMenuButton': true,
           'playToggle': true,
           'progressControl': true,
-          'remainingTimeDisplay': true,
-          'subsCapsButton': true, // Visibility is dependent on nativeTextTracks value
-          'timeDivider': true,
+          'remainingTimeDisplay': false,
+          'subsCapsButton': true,
+          'timeDivider': false,
           'volumePanel': true,
         },
-        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
-        'html5': {
-          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
-          nativeControlsForTouch: false, // Overides AV Neue theme with OS controls on touch devices
-          nativeAudioTracks: false,
-          nativeVideoTracks: false,
-        },
-        'inactivityTimeout': 1000,
-        'playbackRates': [0.5, 1, 1.5, 2],
       },
       function() {
         // this.createModal('foo');

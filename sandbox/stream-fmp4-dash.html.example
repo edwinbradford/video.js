@@ -15,6 +15,7 @@
       }
       body {
         margin: 0;
+        height: 100%;
       }
       video {
         margin: 0;
@@ -24,43 +25,48 @@
     <!-- AV Neue theme -->
     <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
 
-    <!-- Prevent Video.js from injecting Header styles -->
-    <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
-
-    <!-- Video.js core -->
+    <!-- Video.js -->
     <script src="../dist/video.min.js"></script>
 
   </head>
   <body>
 
-    <video id="videoJSElement" class="video-js vjs-16-9 vjs-big-play-centered" poster="poster.jpg">
+    <video id="videojsElement" class="video-js vjs-big-play-centered" poster="poster.jpg">
       <source src="https://raw.githubusercontent.com/edwinbradford/media/master/mpd/media.mpd" type="application/dash+xml">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
     <script>
-      var player = videojs('videoJSElement', {
-
-        // Native HTML5 options
+      var player = videojs('videojsElement', {
         'autoplay': false,
         'controls': true,
         'loop': false,
         'muted': false,
         'preload': 'auto',
-
-        // Non-native HTML5 options
+        'responsive': true,
+        'fluid': true,          // (1) or...
+//      'fill': true            // (2) or...
+//      'aspectRatio': '16:9'   // (3)
+        'breakpoints': {
+          'tiny': 210,
+          'x-small': 320,
+          'small': 425,
+          'medium': 768,
+          'large': 1440,
+          'x-large': 2560,
+          'huge': Infinity
+        },
+        'html5': {
+          'nativeTextTracks': false,
+          'nativeControlsForTouch': false,
+          'nativeAudioTracks': false,
+          'nativeVideoTracks': false,
+        },
+        'inactivityTimeout': 1000,
         'controlBar': {
           'durationDisplay': true,
           'remainingTimeDisplay': false,
           'timeDivider': false,
-        },
-        // 'fluid': true, // Fluid has a black border with mpeg-dash, use vjs-16-9 class in video tag instead
-        'inactivityTimeout': 1000,
-        'html5': {
-          nativeTextTracks: false, // N.B. Can affect visibility of individual controlBar items
-          nativeControlsForTouch: false, // Overides AV Neue theme with OS controls on touch devices
-          nativeAudioTracks: false,
-          nativeVideoTracks: false,
         },
       },
       function() {

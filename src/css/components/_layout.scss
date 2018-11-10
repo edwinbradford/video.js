@@ -23,22 +23,13 @@
   // Avoiding helvetica: issue #376
   font-family: $text-font-family;
 
-  /* Removed during merge 2017.12.03
-  // clip controls when moved down during playback
-  // overflow: hidden;
-  @include user-select(none);
-  */
-
   // Fix for Firefox 9 fullscreen (only if it is enabled). Not needed when
   // checking fullScreenEnabled.
-  &:-moz-full-screen {
-    position: absolute;
-  }
+  &:-moz-full-screen { position: absolute; }
 
   &:-webkit-full-screen {
     width: 100% !important;
-    //　Not required for Neue theme
-    //　height: 100% !important;
+    height: 100% !important;
   }
 
   // reset word-break inside the player div
@@ -68,15 +59,16 @@
 
 // List style reset
 .video-js ul {
-  margin-top: 0;
-  margin-right: 0;
-  margin-bottom: 0;
-  // Important to specify each
-  margin-left: 0;
-  list-style-position: outside;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  list-style-position: outside;
+
+  // Important to specify each
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 // Fill the width of the containing element and use padding to create the
@@ -124,25 +116,21 @@ body.vjs-full-window {
   margin: 0;
   height: 100%;
 }
-
 .vjs-full-window .video-js.vjs-fullscreen {
   position: fixed;
-  z-index: 1000;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   overflow: hidden;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .video-js.vjs-fullscreen {
   width: 100% !important;
-  // Removed for Neue theme
-  // height: 100% !important;
-
-  // Removed for Neue theme
+  height: 100% !important;
   // Undo any aspect ratio padding for fluid layouts
-  // padding-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .video-js.vjs-fullscreen.vjs-user-inactive {
@@ -150,38 +138,35 @@ body.vjs-full-window {
 }
 
 // Hide disabled or unsupported controls.
-.vjs-hidden {
-  display: none !important;
-}
+.vjs-hidden { display: none !important; }
 
-// Apply disabled effect to div but not again to child items with same class
-div.vjs-disabled {
-  cursor: default;
+.vjs-disabled {
   opacity: 0.5;
+  cursor: default;
 }
 
 // Visually hidden offscreen, but accessible to screen readers.
 .video-js .vjs-offscreen {
+  height: 1px;
+  left: -9999px;
   position: absolute;
   top: 0;
-  left: -9999px;
   width: 1px;
-  height: 1px;
 }
 
 .vjs-lock-showing {
   display: block !important;
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
 }
 
 // This optional paragraph inside the video tag can provide a message to users
 // about what's required to play video when JavaScript is disabled
 .vjs-no-js {
-  width: 640px;
-  height: 360px;
   padding: $controls-margin;
   padding-right: $controls-margin * 3;
+  width: 640px;
+  height: 360px;
   @extend .vjs-modal-dialog-content;
 }
 
