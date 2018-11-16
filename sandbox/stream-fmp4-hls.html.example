@@ -72,8 +72,8 @@
       function() {
         // this.createModal('foo');
         // Callback.
-        videojs.log.level('debug');
       });
+      videojs.log.level('debug');
     </script>
 
     <!--<script>player.createModal('foo');</script>-->
