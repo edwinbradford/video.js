@@ -61,6 +61,7 @@
   outline: none;
 }
 
-.video-js *:focus:not(:focus-visible) {
+.video-js *:focus:not(:focus-visible),
+.video-js .vjs-menu *:focus:not(:focus-visible) {
   outline: none;
 }

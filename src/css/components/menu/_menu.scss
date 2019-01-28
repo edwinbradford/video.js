@@ -46,20 +46,23 @@ div.vjs-menu-button {
   margin: 0;
   padding: 0rem 1.2em;
   list-style: none;
-  font-size: 1.2em;
+  font-size: $modal-text-size;
   line-height: 2;
   text-transform: capitalize;
   color: $menu-text-color;
 }
 
 .vjs-menu li.vjs-menu-item:focus,
-.vjs-menu li.vjs-menu-item:hover {
+.vjs-menu li.vjs-menu-item:hover,
+.js-focus-visible .vjs-menu li.vjs-menu-item:hover {
   outline: 0;
+  background-color: $menu-background-color;
 }
 
 .vjs-menu li.vjs-selected,
 .vjs-menu li.vjs-selected:focus,
-.vjs-menu li.vjs-selected:hover {
+.vjs-menu li.vjs-selected:hover,
+.js-focus-visible .vjs-menu li.vjs-selected:hover {
   color: $menu-text-color-highlight;
   background-color: $menu-background-color;
 }

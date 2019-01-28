@@ -16,15 +16,12 @@
   display: none;
 }
 
-// We need the extra specificity that referencing .vjs-no-flex provides.
-.video-js .vjs-current-time,
-.vjs-no-flex .vjs-current-time {
+.video-js .vjs-current-time {
   justify-content: flex-start;
   left: 0;
 }
 
-.video-js .vjs-duration,
-.vjs-no-flex .vjs-duration {
+.video-js .vjs-duration {
   justify-content: flex-end;
   right: 0;
 }

@@ -30,8 +30,3 @@
 .video-js .vjs-control-text {
   @include hide-visually;
 }
-
-.vjs-no-flex .vjs-control {
-  display: table-cell;
-  vertical-align: middle;
-}

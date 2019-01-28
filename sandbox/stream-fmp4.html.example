@@ -51,7 +51,7 @@
         'breakpoints': {
           'tiny': 210,
           'x-small': 320,
-          'small': 425,
+          'small': 639,
           'medium': 768,
           'large': 1440,
           'x-large': 2560,

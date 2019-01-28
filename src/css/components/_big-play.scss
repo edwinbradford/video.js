@@ -5,7 +5,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  z-index: 10; // In front of pause button when video is not playing
+  // z-index: 10; // In front of pause button when video is not playing
   width: $big-play-button--width;
   height: $big-play-button--height;
   margin-top: -($big-play-button--height / 2);

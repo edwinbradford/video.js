@@ -147,19 +147,6 @@
   // We do not slide volume slider into view for AV Neue theme
 }
 
-.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-
-  opacity: 1;
-  position: relative;
-
-  @include transition(none);
-}
-
-.video-js.vjs-no-flex .vjs-volume-control.vjs-volume-vertical,
-.video-js.vjs-no-flex .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  // Not used for VideJS Neue theme
-}
-
 .video-js .vjs-volume-panel {
   @include display-flex;
   position: absolute;

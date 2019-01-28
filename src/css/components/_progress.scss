@@ -179,10 +179,6 @@
 }
 */
 
-.video-js.vjs-no-flex .vjs-progress-control {
-  width: auto;
-}
-
 // Graphic under mouse when over progress bar
 // .vjs-time-tooltip is not used for AV Neue theme
 
@@ -241,10 +237,6 @@
   */
 }
 
-.vjs-no-flex .vjs-progress-control .vjs-mouse-display {
-  // z-index: 0;
-}
-
 .video-js .vjs-progress-control:hover .vjs-mouse-display {
   display: none;
 }
@@ -257,10 +249,6 @@
   $trans: visibility 1.0s, opacity 1.0s;
   @include transition($trans);
   */
-}
-
-.video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display {
-  display: none;
 }
 
 .vjs-mouse-display .vjs-time-tooltip {
