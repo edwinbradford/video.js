@@ -1,9 +1,8 @@
+@import "variables"; // Font icons
 @import "private-variables";
 @import "utilities";
 
-/* Font icons only */
-
-// @import "variables";
+@import "node_modules/videojs-font/scss/icons"; // Font icons
 
 @import "components/svgs";
 
@@ -18,7 +17,7 @@
 @import "components/menu/menu-inline";
 
 @import "components/control-bar";
-@import "components/control-buttons";
+@import "components/control";
 @import "components/control-spacer";
 
 @import "components/progress";
@@ -44,7 +43,6 @@
 @import "components/audio";
 @import "components/adaptive";
 @import "components/captions-settings";
-@import "components/modal-dialog";
 
 @import "print";
 
