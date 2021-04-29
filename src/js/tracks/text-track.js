@@ -8,7 +8,7 @@ import log from '../utils/log.js';
 import window from 'global/window';
 import Track from './track.js';
 import { isCrossOrigin } from '../utils/url.js';
-import XHR from 'xhr';
+import XHR from '@videojs/xhr';
 import merge from '../utils/merge-options';
 
 /**
@@ -80,6 +80,12 @@ const loadTrack = function(src, track) {
     opts.cors = crossOrigin;
   }
 
+  const withCredentials = track.tech_.crossOrigin() === 'use-credentials';
+
+  if (withCredentials) {
+    opts.withCredentials = withCredentials;
+  }
+
   XHR(opts, Fn.bind(this, function(err, response, responseBody) {
     if (err) {
       return log.error(err, response);
@@ -91,14 +97,15 @@ const loadTrack = function(src, track) {
     // NOTE: this is only used for the alt/video.novtt.js build
     if (typeof window.WebVTT !== 'function') {
       if (track.tech_) {
-        const loadHandler = () => parseCues(responseBody, track);
-
-        track.tech_.on('vttjsloaded', loadHandler);
-        track.tech_.on('vttjserror', () => {
-          log.error(`vttjs failed to load, stopping trying to process ${track.src}`);
-          track.tech_.off('vttjsloaded', loadHandler);
+        // to prevent use before define eslint error, we define loadHandler
+        // as a let here
+        track.tech_.any(['vttjsloaded', 'vttjserror'], (event) => {
+          if (event.type === 'vttjserror') {
+            log.error(`vttjs failed to load, stopping trying to process ${track.src}`);
+            return;
+          }
+          return parseCues(responseBody, track);
         });
-
       }
     } else {
       parseCues(responseBody, track);
@@ -171,13 +178,18 @@ class TextTrack extends Track {
     this.cues_ = [];
     this.activeCues_ = [];
 
+    this.preload_ = this.tech_.preloadTextTracks !== false;
+
     const cues = new TextTrackCueList(this.cues_);
     const activeCues = new TextTrackCueList(this.activeCues_);
     let changed = false;
     const timeupdateHandler = Fn.bind(this, function() {
+      if (!this.tech_.isReady_ || this.tech_.isDisposed()) {
+        return;
 
+      }
       // Accessing this.activeCues for the side-effects of updating itself
-      // due to it's nature as a getter function. Do not remove or cues will
+      // due to its nature as a getter function. Do not remove or cues will
       // stop updating!
       // Use the setter to prevent deletion from uglify (pure_getters rule)
       this.activeCues = this.activeCues;
@@ -187,10 +199,13 @@ class TextTrack extends Track {
       }
     });
 
+    const disposeHandler = () => {
+      this.tech_.off('timeupdate', timeupdateHandler);
+    };
+
+    this.tech_.one('dispose', disposeHandler);
     if (mode !== 'disabled') {
-      this.tech_.ready(() => {
-        this.tech_.on('timeupdate', timeupdateHandler);
-      }, true);
+      this.tech_.on('timeupdate', timeupdateHandler);
     }
 
     Object.defineProperties(this, {
@@ -227,13 +242,19 @@ class TextTrack extends Track {
           if (!TextTrackMode[newMode]) {
             return;
           }
+          if (mode === newMode) {
+            return;
+          }
+
           mode = newMode;
+          if (!this.preload_ && mode !== 'disabled' && this.cues.length === 0) {
+            // On-demand load.
+            loadTrack(this.src, this);
+          }
+          this.tech_.off('timeupdate', timeupdateHandler);
+
           if (mode !== 'disabled') {
-            this.tech_.ready(() => {
-              this.tech_.on('timeupdate', timeupdateHandler);
-            }, true);
-          } else {
-            this.tech_.off('timeupdate', timeupdateHandler);
+            this.tech_.on('timeupdate', timeupdateHandler);
           }
           /**
            * An event that fires when mode changes on this track. This allows
@@ -323,7 +344,14 @@ class TextTrack extends Track {
 
     if (settings.src) {
       this.src = settings.src;
-      loadTrack(settings.src, this);
+      if (!this.preload_) {
+        // Tracks will load on-demand.
+        // Act like we're loaded for other purposes.
+        this.loaded_ = true;
+      }
+      if (this.preload_ || (settings.kind !== 'subtitles' && settings.kind !== 'captions')) {
+        loadTrack(this.src, this);
+      }
     } else {
       this.loaded_ = true;
     }

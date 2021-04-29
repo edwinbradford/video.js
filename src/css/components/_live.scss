@@ -1,5 +1,3 @@
-// main: ../video-js.scss
-
 // We are assuming there is no progress bar and using the live display
 // to fill in the middle space. Live+DVR will need to adjust this.
 
@@ -47,6 +45,7 @@
 
 // css for the new live ui below
 .video-js .vjs-seek-to-live-control {
+  align-items: center;
   cursor: pointer;
   @include flex(none);
   display: inline-flex;

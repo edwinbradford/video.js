@@ -4,8 +4,8 @@
  */
 import document from 'global/document';
 import window from 'global/window';
+import fs from '../fullscreen-api';
 import log from './log.js';
-import tsml from 'tsml';
 import {isObject} from './obj';
 import computedStyle from './computed-style';
 import * as browser from './browser';
@@ -22,7 +22,12 @@ import * as browser from './browser';
  *
  */
 function isNonBlankString(str) {
-  return typeof str === 'string' && (/\S/).test(str);
+  // we use str.trim as it will trim any whitespace characters
+  // from the front or back of non-whitespace characters. aka
+  // Any string that contains non-whitespace characters will
+  // still contain them after `trim` but whitespace only strings
+  // will have a length of 0, failing this check.
+  return typeof str === 'string' && Boolean(str.trim());
 }
 
 /**
@@ -37,7 +42,8 @@ function isNonBlankString(str) {
  *         Throws an error if there is whitespace in the string.
  */
 function throwIfWhitespace(str) {
-  if ((/\s/).test(str)) {
+  // str.indexOf instead of regex because str.indexOf is faster performance wise.
+  if (str.indexOf(' ') >= 0) {
     throw new Error('class has illegal whitespace characters');
   }
 }
@@ -152,16 +158,16 @@ export function createEl(tagName = 'div', properties = {}, attributes = {}, cont
     // We originally were accepting both properties and attributes in the
     // same object, but that doesn't work so well.
     if (propName.indexOf('aria-') !== -1 || propName === 'role' || propName === 'type') {
-      log.warn(tsml`Setting attributes in the second argument of createEl()
-                has been deprecated. Use the third argument instead.
-                createEl(type, properties, attributes). Attempting to set ${propName} to ${val}.`);
+      log.warn('Setting attributes in the second argument of createEl()\n' +
+               'has been deprecated. Use the third argument instead.\n' +
+               `createEl(type, properties, attributes). Attempting to set ${propName} to ${val}.`);
       el.setAttribute(propName, val);
 
     // Handle textContent since it's not supported everywhere and we have a
     // method for it.
     } else if (propName === 'textContent') {
       textContent(el, val);
-    } else {
+    } else if (el[propName] !== val || propName === 'tabIndex') {
       el[propName] = val;
     }
   });
@@ -547,34 +553,31 @@ export function getBoundingClientRect(el) {
  *         The position of the element that was passed in.
  */
 export function findPosition(el) {
-  let box;
-
-  if (el.getBoundingClientRect && el.parentNode) {
-    box = el.getBoundingClientRect();
-  }
-
-  if (!box) {
+  if (!el || (el && !el.offsetParent)) {
     return {
       left: 0,
-      top: 0
+      top: 0,
+      width: 0,
+      height: 0
     };
   }
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
+  let left = 0;
+  let top = 0;
 
-  const docEl = document.documentElement;
-  const body = document.body;
+  while (el.offsetParent && el !== document[fs.fullscreenElement]) {
+    left += el.offsetLeft;
+    top += el.offsetTop;
 
-  const clientLeft = docEl.clientLeft || body.clientLeft || 0;
-  const scrollLeft = window.pageXOffset || body.scrollLeft;
-  const left = box.left + scrollLeft - clientLeft;
+    el = el.offsetParent;
+  }
 
-  const clientTop = docEl.clientTop || body.clientTop || 0;
-  const scrollTop = window.pageYOffset || body.scrollTop;
-  const top = box.top + scrollTop - clientTop;
-
-  // Android sometimes returns slightly off decimal values, so need to round
   return {
-    left: Math.round(left),
-    top: Math.round(top)
+    left,
+    top,
+    width,
+    height
   };
 }
 
@@ -606,24 +609,52 @@ export function findPosition(el) {
  *
  */
 export function getPointerPosition(el, event) {
-  const position = {};
-  const box = findPosition(el);
-  const boxW = el.offsetWidth;
-  const boxH = el.offsetHeight;
+  const translated = {
+    x: 0,
+    y: 0
+  };
 
-  const boxY = box.top;
-  const boxX = box.left;
-  let pageY = event.pageY;
-  let pageX = event.pageX;
+  if (browser.IS_IOS) {
+    let item = el;
 
-  if (event.changedTouches) {
-    pageX = event.changedTouches[0].pageX;
-    pageY = event.changedTouches[0].pageY;
+    while (item && item.nodeName.toLowerCase() !== 'html') {
+      const transform = computedStyle(item, 'transform');
+
+      if (/^matrix/.test(transform)) {
+        const values = transform.slice(7, -1).split(/,\s/).map(Number);
+
+        translated.x += values[4];
+        translated.y += values[5];
+      } else if (/^matrix3d/.test(transform)) {
+        const values = transform.slice(9, -1).split(/,\s/).map(Number);
+
+        translated.x += values[12];
+        translated.y += values[13];
+      }
+
+      item = item.parentNode;
+    }
   }
 
-  position.y = Math.max(0, Math.min(1, ((boxY - pageY) + boxH) / boxH));
-  position.x = Math.max(0, Math.min(1, (pageX - boxX) / boxW));
+  const position = {};
+  const boxTarget = findPosition(event.target);
+  const box = findPosition(el);
+  const boxW = box.width;
+  const boxH = box.height;
+  let offsetY = event.offsetY - (box.top - boxTarget.top);
+  let offsetX = event.offsetX - (box.left - boxTarget.left);
 
+  if (event.changedTouches) {
+    offsetX = event.changedTouches[0].pageX - box.left;
+    offsetY = event.changedTouches[0].pageY + box.top;
+    if (browser.IS_IOS) {
+      offsetX -= translated.x;
+      offsetY -= translated.y;
+    }
+  }
+
+  position.y = (1 - Math.max(0, Math.min(1, offsetY / boxH)));
+  position.x = Math.max(0, Math.min(1, offsetX / boxW));
   return position;
 }
 
@@ -787,9 +818,10 @@ export function isSingleLeftClick(event) {
     return true;
   }
 
-  if (browser.IE_VERSION === 9) {
-    // Ignore IE9
-
+  // `mouseup` event on a single left click has
+  // `button` and `buttons` equal to 0
+  if (event.type === 'mouseup' && event.button === 0 &&
+      event.buttons === 0) {
     return true;
   }
 

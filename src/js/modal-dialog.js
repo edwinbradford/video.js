@@ -2,7 +2,6 @@
  * @file modal-dialog.js
  */
 import * as Dom from './utils/dom';
-import * as Fn from './utils/fn';
 import Component from './component';
 import window from 'global/window';
 import document from 'global/document';
@@ -44,6 +43,10 @@ class ModalDialog extends Component {
    * @param {string} [options.label]
    *        A text label for the modal, primarily for accessibility.
    *
+   * @param {boolean} [options.pauseOnOpen=true]
+   *        If `true`, playback will will be paused if playing when
+   *        the modal opens, and resumed when it closes.
+   *
    * @param {boolean} [options.temporary=true]
    *        If `true`, the modal can only be opened once; it will be
    *        disposed as soon as it's closed.
@@ -55,6 +58,9 @@ class ModalDialog extends Component {
    */
   constructor(player, options) {
     super(player, options);
+
+    this.handleKeyDown_ = (e) => this.handleKeyDown(e);
+    this.close_ = (e) => this.close(e);
     this.opened_ = this.hasBeenOpened_ = this.hasBeenFilled_ = false;
 
     this.closeable(!this.options_.uncloseable);
@@ -113,21 +119,6 @@ class ModalDialog extends Component {
    */
   buildCSSClass() {
     return `${MODAL_CLASS_NAME} vjs-hidden ${super.buildCSSClass()}`;
-  }
-
-  /**
-   * Handles `keydown` events on the document, looking for ESC, which closes
-   * the modal.
-   *
-   * @param {EventTarget~Event} event
-   *        The keypress that triggered this event.
-   *
-   * @listens keydown
-   */
-  handleKeyPress(event) {
-    if (keycode.isEventKey(event, 'Escape') && this.closeable()) {
-      this.close();
-    }
   }
 
   /**
@@ -191,9 +182,7 @@ class ModalDialog extends Component {
         player.pause();
       }
 
-      if (this.closeable()) {
-        this.on(this.el_.ownerDocument, 'keydown', Fn.bind(this, this.handleKeyPress));
-      }
+      this.on('keydown', this.handleKeyDown_);
 
       // Hide controls and note if they were enabled.
       this.hadControls_ = player.controls();
@@ -256,9 +245,7 @@ class ModalDialog extends Component {
       player.play();
     }
 
-    if (this.closeable()) {
-      this.off(this.el_.ownerDocument, 'keydown', Fn.bind(this, this.handleKeyPress));
-    }
+    this.off('keydown', this.handleKeyDown_);
 
     if (this.hadControls_) {
       player.controls(true);
@@ -305,12 +292,12 @@ class ModalDialog extends Component {
         this.contentEl_ = this.el_;
         close = this.addChild('closeButton', {controlText: 'Close Modal Dialog'});
         this.contentEl_ = temp;
-        this.on(close, 'close', this.close);
+        this.on(close, 'close', this.close_);
       }
 
       // If this is being made uncloseable and has a close button, remove it.
       if (!closeable && close) {
-        this.off(close, 'close', this.close);
+        this.off(close, 'close', this.close_);
         this.removeChild(close);
         close.dispose();
       }
@@ -440,8 +427,6 @@ class ModalDialog extends Component {
       this.previouslyActiveEl_ = activeEl;
 
       this.focus();
-
-      this.on(document, 'keydown', this.handleKeyDown);
     }
   }
 
@@ -455,8 +440,6 @@ class ModalDialog extends Component {
       this.previouslyActiveEl_.focus();
       this.previouslyActiveEl_ = null;
     }
-
-    this.off(document, 'keydown', this.handleKeyDown);
   }
 
   /**
@@ -465,6 +448,16 @@ class ModalDialog extends Component {
    * @listens keydown
    */
   handleKeyDown(event) {
+
+    // Do not allow keydowns to reach out of the modal dialog.
+    event.stopPropagation();
+
+    if (keycode.isEventKey(event, 'Escape') && this.closeable()) {
+      event.preventDefault();
+      this.close();
+      return;
+    }
+
     // exit early if it isn't a tab key
     if (!keycode.isEventKey(event, 'Tab')) {
       return;

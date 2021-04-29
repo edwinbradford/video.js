@@ -3,7 +3,7 @@
  */
 import Component from '../component.js';
 import Tech from './tech.js';
-import toTitleCase from '../utils/to-title-case.js';
+import {toTitleCase} from '../utils/string-cases.js';
 import mergeOptions from '../utils/merge-options.js';
 
 /**
@@ -53,7 +53,7 @@ class MediaLoader extends Component {
         }
       }
     } else {
-      // Loop through playback technologies (HTML5, Flash) and check for support.
+      // Loop through playback technologies (e.g. HTML5) and check for support.
       // Then load the best source.
       // A few assumptions here:
       //   All playback technologies respect preload false.

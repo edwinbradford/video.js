@@ -47,14 +47,14 @@
 Video.js is an extendable framework/library around the native video element. It does the following:
 
 * Offers a plugin API so that different types of video can be handed to the native
-  video element (e.g. [HLS][hls], [Flash][flash], HTML5 video, etc).
+  video element (e.g. [HLS][hls], HTML5 video, etc).
 * Unifies the native video API across browsers (polyfilling support for features
   if necessary)
 * Offers an extendable and themable UI
 * Ensures accessibility for keyboard and screen reader users
 * Has a set of core plugins that offer support for additional video formats:
-  * [videojs-contrib-hls][hls]
-  * [videojs-contrib-dash][dash]
+  * HLS and DASH are supported natively.
+  * [videojs-contrib-dash][dash] can be used for more complete DASH support
 * Supports  DRM video via a core plugin:
   * [videojs-contrib-eme][eme]
 * Is extensible with lots of plugins offering support for all kinds of features. See the [plugin list on videojs.com][plugin-list]
@@ -68,7 +68,7 @@ see the [setup guide][install-guide].
 ## Q: Is Video.js on bower?
 
 Versions prior to Video.js 6 support bower, however, as of Video.js 6, bower is no
-longer officially supported. Please see <https://github.com/videojs/video.js/issues/4012>
+longer officially supported. Please see [issue #4012][issue-4012]
 for more information.
 
 ## Q: What do Video.js version numbers mean?
@@ -133,7 +133,7 @@ techs/plugins made available to Video.js. For more information on media formats 
 
 ## Q: How does Video.js choose which source to use?
 
-When an array of sources is available, Video.js test each source in the order given. For each source, each tech in the [`techOrder`][techorder] will be checked to see if it can play it whether directly or via source handler (such as videojs-contrib-hls). The first match will be chosen.
+When an array of sources is available, Video.js test each source in the order given. For each source, each tech in the [`techOrder`][techorder] will be checked to see if it can play it whether directly or via source handler (such as videojs-http-streaming). The first match will be chosen.
 
 ## Q: How do I autoplay a video?
 
@@ -144,7 +144,7 @@ on the `video` element. It's still supported by Video.js but, many browsers, inc
 Instead we recommend using the `autoplay` option rather than the `autoplay` attribute, for more information on using that.
 see the [autoplay option][autoplay-option] in the Video.js options guide.
 
-For more information on the autoplay changes see our blog post: <https://blog.videojs.com/autoplay-best-practices-with-video-js/>
+For more information on the autoplay changes see our [blog post](https://videojs.com/blog/autoplay-best-practices-with-video-js/).
 
 ### Q: How can I autoplay a video on a mobile device?
 
@@ -161,16 +161,7 @@ on using that option.
 
 ## Q: How can I play RTMP video in Video.js?
 
-RTMP requires Flash to play back. You'll need both a browser that supports Flash and the Flash tech.
-
-In Video.js version 6, the Flash tech is not included by default and is available as a separate [videojs-flash package][flash]. In previous versions it was builtin to Video.js.
-
-The RTMP source should be set with an appropriate type -- `rtmp/mp4` or `rtmp/flv`.
-Be aware of that Video.js splits the connection url and stream name with the `&` character, for example: `rtmp://example.com/live&foo` or `rtmp://example.com/fms&mp4:path/to/file.mp4`.
-
-If the server requires query parameters for authentication, these should be added to the connection part URL, for example `rtmp://example.com/live?token=1234&foo`.
-
-Bear in mind that mobile browsers do not support Flash, and modern desktop browsers make it increasingly difficult to use Flash or disable it by default for your end users. Consider moving to a modern format such as HLS or DASH.
+It is no longer possible to play RTMP as it requires Flash, and [Flash has reached end of life][flash-eol]. No browser supports it.
 
 ## Q: How can I hide the links to my video/subtitles/audio/tracks?
 
@@ -221,7 +212,6 @@ See the [Video.js GitHub wiki][skins-list].
 ## Q: Does Video.js work as an audio only player?
 
 Yes! It can be used to play audio only files in a `<video>` or `<audio>` tag.
-Note that audio-only sources do not work with the Flash playback tech.
 
 ## Q: Does Video.js support audio tracks?
 
@@ -238,23 +228,22 @@ Yes! See the [text tracks guide][text-tracks] for information on using text trac
 
 ## Q: Does Video.js support HLS (HTTP Live streaming) video?
 
-Video.js supports HLS video if the native HTML5 element supports HLS (e.g. Safari, Edge,
-Chrome for Android, and iOS). For browsers without native support the [videojs-contrib-hls][hls]
-project which adds support.
+Video.js supports HLS. It will play using native support if the HTML5 element supports HLS (e.g. Safari, iOS, legacy Edge, or Chrome for Android).
+On other browsers, it will play using our playback engine [videojs-http-streaming][hls].
 
 Note that for non-native playback of HLS it is essential that the server hosting the video sets [CORS headers][cors].
 
 ## Q: Does Video.js support MPEG DASH video?
 
-MPEG DASH support is provided byt the [videojs-contrib-dash][dash]
-package.
+Video.js provides support for some DASH streams with our playback engine [videojs-http-streaming][hls].
+
+Alternatively, [videojs-contrib-dash][dash] package can be used.
 
 Like HLS, DASH streams require [CORS headers][cors].
 
 ## Q: Does Video.js support live video?
 
-Yes! Common formats for live are HLS or historically RTMP.
-HLS is supported via [videojs-contrib-hls][hls]. and RTMP via [videojs-flash][flash].
+Yes! Common formats for live are HLS or DASH. In the past RTMP was commonly used for live, but it is no longer possible to play in any browser.
 
 ## Q: Can Video.js play YouTube videos?
 
@@ -288,9 +277,11 @@ Yes! See [ReactJS integration example][react-guide].
 
 [audio-tracks]: /docs/guides/audio-tracks.md
 
-[contributing-issues]: https://github.com/videojs/video.js/blob/master/CONTRIBUTING.md#filing-issues
+[autoplay-option]: /docs/guides/options.md#autoplay
 
-[contributing-prs]: https://github.com/videojs/video.js/blob/master/CONTRIBUTING.md#contributing-code
+[contributing-issues]: https://github.com/videojs/video.js/blob/main/CONTRIBUTING.md#filing-issues
+
+[contributing-prs]: https://github.com/videojs/video.js/blob/main/CONTRIBUTING.md#contributing-code
 
 [components-guide]: /docs/guides/components.md
 
@@ -302,17 +293,19 @@ Yes! See [ReactJS integration example][react-guide].
 
 [eme]: https://github.com/videojs/videojs-contrib-eme
 
-[flash]: https://github.com/videojs/videojs-flash
+[flash-eol]: https://www.adobe.com/products/flashplayer/end-of-life.html
 
 [generator]: https://github.com/videojs/generator-videojs-plugin
 
 [google-ima]: https://github.com/googleads/videojs-ima
 
-[hls]: https://github.com/videojs/videojs-contrib-hls
+[hls]: https://github.com/videojs/http-streaming
 
 [install-guide]: https://videojs.com/getting-started/
 
-[issue-template]: https://github.com/videojs/video.js/blob/master/.github/ISSUE_TEMPLATE.md
+[issue-4012]: https://github.com/videojs/video.js/issues/4012
+
+[issue-template]: https://github.com/videojs/video.js/blob/main/.github/ISSUE_TEMPLATE.md
 
 [node]: https://www.npmjs.com/package/video.js
 
@@ -324,7 +317,7 @@ Yes! See [ReactJS integration example][react-guide].
 
 [pr-issue-question]: #q-i-think-i-found-a-bug-with-videojs-or-i-want-to-add-a-feature-what-should-i-do
 
-[pr-template]: https://github.com/videojs/video.js/blob/master/.github/PULL_REQUEST_TEMPLATE.md
+[pr-template]: https://github.com/videojs/video.js/blob/main/.github/PULL_REQUEST_TEMPLATE.md
 
 [react-guide]: /docs/guides/react.md
 

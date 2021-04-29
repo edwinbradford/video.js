@@ -13,7 +13,7 @@ import window from 'global/window';
 import document from 'global/document';
 import {isPlain} from '../utils/obj';
 import * as TRACK_TYPES from '../tracks/track-types';
-import toTitleCase from '../utils/to-title-case';
+import {toTitleCase, toLowerCase} from '../utils/string-cases.js';
 import vtt from 'videojs-vtt.js';
 
 /**
@@ -76,7 +76,7 @@ function createTrackHelper(self, kind, label, language, options = {}) {
 
 /**
  * This is the base class for media playback technology controllers, such as
- * {@link Flash} and {@link HTML5}
+ * {@link HTML5}
  *
  * @extends Component
  */
@@ -97,6 +97,12 @@ class Tech extends Component {
     options.reportTouchActivity = false;
     super(null, options, ready);
 
+    this.onDurationChange_ = (e) => this.onDurationChange(e);
+    this.trackProgress_ = (e) => this.trackProgress(e);
+    this.trackCurrentTime_ = (e) => this.trackCurrentTime(e);
+    this.stopTrackingCurrentTime_ = (e) => this.stopTrackingCurrentTime(e);
+    this.disposeSourceHandler_ = (e) => this.disposeSourceHandler(e);
+
     // keep track of whether the current source has played at all to
     // implement a very limited played()
     this.hasStarted_ = false;
@@ -115,12 +121,12 @@ class Tech extends Component {
       }
     });
 
-    // Manually track progress in cases where the browser/flash player doesn't report it.
+    // Manually track progress in cases where the browser/tech doesn't report it.
     if (!this.featuresProgressEvents) {
       this.manualProgressOn();
     }
 
-    // Manually track timeupdates in cases where the browser/flash player doesn't report it.
+    // Manually track timeupdates in cases where the browser/tech doesn't report it.
     if (!this.featuresTimeupdateEvents) {
       this.manualTimeUpdatesOn();
     }
@@ -140,6 +146,8 @@ class Tech extends Component {
     if (!this.featuresNativeTextTracks) {
       this.emulateTextTracks();
     }
+
+    this.preloadTextTracks = options.preloadTextTracks !== false;
 
     this.autoRemoteTextTracks_ = new TRACK_TYPES.ALL.text.ListClass();
 
@@ -192,12 +200,12 @@ class Tech extends Component {
    * @see {@link Tech#trackProgress}
    */
   manualProgressOn() {
-    this.on('durationchange', this.onDurationChange);
+    this.on('durationchange', this.onDurationChange_);
 
     this.manualProgress = true;
 
     // Trigger progress watching when a source begins loading
-    this.one('ready', this.trackProgress);
+    this.one('ready', this.trackProgress_);
   }
 
   /**
@@ -208,7 +216,7 @@ class Tech extends Component {
     this.manualProgress = false;
     this.stopTrackingProgress();
 
-    this.off('durationchange', this.onDurationChange);
+    this.off('durationchange', this.onDurationChange_);
   }
 
   /**
@@ -302,8 +310,8 @@ class Tech extends Component {
   manualTimeUpdatesOn() {
     this.manualTimeUpdates = true;
 
-    this.on('play', this.trackCurrentTime);
-    this.on('pause', this.stopTrackingCurrentTime);
+    this.on('play', this.trackCurrentTime_);
+    this.on('pause', this.stopTrackingCurrentTime_);
   }
 
   /**
@@ -313,8 +321,8 @@ class Tech extends Component {
   manualTimeUpdatesOff() {
     this.manualTimeUpdates = false;
     this.stopTrackingCurrentTime();
-    this.off('play', this.trackCurrentTime);
-    this.off('pause', this.stopTrackingCurrentTime);
+    this.off('play', this.trackCurrentTime_);
+    this.off('pause', this.stopTrackingCurrentTime_);
   }
 
   /**
@@ -429,6 +437,25 @@ class Tech extends Component {
   reset() {}
 
   /**
+   * Get the value of `crossOrigin` from the tech.
+   *
+   * @abstract
+   *
+   * @see {Html5#crossOrigin}
+   */
+  crossOrigin() {}
+
+  /**
+   * Set the value of `crossOrigin` on the tech.
+   *
+   * @abstract
+   *
+   * @param {string} crossOrigin the crossOrigin value
+   * @see {Html5#setCrossOrigin}
+   */
+  setCrossOrigin() {}
+
+  /**
    * Get or set an error on the Tech.
    *
    * @param {MediaError} [err]
@@ -461,6 +488,33 @@ class Tech extends Component {
     }
     return createTimeRange();
   }
+
+  /**
+   * Start playback
+   *
+   * @abstract
+   *
+   * @see {Html5#play}
+   */
+  play() {}
+
+  /**
+   * Set whether we are scrubbing or not
+   *
+   * @abstract
+   *
+   * @see {Html5#setScrubbing}
+   */
+  setScrubbing() {}
+
+  /**
+   * Get whether we are scrubbing or not
+   *
+   * @abstract
+   *
+   * @see {Html5#scrubbing}
+   */
+  scrubbing() {}
 
   /**
    * Causes a manual time update to occur if {@link Tech#manualTimeUpdatesOn} was
@@ -765,6 +819,45 @@ class Tech extends Component {
   }
 
   /**
+   * Attempt to create a floating video window always on top of other windows
+   * so that users may continue consuming media while they interact with other
+   * content sites, or applications on their device.
+   *
+   * @see [Spec]{@link https://wicg.github.io/picture-in-picture}
+   *
+   * @return {Promise|undefined}
+   *         A promise with a Picture-in-Picture window if the browser supports
+   *         Promises (or one was passed in as an option). It returns undefined
+   *         otherwise.
+   *
+   * @abstract
+   */
+  requestPictureInPicture() {
+    const PromiseClass = this.options_.Promise || window.Promise;
+
+    if (PromiseClass) {
+      return PromiseClass.reject();
+    }
+  }
+
+  /**
+   * A method to check for the value of the 'disablePictureInPicture' <video> property.
+   * Defaults to true, as it should be considered disabled if the tech does not support pip
+   *
+   * @abstract
+   */
+  disablePictureInPicture() {
+    return true;
+  }
+
+  /**
+   * A method to set or unset the 'disablePictureInPicture' <video> property.
+   *
+   * @abstract
+   */
+  setDisablePictureInPicture() {}
+
+  /**
    * A method to set a poster from a `Tech`.
    *
    * @abstract
@@ -898,6 +991,7 @@ class Tech extends Component {
     name = toTitleCase(name);
 
     Tech.techs_[name] = tech;
+    Tech.techs_[toLowerCase(name)] = tech;
     if (name !== 'Tech') {
       // camel case the techName for use in techOrder
       Tech.defaultTechOrder_.push(name);
@@ -919,11 +1013,11 @@ class Tech extends Component {
       return;
     }
 
-    name = toTitleCase(name);
-
     if (Tech.techs_ && Tech.techs_[name]) {
       return Tech.techs_[name];
     }
+
+    name = toTitleCase(name);
 
     if (window && window.videojs && window.videojs[name]) {
       log.warn(`The ${name} tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)`);
@@ -1254,14 +1348,14 @@ Tech.withSourceHandlers = function(_Tech) {
 
     // Dispose any existing source handler
     this.disposeSourceHandler();
-    this.off('dispose', this.disposeSourceHandler);
+    this.off('dispose', this.disposeSourceHandler_);
 
     if (sh !== _Tech.nativeSourceHandler) {
       this.currentSource_ = source;
     }
 
     this.sourceHandler_ = sh.handleSource(source, this, this.options_);
-    this.on('dispose', this.disposeSourceHandler);
+    this.one('dispose', this.disposeSourceHandler_);
   };
 
   /**

@@ -27,7 +27,8 @@ class SeekToLive extends Button {
     this.updateLiveEdgeStatus();
 
     if (this.player_.liveTracker) {
-      this.on(this.player_.liveTracker, 'liveedgechange', this.updateLiveEdgeStatus);
+      this.updateLiveEdgeStatusHandler_ = (e) => this.updateLiveEdgeStatus(e);
+      this.on(this.player_.liveTracker, 'liveedgechange', this.updateLiveEdgeStatusHandler_);
     }
   }
 
@@ -57,7 +58,7 @@ class SeekToLive extends Button {
    * Update the state of this button if we are at the live edge
    * or not
    */
-  updateLiveEdgeStatus(e) {
+  updateLiveEdgeStatus() {
     // default to live edge
     if (!this.player_.liveTracker || this.player_.liveTracker.atLiveEdge()) {
       this.setAttribute('aria-disabled', true);
@@ -84,7 +85,7 @@ class SeekToLive extends Button {
    */
   dispose() {
     if (this.player_.liveTracker) {
-      this.off(this.player_.liveTracker, 'liveedgechange', this.updateLiveEdgeStatus);
+      this.off(this.player_.liveTracker, 'liveedgechange', this.updateLiveEdgeStatusHandler_);
     }
     this.textEl_ = null;
 

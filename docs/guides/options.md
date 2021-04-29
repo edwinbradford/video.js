@@ -27,33 +27,39 @@
   * [inactivityTimeout](#inactivitytimeout)
   * [language](#language)
   * [languages](#languages)
+  * [liveui](#liveui)
+  * [liveTracker.trackingThreshold](#livetrackertrackingthreshold)
+  * [liveTracker.liveTolerance](#livetrackerlivetolerance)
   * [nativeControlsForTouch](#nativecontrolsfortouch)
   * [notSupportedMessage](#notsupportedmessage)
+  * [noUITitleAttributes](#nouititleattributes)
+  * [fullscreen](#fullscreen)
+    * [options](#options)
   * [playbackRates](#playbackrates)
   * [plugins](#plugins)
   * [responsive](#responsive)
   * [sources](#sources)
+  * [suppressNotSupportedError](#suppressnotsupportederror)
   * [techCanOverridePoster](#techcanoverrideposter)
   * [techOrder](#techorder)
   * [userActions](#useractions)
-  * [userActions.doubleClick](#useractions.doubleclick)
-  * [userActions.hotkeys](#useractions.hotkeys)
-  * [userActions.hotkeys.fullscreenKey](#useractions.hotkeys.fullscreenkey)
-  * [userActions.hotkeys.muteKey](#useractions.hotkeys.mutekey)
-  * [userActions.hotkeys.playPauseKey](#useractions.hotkeys.playpausekey)
+  * [userActions.doubleClick](#useractionsdoubleclick)
+  * [userActions.hotkeys](#useractionshotkeys)
+  * [userActions.hotkeys.fullscreenKey](#useractionshotkeysfullscreenkey)
+  * [userActions.hotkeys.muteKey](#useractionshotkeysmutekey)
+  * [userActions.hotkeys.playPauseKey](#useractionshotkeysplaypausekey)
   * [vtt.js](#vttjs)
 * [Component Options](#component-options)
   * [children](#children-1)
   * [${componentName}](#componentname)
 * [Tech Options](#tech-options)
   * [${techName}](#techname)
-  * [flash](#flash)
-    * [swf](#swf)
   * [html5](#html5)
     * [nativeControlsForTouch](#nativecontrolsfortouch-1)
     * [nativeAudioTracks](#nativeaudiotracks)
     * [nativeTextTracks](#nativetexttracks)
     * [nativeVideoTracks](#nativevideotracks)
+    * [preloadTextTracks](#preloadtexttracks)
 
 ## Standard `<video>` Element Options
 
@@ -89,7 +95,7 @@ player.autoplay('muted');
 
 #### More info on autoplay support and changes:
 
-* See our blog post: <https://blog.videojs.com/autoplay-best-practices-with-video-js/>
+* See our blog post: [Autoplay Best Practices with Video.js](https://videojs.com/blog/autoplay-best-practices-with-video-js/)
 
 ### `controls`
 
@@ -259,11 +265,26 @@ Learn more about [languages in Video.js][languages]
 > Default: `false`
 
 Allows the player to use the new live ui that includes:
+
 * A progress bar for seeking within the live window
 * A button that can be clicked to seek to the live edge with a circle indicating if you are at the live edge or not.
 
 Without this option the progress bar will be hidden and in its place will be text that indicates `LIVE` playback. There will be no progress control
 and you will not be able click the text to seek to the live edge. `liveui` will default to `true` in a future version!
+
+### `liveTracker.trackingThreshold`
+
+> Type: `number`
+> Default: `30`
+
+An option for the liveTracker component of the player that controls when the liveui should be shown. By default if a stream has less than 30s on the seekBar then we do not show the new liveui even with the liveui option set.
+
+### `liveTracker.liveTolerance`
+
+> Type: `number`
+> Default: `15`
+
+An option for the liveTracker component of the player that controls how far from the seekable end should be considered live playback. By default anything further than 15s from the live seekable edge is considered behind live and everything else is considered live. Any user interaction to seek backwards will ignore this value as a user would expect.
 
 ### `nativeControlsForTouch`
 
@@ -276,6 +297,27 @@ Explicitly set a default value for [the associated tech option](#nativecontrolsf
 > Type: `string`
 
 Allows overriding the default message that is displayed when Video.js cannot play back a media source.
+
+### `noUITitleAttributes`
+
+> Type: `boolean`
+> Default: `false`
+
+Control whether UI elements have a `title` attribute. A `title` attribute is shown on mouse hover, which can be helpful for usability, but has drawbacks for accessibility. Setting `noUITitleAttributes` to `true` prevents the `title` attribute from being added to UI elements, allowing for more accessible tooltips to be added to controls by a plugin or external framework.
+
+### `fullscreen`
+
+> Type: `Object`
+> Default: `{options: {navigationUI: 'hide'}`
+
+`fullscreen.options` can be set to pass in specific fullscreen options. At some point, it will be augmented with `element` and `handler` for more functionality.
+
+#### `options`
+
+> Type: `Object`
+> Default: `{navigationUI: 'hide'}`
+
+See [The Fullscreen API Spec](https://fullscreen.spec.whatwg.org/#dictdef-fullscreenoptions) for more details.
 
 ### `playbackRates`
 
@@ -358,6 +400,12 @@ Using `<source>` elements will have the same effect:
 </video>
 ```
 
+### `suppressNotSupportedError`
+
+> Type: `boolean`
+
+If set to true, then the no compatible source error will not be triggered immediately and instead will occur on the first user interaction. This is useful for Google's "mobile friendly" test tool, which can't play video but where you might not want to see an error displayed.
+
 ### `techCanOverridePoster`
 
 > Type: `boolean`
@@ -381,9 +429,7 @@ Defines the order in which Video.js techs are preferred. By default, this means 
 
 > Type: `boolean|function`
 
-Controls how double-clicking on the player/tech operates. If set to `false`, double-clicking is disabled. If undefined or set to
-`true`, double-clicking is enabled and toggles fullscreen mode. To override the default double-click handling, set `userActions.doubleClick`
-to a function which accepts a `dblclick` event:
+Controls how double-clicking on the player/tech operates. If set to `false`, double-clicking is disabled. If undefined or set to `true`, double-clicking is enabled and toggles fullscreen mode. To override the default double-click handling, set `userActions.doubleClick` to a function which accepts a `dblclick` event:
 
 ```js
 function myDoubleClickHandler(event) = {
@@ -426,15 +472,14 @@ var player = videojs('my-player', {
 
 Default hotkey handling is:
 
-| Key | Action | Enabled by |
-| :-: | ------ | ---------- |
-| `f` | toggle fullscreen | only enabled if a Fullscreen button is present in the Control Bar
-| `m` | toggle mute | always enabled, even if no Control Bar is present
-| `k` | toggle play/pause | always enabled, even if no Control Bar is present
-| `Space` | toggle play/pause | always enabled, even if no Control Bar is present
+|   Key   | Action            | Enabled by                                                        |
+| :-----: | ----------------- | ----------------------------------------------------------------- |
+|   `f`   | toggle fullscreen | only enabled if a Fullscreen button is present in the Control Bar |
+|   `m`   | toggle mute       | always enabled, even if no Control Bar is present                 |
+|   `k`   | toggle play/pause | always enabled, even if no Control Bar is present                 |
+| `Space` | toggle play/pause | always enabled, even if no Control Bar is present                 |
 
-Note that the `Space` key activates controls such as buttons and menus if that control has keyboard focus. The other hotkeys work regardless of which
-control in the player has focus.
+Hotkeys require player focus first. Note that the `Space` key activates controls such as buttons and menus if that control has keyboard focus. The other hotkeys work regardless of which control in the player has focus.
 
 ### `userActions.hotkeys.fullscreenKey`
 
@@ -535,27 +580,7 @@ videojs('my-player', {
 
 > Type: `Object`
 
-Video.js playback technologies (i.e. "techs") can be given custom options as part of the options passed to the `videojs` function. They should be passed under the _lower-case variant of the tech name_ (e.g. `"flash"` or `"html5"`).
-
-### `flash`
-
-#### `swf`
-
-Specifies where the Video.js SWF file is located for the `Flash` tech:
-
-```js
-videojs('my-player', {
-  flash: {
-    swf: '//path/to/videojs.swf'
-  }
-});
-```
-
-However, changing the global defaults is generally more appropriate:
-
-```js
-videojs.options.flash.swf = '//path/to/videojs.swf'
-```
+Video.js playback technologies (i.e. "techs") can be given custom options as part of the options passed to the `videojs` function. They should be passed under the _lower-case variant of the tech name_ (e.g. `"html5"`).
 
 ### `html5`
 
@@ -582,6 +607,14 @@ Can be set to `false` to force emulation of text tracks instead of native suppor
 > Type: `boolean`
 
 Can be set to `false` to disable native video track support. Most commonly used with [videojs-contrib-hls][videojs-contrib-hls].
+
+#### `preloadTextTracks`
+
+> Type: `boolean`
+
+Can be set to `false` to delay loading of non-active text tracks until use. This can cause a short delay when switching captions during which there may be missing captions.
+
+The default behavior is to preload all text tracks.
 
 [plugins]: /docs/guides/plugins.md
 

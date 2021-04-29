@@ -33,6 +33,13 @@ es5/*
 .idea/
 
 core.js
+core.es.js
+
+# Ignore Chinese clones for now.
+lang/zh-Han*.json
+
+# netlify deploy
+deploy/
 
 # AV Neue ignore files below this line
 

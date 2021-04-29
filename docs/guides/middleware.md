@@ -1,6 +1,6 @@
 # Middleware
 
-Middleware is a Video.js feature that allows interaction with and modification of how the `Player` and `Tech` talk to each other. For more in-depth information, check out our [feature spotlight](https://blog.videojs.com/feature-spotlight-middleware/).
+Middleware is a Video.js feature that allows interaction with and modification of how the `Player` and `Tech` talk to each other. For more in-depth information, check out our [feature spotlight](https://videojs.com/blog/feature-spotlight-middleware/).
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ Middleware is a Video.js feature that allows interaction with and modification o
 
 ## Understanding Middleware
 
-Middleware are functions that return an object, a class instance, a prototype, etc, scoped to the Player with methods matching those on the `Tech`. There are currently a limited set of allowed methods that will be understood by middleware. These are: `buffered`, `currentTime`, `setCurrentTime`, `duration`, `seekable`, `played`, `play`, `pause` and `paused`. These allowed methods are split into three categories: [getters](#middleware-getters), [setters](#middleware-setters), and [mediators](#middleware-mediators).
+Middleware are functions that return an object, a class instance, a prototype, etc, scoped to the Player with methods matching those on the `Tech`. There are currently a limited set of allowed methods that will be understood by middleware. These are: `buffered`, `currentTime`, `setCurrentTime`, `setMuted`, `setVolume`, `duration`, `muted`, `seekable`, `played`, `play`, `pause`, `paused` and `volume`. These allowed methods are split into three categories: [getters](#middleware-getters), [setters](#middleware-setters), and [mediators](#middleware-mediators).
 
 There are a few special methods that affect middleware: `setSource` and `setTech`. These are called internally by Video.js when you call `player.src()`.
 
@@ -194,7 +194,7 @@ var myMiddleware = function(player) {
 videojs.use('*', myMiddleware);
 ```
 
-This middleware allows the call to `play()` to go through to the `Tech`, and checks in `play` whether the play succeeded or not. A more detailed example can be found in our [sandbox](https://github.com/videojs/video.js/blob/master/sandbox/middleware-play.html.example).
+This middleware allows the call to `play()` to go through to the `Tech`, and checks in `play` whether the play succeeded or not. A more detailed example can be found in our [sandbox](https://github.com/videojs/video.js/blob/main/sandbox/middleware-play.html.example).
 
 ### Terminating Mediator Methods
 

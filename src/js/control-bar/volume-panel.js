@@ -3,6 +3,9 @@
  */
 import Component from '../component.js';
 import {isPlain} from '../utils/obj';
+import * as Events from '../utils/events.js';
+import keycode from 'keycode';
+import document from 'global/document';
 
 // Required children
 import './volume-control/volume-control.js';
@@ -41,7 +44,15 @@ class VolumePanel extends Component {
 
     super(player, options);
 
-    this.on(player, ['loadstart'], this.volumePanelState_);
+    // this handler is used by mouse handler methods below
+    this.handleKeyPressHandler_ = (e) => this.handleKeyPress(e);
+
+    this.on(player, ['loadstart'], (e) => this.volumePanelState_(e));
+    this.on(this.muteToggle, 'keyup', (e) => this.handleKeyPress(e));
+    this.on(this.volumeControl, 'keyup', (e) => this.handleVolumeControlKeyUp(e));
+    this.on('keydown', (e) => this.handleKeyPress(e));
+    this.on('mouseover', (e) => this.handleMouseOver(e));
+    this.on('mouseout', (e) => this.handleMouseOut(e));
 
     // while the slider is active (the mouse has been pressed down and
     // is dragging) we do not want to hide the VolumeBar
@@ -109,6 +120,73 @@ class VolumePanel extends Component {
     });
   }
 
+  /**
+   * Dispose of the `volume-panel` and all child components.
+   */
+  dispose() {
+    this.handleMouseOut();
+    super.dispose();
+  }
+
+  /**
+   * Handles `keyup` events on the `VolumeControl`, looking for ESC, which closes
+   * the volume panel and sets focus on `MuteToggle`.
+   *
+   * @param {EventTarget~Event} event
+   *        The `keyup` event that caused this function to be called.
+   *
+   * @listens keyup
+   */
+  handleVolumeControlKeyUp(event) {
+    if (keycode.isEventKey(event, 'Esc')) {
+      this.muteToggle.focus();
+    }
+  }
+
+  /**
+   * This gets called when a `VolumePanel` gains hover via a `mouseover` event.
+   * Turns on listening for `mouseover` event. When they happen it
+   * calls `this.handleMouseOver`.
+   *
+   * @param {EventTarget~Event} event
+   *        The `mouseover` event that caused this function to be called.
+   *
+   * @listens mouseover
+   */
+  handleMouseOver(event) {
+    this.addClass('vjs-hover');
+    Events.on(document, 'keyup', this.handleKeyPressHandler_);
+  }
+
+  /**
+   * This gets called when a `VolumePanel` gains hover via a `mouseout` event.
+   * Turns on listening for `mouseout` event. When they happen it
+   * calls `this.handleMouseOut`.
+   *
+   * @param {EventTarget~Event} event
+   *        The `mouseout` event that caused this function to be called.
+   *
+   * @listens mouseout
+   */
+  handleMouseOut(event) {
+    this.removeClass('vjs-hover');
+    Events.off(document, 'keyup', this.handleKeyPressHandler_);
+  }
+
+  /**
+   * Handles `keyup` event on the document or `keydown` event on the `VolumePanel`,
+   * looking for ESC, which hides the `VolumeControl`.
+   *
+   * @param {EventTarget~Event} event
+   *        The keypress that triggered this event.
+   *
+   * @listens keydown | keyup
+   */
+  handleKeyPress(event) {
+    if (keycode.isEventKey(event, 'Esc')) {
+      this.handleMouseOut();
+    }
+  }
 }
 
 /**

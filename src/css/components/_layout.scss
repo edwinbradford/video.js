@@ -1,8 +1,7 @@
-// main: ../video-js.scss
-
 .video-js {
   // display:inline-block would be closer to the video el's display:inline
   // but it results in flash reloading when going into fullscreen [#2205]
+  // TODO: Still needed?
   display: block;
   // Make video.js videos align top when next to video elements
   vertical-align: top;
@@ -125,8 +124,7 @@ body.vjs-full-window {
   bottom: 0;
   right: 0;
 }
-
-.video-js.vjs-fullscreen {
+.video-js.vjs-fullscreen:not(.vjs-ios-native-fs) {
   width: 100% !important;
   height: 100% !important;
   // Undo any aspect ratio padding for fluid layouts

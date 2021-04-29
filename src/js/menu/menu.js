@@ -4,7 +4,6 @@
 import Component from '../component.js';
 import document from 'global/document';
 import * as Dom from '../utils/dom.js';
-import * as Fn from '../utils/fn.js';
 import * as Events from '../utils/events.js';
 import keycode from 'keycode';
 
@@ -35,11 +34,11 @@ class Menu extends Component {
 
     this.focusedChild_ = -1;
 
-    this.on('keydown', this.handleKeyPress);
+    this.on('keydown', (e) => this.handleKeyDown(e));
 
     // All the menu item instances share the same blur handler provided by the menu container.
-    this.boundHandleBlur_ = Fn.bind(this, this.handleBlur);
-    this.boundHandleTapClick_ = Fn.bind(this, this.handleTapClick);
+    this.boundHandleBlur_ = (e) => this.handleBlur(e);
+    this.boundHandleTapClick_ = (e) => this.handleTapClick(e);
   }
 
   /**
@@ -54,8 +53,8 @@ class Menu extends Component {
       return;
     }
 
-    component.on('blur', this.boundHandleBlur_);
-    component.on(['tap', 'click'], this.boundHandleTapClick_);
+    this.on(component, 'blur', this.boundHandleBlur_);
+    this.on(component, ['tap', 'click'], this.boundHandleTapClick_);
   }
 
   /**
@@ -70,8 +69,8 @@ class Menu extends Component {
       return;
     }
 
-    component.off('blur', this.boundHandleBlur_);
-    component.off(['tap', 'click'], this.boundHandleTapClick_);
+    this.off(component, 'blur', this.boundHandleBlur_);
+    this.off(component, ['tap', 'click'], this.boundHandleTapClick_);
   }
 
   /**
@@ -211,22 +210,19 @@ class Menu extends Component {
    *
    * @listens keydown
    */
-  handleKeyPress(event) {
+  handleKeyDown(event) {
+
     // Left and Down Arrows
     if (keycode.isEventKey(event, 'Left') || keycode.isEventKey(event, 'Down')) {
       event.preventDefault();
+      event.stopPropagation();
       this.stepForward();
 
     // Up and Right Arrows
     } else if (keycode.isEventKey(event, 'Right') || keycode.isEventKey(event, 'Up')) {
       event.preventDefault();
+      event.stopPropagation();
       this.stepBack();
-    } else {
-      // NOTE: This is a special case where we don't pass unhandled
-      //  keypress events up to the Component handler, because this
-      //  is just adding a keypress handler on top of the MenuItem's
-      //  existing keypress handler, which already handles passing keypress
-      //  events up.
     }
   }
 
@@ -262,8 +258,7 @@ class Menu extends Component {
    */
   focus(item = 0) {
     const children = this.children().slice();
-    const haveTitle = children.length && children[0].className &&
-      (/vjs-menu-title/).test(children[0].className);
+    const haveTitle = children.length && children[0].hasClass('vjs-menu-title');
 
     if (haveTitle) {
       children.shift();

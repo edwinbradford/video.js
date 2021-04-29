@@ -1,8 +1,9 @@
-// compileCompressed: ../../dist/$1.min.css, compileExpanded: ../../dist/$1.css
-
 @import "private-variables";
 @import "utilities";
-// @import "variables"; // References deprecated font icons
+
+/* Font icons only */
+
+// @import "variables";
 
 @import "components/svgs";
 
@@ -30,6 +31,7 @@
 @import "components/time";
 @import "components/play-pause";
 @import "components/text-track";
+@import "components/picture-in-picture";
 @import "components/fullscreen";
 @import "components/playback-rate";
 @import "components/error";
@@ -61,7 +63,6 @@
   outline: none;
 }
 
-.video-js *:focus:not(:focus-visible),
-.video-js .vjs-menu *:focus:not(:focus-visible) {
+.video-js *:focus:not(:focus-visible) {
   outline: none;
 }
