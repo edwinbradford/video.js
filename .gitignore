@@ -40,12 +40,3 @@ lang/zh-Han*.json
 
 # netlify deploy
 deploy/
-
-# AV Neue ignore files below this line
-
-.sass-cache
-.htaccess
-
-RunSass.bat
-index.php
-favicon.ico
