@@ -28,7 +28,7 @@
     <script>window.VIDEOJS_NO_DYNAMIC_STYLE = true</script>
 
     <!-- Video.js core -->
-    <script src="../dist/video.min.js"></script>
+    <script src="../dist/video.js"></script>
 
   </head>
   <body>
