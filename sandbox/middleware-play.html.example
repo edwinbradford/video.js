@@ -161,8 +161,8 @@
       'preload': 'auto',
       'responsive': true,
       'fluid': true,          // (1) or...
-//      'fill': true            // (2) or...
-//      'aspectRatio': '16:9'   // (3)
+//    'fill': true            // (2) or...
+//    'aspectRatio': '16:9'   // (3)
       'breakpoints': {
         'tiny': 210,
         'x-small': 320,
