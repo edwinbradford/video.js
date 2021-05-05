@@ -1,34 +1,10 @@
-// We are assuming there is no progress bar and using the live display
-// to fill in the middle space. Live+DVR will need to adjust this.
-
-// A Middot replaces text in the AV Neue theme
-.video-js .vjs-live-control {
-  @include display-flex(flex-start, center);
-  @include flex(auto);
-  @include border-radius(50%);
-  position: absolute;
-  bottom: 0; // No current time text field for live
-  left: 0;
-  height: 1.4em;
-  width: 1.4em;
-  background-color: $accent-color;
-}
-
-// Hide the new live ui for AV Neue theme
-.video-js .vjs-seek-to-live-control {
-  display: none;
-  position: absolute;
-  bottom: 0; // No current time text field for live
-  left: 0;
-}
-
-// Hide the text for the AV Neue theme
-.vjs-live-display {
-  display: none;
-}
-
-/*
- * Disable seek to live features for AV Neue theme
+// css for the old live ui, assumes that the progress bar is hidden
+// .video-js .vjs-live-control {
+//   @include display-flex(flex-start);
+//   @include flex(auto);
+//   font-size: 1em;
+//   line-height: 3em;
+// }
 
 .vjs-no-flex .vjs-live-control {
   display: table-cell;
@@ -78,13 +54,46 @@
 
 .vjs-seek-to-live-control .vjs-icon-placeholder {
   margin-right: 0.5em;
-  @extend .vjs-icon-circle;
+  @extend .vjs-icon-circle !optional; // AV Neue test
   color: #888;
 }
 
 // make the live circle red when at the live edge
 .vjs-seek-to-live-control.vjs-control.vjs-at-live-edge .vjs-icon-placeholder {
   color: red;
+}
+
+// AV Neue theme replaces text with a middot
+.video-js .vjs-live-control {
+  @include display-flex(flex-start, center);
+  @include flex(auto);
+  @include border-radius(50%);
+  position: absolute;
+  bottom: 0; // No current time text field for live
+  left: 0;
+  height: 1.4em;
+  width: 1.4em;
+  background-color: $accent-color;
+}
+
+// AV Neue theme does not show text
+.vjs-live-display {
+  display: none;
+}
+
+/*
+.vjs-no-flex .vjs-live-control {
+  display: table-cell;
+  width: auto;
+  text-align: left;
+}
+
+// AV Neue theme does  not use live display
+.video-js .vjs-seek-to-live-control {
+  display: none;
+  position: absolute;
+  bottom: 0; // No current time text field for live
+  left: 0;
 }
 
 */

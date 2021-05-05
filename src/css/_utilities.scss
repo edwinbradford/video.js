@@ -1,14 +1,17 @@
+// AV Neue theme does not use gradients
+// @import "utilities/linear-gradient";
+
 @mixin background-color-with-alpha($color, $alpha) {
   background-color: $color;
   background-color: rgba($color, $alpha);
 }
 
 @mixin transform($transform) {
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
   -webkit-transform: $transform;
-     -moz-transform: $transform;
-      -ms-transform: $transform;
-       -o-transform: $transform;
-          transform: $transform;
+  transform: $transform;
 }
 
 @mixin transition($string: $transition--default) {
@@ -20,48 +23,46 @@
 }
 
 @mixin hide-visually {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  width: 1px;
-  height: 1px;
-  padding: 0;
   border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-          border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
 }
 
 @mixin animation($string: spin 1s infinite linear) {
   -webkit-animation: $string;
-     -moz-animation: $string;
-       -o-animation: $string;
-          animation: $string;
+  -moz-animation: $string;
+  -o-animation: $string;
+  animation: $string;
 }
 
-@mixin display-flex($alignment: "", $justification: "") {
+@mixin display-flex($alignment: '', $justification: '') {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display:         flex;
+  display: flex;
 
-  @if $alignment != "" {
-            align-items: $alignment;
-
+  @if $alignment != '' {
     -webkit-box-align: $alignment;
     -webkit-align-items: $alignment;
     -ms-flex-align: $alignment;
+    align-items: $alignment;
   }
 
-  @if $justification != "" {
-            justify-content: $justification;
-
+  @if $justification != '' {
     -webkit-box-pack: $justification;
     -webkit-justify-content: $justification;
     -ms-flex-pack: $justification;
+    justify-content: $justification;
   }
 }
 
@@ -73,11 +74,12 @@
   //     width: auto;
   //   }
   // }
+
   -webkit-box-flex: $value;
-     -moz-box-flex: $value;
+  -moz-box-flex: $value;
   -webkit-flex: $value;
-      -ms-flex: $value;
-          flex: $value;
+  -ms-flex: $value;
+  flex: $value;
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/user-select
@@ -86,30 +88,30 @@
   /* iOS Safari */
   -webkit-touch-callout: $string;
   /* Safari */
-    -webkit-user-select: $string;
+  -webkit-user-select: $string;
   /* Konqueror HTML */
-     -khtml-user-select: $string;
+  -khtml-user-select: $string;
   /* Firefox */
-       -moz-user-select: $string;
+  -moz-user-select: $string;
   /* Internet Explorer/Edge */
-        -ms-user-select: $string;
+  -ms-user-select: $string;
   /* Non-prefixed version, currently supported by Chrome and Opera */
-            user-select: $string;
+  user-select: $string;
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
-@mixin box-shadow ($string: 0 0 1rem rgba(0, 0, 0, 0.25)) {
+@mixin box-shadow ($string: 0 0 1em rgba(0, 0, 0, 0.25)) {
   -webkit-box-shadow: $string;
-     -moz-box-shadow: $string;
-          box-shadow: $string;
+  -moz-box-shadow: $string;
+  box-shadow: $string;
 }
 
 @mixin order($value) {
-          order: $value;
   -webkit-box-ordinal-group: $value;
-     -moz-box-ordinal-group: $value;
+  -moz-box-ordinal-group: $value;
   -ms-flex-order: $value;
   -webkit-order: $value;
+  order: $value;
 }
 
 %fill-parent {
@@ -120,7 +122,12 @@
   height: 100%;
 }
 
-// Filter effects are used for svg icons
+%icon-default {
+  @extend %fill-parent;
+  text-align: center;
+}
+
+// AV Neue theme uses filters for SVG drop shadows
 @mixin filter($filter) {
   -webkit-filter: $filter;
      -moz-filter: $filter;
