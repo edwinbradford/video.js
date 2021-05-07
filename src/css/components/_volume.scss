@@ -1,14 +1,13 @@
-// .video-js .vjs-volume-menu-button, // Can't locate this class in the dom
 .video-js .vjs-mute-control {
   span.vjs-icon-placeholder {
+    cursor: pointer;
+    @include flex(none);
     display: block;
     position: relative; // Required for positioning of pseudo content
     width: 100%;
     height: 100%;
     overflow: inherit;
-    cursor: pointer;
     background-size: contain;
-    @include flex(none);
     @extend .icon-volume;
     &:before {
       display: block;
@@ -64,15 +63,24 @@
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control {
-  display: none;
+  // display: none; // AV Neue 'display: none' is not animatable
   opacity: 0;
   $transition-property: opacity $icon-fade-out-time;
   @include transition($transition-property);
 }
 
 .video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  width: $volume-menu-width;
+  width: 0; // AV Neue use instead of display: none
+  $transition-property: width 0ms $icon-fade-out-time; // AV Neue wait for fade out to end
+  @include transition($transition-property);
 }
+
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  height: 0; // AV Neue use instead of display: none
+  $transition-property: width 0ms $icon-fade-out-time; // AV Neue wait for fade out to end
+  @include transition($transition-property);
+}
+
 
 .video-js .vjs-volume-panel {
   &.vjs-hover .vjs-volume-control,
@@ -82,23 +90,29 @@
   &.vjs-hover .vjs-mute-control  ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
 
-    // Display AV Neue Volume Slider
+    // AV Neue display volume slider
     @include display-flex;
     opacity: 1;
     position: relative;
     $transition-property: opacity $icon-fade-in-time;
     @include transition($transition-property);
 
+    &.vjs-volume-control.vjs-volume-horizontal {
+      width: $volume-menu-width;
+    }
+
+    &.vjs-volume-control.vjs-volume-vertical {
+      height: $volume-menu-height;
+    }
   }
 }
 
-// Increase Volume Slider Handle size on hover
+// AV Neue increase volume slider handle size on hover
 .video-js .vjs-volume-panel .vjs-volume-control {
   &:hover,
   &:focus,
   &:active {
     .vjs-volume-bar .vjs-volume-level:before  {
-      // We do not slide volume slider into view for VideJS Neue theme
       width: $slider-height * $slider-handle-height-increase;
       height: $slider-height * $slider-handle-height-increase;
     }
@@ -127,16 +141,6 @@
       top: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
     }
   }
-}
-
-// Position Volume Slider Handle for vertical menus
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  // We do not slide volume slider into view for AV Neue theme
-}
-
-// Position Volume Slider Handle for horizontal menus
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  // We do not slide volume slider into view for AV Neue theme
 }
 
 .video-js .vjs-volume-panel {
