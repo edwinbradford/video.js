@@ -1,8 +1,3 @@
-.video-js .vjs-control-bar .vjs-volume-panel .vjs-mute-control {
-  // Overwrite control buttons right hand margin for volume slider
-  margin-right: 0;
-}
-
 // .video-js .vjs-volume-menu-button, // Can't locate this class in the dom
 .video-js .vjs-mute-control {
   span.vjs-icon-placeholder {
@@ -146,9 +141,7 @@
 
 .video-js .vjs-volume-panel {
   @include display-flex;
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin-right: auto;
 }
 
 .video-js .vjs-volume-bar {

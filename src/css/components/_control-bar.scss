@@ -16,9 +16,9 @@
     width: $control-button-width; // don't allow buttons to scale down on tiny screens
     min-width: $control-button-width; // don't allow buttons to scale down on tiny screens
     height: $control-button-height;
-    margin-right: $control-button-spacing;
-    &:last-child {
-      margin-right: 0;
+    margin-left: $control-button-spacing;
+    &:first-child {
+      margin-left: 0;
     }
   }
 }
