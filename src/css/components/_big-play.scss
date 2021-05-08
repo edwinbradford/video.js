@@ -3,7 +3,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  // z-index: 10; // In front of pause button when video is not playing
+  z-index: 0; // AV Neue play button behind when playing
   width: $big-play-button--width;
   height: $big-play-button--height;
   margin-top: -($big-play-button--height / 2);
@@ -29,7 +29,7 @@
 
 // Allow people that hate their poster image to center the big play button.
 .vjs-big-play-centered .vjs-big-play-button {
-  // AV Neue theme play button is centered by default
+  // AV Neue theme play button is already centered by default
 }
 
 // Play button hover changes
@@ -56,7 +56,8 @@
 }
 
 // Show if the video is paused
-.vjs-paused .vjs-big-play-button {
+.video-js.vjs-paused .vjs-big-play-button {
+  z-index: 10; // AV Neue play button in front when paused
   pointer-events: all;
   opacity: 1;
 }
