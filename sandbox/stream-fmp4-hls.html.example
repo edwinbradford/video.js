@@ -64,6 +64,7 @@
         },
         'inactivityTimeout': 1000,
         'controlBar': {
+          'pictureInPictureToggle': true,
           'durationDisplay': true,
           'remainingTimeDisplay': false,
           'timeDivider': false,

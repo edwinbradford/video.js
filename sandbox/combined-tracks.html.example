@@ -85,6 +85,7 @@
           'captionsButton',
           'subsCapsButton',
           'audioTrackButton',
+          'pictureInPictureToggle',
           'fullscreenToggle'
         ]
       }
