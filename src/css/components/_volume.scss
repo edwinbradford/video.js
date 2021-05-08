@@ -145,6 +145,10 @@
 
 .video-js .vjs-volume-panel {
   @include display-flex;
+
+  /* AV Neue force volume controls to be the first item regardless of order in JavaScript instance parameters */
+
+  order: -1;
   margin-right: auto;
 }
 
