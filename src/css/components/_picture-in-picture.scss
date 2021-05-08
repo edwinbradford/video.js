@@ -1,12 +1,39 @@
 .video-js .vjs-picture-in-picture-control {
-  cursor: pointer;
-  @include flex(none);
-
-  & .vjs-icon-placeholder {
-    @extend .vjs-icon-picture-in-picture-enter;
+  span.vjs-icon-placeholder {
+    cursor: pointer;
+    display: block;
+    position: relative; // Required for positioning of pseudo content
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    @extend .icon-picture-in-picture-enter;
+    &:before {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      content: "";
+      opacity: 0;
+      @extend .icon-picture-in-picture-enter-highlight;
+      @include transition(opacity $icon-unhighlight-time);
+    }
+    &:hover {
+      &:before {
+        opacity: 1;
+        @include transition(opacity $icon-highlight-time);
+      }
+    }
   }
 }
+
 // Switch to the exit icon when the player is in Picture-in-Picture
-.video-js.vjs-picture-in-picture .vjs-picture-in-picture-control .vjs-icon-placeholder {
-  @extend .vjs-icon-picture-in-picture-exit;
+.video-js.vjs-picture-in-picture .vjs-picture-in-picture-control {
+  span.vjs-icon-placeholder {
+    @extend .icon-picture-in-picture-exit;
+    &:before {
+      @extend .icon-picture-in-picture-exit-highlight;
+    }
+  }
 }
