@@ -1,36 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Video.js Sandbox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AV Neue theme focus visible example</title>
 
-  <!-- Load the source files -->
+  <style>
+    html {
+      width: 100%;
+      height: 100%;
+      font-family: consolas;
+      font-size: 100%;
+      background-color:#e5e5e5;
+    }
+    body {
+      margin: 0;
+      height: 100%;
+    }
+    video {
+      margin: 0;
+    }
+  </style>
+
+  <!-- AV Neue theme -->
   <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
+
+  <!-- Video.js -->
   <script src="../dist/video.js"></script>
 
 </head>
 <body>
-  <div style="background-color:#eee; border: 1px solid #777; padding: 10px; margin-bottom: 20px; font-size: .8em; line-height: 1.5em; font-family: Verdana, sans-serif;">
-    <p>You can use /sandbox/ for writing and testing your own code. Nothing in /sandbox/ will get checked into the repo, except files that end in .example (so don't edit or add those files). To get started run `npm start` and open the focus-visible.html</p>
-    <pre>npm start</pre>
-    <pre>open http://localhost:9999/sandbox/focus-visible.html</pre>
-  </div>
 
-  <video id="vid1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264"
-      poster="https://vjs.zencdn.net/v/oceans.png"
-      data-setup='{"controlBar": {"volumePanel": {"inline": false}}}'>
-    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-    <source src="https://vjs.zencdn.net/v/oceans.webm" type="video/webm">
-    <source src="https://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+  <video id="videojsElement" class="video-js" controls poster="//d2zihajmogu5jn.cloudfront.net/elephantsdream/poster.png">
+    <source src="//d2zihajmogu5jn.cloudfront.net/elephantsdream/ed_hd.mp4" type="video/mp4">
+    <source src="//d2zihajmogu5jn.cloudfront.net/elephantsdream/ed_hd.ogg" type="video/ogg">
     <track kind="captions" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English">
     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
   </video>
-  <p>This demo shows how to implement polyfill for the <b>:focus-visible</b> selector. You can read more about the polyfill <a href="https://github.com/WICG/focus-visible"> here</a>.</p>
-  <script>
-    var vid = document.getElementById("vid1");
-    var player = videojs(vid);
 
+  <script>
+    var player = videojs('videojsElement', {
+      'autoplay': false,
+      'controls': true,
+      'loop': false,
+      'muted': false,
+      'preload': 'auto',
+      'responsive': true,
+      'fluid': true,          // (1) or...
+//    'fill': true            // (2) or...
+//    'aspectRatio': '16:9'   // (3)
+      'breakpoints': {
+        'tiny': 210,
+        'x-small': 320,
+        'small': 639,
+        'medium': 768,
+        'large': 1440,
+        'x-large': 2560,
+        'huge': Infinity
+      },
+      'html5': {
+        'nativeTextTracks': false,
+        'nativeControlsForTouch': false,
+        'nativeAudioTracks': false,
+        'nativeVideoTracks': false,
+      },
+      'inactivityTimeout': 1000,
+      'controlBar': {
+        'pictureInPictureToggle': true,
+        'durationDisplay': true,
+        'remainingTimeDisplay': false,
+        'timeDivider': false,
+      },
+    },
+    function() {
+      // this.createModal('foo');
+      // Callback.
+    });
   </script>
   <script src="https://unpkg.com/focus-visible"></script>
+
 </body>
 </html>

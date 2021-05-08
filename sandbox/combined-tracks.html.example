@@ -24,6 +24,8 @@
 
   <!-- AV Neue theme -->
   <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
+
+  <!-- Video.js -->
   <script src="../dist/video.js"></script>
 
 </head>
