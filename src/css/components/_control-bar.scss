@@ -26,7 +26,7 @@
 // Video has started playing
 .vjs-has-started .vjs-control-bar {
   opacity: 1;
-  $trans: opacity 1s;
+  $trans: opacity 500ms;
   @include transition($trans);
 }
 
@@ -35,7 +35,7 @@
   // Remain visible for screen reader and keyboard users
   visibility: visible;
   opacity: 0;
-  $trans: opacity 1s;
+  $trans: opacity 500ms;
   @include transition($trans);
 
 }
