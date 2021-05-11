@@ -1,16 +1,14 @@
 .icon-big-play {
   // 64px
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3cpath fill='%23e6e6e6' d='M64 32A32 32 0 1132 0a32 32 0 0132 32zM24.49 20.73v22.54a1 1 0 001.5.86l19.52-11.26a1 1 0 000-1.74L26 19.87a1 1 0 00-1.51.86z' style='isolation:isolate'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3ccircle fill='%23000' cx='32' cy='32' r='32' opacity='0.2'/%3e%3cpath fill='%23e6e6e6' d='M24.49 20.73v22.54a1 1 0 001.5.86l19.52-11.26a1 1 0 000-1.74L26 19.87a1 1 0 00-1.51.86z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: center center;
-  @include filter($filter-drop-shadow);
 }
 
 .icon-big-play-highlight {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3cpath fill='%23fff' d='M64 32A32 32 0 1132 0a32 32 0 0132 32zM24.49 20.73v22.54a1 1 0 001.5.86l19.52-11.26a1 1 0 000-1.74L26 19.87a1 1 0 00-1.51.86z' style='isolation:isolate'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3cpath fill='%23fff' d='M24.49 20.73v22.54a1 1 0 001.5.86l19.52-11.26a1 1 0 000-1.74L26 19.87a1 1 0 00-1.51.86z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: center center;
-  @include filter($filter-drop-shadow);
 }
 
 .icon-chapters {
@@ -73,8 +71,8 @@
   // 24px
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18'%3E%3Cpath fill='%23e6e6e6' d='M22 12v4H2V2h10V0H1a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h22a1 1 0 0 0 1-1v-5h-2z'/%3E%3Cpath fill='%23e6e6e6' d='M15 0v2h5.59L15 7.59 16.41 9 22 3.41V9h2V0h-9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: left center;
-  @include filter($filter-drop-shadow); // Prevents bad cropping in small windows
+  background-position: left center; // Prevents bad cropping in small windows
+  @include filter($filter-drop-shadow);
 }
 
 .icon-fullscreen-enter-highlight {
@@ -127,10 +125,9 @@
 
 .icon-pause {
   // 64px
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3cpath fill='%23e6e6e6' d='M20 20h8v24h-8zM36 20h8v24h-8z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3ccircle fill='%23000' cx='32' cy='32' r='32' opacity='0.2'/%3e%3cpath fill='%23e6e6e6' d='M20 20h8v24h-8zM36 20h8v24h-8z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: left center;
-  @include filter($filter-drop-shadow);
 }
 
 .icon-pause-highlight {
@@ -138,7 +135,6 @@
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3e%3cpath fill='%23fff' d='M20 20h8v24h-8zM36 20h8v24h-8z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: left center;
-  @include filter($filter-drop-shadow);
 }
 
 .icon-picture-in-picture-enter {

@@ -7,6 +7,8 @@
   height: $big-play-button--height;
   margin-top: $big-play-button--height * -1/2;
   margin-left: $big-play-button--width * -1/2;
+  border-radius: 50%;
+  backdrop-filter: blur(16px);
 }
 
 .video-js .vjs-play-control {

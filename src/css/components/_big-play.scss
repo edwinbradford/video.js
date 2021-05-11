@@ -12,6 +12,8 @@
   cursor: pointer;
   opacity: 1;
   background-size: contain;
+  border-radius: 50%;
+  backdrop-filter: blur(16px);
   @extend .icon-big-play;
   &:before {
     display: block;
