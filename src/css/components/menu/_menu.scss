@@ -65,8 +65,8 @@ div.vjs-menu-button {
   background-color: $menu-background-color;
 }
 
-.video-js .vjs-menu *:focus:not(:focus-visible),
-.js-focus-visible .vjs-menu *:focus:not(.focus-visible) {
+.video-js .vjs-menu *:not(.vjs-selected):focus:not(:focus-visible),
+.js-focus-visible .vjs-menu *:not(.vjs-selected):focus:not(.focus-visible) {
   background: none;
 }
 
