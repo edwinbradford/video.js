@@ -1,7 +1,5 @@
-// default is: > 0.5%, last 2 versions, Firefox ESR, not dead
-// we add on ie 11 since we still support that.
 // see https://github.com/browserslist/browserslist for more info
-const browsersList = ['defaults', 'ie 11'];
+const browsersList = ['last 3 major versions', 'Firefox ESR', 'Chrome >= 53', 'not dead', 'not ie 11', 'not baidu 7', 'not and_qq 11', 'not and_uc 12', 'not op_mini all'];
 
 module.exports = {
   plugins: [

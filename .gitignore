@@ -2,6 +2,7 @@
 build/files/*
 build/temp/*
 docs/api/*
+docs/apistyles
 dev.html
 projects
 .zenflow-log
@@ -26,6 +27,7 @@ sandbox/*
 
 test/dist/*
 .coveralls.yml
+.sass-cache
 
 dist/*
 es5/*
