@@ -2,10 +2,10 @@
 import TextTrackSettings from '../../../src/js/tracks/text-track-settings.js';
 import TestHelpers from '../test-helpers.js';
 import * as Events from '../../../src/js/utils/events.js';
-import safeParseTuple from 'safe-json-parse/tuple';
 import sinon from 'sinon';
 import window from 'global/window';
 import Component from '../../../src/js/component.js';
+import videojs from '../../../src/js/video.js';
 
 const tracks = [{
   kind: 'captions',
@@ -63,9 +63,9 @@ QUnit.test('should update settings', function(assert) {
   );
 
   assert.equal(
-    player.$('.vjs-fg-color > select').selectedIndex,
+    player.$('.vjs-text-color > select').selectedIndex,
     2,
-    'fg-color is set to new value'
+    'text-color is set to new value'
   );
 
   assert.equal(
@@ -119,7 +119,7 @@ QUnit.test('should update settings', function(assert) {
   Events.trigger(player.$('.vjs-done-button'), 'click');
 
   assert.deepEqual(
-    safeParseTuple(window.localStorage.getItem('vjs-text-track-settings'))[1],
+    JSON.parse(window.localStorage.getItem('vjs-text-track-settings')),
     newSettings,
     'values are saved'
   );
@@ -133,7 +133,7 @@ QUnit.test('should restore default settings', function(assert) {
     persistTextTrackSettings: true
   });
 
-  player.$('.vjs-fg-color > select').selectedIndex = 1;
+  player.$('.vjs-text-color > select').selectedIndex = 1;
   player.$('.vjs-bg-color > select').selectedIndex = 1;
   player.$('.vjs-window-color > select').selectedIndex = 1;
   player.$('.vjs-text-opacity > select').selectedIndex = 1;
@@ -160,9 +160,9 @@ QUnit.test('should restore default settings', function(assert) {
   //                 'values are saved');
 
   assert.equal(
-    player.$('.vjs-fg-color > select').selectedIndex,
+    player.$('.vjs-text-color > select').selectedIndex,
     0,
-    'fg-color is set to default value'
+    'text-color is set to default value'
   );
 
   assert.equal(
@@ -368,4 +368,43 @@ QUnit.test('should not restore saved settings', function(assert) {
   assert.deepEqual(player.textTrackSettings.getValues(), defaultSettings);
 
   player.dispose();
+});
+
+QUnit.test('should update on languagechange', function(assert) {
+  const player = TestHelpers.makePlayer({
+    tracks
+  });
+
+  videojs.addLanguage('test', {'Font Size': 'FONTSIZE'});
+  player.language('test');
+
+  assert.equal(player.$('.vjs-font-percent legend').textContent, 'FONTSIZE', 'settings dialog updates on languagechange');
+
+  player.dispose();
+});
+
+QUnit.test('should associate <label>s with <select>s', function(assert) {
+  const player = TestHelpers.makePlayer({
+    tracks
+  });
+
+  const firstLabelFor = player.textTrackSettings.el_.querySelector('label').getAttribute('for');
+
+  assert.ok(
+    videojs.dom.isEl(player.textTrackSettings.el_.querySelector(`#${firstLabelFor}`)),
+    'label has a `for` attribute matching an `id`'
+  );
+
+});
+
+QUnit.test('should not duplicate ids', function(assert) {
+  const player = TestHelpers.makePlayer({
+    tracks
+  });
+
+  const elements = [...player.el().querySelectorAll('[id]')];
+  const ids = elements.map(el => el.id);
+  const duplicates = elements.filter(el => ids.filter(id => id === el.id).length > 1);
+
+  assert.strictEqual(duplicates.length, 0, 'there should be no duplicate ids');
 });

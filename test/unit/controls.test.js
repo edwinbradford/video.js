@@ -1,4 +1,5 @@
 /* eslint-env qunit */
+import EventTarget from '../../src/js/event-target.js';
 import VolumeControl from '../../src/js/control-bar/volume-control/volume-control.js';
 import MuteToggle from '../../src/js/control-bar/mute-toggle.js';
 import VolumeBar from '../../src/js/control-bar/volume-control/volume-bar.js';
@@ -8,8 +9,11 @@ import Slider from '../../src/js/slider/slider.js';
 import PictureInPictureToggle from '../../src/js/control-bar/picture-in-picture-toggle.js';
 import FullscreenToggle from '../../src/js/control-bar/fullscreen-toggle.js';
 import ControlBar from '../../src/js/control-bar/control-bar.js';
+import SeekBar from '../../src/js/control-bar/progress-control/seek-bar.js';
+import RemainingTimeDisplay from '../../src/js/control-bar/time-controls/remaining-time-display.js';
 import TestHelpers from './test-helpers.js';
 import document from 'global/document';
+import window from 'global/window';
 import sinon from 'sinon';
 
 QUnit.module('Controls', {
@@ -141,13 +145,127 @@ QUnit.test('calculateDistance should use changedTouches, if available', function
   slider.dispose();
 });
 
-QUnit.test('should hide playback rate control if it\'s not supported', function(assert) {
+QUnit.test("SeekBar doesn't set scrubbing on mouse down, only on mouse move", function(assert) {
+  const player = TestHelpers.makePlayer();
+  const scrubbingSpy = sinon.spy(player, 'scrubbing');
+  const seekBar = new SeekBar(player);
+  const doc = new EventTarget();
+
+  player.duration(0);
+
+  // mousemove is listened to on the document.
+  // Specifically, we check the ownerDocument of the seekBar's bar.
+  // Therefore, we want to mock it out to be able to trigger mousemove
+  seekBar.bar.dispose();
+  seekBar.bar.el_ = new EventTarget();
+  seekBar.bar.el_.ownerDocument = doc;
+
+  seekBar.trigger('mousedown');
+  assert.ok(scrubbingSpy.calledWith(), 'called scrubbing as a getter');
+  assert.notOk(scrubbingSpy.calledWith(true), 'did not set scrubbing true');
+
+  player.scrubbing(false);
+
+  scrubbingSpy.resetHistory();
+
+  doc.trigger('mousemove');
+  assert.ok(scrubbingSpy.calledWith(), 'called scrubbing as a getter');
+  assert.ok(scrubbingSpy.calledWith(true), 'did set scrubbing true');
+
+  seekBar.dispose();
+  player.dispose();
+});
+
+QUnit.test('SeekBar should be filled on 100% when the video/audio ends', function(assert) {
+  const player = TestHelpers.makePlayer();
+  const seekBar = player.controlBar.progressControl.seekBar;
+  const oldRAF = window.requestAnimationFrame;
+  const oldCAF = window.cancelAnimationFrame;
+
+  window.requestAnimationFrame = (fn) => window.setTimeout(fn, 1);
+  window.cancelAnimationFrame = (id) => window.clearTimeout(id);
+
+  player.triggerReady();
+  player.duration(1.5);
+
+  this.clock.tick(30);
+  player.trigger('timeupdate');
+  this.clock.tick(1);
+
+  assert.equal(seekBar.duration_, 1.5, 'SeekBar duration should equal player duration');
+  assert.equal(seekBar.currentTime_, 0, 'SeekBar current time should be zero on start');
+  assert.equal(seekBar.getPercent(), 0, 'SeekBar percent should be zero on start');
+
+  this.clock.tick(30);
+  player.currentTime(0.75);
+  player.trigger('timeupdate');
+  this.clock.tick(1);
+
+  assert.equal(seekBar.currentTime_, 0.75, 'SeekBar currentTime should equal player currentTime');
+  assert.equal(seekBar.getPercent(), 0.5, 'SeekBar percent equal to 50%');
+
+  this.clock.tick(30);
+  player.currentTime(1.495);
+  player.trigger('timeupdate');
+  this.clock.tick(1);
+  player.currentTime(1.5);
+  // The following 'timeupdate' should be wiped out by the throttle function!
+  player.trigger('timeupdate');
+  // The following 'ended' shouldn't be wiped out by the throttle function!
+  player.trigger('ended');
+  this.clock.tick(1);
+
+  assert.equal(seekBar.currentTime_, 1.5, 'SeekBar currentTime should equal player currentTime');
+  assert.equal(seekBar.getPercent(), 1, 'SeekBar percent equal to 100%');
+  player.dispose();
+
+  window.requestAnimationFrame = oldRAF;
+  window.cancelAnimationFrame = oldCAF;
+});
+
+QUnit.test('playback rate button is hidden by default', function(assert) {
   assert.expect(1);
 
   const player = TestHelpers.makePlayer();
   const playbackRate = new PlaybackRateMenuButton(player);
 
-  assert.ok(playbackRate.el().className.indexOf('vjs-hidden') >= 0, 'playbackRate is not hidden');
+  assert.ok(playbackRate.el().className.indexOf('vjs-hidden') >= 0, 'playbackRate is hidden');
+
+  player.dispose();
+  playbackRate.dispose();
+});
+
+QUnit.test('playback rate button is not hidden if playback rates are set', function(assert) {
+  assert.expect(1);
+
+  const player = TestHelpers.makePlayer({
+    playbackRates: [1, 2, 3]
+  });
+  const playbackRate = new PlaybackRateMenuButton(player);
+
+  assert.ok(playbackRate.el().className.indexOf('vjs-hidden') === -1, 'playbackRate is not hidden');
+
+  player.dispose();
+  playbackRate.dispose();
+});
+
+QUnit.test('should show or hide playback rate menu button on playback rates change', function(assert) {
+  const rates = [1, 2, 3];
+  const norates = [];
+  let playbackRatesReturnValue = rates;
+  const player = TestHelpers.makePlayer();
+
+  player.playbackRates = () => playbackRatesReturnValue;
+
+  const playbackRate = new PlaybackRateMenuButton(player);
+
+  assert.ok(playbackRate.el().className.indexOf('vjs-hidden') === -1, 'playbackRate is not hidden');
+
+  playbackRatesReturnValue = norates;
+
+  player.trigger('playbackrateschange');
+
+  assert.ok(playbackRate.el().className.indexOf('vjs-hidden') >= 0, 'playbackRate is hidden');
 
   player.dispose();
   playbackRate.dispose();
@@ -215,6 +333,73 @@ QUnit.test('Picture-in-Picture control enabled property value should be correct 
   pictureInPictureToggle.dispose();
 });
 
+QUnit.test('Picture-in-Picture control is hidden when the source is audio', function(assert) {
+  const player = TestHelpers.makePlayer({});
+  const pictureInPictureToggle = new PictureInPictureToggle(player);
+
+  player.src({src: 'example.mp4', type: 'video/mp4'});
+  player.trigger('loadedmetadata');
+
+  if (document.exitPictureInPicture) {
+    assert.notOk(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is not hidden initially');
+  } else {
+    assert.ok(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is hidden if PiP is not supported');
+  }
+
+  player.src({src: 'example1.mp3', type: 'audio/mp3'});
+  player.trigger('loadedmetadata');
+  assert.ok(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is hidden whenh the source is audio');
+
+  player.dispose();
+  pictureInPictureToggle.dispose();
+});
+
+QUnit.test('Picture-in-Picture control is displayed if docPiP is enabled', function(assert) {
+  const player = TestHelpers.makePlayer({
+    disablePictureInPicture: true,
+    enableDocumentPictureInPicture: true
+  });
+  const pictureInPictureToggle = new PictureInPictureToggle(player);
+  const testPiPObj = {};
+
+  if (!window.documentPictureInPicture) {
+    window.documentPictureInPicture = testPiPObj;
+  }
+
+  player.src({src: 'example.mp4', type: 'video/mp4'});
+  player.trigger('loadedmetadata');
+
+  if (document.exitPictureInPicture) {
+    assert.notOk(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is not hidden');
+  } else {
+    assert.ok(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is hidden if PiP is not supported');
+  }
+
+  player.dispose();
+  pictureInPictureToggle.dispose();
+  if (window.documentPictureInPicture === testPiPObj) {
+    delete window.documentPictureInPicture;
+  }
+});
+
+QUnit.test('Picture-in-Picture control should only be displayed if the browser supports it', function(assert) {
+  const player = TestHelpers.makePlayer();
+  const pictureInPictureToggle = new PictureInPictureToggle(player);
+
+  player.trigger('loadedmetadata');
+
+  if (document.exitPictureInPicture) {
+    // Browser that does support PiP
+    assert.false(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is not hidden');
+  } else {
+    // Browser that does not support PiP
+    assert.true(pictureInPictureToggle.hasClass('vjs-hidden'), 'pictureInPictureToggle button is hidden');
+  }
+
+  player.dispose();
+  pictureInPictureToggle.dispose();
+});
+
 QUnit.test('Fullscreen control text should be correct when fullscreenchange is triggered', function(assert) {
   const player = TestHelpers.makePlayer({controlBar: false});
   const fullscreentoggle = new FullscreenToggle(player);
@@ -224,7 +409,7 @@ QUnit.test('Fullscreen control text should be correct when fullscreenchange is t
 
   player.isFullscreen(true);
   player.trigger('fullscreenchange');
-  assert.equal(fullscreentoggle.controlText(), 'Non-Fullscreen', 'Control Text is correct while switching to fullscreen mode');
+  assert.equal(fullscreentoggle.controlText(), 'Exit Fullscreen', 'Control Text is correct while switching to fullscreen mode');
 
   player.isFullscreen(false);
   player.trigger('fullscreenchange');
@@ -372,4 +557,20 @@ QUnit.test('all controlbar children to false, does not cause an assertion', func
   player.triggerReady();
   player.dispose();
   assert.ok(true, 'did not cause an assertion');
+});
+
+QUnit.test('Remaing time negative sign can be optional', function(assert) {
+  const player = TestHelpers.makePlayer({ techOrder: ['html5'] });
+
+  const rtd1 = new RemainingTimeDisplay(player);
+  const rtd2 = new RemainingTimeDisplay(player, {displayNegative: false});
+
+  this.clock.tick(1);
+
+  assert.ok(rtd1.el().textContent.indexOf('-') > 0, 'Value is negative by default');
+  assert.equal(rtd2.el().textContent.indexOf('-'), -1, 'Value is positive with option');
+
+  rtd1.dispose();
+  rtd2.dispose();
+  player.dispose();
 });

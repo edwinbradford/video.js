@@ -1,6 +1,6 @@
 /* eslint-env qunit */
 import TestHelpers from './test-helpers.js';
-import {createTimeRanges} from '../../src/js/utils/time-ranges.js';
+import {createTimeRanges} from '../../src/js/utils/time.js';
 import sinon from 'sinon';
 
 QUnit.module('LiveTracker', () => {
@@ -88,6 +88,28 @@ QUnit.module('LiveTracker', () => {
     this.player.duration(Infinity);
     assert.ok(this.liveTracker.isTracking(), 'started');
     assert.equal(liveEdgeChange, 3, 'liveedgechange fired again');
+  });
+
+  QUnit.test('with canplay', function(assert) {
+    let duration = Infinity;
+
+    this.player.seekable = () => createTimeRanges(0, 30);
+    this.player.duration = () => duration;
+
+    assert.notOk(this.liveTracker.isTracking(), 'not started');
+
+    this.player.trigger('canplay');
+    assert.ok(this.liveTracker.isTracking(), 'started');
+
+    // end the video by triggering a duration change so we toggle off the liveui
+    duration = 5;
+    this.player.trigger('durationchange');
+    assert.notOk(this.liveTracker.isTracking(), 'not started');
+
+    // pretend we loaded a new source and we got a canplay
+    duration = Infinity;
+    this.player.trigger('canplay');
+    assert.ok(this.liveTracker.isTracking(), 'started');
   });
 
   QUnit.module('tracking', {

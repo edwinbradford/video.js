@@ -1,6 +1,7 @@
 /* eslint-env qunit */
 import Player from '../../src/js/player.js';
 import videojs from '../../src/js/video.js';
+import {merge} from '../../src/js/utils/obj';
 import TestHelpers from './test-helpers.js';
 import document from 'global/document';
 import window from 'global/window';
@@ -29,18 +30,25 @@ QUnit.module('autoplay', {
 
     fixture.appendChild(videoTag);
 
-    // this promise fake will act right away
-    // it will also only act on catch calls
+    // These mock promises immediately execute,
+    // effectively synchronising promise chains for testing
+
+    // This will only act on catch calls
     this.rejectPromise = {
       then(fn) {
         return this;
       },
       catch(fn) {
-        fn();
+        try {
+          fn();
+        } catch (err) {
+          return this;
+        }
         return this;
       }
     };
 
+    // This will only act on then calls
     this.resolvePromise = {
       then(fn) {
         fn();
@@ -56,7 +64,7 @@ QUnit.module('autoplay', {
         videoTag.setAttribute(a, attributes[a]);
       });
 
-      this.player = videojs(videoTag.id, videojs.mergeOptions({techOrder: ['techFaker']}, options));
+      this.player = videojs(videoTag.id, merge({techOrder: ['techFaker']}, options));
       const oldMuted = this.player.muted;
 
       this.player.play = () => {
@@ -189,6 +197,28 @@ QUnit.test('option = "play" play, no muted', function(assert) {
   assert.equal(this.counts.failure, 0, 'failure count');
 });
 
+QUnit.test('option = true w/ normalizeAutoplay = true play, no muted', function(assert) {
+  this.createPlayer({
+    autoplay: true,
+    normalizeAutoplay: true
+  }, {}, this.resolvePromise);
+
+  assert.equal(this.player.autoplay(), true, 'player.autoplay getter');
+  assert.equal(this.player.tech_.autoplay(), false, 'tech.autoplay getter');
+
+  this.player.tech_.trigger('loadstart');
+  assert.equal(this.counts.play, 1, 'play count');
+  assert.equal(this.counts.muted, 0, 'muted count');
+  assert.equal(this.counts.success, 1, 'success count');
+  assert.equal(this.counts.failure, 0, 'failure count');
+
+  this.player.tech_.trigger('loadstart');
+  assert.equal(this.counts.play, 2, 'play count');
+  assert.equal(this.counts.muted, 0, 'muted count');
+  assert.equal(this.counts.success, 2, 'success count');
+  assert.equal(this.counts.failure, 0, 'failure count');
+});
+
 QUnit.test('option = "any" play, no muted', function(assert) {
   this.createPlayer({autoplay: 'any'}, {}, this.resolvePromise);
 
@@ -252,7 +282,10 @@ QUnit.test('option = "any" play, no muted, rejection leads to muted then play', 
   assert.equal(this.player.autoplay(), 'any', 'player.autoplay getter');
   assert.equal(this.player.tech_.autoplay(), false, 'tech.autoplay getter');
 
-  // muted called twice here, as muted is value is restored on failure.
+  // The workflow described here:
+  // Call play() -> on rejection, attempt to set mute to true ->
+  // call play() again -> on rejection, set original mute value ->
+  // catch failure at the end of promise chain
   this.player.tech_.trigger('loadstart');
   assert.equal(this.counts.play, 2, 'play count');
   assert.equal(this.counts.muted, 2, 'muted count');

@@ -1,5 +1,4 @@
 /* eslint-env qunit */
-import {IE_VERSION} from '../../../src/js/utils/browser';
 import log from '../../../src/js/utils/log.js';
 import window from 'global/window';
 import sinon from 'sinon';
@@ -38,9 +37,6 @@ QUnit.module('utils/log', {
   }
 });
 
-const getConsoleArgs = (...arr) =>
-  IE_VERSION && IE_VERSION < 11 ? [arr.join(' ')] : arr;
-
 QUnit.test('logging functions should work', function(assert) {
 
   // Need to reset history here because there are extra messages logged
@@ -55,7 +51,7 @@ QUnit.test('logging functions should work', function(assert) {
   assert.ok(window.console.log.called, 'log was called');
   assert.deepEqual(
     window.console.log.firstCall.args,
-    getConsoleArgs('VIDEOJS:', 'log1', 'log2')
+    ['VIDEOJS:', 'log1', 'log2']
   );
 
   // debug isn't enabled by default
@@ -64,13 +60,13 @@ QUnit.test('logging functions should work', function(assert) {
   assert.ok(window.console.warn.called, 'warn was called');
   assert.deepEqual(
     window.console.warn.firstCall.args,
-    getConsoleArgs('VIDEOJS:', 'WARN:', 'warn1', 'warn2')
+    ['VIDEOJS:', 'WARN:', 'warn1', 'warn2']
   );
 
   assert.ok(window.console.error.called, 'error was called');
   assert.deepEqual(
     window.console.error.firstCall.args,
-    getConsoleArgs('VIDEOJS:', 'ERROR:', 'error1', 'error2')
+    ['VIDEOJS:', 'ERROR:', 'error1', 'error2']
   );
 
   const history = log.history();
@@ -205,7 +201,7 @@ QUnit.test('falls back to info and log when debug is not supported', function(as
   assert.notOk(window.console.error.called, 'error was not called');
   assert.deepEqual(
     window.console.info.firstCall.args,
-    getConsoleArgs('VIDEOJS:', 'DEBUG:', 'debug1', 'debug2'),
+    ['VIDEOJS:', 'DEBUG:', 'debug1', 'debug2'],
     'logged the right message'
   );
 
@@ -217,7 +213,7 @@ QUnit.test('falls back to info and log when debug is not supported', function(as
   assert.notOk(window.console.error.called, 'error was not called');
   assert.deepEqual(
     window.console.log.firstCall.args,
-    getConsoleArgs('VIDEOJS:', 'DEBUG:', 'debug3', 'debug4'),
+    ['VIDEOJS:', 'DEBUG:', 'debug3', 'debug4'],
     'logged the right message'
   );
 
@@ -242,4 +238,130 @@ QUnit.test('history only retains 1000 items', function(assert) {
 
   assert.equal(hist.length, 1000, 'only 1000 items in history');
   assert.deepEqual([hist[0], hist[hist.length - 1 ]], [['VIDEOJS:', 6], ['VIDEOJS:', 1005]], 'keeps most recent items');
+});
+
+QUnit.test('create logger should create sub-logger with naming chain', function(assert) {
+  log.history.clear();
+
+  const subLogger = log.createLogger('SubModule');
+
+  subLogger.level('debug');
+
+  subLogger('log1', 'log2');
+  subLogger.debug('debug1', 'debug2');
+  subLogger.warn('warn1', 'warn2');
+  subLogger.error('error1', 'error2');
+
+  assert.ok(window.console.log.called, 'console.log was called');
+  assert.ok(window.console.debug.called, 'console.debug was called');
+  assert.ok(window.console.warn.called, 'console.warn was called');
+  assert.ok(window.console.error.called, 'console.error called');
+
+  const history = log.history();
+
+  assert.equal(history.length, 4, 'four messages in history');
+  assert.deepEqual(history[0], ['VIDEOJS : SubModule:', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[1], ['VIDEOJS : SubModule:', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[2], ['VIDEOJS : SubModule:', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[3], ['VIDEOJS : SubModule:', 'ERROR:', 'error1', 'error2'], 'history is maintained');
+});
+
+QUnit.test('create a new logger should override existing sub names', function(assert) {
+  log.history.clear();
+
+  const newLogger = log.createNewLogger('Module');
+
+  newLogger.level('debug');
+
+  newLogger('log1', 'log2');
+  newLogger.debug('debug1', 'debug2');
+  newLogger.warn('warn1', 'warn2');
+  newLogger.error('error1', 'error2');
+
+  assert.ok(window.console.log.called, 'console.log was called');
+  assert.ok(window.console.debug.called, 'console.debug was called');
+  assert.ok(window.console.warn.called, 'console.warn was called');
+  assert.ok(window.console.error.called, 'console.error called');
+
+  const history = log.history();
+
+  assert.equal(history.length, 4, 'four messages in history');
+  assert.deepEqual(history[0], ['Module:', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[1], ['Module:', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[2], ['Module:', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[3], ['Module:', 'ERROR:', 'error1', 'error2'], 'history is maintained');
+});
+
+QUnit.test('create logger applies delimiter and styles if presented', function(assert) {
+  log.history.clear();
+
+  const subLogger = log.createLogger('SubModule', '>', 'background: #333; padding: 3px; color: #bada55');
+
+  subLogger.level('debug');
+
+  subLogger('log1', 'log2');
+  subLogger.debug('debug1', 'debug2');
+  subLogger.warn('warn1', 'warn2');
+  subLogger.error('error1', 'error2');
+
+  assert.ok(window.console.log.called, 'console.log was called');
+  assert.ok(window.console.debug.called, 'console.debug was called');
+  assert.ok(window.console.warn.called, 'console.warn was called');
+  assert.ok(window.console.error.called, 'console.error called');
+
+  const history = log.history();
+
+  assert.equal(history.length, 4, 'four messages in history');
+  assert.deepEqual(history[0], ['%cVIDEOJS > SubModule:', 'background: #333; padding: 3px; color: #bada55', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[1], ['%cVIDEOJS > SubModule:', 'background: #333; padding: 3px; color: #bada55', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[2], ['%cVIDEOJS > SubModule:', 'background: #333; padding: 3px; color: #bada55', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[3], ['%cVIDEOJS > SubModule:', 'background: #333; padding: 3px; color: #bada55', 'ERROR:', 'error1', 'error2'], 'history is maintained');
+});
+
+QUnit.test('create new logger applies delimiter and styles if presented', function(assert) {
+  log.history.clear();
+
+  const newLogger = log.createNewLogger('Module', '>', 'background: #333; padding: 3px; color: #bada55');
+  const subModule1 = newLogger.createLogger('SubModule1');
+  const subModule2 = subModule1.createLogger('SubModule2', '->', '');
+
+  newLogger.level('debug');
+
+  newLogger('log1', 'log2');
+  newLogger.debug('debug1', 'debug2');
+  newLogger.warn('warn1', 'warn2');
+  newLogger.error('error1', 'error2');
+
+  subModule1('log1', 'log2');
+  subModule1.debug('debug1', 'debug2');
+  subModule1.warn('warn1', 'warn2');
+  subModule1.error('error1', 'error2');
+
+  subModule2('log1', 'log2');
+  subModule2.debug('debug1', 'debug2');
+  subModule2.warn('warn1', 'warn2');
+  subModule2.error('error1', 'error2');
+
+  assert.ok(window.console.log.called, 'console.log was called');
+  assert.ok(window.console.debug.called, 'console.debug was called');
+  assert.ok(window.console.warn.called, 'console.warn was called');
+  assert.ok(window.console.error.called, 'console.error called');
+
+  const history = log.history();
+
+  assert.equal(history.length, 12, '12 messages in history');
+  assert.deepEqual(history[0], ['%cModule:', 'background: #333; padding: 3px; color: #bada55', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[1], ['%cModule:', 'background: #333; padding: 3px; color: #bada55', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[2], ['%cModule:', 'background: #333; padding: 3px; color: #bada55', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[3], ['%cModule:', 'background: #333; padding: 3px; color: #bada55', 'ERROR:', 'error1', 'error2'], 'history is maintained');
+
+  assert.deepEqual(history[4], ['%cModule > SubModule1:', 'background: #333; padding: 3px; color: #bada55', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[5], ['%cModule > SubModule1:', 'background: #333; padding: 3px; color: #bada55', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[6], ['%cModule > SubModule1:', 'background: #333; padding: 3px; color: #bada55', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[7], ['%cModule > SubModule1:', 'background: #333; padding: 3px; color: #bada55', 'ERROR:', 'error1', 'error2'], 'history is maintained');
+
+  assert.deepEqual(history[8], ['Module > SubModule1 -> SubModule2:', 'log1', 'log2'], 'history is maintained');
+  assert.deepEqual(history[9], ['Module > SubModule1 -> SubModule2:', 'DEBUG:', 'debug1', 'debug2'], 'history is maintained');
+  assert.deepEqual(history[10], ['Module > SubModule1 -> SubModule2:', 'WARN:', 'warn1', 'warn2'], 'history is maintained');
+  assert.deepEqual(history[11], ['Module > SubModule1 -> SubModule2:', 'ERROR:', 'error1', 'error2'], 'history is maintained');
 });

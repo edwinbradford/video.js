@@ -146,7 +146,7 @@ QUnit.test('test defaultPlaybackRate', function(assert) {
   assert.strictEqual(tech.defaultPlaybackRate(), 0.75, 'can be changed from the API');
 });
 
-QUnit.test('blacklist playbackRate support on older verisons of Chrome on Android', function(assert) {
+QUnit.test('blacklist playbackRate support on older versions of Chrome on Android', function(assert) {
   if (!Html5.canControlPlaybackRate()) {
     assert.ok(true, 'playbackRate is not supported');
     return;
@@ -216,141 +216,6 @@ QUnit.test('should remove the controls attribute when recreating the element', f
   }
 
   assert.ok(player.tagAttributes.controls, 'tag attribute is still present');
-});
-
-QUnit.test('patchCanPlayType patches canplaytype with our function, conditionally', function(assert) {
-  // the patch runs automatically so we need to first unpatch
-  Html5.unpatchCanPlayType();
-
-  const oldAV = browser.ANDROID_VERSION;
-  const oldIsFirefox = browser.IS_FIREFOX;
-  const oldIsChrome = browser.IS_CHROME;
-  const video = document.createElement('video');
-  const canPlayType = Html5.TEST_VID.constructor.prototype.canPlayType;
-
-  browser.stub_ANDROID_VERSION(4.0);
-  browser.stub_IS_FIREFOX(false);
-  browser.stub_IS_CHROME(false);
-  Html5.patchCanPlayType();
-
-  assert.notStrictEqual(
-    video.canPlayType,
-    canPlayType,
-    'original canPlayType and patched canPlayType should not be equal'
-  );
-
-  const patchedCanPlayType = video.canPlayType;
-  const unpatchedCanPlayType = Html5.unpatchCanPlayType();
-
-  assert.strictEqual(
-    canPlayType,
-    Html5.TEST_VID.constructor.prototype.canPlayType,
-    'original canPlayType and unpatched canPlayType should be equal'
-  );
-  assert.strictEqual(
-    patchedCanPlayType,
-    unpatchedCanPlayType,
-    'patched canPlayType and function returned from unpatch are equal'
-  );
-
-  browser.stub_ANDROID_VERSION(oldAV);
-  browser.stub_IS_FIREFOX(oldIsFirefox);
-  browser.stub_IS_CHROME(oldIsChrome);
-  Html5.unpatchCanPlayType();
-});
-
-QUnit.test('patchCanPlayType doesn\'t patch canplaytype with our function in Chrome for Android', function(assert) {
-  // the patch runs automatically so we need to first unpatch
-  Html5.unpatchCanPlayType();
-
-  const oldAV = browser.ANDROID_VERSION;
-  const oldIsChrome = browser.IS_CHROME;
-  const oldIsFirefox = browser.IS_FIREFOX;
-  const video = document.createElement('video');
-  const canPlayType = Html5.TEST_VID.constructor.prototype.canPlayType;
-
-  browser.stub_ANDROID_VERSION(4.0);
-  browser.stub_IS_CHROME(true);
-  browser.stub_IS_FIREFOX(false);
-  Html5.patchCanPlayType();
-
-  assert.strictEqual(
-    video.canPlayType,
-    canPlayType,
-    'original canPlayType and patched canPlayType should be equal'
-  );
-
-  browser.stub_ANDROID_VERSION(oldAV);
-  browser.stub_IS_CHROME(oldIsChrome);
-  browser.stub_IS_FIREFOX(oldIsFirefox);
-  Html5.unpatchCanPlayType();
-});
-
-QUnit.test('patchCanPlayType doesn\'t patch canplaytype with our function in Firefox for Android', function(assert) {
-  // the patch runs automatically so we need to first unpatch
-  Html5.unpatchCanPlayType();
-
-  const oldAV = browser.ANDROID_VERSION;
-  const oldIsFirefox = browser.IS_FIREFOX;
-  const oldIsChrome = browser.IS_CHROME;
-  const video = document.createElement('video');
-  const canPlayType = Html5.TEST_VID.constructor.prototype.canPlayType;
-
-  browser.stub_ANDROID_VERSION(4.0);
-  browser.stub_IS_FIREFOX(true);
-  browser.stub_IS_CHROME(false);
-  Html5.patchCanPlayType();
-
-  assert.strictEqual(
-    video.canPlayType,
-    canPlayType,
-    'original canPlayType and patched canPlayType should be equal'
-  );
-
-  browser.stub_ANDROID_VERSION(oldAV);
-  browser.stub_IS_FIREFOX(oldIsFirefox);
-  browser.stub_IS_CHROME(oldIsChrome);
-  Html5.unpatchCanPlayType();
-});
-
-QUnit.test('should return maybe for HLS urls on Android 4.0 or above when not Chrome or Firefox', function(assert) {
-  const oldAV = browser.ANDROID_VERSION;
-  const oldIsFirefox = browser.IS_FIREFOX;
-  const oldIsChrome = browser.IS_CHROME;
-  const video = document.createElement('video');
-
-  browser.stub_ANDROID_VERSION(4.0);
-  browser.stub_IS_FIREFOX(false);
-  browser.stub_IS_CHROME(false);
-  Html5.patchCanPlayType();
-
-  assert.strictEqual(
-    video.canPlayType('application/x-mpegurl'),
-    'maybe',
-    'android version 4.0 or above should be a maybe for x-mpegurl'
-  );
-  assert.strictEqual(
-    video.canPlayType('application/x-mpegURL'),
-    'maybe',
-    'android version 4.0 or above should be a maybe for x-mpegURL'
-  );
-  assert.strictEqual(
-    video.canPlayType('application/vnd.apple.mpegurl'),
-    'maybe',
-    'android version 4.0 or above should be a ' +
-                    'maybe for vnd.apple.mpegurl'
-  );
-  assert.strictEqual(
-    video.canPlayType('application/vnd.apple.mpegURL'),
-    'maybe',
-    'android version 4.0 or above should be a ' +
-                    'maybe for vnd.apple.mpegurl'
-  );
-
-  browser.stub_ANDROID_VERSION(oldAV);
-  browser.stub_IS_FIREFOX(oldIsFirefox);
-  browser.stub_IS_CHROME(oldIsChrome);
-  Html5.unpatchCanPlayType();
 });
 
 QUnit.test('error events may not set the errors property', function(assert) {
@@ -943,7 +808,6 @@ QUnit.test('When Android Chrome reports Infinity duration with currentTime 0, re
 
 QUnit.test('supports getting available media playback quality metrics', function(assert) {
   const origPerformance = window.performance;
-  const origDate = window.Date;
   const oldEl = tech.el_;
   const videoPlaybackQuality = {
     creationTime: 1,
@@ -960,7 +824,6 @@ QUnit.test('supports getting available media playback quality metrics', function
     videoPlaybackQuality,
     'uses native implementation when supported'
   );
-
   tech.el_ = {
     webkitDroppedFrameCount: 1,
     webkitDecodedFrameCount: 2
@@ -974,42 +837,12 @@ QUnit.test('supports getting available media playback quality metrics', function
     'uses webkit prefixed metrics and performance.now when supported'
   );
 
-  tech.el_ = {
-    webkitDroppedFrameCount: 1,
-    webkitDecodedFrameCount: 2
-  };
-  window.Date = {
-    now: () => 10
-  };
-  window.performance = {
-    timing: {
-      navigationStart: 3
-    }
-  };
-  assert.deepEqual(
-    tech.getVideoPlaybackQuality(),
-    { droppedVideoFrames: 1, totalVideoFrames: 2, creationTime: 7 },
-    'uses webkit prefixed metrics and Date.now() - navigationStart when ' +
-                   'supported'
-  );
-
   tech.el_ = {};
   window.performance = void 0;
   assert.deepEqual(tech.getVideoPlaybackQuality(), {}, 'empty object when not supported');
 
   window.performance = {
-    now: () => 5
-  };
-  assert.deepEqual(
-    tech.getVideoPlaybackQuality(),
-    { creationTime: 5 },
-    'only creation time when it\'s the only piece available'
-  );
-
-  window.performance = {
-    timing: {
-      navigationStart: 3
-    }
+    now: () => 7
   };
   assert.deepEqual(
     tech.getVideoPlaybackQuality(),
@@ -1030,5 +863,121 @@ QUnit.test('supports getting available media playback quality metrics', function
 
   tech.el_ = oldEl;
   window.performance = origPerformance;
-  window.Date = origDate;
+});
+
+QUnit.test('featuresVideoFrameCallback is false for audio elements', function(assert) {
+  const el = document.createElement('audio');
+  const audioTech = new Html5({
+    el,
+    source: [{src: 'https://example.org/stream.m3u8'}]
+  });
+
+  assert.strictEqual(audioTech.featuresVideoFrameCallback, false, 'Html5 with audio element should not support rvf');
+
+  audioTech.dispose();
+});
+
+QUnit.test('featuresVideoFrameCallback is false for Safari DRM', function(assert) {
+  // Looking for `super.requestVideoFrameCallback()` being called
+  const spy = sinon.spy(Object.getPrototypeOf(Object.getPrototypeOf(tech)), 'requestVideoFrameCallback');
+
+  tech.featuresVideoFrameCallback = true;
+
+  try {
+    tech.el_.webkitKeys = {};
+    tech.requestVideoFrameCallback(function() {});
+
+    assert.ok(spy.calledOnce, false, 'rvf fallback used');
+  } catch (e) {
+    // video.webkitKeys isn't writable on Safari, so relying on the mocked property on other browsers
+    assert.ok(true, 'skipped because webkitKeys not writable');
+  }
+});
+
+QUnit.test('supportsFullScreen is always with `webkitEnterFullScreen`', function(assert) {
+  const oldEl = tech.el_;
+
+  tech.el_ = {
+    webkitEnterFullScreen: () => {}
+  };
+
+  assert.ok(tech.supportsFullScreen(), 'supportsFullScreen() true with webkitEnterFullScreen');
+
+  tech.el_ = oldEl;
+});
+
+QUnit.test('addSourceElement adds a valid source element with srcUrl and mimeType', function(assert) {
+  const videoEl = document.createElement('video');
+
+  tech.el_ = videoEl;
+
+  const srcUrl = 'http://example.com/video.mp4';
+  const mimeType = 'video/mp4';
+
+  const added = tech.addSourceElement(srcUrl, mimeType);
+  const sourceElement = videoEl.querySelector('source');
+
+  assert.ok(added, 'Returned true');
+  assert.ok(sourceElement, 'A source element was added');
+  assert.equal(sourceElement.src, srcUrl, 'Source element has correct src');
+  assert.equal(sourceElement.type, mimeType, 'Source element has correct type');
+});
+
+QUnit.test('addSourceElement adds a valid source element without a mimeType', function(assert) {
+  const videoEl = document.createElement('video');
+
+  tech.el_ = videoEl;
+
+  const srcUrl = 'http://example.com/video2.mp4';
+
+  const added = tech.addSourceElement(srcUrl);
+  const sourceElement = videoEl.querySelector('source');
+
+  assert.ok(added, 'Returned true');
+  assert.ok(sourceElement, 'A source element was added even without a type');
+  assert.equal(sourceElement.src, srcUrl, 'Source element has correct src');
+  assert.notOk(sourceElement.type, 'Source element does not have a type attribute');
+});
+
+QUnit.test('addSourceElement does not add a source element for invalid source URL', function(assert) {
+  const videoEl = document.createElement('video');
+
+  tech.el_ = videoEl;
+
+  const added = tech.addSourceElement('');
+  const sourceElement = videoEl.querySelector('source');
+
+  assert.notOk(added, 'Returned false');
+  assert.notOk(sourceElement, 'No source element was added for missing src');
+});
+
+QUnit.test('removeSourceElement removes a source element by its URL', function(assert) {
+  const videoEl = document.createElement('video');
+
+  tech.el_ = videoEl;
+
+  tech.addSourceElement('http://example.com/video1.mp4');
+  tech.addSourceElement('http://example.com/video2.mp4');
+
+  let sourceElement = videoEl.querySelector('source[src="http://example.com/video1.mp4"]');
+
+  assert.ok(sourceElement, 'Source element for video1.mp4 was added');
+
+  const removed = tech.removeSourceElement('http://example.com/video1.mp4');
+
+  assert.ok(removed, 'Source element was successfully removed');
+  sourceElement = videoEl.querySelector('source[src="http://example.com/video1.mp4"]');
+  assert.notOk(sourceElement, 'Source element for video1.mp4 was removed');
+});
+
+QUnit.test('removeSourceElement does not remove a source element if URL does not match', function(assert) {
+  const videoEl = document.createElement('video');
+
+  tech.el_ = videoEl;
+
+  tech.addSourceElement('http://example.com/video.mp4');
+
+  const removed = tech.removeSourceElement('http://example.com/invalid.mp4');
+
+  assert.notOk(removed, 'No source element was removed for non-matching URL');
 });

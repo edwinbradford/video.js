@@ -60,8 +60,8 @@ QUnit.test('should be possible to pass data when you trigger an event', function
 
   const listener = function(evt, hash) {
     assert.ok(true, 'Callback triggered');
-    assert.deepEqual(fakeData1, hash.d1, 'Shoulbe be passed to the handler');
-    assert.deepEqual(fakeData2, hash.d2, 'Shoulbe be passed to the handler');
+    assert.deepEqual(fakeData1, hash.d1, 'Should be be passed to the handler');
+    assert.deepEqual(fakeData2, hash.d2, 'Should be be passed to the handler');
   };
 
   Events.on(el, ['event1', 'event2'], listener);
@@ -382,4 +382,22 @@ QUnit.test('only the first event should call listener via any', function(assert)
   Events.trigger(el, 'event2');
   Events.trigger(el, 'event2');
   assert.equal(triggered, 1, 'listener was not triggered again');
+});
+
+QUnit.test('fixEvent should not copy excluded properties', function(assert) {
+  const event = Events.fixEvent({
+    a: 'a',
+    layerX: 0,
+    layerY: 0,
+    keyLocation: 0,
+    webkitMovementX: 0,
+    webkitMovementY: 0,
+    path: 0
+  });
+
+  assert.true(event.fixed_, 'event is a fixed event');
+  assert.strictEqual(event.a, 'a', 'other props copied');
+  ['layerX', 'layerY', 'keyLocation', 'webkitMovementX', 'webkitMovementY', 'path'].forEach(prop => {
+    assert.equal(event[prop], undefined, `${prop} is undefined`);
+  });
 });

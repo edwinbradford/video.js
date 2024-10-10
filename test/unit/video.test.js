@@ -3,7 +3,10 @@ import videojs from '../../src/js/video.js';
 import * as Dom from '../../src/js/utils/dom.js';
 import log from '../../src/js/utils/log.js';
 import document from 'global/document';
+import window from 'global/window';
 import sinon from 'sinon';
+// import custom element for Shadow DOM test
+import './utils/custom-element.test';
 
 QUnit.module('video.js', {
   beforeEach() {
@@ -84,8 +87,33 @@ QUnit.test(
   }
 );
 
+const skipWithoutCustomElements = 'customElements' in window ? 'test' : 'skip';
+
+QUnit[skipWithoutCustomElements](
+  'should not log if the supplied element is included in the Shadow DOM',
+  function(assert) {
+    const origWarnLog = log.warn;
+    const fixture = document.getElementById('qunit-fixture');
+    const warnLogs = [];
+
+    log.warn = (args) => {
+      warnLogs.push(args);
+    };
+
+    const customElem = document.createElement('test-custom-element');
+
+    fixture.appendChild(customElem);
+    const innerPlayer = customElem.innerPlayer;
+
+    assert.ok(innerPlayer, 'created player within Shadow DOM');
+    assert.equal(warnLogs.length, 0, 'no warn logs');
+
+    log.warn = origWarnLog;
+  }
+);
+
 QUnit.test(
-  'should log about already initalized players if options already passed',
+  'should log about already initialized players if options already passed',
   function(assert) {
     const origWarnLog = log.warn;
     const fixture = document.getElementById('qunit-fixture');
@@ -469,7 +497,7 @@ QUnit.test('should add video-js class to video-js embed if missing', function(as
 });
 
 QUnit.test(
-  'should log about already initalized players if options already passed',
+  'should log about already initialized players if options already passed',
   function(assert) {
     const origWarnLog = log.warn;
     const fixture = document.getElementById('qunit-fixture');
@@ -578,4 +606,56 @@ QUnit.test('adds video-js class name with the video-js embed', function(assert) 
 
   assert.ok(player.hasClass('video-js'), 'video-js class was added to the first embed');
   assert.ok(player2.hasClass('video-js'), 'video-js class was preserved to the second embed');
+});
+
+let testOrSkip = 'test';
+
+// The following test uses some DocumentFragment properties that are not
+// available in IE or older Safaris, so we skip it.
+if (videojs.browser.IE_VERSION || videojs.browser.IS_ANY_SAFARI) {
+  testOrSkip = 'skip';
+}
+
+QUnit[testOrSkip]('stores placeholder el and restores on dispose', function(assert) {
+  const fixture = document.getElementById('qunit-fixture');
+
+  const embeds = [
+    {
+      type: 'video el',
+      src: '<video id="test1"><source src="http://example.com/video.mp4" type="video/mp4"></source></video>',
+      initSelector: 'test1',
+      testSelector: '#test1'
+    },
+    {
+      type: 'video-js el',
+      src: '<video-js id="test2"><source src="http://example.com/video.mp4" type="video/mp4"></source></video-js>',
+      initSelector: 'test2',
+      testSelector: '#test2'
+    },
+    {
+      type: 'div ingest',
+      src: '<div data-vjs-player><video id="test3"><source src="http://example.com/video.mp4" type="video/mp4"></source></video></div>',
+      initSelector: 'test3',
+      testSelector: 'div[data-vjs-player]'
+    }
+  ];
+
+  embeds.forEach(embed => {
+    const comparisonEl = document.createRange().createContextualFragment(embed.src).children[0];
+
+    fixture.innerHTML += embed.src;
+
+    const player = videojs(embed.initSelector, {restoreEl: true});
+
+    assert.ok(comparisonEl.isEqualNode(player.options_.restoreEl), `${embed.type}: restoreEl option replaced by an element`);
+    assert.notOk(document.querySelector(embed.testSelector).isSameNode(player.options_.restoreEl), `${embed.type}: restoreEl is not the original element`);
+    assert.notOk(comparisonEl.isSameNode(player.options_.restoreEl), `${embed.type}: restoreEl is not the control element`);
+
+    player.dispose();
+
+    const expectedEl = document.querySelector(embed.testSelector);
+
+    assert.ok(comparisonEl.isEqualNode(expectedEl), `${embed.type}: element was restored`);
+
+  });
 });

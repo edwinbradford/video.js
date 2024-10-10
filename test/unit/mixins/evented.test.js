@@ -1,9 +1,10 @@
 /* eslint-env qunit */
 import sinon from 'sinon';
 import evented from '../../../src/js/mixins/evented';
-import log from '../../../src/js/utils/log';
+import DomData from '../../../src/js/utils/dom-data';
 import * as Dom from '../../../src/js/utils/dom';
 import * as Obj from '../../../src/js/utils/obj';
+import * as Events from '../../../src/js/utils/events.js';
 
 // Common errors thrown by evented objects.
 const errors = {
@@ -65,46 +66,26 @@ QUnit.test('evented() with custom element', function(assert) {
 
 QUnit.test('trigger() errors', function(assert) {
   class Test {}
-
-  const tester = new Test();
-  const targeta = evented(tester);
+  const targeta = evented({});
   const targetb = evented(new Test());
   const targetc = evented(new Test());
-  const targetd = evented({});
-
-  tester.log = log.createLogger('tester');
-
-  sinon.stub(log, 'error');
-  sinon.stub(tester.log, 'error');
 
   targetc.name_ = 'foo';
 
-  const createTest = (lg) => (target) => {
+  [targeta, targetb, targetc].forEach((target) => {
     const objName = target.name_ || target.constructor.name || typeof target;
+    const triggerError = errors.trigger(objName);
 
-    assert.throws(() => target.trigger(), /^Error: Invalid event type/, 'threw an error when tried to trigger without an event');
-
-    target.trigger('   ');
-    target.trigger({});
-    target.trigger({type: ''});
-    target.trigger({type: '    '});
-
-    assert.ok(lg.error.called, 'error was called');
-    assert.equal(lg.error.callCount, 4, 'log.error called 4 times');
-    assert.ok(lg.error.calledWithMatch(new RegExp(`^Invalid event type for ${objName}#trigger`)), 'error called with expected message');
+    assert.throws(() => target.trigger(), triggerError, 'expected error');
+    assert.throws(() => target.trigger('   '), triggerError, 'expected error');
+    assert.throws(() => target.trigger({}), triggerError, 'expected error');
+    assert.throws(() => target.trigger({type: ''}), triggerError, 'expected error');
+    assert.throws(() => target.trigger({type: '    '}), triggerError, 'expected error');
 
     delete target.eventBusEl_;
 
-    assert.throws(() => target.trigger({type: 'foo'}), new RegExp(`^Error: Invalid target for ${objName}#trigger`), 'expected error');
-
-    lg.error.reset();
-  };
-
-  createTest(targeta.log)(targeta);
-  [targetb, targetc, targetd].forEach(createTest(log));
-
-  targeta.log.error.restore();
-  log.error.restore();
+    assert.throws(() => target.trigger({type: 'foo'}), errors.target(objName, 'trigger'), 'expected error');
+  });
 });
 
 QUnit.test('on(), one(), and any() errors', function(assert) {
@@ -352,7 +333,7 @@ QUnit.test('one() can add a listener to one event type on a different target obj
 });
 
 // TODO: This test is incorrect! this listener should be called twice,
-//       but instead all listners are removed on the first trigger!
+//       but instead all listeners are removed on the first trigger!
 //       see https://github.com/videojs/video.js/issues/5962
 QUnit.test('one() can add a listener to an array of event types on a different target object', function(assert) {
   const a = this.targets.a = evented({});
@@ -568,4 +549,32 @@ QUnit.test('off() can remove a listener from an array of events on a different t
     type: 'y',
     target: b.eventBusEl_
   });
+});
+
+QUnit.test('Removes DomData on dispose', function(assert) {
+  const el_ = Dom.createEl('div');
+  const eventBusEl_ = Dom.createEl('span', {className: 'vjs-event-bus'});
+  const target = evented({el_, eventBusEl_}, {eventBusKey: 'eventBusEl_'});
+
+  assert.equal(DomData.get(eventBusEl_).handlers.dispose.length, 1, 'event bus has dispose handler');
+  assert.notOk(DomData.get(target), 'evented obj has no handlers');
+  assert.notOk(DomData.get(el_), 'evented el_ has handlers');
+
+  target.on('foo', () => {});
+
+  assert.equal(DomData.get(eventBusEl_).handlers.foo.length, 1, 'foo handler added to bus');
+
+  Events.on(eventBusEl_, 'bar', () => {});
+  assert.equal(DomData.get(eventBusEl_).handlers.bar.length, 1, 'bar handler added to bus');
+
+  Events.on(el_, 'foo', () => {});
+  assert.equal(DomData.get(el_).handlers.foo.length, 1, 'foo handler added to el_');
+
+  Events.on(target, 'foo', () => {});
+  assert.equal(DomData.get(target).handlers.foo.length, 1, 'foo handler added to evented object');
+
+  target.trigger('dispose');
+  assert.notOk(DomData.get(eventBusEl_), 'eventBusEl_ DomData deleted');
+  assert.notOk(DomData.get(target), 'evented object DomData deleted');
+  assert.notOk(DomData.get(el_), 'el_ DomData deleted');
 });

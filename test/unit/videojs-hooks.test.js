@@ -4,12 +4,14 @@ import document from 'global/document';
 import sinon from 'sinon';
 import log from '../../src/js/utils/log.js';
 
+const clearObj = (obj) => Object.keys(obj).forEach((key) => delete obj[key]);
+
 QUnit.module('video.js:hooks ', {
   beforeEach() {
-    videojs.hooks_ = {};
+    clearObj(videojs.hooks_);
   },
   afterEach() {
-    videojs.hooks_ = {};
+    clearObj(videojs.hooks_);
   }
 });
 
@@ -204,7 +206,7 @@ QUnit.test('beforesetup returns dont break videojs options', function(assert) {
 
   const player = videojs(vid, vjsOptions);
 
-  assert.ok(player.options_, 'beforesetup should not destory options');
+  assert.ok(player.options_, 'beforesetup should not destroy options');
   assert.equal(player.options_.techOrder, vjsOptions.techOrder, 'options set by user should exist');
 
   log.error = oldLogError;
@@ -227,7 +229,7 @@ QUnit.test('beforesetup options override videojs options', function(assert) {
 
   const player = videojs(vid, vjsOptions);
 
-  assert.ok(player.options_, 'beforesetup should not destory options');
+  assert.ok(player.options_, 'beforesetup should not destroy options');
   assert.equal(player.options_.techOrder, vjsOptions.techOrder, 'options set by user should exist');
   assert.equal(player.options_.autoplay, true, 'autoplay should be set to true now');
 

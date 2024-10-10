@@ -1,4 +1,5 @@
 /* eslint-env qunit */
+import window from 'global/window';
 import Html5 from '../../../src/js/tech/html5.js';
 import { constructColor } from '../../../src/js/tracks/text-track-display.js';
 import Component from '../../../src/js/component.js';
@@ -105,6 +106,44 @@ QUnit.test('shows the default caption track first', function(assert) {
 });
 
 if (!Html5.supportsNativeTextTracks()) {
+  QUnit.test('text track display should attach screen orientation change event handler', function(assert) {
+    const oldScreen = window.screen;
+    const removeHandlerSpy = sinon.spy();
+    let changeHandlerSpy;
+    let changeHandlerAttached;
+
+    window.screen = {
+      orientation: {
+        addEventListener: (type, func) => {
+          changeHandlerAttached = true;
+          changeHandlerSpy = sinon.spy();
+        },
+        dispatchEvent: (type) => changeHandlerSpy(),
+        removeEventListener: removeHandlerSpy
+      }
+    };
+
+    const player = TestHelpers.makePlayer();
+
+    this.clock.tick(1);
+
+    assert.true(changeHandlerAttached, 'screen orientation change event handler was not attached');
+    assert.strictEqual(changeHandlerSpy.callCount, 0, 'screen orientation change event handler should not be called');
+
+    window.screen.orientation.dispatchEvent('change');
+
+    assert.strictEqual(changeHandlerSpy.callCount, 1, 'screen orientation change event handler was not called');
+
+    player.dispose();
+
+    assert.strictEqual(
+      removeHandlerSpy.callCount,
+      1,
+      'screen orientation change event handler was not removed during player dispose'
+    );
+    window.screen = oldScreen;
+  });
+
   QUnit.test('selectedlanguagechange is triggered by a track mode change', function(assert) {
     const player = TestHelpers.makePlayer();
     const track1 = {
@@ -184,7 +223,7 @@ if (!Html5.supportsNativeTextTracks()) {
     player.dispose();
   });
 
-  QUnit.test("don't select user langauge if it is an empty string", function(assert) {
+  QUnit.test("don't select user language if it is an empty string", function(assert) {
     const player = TestHelpers.makePlayer();
     const track1 = {
       kind: 'captions',
@@ -357,7 +396,7 @@ if (!Html5.supportsNativeTextTracks()) {
     const englishTrack = player.addRemoteTextTrack(track1, true).track;
     // Keep track of menu items
     const enCaptionMenuItem = getMenuItemByLanguage(captionsButton.items, 'en');
-    // we know the postition of the OffTextTrackMenuItem
+    // we know the position of the OffTextTrackMenuItem
     const offMenuItem = captionsButton.items[1];
 
     // Select English initially
@@ -409,5 +448,133 @@ if (!Html5.supportsNativeTextTracks()) {
       new Error('Invalid color code provided, #f; must be formatted as e.g. #f0e or #f604e2.'),
       'colors must be valid hex codes.'
     );
+  });
+
+  const skipOnOldChrome = window.CSS.supports('inset-inline: 10px') ? 'test' : 'skip';
+
+  QUnit[skipOnOldChrome]('text track display should overlay a video', function(assert) {
+    const tag = document.createElement('video');
+
+    tag.width = 320;
+    tag.height = 180;
+    const player = TestHelpers.makePlayer({}, tag);
+    const textTrackDisplay = player.getChild('TextTrackDisplay');
+    const textTrackDisplayStyle = textTrackDisplay.el().style;
+
+    assert.ok(textTrackDisplayStyle.insetInline === '', 'text track display style insetInline equal to empty string');
+    assert.ok(textTrackDisplayStyle.insetBlock === '', 'text track display style insetBlock equal to empty string');
+
+    // video aspect ratio equal to NaN
+    player.tech_.videoWidth = () => 0;
+    player.tech_.videoHeight = () => 0;
+
+    assert.ok(textTrackDisplayStyle.insetInline === '', 'text track display style insetInline equal to empty string');
+    assert.ok(textTrackDisplayStyle.insetBlock === '', 'text track display style insetBlock equal to empty string');
+
+    // video aspect ratio 2:1
+    player.tech_.videoWidth = () => 100;
+    player.tech_.videoHeight = () => 50;
+
+    textTrackDisplay.updateDisplayOverlay();
+
+    assert.ok(textTrackDisplayStyle.insetInline === '', 'text track display style insetInline equal to empty string');
+    assert.ok(textTrackDisplayStyle.insetBlock === '10px', 'text track display style insetBlock equal to 10px');
+
+    // video aspect ratio 4:3
+    player.tech_.videoWidth = () => 100;
+    player.tech_.videoHeight = () => 75;
+
+    textTrackDisplay.updateDisplayOverlay();
+
+    assert.ok(textTrackDisplayStyle.insetInline === '40px', 'text track display style insetInline equal to 40px');
+    assert.ok(textTrackDisplayStyle.insetBlock === '', 'text track display style insetBlock equal to empty string');
+
+    // video aspect ratio 16:9
+    player.tech_.videoWidth = () => 320;
+    player.tech_.videoHeight = () => 180;
+
+    textTrackDisplay.updateDisplayOverlay();
+
+    assert.ok(textTrackDisplayStyle.insetInline === '', 'text track display style insetInline equal to empty string');
+    assert.ok(textTrackDisplayStyle.insetBlock === '', 'text track display style insetBlock equal to empty string');
+
+    player.dispose();
+  });
+
+  QUnit.test('should use relative position for vjs-text-track-display element if browser does not support inset property', function(assert) {
+    // Set conditions for the use of the style modifications
+    window.CSS.supports = () => false;
+    browser.IS_SMART_TV = () => true;
+
+    const player = TestHelpers.makePlayer();
+    const track1 = {
+      kind: 'captions',
+      label: 'English',
+      language: 'en',
+      src: 'en.vtt',
+      default: true
+    };
+
+    // Add the text track
+    player.addRemoteTextTrack(track1, true);
+
+    player.src({type: 'video/mp4', src: 'http://google.com'});
+    player.play();
+
+    // as if metadata was loaded
+    player.textTrackDisplay.updateDisplayOverlay();
+
+    // Make sure the ready handler runs
+    this.clock.tick(1);
+
+    const textTrack = window.document.querySelector('.vjs-text-track-display');
+
+    assert.ok(textTrack.style.position === 'relative', 'Style of position for vjs-text-track-display element should be relative');
+    assert.ok(textTrack.style.top === 'unset', 'Style of position for vjs-text-track-display element should be unset');
+    assert.ok(textTrack.style.bottom === '0px', 'Style of bottom for vjs-text-track-display element should be 0px');
+    player.dispose();
+  });
+
+  QUnit.test('track cue should use values of top, right, botton, left if browser does not support inset property', function(assert) {
+    // Set conditions for the use of the style modifications
+    window.CSS.supports = () => false;
+    browser.IS_SMART_TV = () => true;
+
+    const player = TestHelpers.makePlayer();
+    const track1 = {
+      kind: 'captions',
+      label: 'English',
+      language: 'en',
+      src: 'en.vtt',
+      default: true
+    };
+
+    // Add the text track
+    player.addRemoteTextTrack(track1, true);
+
+    player.src({type: 'video/mp4', src: 'http://google.com'});
+    player.play();
+
+    // mock caption
+    const textTrackDisplay = window.document.querySelector('.vjs-text-track-display').firstChild;
+    const node = document.createElement('div');
+
+    node.classList.add('vjs-text-track-cue');
+    node.style.inset = '1px 2px 3px';
+    const textnode = document.createTextNode('Sample text');
+
+    node.appendChild(textnode);
+    textTrackDisplay.appendChild(node);
+
+    // avoid captions clear
+    player.textTrackDisplay.clearDisplay = () => '';
+
+    // as if metadata was loaded
+    player.textTrackDisplay.updateDisplay();
+
+    assert.ok(player.textTrackDisplay.el_.querySelector('.vjs-text-track-cue').style.left === 'unset', 'Style of left for vjs-text-track-cue element should be unset');
+    assert.ok(player.textTrackDisplay.el_.querySelector('.vjs-text-track-cue').style.top === '1px', 'Style of top for vjs-text-track-cue element should be 1px');
+    assert.ok(player.textTrackDisplay.el_.querySelector('.vjs-text-track-cue').style.right === '2px', 'Style of right for vjs-text-track-cue element should be 2px');
+    player.dispose();
   });
 }
