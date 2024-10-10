@@ -5,6 +5,8 @@ import Button from '../button';
 import Component from '../component';
 import * as Dom from '../utils/dom.js';
 
+/** @import Player from './player' */
+
 /**
  * Displays the live indicator when duration is Infinity.
  *
@@ -43,9 +45,11 @@ class SeekToLive extends Button {
       className: 'vjs-seek-to-live-control vjs-control'
     });
 
+    this.setIcon('circle', el);
+
     this.textEl_ = Dom.createEl('span', {
       className: 'vjs-seek-to-live-text',
-      innerHTML: this.localize('LIVE')
+      textContent: this.localize('LIVE')
     }, {
       'aria-hidden': 'true'
     });
@@ -92,7 +96,12 @@ class SeekToLive extends Button {
     super.dispose();
   }
 }
-
+/**
+ * The text that should display over the `SeekToLive`s control. Added for localization.
+ *
+ * @type {string}
+ * @protected
+ */
 SeekToLive.prototype.controlText_ = 'Seek to live, currently playing live';
 
 Component.registerComponent('SeekToLive', SeekToLive);

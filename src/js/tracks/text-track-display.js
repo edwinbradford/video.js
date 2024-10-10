@@ -5,6 +5,9 @@ import Component from '../component';
 import * as Fn from '../utils/fn.js';
 import * as Dom from '../utils/dom.js';
 import window from 'global/window';
+import * as browser from '../utils/browser';
+
+/** @import Player from '../player' */
 
 const darkGray = '#222';
 const lightGray = '#ccc';
@@ -78,6 +81,21 @@ function tryUpdateStyle(el, style, rule) {
 }
 
 /**
+ * Converts the CSS top/right/bottom/left property numeric value to string in pixels.
+ *
+ * @param {number} position
+ *        The CSS top/right/bottom/left property value.
+ *
+ * @return {string}
+ *          The CSS property value that was created, like '10px'.
+ *
+ * @private
+ */
+function getCSSPositionValue(position) {
+  return position ? `${position}px` : '';
+}
+
+/**
  * The component for displaying text track cues.
  *
  * @extends Component
@@ -93,23 +111,30 @@ class TextTrackDisplay extends Component {
    * @param {Object} [options]
    *        The key/value store of player options.
    *
-   * @param {Component~ReadyCallback} [ready]
+   * @param {Function} [ready]
    *        The function to call when `TextTrackDisplay` is ready.
    */
   constructor(player, options, ready) {
     super(player, options, ready);
 
-    const updateDisplayHandler = (e) => this.updateDisplay(e);
+    const updateDisplayTextHandler = (e) => this.updateDisplay(e);
+    const updateDisplayHandler = (e) => {
+      this.updateDisplayOverlay();
+      this.updateDisplay(e);
+    };
 
     player.on('loadstart', (e) => this.toggleDisplay(e));
-    player.on('texttrackchange', updateDisplayHandler);
-    player.on('loadedmetadata', (e) => this.preselectTrack(e));
+    player.on('texttrackchange', updateDisplayTextHandler);
+    player.on('loadedmetadata', (e) => {
+      this.updateDisplayOverlay();
+      this.preselectTrack(e);
+    });
 
     // This used to be called during player init, but was causing an error
     // if a track should show by default and the display hadn't loaded yet.
     // Should probably be moved to an external track loader when we support
     // tracks that don't need a display.
-    player.ready(Fn.bind(this, function() {
+    player.ready(Fn.bind_(this, function() {
       if (player.tech_ && player.tech_.featuresNativeTextTracks) {
         this.hide();
         return;
@@ -118,8 +143,11 @@ class TextTrackDisplay extends Component {
       player.on('fullscreenchange', updateDisplayHandler);
       player.on('playerresize', updateDisplayHandler);
 
-      window.addEventListener('orientationchange', updateDisplayHandler);
-      player.on('dispose', () => window.removeEventListener('orientationchange', updateDisplayHandler));
+      const screenOrientation = window.screen.orientation || window;
+      const changeOrientationEvent = window.screen.orientation ? 'change' : 'orientationchange';
+
+      screenOrientation.addEventListener(changeOrientationEvent, updateDisplayHandler);
+      player.on('dispose', () => screenOrientation.removeEventListener(changeOrientationEvent, updateDisplayHandler));
 
       const tracks = this.options_.playerOptions.tracks || [];
 
@@ -218,6 +246,7 @@ class TextTrackDisplay extends Component {
     return super.createEl('div', {
       className: 'vjs-text-track-display'
     }, {
+      'translate': 'yes',
       'aria-live': 'off',
       'aria-atomic': 'true'
     });
@@ -291,6 +320,72 @@ class TextTrackDisplay extends Component {
       }
       this.updateForTrack(descriptionsTrack);
     }
+
+    if (!window.CSS.supports('inset', '10px')) {
+      const textTrackDisplay = this.el_;
+      const vjsTextTrackCues = textTrackDisplay.querySelectorAll('.vjs-text-track-cue');
+      const controlBarHeight = this.player_.controlBar.el_.getBoundingClientRect().height;
+      const playerHeight = this.player_.el_.getBoundingClientRect().height;
+
+      // Clear inline style before getting actual height of textTrackDisplay
+      textTrackDisplay.style = '';
+
+      // textrack style updates, this styles are required to be inline
+      tryUpdateStyle(textTrackDisplay, 'position', 'relative');
+      tryUpdateStyle(textTrackDisplay, 'height', (playerHeight - controlBarHeight) + 'px');
+      tryUpdateStyle(textTrackDisplay, 'top', 'unset');
+
+      if (browser.IS_SMART_TV) {
+        tryUpdateStyle(textTrackDisplay, 'bottom', playerHeight + 'px');
+      } else {
+        tryUpdateStyle(textTrackDisplay, 'bottom', '0px');
+      }
+
+      // vjsTextTrackCue style updates
+      if (vjsTextTrackCues.length > 0) {
+        vjsTextTrackCues.forEach((vjsTextTrackCue) => {
+          // verify if inset styles are inline
+          if (vjsTextTrackCue.style.inset) {
+            const insetStyles = vjsTextTrackCue.style.inset.split(' ');
+
+            // expected value is always 3
+            if (insetStyles.length === 3) {
+              Object.assign(vjsTextTrackCue.style, { top: insetStyles[0], right: insetStyles[1], bottom: insetStyles[2], left: 'unset' });
+            }
+          }
+        });
+      }
+    }
+  }
+
+  /**
+   * Updates the displayed TextTrack to be sure it overlays the video when a either
+   * a {@link Player#texttrackchange} or a {@link Player#fullscreenchange} is fired.
+   */
+  updateDisplayOverlay() {
+    // inset-inline and inset-block are not supprted on old chrome, but these are
+    // only likely to be used on TV devices
+    if (!this.player_.videoHeight() || !window.CSS.supports('inset-inline: 10px')) {
+      return;
+    }
+
+    const playerWidth = this.player_.currentWidth();
+    const playerHeight = this.player_.currentHeight();
+    const playerAspectRatio = playerWidth / playerHeight;
+    const videoAspectRatio = this.player_.videoWidth() / this.player_.videoHeight();
+    let insetInlineMatch = 0;
+    let insetBlockMatch = 0;
+
+    if (Math.abs(playerAspectRatio - videoAspectRatio) > 0.1) {
+      if (playerAspectRatio > videoAspectRatio) {
+        insetInlineMatch = Math.round((playerWidth - playerHeight * videoAspectRatio) / 2);
+      } else {
+        insetBlockMatch = Math.round((playerHeight - playerWidth / videoAspectRatio) / 2);
+      }
+    }
+
+    tryUpdateStyle(this.el_, 'insetInline', getCSSPositionValue(insetInlineMatch));
+    tryUpdateStyle(this.el_, 'insetBlock', getCSSPositionValue(insetBlockMatch));
   }
 
   /**
@@ -417,8 +512,10 @@ class TextTrackDisplay extends Component {
       for (let j = 0; j < track.activeCues.length; ++j) {
         const cueEl = track.activeCues[j].displayState;
 
-        Dom.addClass(cueEl, 'vjs-text-track-cue');
-        Dom.addClass(cueEl, 'vjs-text-track-cue-' + ((track.language) ? track.language : i));
+        Dom.addClass(cueEl, 'vjs-text-track-cue', 'vjs-text-track-cue-' + ((track.language) ? track.language : i));
+        if (track.language) {
+          Dom.setAttribute(cueEl, 'lang', track.language);
+        }
       }
       if (this.player_.textTrackSettings) {
         this.updateDisplayState(track);

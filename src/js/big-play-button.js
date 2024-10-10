@@ -4,7 +4,6 @@
 import Button from './button.js';
 import Component from './component.js';
 import {isPromise, silencePromise} from './utils/promise';
-import * as browser from './utils/browser.js';
 
 /**
  * The initial play button that shows before the video has played. The hiding of the
@@ -17,6 +16,8 @@ class BigPlayButton extends Button {
     super(player, options);
 
     this.mouseused_ = false;
+
+    this.setIcon('play');
 
     this.on('mousedown', (e) => this.handleMouseDown(e));
   }
@@ -35,7 +36,7 @@ class BigPlayButton extends Button {
    * This gets called when a `BigPlayButton` "clicked". See {@link ClickableComponent}
    * for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} event
+   * @param {KeyboardEvent|MouseEvent|TouchEvent} event
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -46,19 +47,13 @@ class BigPlayButton extends Button {
     const playPromise = this.player_.play();
 
     // exit early if clicked via the mouse
-    if (this.mouseused_ && event.clientX && event.clientY) {
-      const sourceIsEncrypted = this.player_.usingPlugin('eme') &&
-                                this.player_.eme.sessions &&
-                                this.player_.eme.sessions.length > 0;
-
+    if (this.mouseused_ && 'clientX' in event && 'clientY' in event) {
       silencePromise(playPromise);
-      if (this.player_.tech(true) &&
-         // We've observed a bug in IE and Edge when playing back DRM content where
-         // calling .focus() on the video element causes the video to go black,
-         // so we avoid it in that specific case
-         !((browser.IE_VERSION || browser.IS_EDGE) && sourceIsEncrypted)) {
+
+      if (this.player_.tech(true)) {
         this.player_.tech(true).focus();
       }
+
       return;
     }
 
@@ -79,12 +74,29 @@ class BigPlayButton extends Button {
     }
   }
 
+  /**
+   * Event handler that is called when a `BigPlayButton` receives a
+   * `keydown` event.
+   *
+   * @param {KeyboardEvent} event
+   *        The `keydown` event that caused this function to be called.
+   *
+   * @listens keydown
+   */
   handleKeyDown(event) {
     this.mouseused_ = false;
 
     super.handleKeyDown(event);
   }
 
+  /**
+   * Handle `mousedown` events on the `BigPlayButton`.
+   *
+   * @param {MouseEvent} event
+   *        `mousedown` or `touchstart` event that triggered this function
+   *
+   * @listens mousedown
+   */
   handleMouseDown(event) {
     this.mouseused_ = true;
   }
@@ -94,7 +106,7 @@ class BigPlayButton extends Button {
  * The text that should display over the `BigPlayButton`s controls. Added to for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 BigPlayButton.prototype.controlText_ = 'Play Video';
 

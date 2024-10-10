@@ -25,6 +25,8 @@ class AudioTrackButton extends TrackButton {
     options.tracks = player.audioTracks();
 
     super(player, options);
+
+    this.setIcon('audio');
   }
 
   /**
@@ -76,7 +78,7 @@ class AudioTrackButton extends TrackButton {
  * The text that should display over the `AudioTrackButton`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 AudioTrackButton.prototype.controlText_ = 'Audio Track';
 Component.registerComponent('AudioTrackButton', AudioTrackButton);

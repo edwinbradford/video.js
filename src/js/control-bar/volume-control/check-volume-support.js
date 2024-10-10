@@ -1,3 +1,6 @@
+/** @import Component from '../../component' */
+/** @import Player from '../../player' */
+
 /**
  * Check if volume control is supported and if it isn't hide the
  * `Component` that was passed  using the `vjs-hidden` class.

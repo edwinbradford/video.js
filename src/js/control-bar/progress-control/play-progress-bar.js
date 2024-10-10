@@ -5,6 +5,8 @@ import Component from '../../component.js';
 import {IS_IOS, IS_ANDROID} from '../../utils/browser.js';
 import * as Fn from '../../utils/fn.js';
 
+/** @import Player from '../../player' */
+
 import './time-tooltip';
 
 /**
@@ -26,7 +28,8 @@ class PlayProgressBar extends Component {
    */
   constructor(player, options) {
     super(player, options);
-    this.update = Fn.throttle(Fn.bind(this, this.update), Fn.UPDATE_REFRESH_INTERVAL);
+    this.setIcon('circle');
+    this.update = Fn.throttle(Fn.bind_(this, this.update), Fn.UPDATE_REFRESH_INTERVAL);
   }
 
   /**

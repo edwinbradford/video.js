@@ -1,9 +1,11 @@
 import * as Url from '../utils/url.js';
 
+/** @import Player from '../player' */
+
 /**
  * Mimetypes
  *
- * @see http://hul.harvard.edu/ois/////systems/wax/wax-public-help/mimetypes.htm
+ * @see https://www.iana.org/assignments/media-types/media-types.xhtml
  * @typedef Mimetypes~Kind
  * @enum
  */
@@ -22,6 +24,7 @@ export const MimetypesKind = {
   oga: 'audio/ogg',
   wav: 'audio/wav',
   m3u8: 'application/x-mpegURL',
+  mpd: 'application/dash+xml',
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
   gif: 'image/gif',

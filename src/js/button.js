@@ -4,8 +4,7 @@
 import ClickableComponent from './clickable-component.js';
 import Component from './component';
 import log from './utils/log.js';
-import {assign} from './utils/obj';
-import keycode from 'keycode';
+import {createEl} from './utils/dom.js';
 
 /**
  * Base class for all buttons.
@@ -33,19 +32,26 @@ class Button extends ClickableComponent {
   createEl(tag, props = {}, attributes = {}) {
     tag = 'button';
 
-    props = assign({
-      innerHTML: '<span aria-hidden="true" class="vjs-icon-placeholder"></span>',
+    props = Object.assign({
       className: this.buildCSSClass()
     }, props);
 
     // Add attributes for button element
-    attributes = assign({
+    attributes = Object.assign({
 
       // Necessary since the default button type is "submit"
       type: 'button'
     }, attributes);
 
-    const el = Component.prototype.createEl.call(this, tag, props, attributes);
+    const el = createEl(tag, props, attributes);
+
+    if (!this.player_.options_.experimentalSvgIcons) {
+      el.appendChild(createEl('span', {
+        className: 'vjs-icon-placeholder'
+      }, {
+        'aria-hidden': true
+      }));
+    }
 
     this.createControlTextEl(el);
 
@@ -99,7 +105,7 @@ class Button extends ClickableComponent {
    * This gets called when a `Button` has focus and `keydown` is triggered via a key
    * press.
    *
-   * @param {EventTarget~Event} event
+   * @param {KeyboardEvent} event
    *        The event that caused this function to get called.
    *
    * @listens keydown
@@ -111,7 +117,7 @@ class Button extends ClickableComponent {
     // prevent the event from propagating through the DOM and triggering Player
     // hotkeys. We do not preventDefault here because we _want_ the browser to
     // handle it.
-    if (keycode.isEventKey(event, 'Space') || keycode.isEventKey(event, 'Enter')) {
+    if (event.key === ' ' || event.key === 'Enter') {
       event.stopPropagation();
       return;
     }

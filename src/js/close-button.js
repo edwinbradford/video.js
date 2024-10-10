@@ -3,7 +3,8 @@
  */
 import Button from './button';
 import Component from './component';
-import keycode from 'keycode';
+
+/** @import Player from './player' */
 
 /**
  * The `CloseButton` is a `{@link Button}` that fires a `close` event when
@@ -24,6 +25,7 @@ class CloseButton extends Button {
   */
   constructor(player, options) {
     super(player, options);
+    this.setIcon('cancel');
     this.controlText(options && options.controlText || this.localize('Close'));
   }
 
@@ -42,7 +44,7 @@ class CloseButton extends Button {
    * {@link ClickableComponent#handleClick} for more information on when
    * this will be triggered
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -56,7 +58,7 @@ class CloseButton extends Button {
      * Triggered when the a `CloseButton` is clicked.
      *
      * @event CloseButton#close
-     * @type {EventTarget~Event}
+     * @type {Event}
      *
      * @property {boolean} [bubbles=false]
      *           set to false so that the close event does not
@@ -70,14 +72,14 @@ class CloseButton extends Button {
    *
    * By default, if the key is Esc, it will trigger a `click` event.
    *
-   * @param {EventTarget~Event} event
+   * @param {KeyboardEvent} event
    *        The `keydown` event that caused this function to be called.
    *
    * @listens keydown
    */
   handleKeyDown(event) {
     // Esc button will trigger `click` event
-    if (keycode.isEventKey(event, 'Esc')) {
+    if (event.key === 'Escape') {
       event.preventDefault();
       event.stopPropagation();
       this.trigger('click');

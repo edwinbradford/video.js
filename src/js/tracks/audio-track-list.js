@@ -3,6 +3,8 @@
  */
 import TrackList from './track-list';
 
+/** @import AudioTrack from './audio-track' */
+
 /**
  * Anywhere we call this function we diverge from the spec
  * as we only support one enabled audiotrack at a time

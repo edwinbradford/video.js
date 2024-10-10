@@ -4,8 +4,10 @@
 import Slider from '../../slider/slider.js';
 import Component from '../../component.js';
 import * as Dom from '../../utils/dom.js';
-import clamp from '../../utils/clamp.js';
+import {clamp} from '../../utils/num.js';
 import {IS_IOS, IS_ANDROID} from '../../utils/browser.js';
+
+/** @import Player from '../../player' */
 
 // Required children
 import './volume-level.js';
@@ -52,7 +54,7 @@ class VolumeBar extends Slider {
   /**
    * Handle mouse down on volume bar
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `mousedown` event that caused this to run.
    *
    * @listens mousedown
@@ -68,7 +70,7 @@ class VolumeBar extends Slider {
   /**
    * Handle movement events on the {@link VolumeMenuButton}.
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The event that caused this function to run.
    *
    * @listens mousemove
@@ -140,7 +142,7 @@ class VolumeBar extends Slider {
   /**
    * Update ARIA accessibility attributes
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `volumechange` event that caused this function to run.
    *
    * @listens Player#volumechange

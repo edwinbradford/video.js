@@ -3,6 +3,8 @@
  */
 import TrackList from './track-list';
 
+/** @import VideoTrack from './video-track' */
+
 /**
  * Un-select all other {@link VideoTrack}s that are selected.
  *

@@ -1,12 +1,12 @@
 import Component from './component.js';
-import mergeOptions from './utils/merge-options.js';
-import document from 'global/document';
-import * as browser from './utils/browser.js';
+import {merge} from './utils/obj.js';
 import window from 'global/window';
 import * as Fn from './utils/fn.js';
 
+/** @import Player from './player' */
+
 const defaults = {
-  trackingThreshold: 30,
+  trackingThreshold: 20,
   liveTolerance: 15
 };
 
@@ -28,7 +28,7 @@ class LiveTracker extends Component {
    * @param {Object} [options]
    *        The key/value store of player options.
    *
-   * @param {number} [options.trackingThreshold=30]
+   * @param {number} [options.trackingThreshold=20]
    *        Number of seconds of live window (seekableEnd - seekableStart) that
    *        media needs to have before the liveui will be shown.
    *
@@ -36,15 +36,14 @@ class LiveTracker extends Component {
    *        Number of seconds behind live that we have to be
    *        before we will be considered non-live. Note that this will only
    *        be used when playing at the live edge. This allows large seekable end
-   *        changes to not effect wether we are live or not.
+   *        changes to not effect whether we are live or not.
    */
   constructor(player, options) {
     // LiveTracker does not need an element
-    const options_ = mergeOptions(defaults, options, {createEl: false});
+    const options_ = merge(defaults, options, {createEl: false});
 
     super(player, options_);
 
-    this.handleVisibilityChange_ = (e) => this.handleVisibilityChange(e);
     this.trackLiveHandler_ = () => this.trackLive_();
     this.handlePlay_ = (e) => this.handlePlay(e);
     this.handleFirstTimeupdate_ = (e) => this.handleFirstTimeupdate(e);
@@ -56,29 +55,7 @@ class LiveTracker extends Component {
     this.on(this.player_, 'durationchange', (e) => this.handleDurationchange(e));
     // we should try to toggle tracking on canplay as native playback engines, like Safari
     // may not have the proper values for things like seekableEnd until then
-    this.one(this.player_, 'canplay', () => this.toggleTracking());
-
-    // we don't need to track live playback if the document is hidden,
-    // also, tracking when the document is hidden can
-    // cause the CPU to spike and eventually crash the page on IE11.
-    if (browser.IE_VERSION && 'hidden' in document && 'visibilityState' in document) {
-      this.on(document, 'visibilitychange', this.handleVisibilityChange_);
-    }
-  }
-
-  /**
-   * toggle tracking based on document visiblility
-   */
-  handleVisibilityChange() {
-    if (this.player_.duration() !== Infinity) {
-      return;
-    }
-
-    if (document.hidden) {
-      this.stopTracking();
-    } else {
-      this.startTracking();
-    }
+    this.on(this.player_, 'canplay', () => this.toggleTracking());
   }
 
   /**
@@ -314,7 +291,7 @@ class LiveTracker extends Component {
    * is tracking live playback or not
    *
    * @return {boolean}
-   *         Wether liveTracker is tracking
+   *         Whether liveTracker is tracking
    */
   isLive() {
     return this.isTracking();
@@ -325,7 +302,7 @@ class LiveTracker extends Component {
    * on each seekableendchange
    *
    * @return {boolean}
-   *         Wether playback is at the live edge
+   *         Whether playback is at the live edge
    */
   atLiveEdge() {
     return !this.behindLiveEdge();
@@ -342,7 +319,7 @@ class LiveTracker extends Component {
   }
 
   /**
-   * The number of seconds that have occured after seekable end
+   * The number of seconds that have occurred after seekable end
    * changed. This will be reset to 0 once seekable end changes.
    *
    * @return {number}
@@ -370,7 +347,7 @@ class LiveTracker extends Component {
   }
 
   /**
-   * Wether live tracker is currently tracking or not.
+   * Whether live tracker is currently tracking or not.
    */
   isTracking() {
     return typeof this.trackingInterval_ === 'number';
@@ -393,7 +370,6 @@ class LiveTracker extends Component {
    * Dispose of liveTracker
    */
   dispose() {
-    this.off(document, 'visibilitychange', this.handleVisibilityChange_);
     this.stopTracking();
     super.dispose();
   }

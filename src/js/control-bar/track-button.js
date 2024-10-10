@@ -5,6 +5,8 @@ import MenuButton from '../menu/menu-button.js';
 import Component from '../component.js';
 import * as Fn from '../utils/fn.js';
 
+/** @import Player from './player' */
+
 /**
  * The base class for buttons that toggle specific  track types (e.g. subtitles).
  *
@@ -34,7 +36,7 @@ class TrackButton extends MenuButton {
       return;
     }
 
-    const updateHandler = Fn.bind(this, this.update);
+    const updateHandler = Fn.bind_(this, this.update);
 
     tracks.addEventListener('removetrack', updateHandler);
     tracks.addEventListener('addtrack', updateHandler);

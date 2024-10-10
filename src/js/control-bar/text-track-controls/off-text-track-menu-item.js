@@ -4,8 +4,10 @@
 import TextTrackMenuItem from './text-track-menu-item.js';
 import Component from '../../component.js';
 
+/** @import Player from '../../player' */
+
 /**
- * A special menu item for turning of a specific type of text track
+ * A special menu item for turning off a specific type of text track
  *
  * @extends TextTrackMenuItem
  */
@@ -55,7 +57,7 @@ class OffTextTrackMenuItem extends TextTrackMenuItem {
   /**
    * Handle text track change
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The event that caused this function to run
    */
   handleTracksChange(event) {
@@ -96,6 +98,15 @@ class OffTextTrackMenuItem extends TextTrackMenuItem {
         enabled: false
       };
     }
+  }
+
+  /**
+   * Update control text and label on languagechange
+   */
+  handleLanguagechange() {
+    this.$('.vjs-menu-item-text').textContent = this.player_.localize(this.options_.label);
+
+    super.handleLanguagechange();
   }
 
 }

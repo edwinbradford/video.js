@@ -5,6 +5,8 @@ import Button from '../button.js';
 import Component from '../component.js';
 import {silencePromise} from '../utils/promise';
 
+/** @import Player from './player' */
+
 /**
  * Button to toggle between play and pause.
  *
@@ -26,6 +28,8 @@ class PlayToggle extends Button {
 
     // show or hide replay icon
     options.replay = options.replay === undefined || options.replay;
+
+    this.setIcon('play');
 
     this.on(player, 'play', (e) => this.handlePlay(e));
     this.on(player, 'pause', (e) => this.handlePause(e));
@@ -49,7 +53,7 @@ class PlayToggle extends Button {
    * This gets called when an `PlayToggle` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -68,7 +72,7 @@ class PlayToggle extends Button {
    * This gets called once after the video has ended and the user seeks so that
    * we can change the replay button back to a play button.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The event that caused this function to run.
    *
    * @listens Player#seeked
@@ -86,23 +90,23 @@ class PlayToggle extends Button {
   /**
    * Add the vjs-playing class to the element so it can change appearance.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The event that caused this function to run.
    *
    * @listens Player#play
    */
   handlePlay(event) {
-    this.removeClass('vjs-ended');
-    this.removeClass('vjs-paused');
+    this.removeClass('vjs-ended', 'vjs-paused');
     this.addClass('vjs-playing');
     // change the button text to "Pause"
+    this.setIcon('pause');
     this.controlText('Pause');
   }
 
   /**
    * Add the vjs-paused class to the element so it can change appearance.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The event that caused this function to run.
    *
    * @listens Player#pause
@@ -111,13 +115,14 @@ class PlayToggle extends Button {
     this.removeClass('vjs-playing');
     this.addClass('vjs-paused');
     // change the button text to "Play"
+    this.setIcon('play');
     this.controlText('Play');
   }
 
   /**
    * Add the vjs-ended class to the element so it can change appearance
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The event that caused this function to run.
    *
    * @listens Player#ended
@@ -126,6 +131,7 @@ class PlayToggle extends Button {
     this.removeClass('vjs-playing');
     this.addClass('vjs-ended');
     // change the button text to "Replay"
+    this.setIcon('replay');
     this.controlText('Replay');
 
     // on the next seek remove the replay button
@@ -137,7 +143,7 @@ class PlayToggle extends Button {
  * The text that should display over the `PlayToggle`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 PlayToggle.prototype.controlText_ = 'Play';
 

@@ -6,6 +6,8 @@ import Component from '../../component.js';
 import window from 'global/window';
 import document from 'global/document';
 
+/** @import Player from '../../player' */
+
 /**
  * The specific menu item type for selecting a language within a text track kind
  *
@@ -89,7 +91,7 @@ class TextTrackMenuItem extends MenuItem {
    * This gets called when an `TextTrackMenuItem` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -133,7 +135,7 @@ class TextTrackMenuItem extends MenuItem {
   /**
    * Handle text track list change
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `change` event that caused this function to be called.
    *
    * @listens TextTrackList#change

@@ -4,6 +4,9 @@
 import Button from '../button.js';
 import Component from '../component.js';
 import document from 'global/document';
+import window from 'global/window';
+
+/** @import Player from './player' */
 
 /**
  * Toggle Picture-in-Picture mode
@@ -26,8 +29,12 @@ class PictureInPictureToggle extends Button {
    */
   constructor(player, options) {
     super(player, options);
+
+    this.setIcon('picture-in-picture-enter');
+
     this.on(player, ['enterpictureinpicture', 'leavepictureinpicture'], (e) => this.handlePictureInPictureChange(e));
     this.on(player, ['disablepictureinpicturechanged', 'loadedmetadata'], (e) => this.handlePictureInPictureEnabledChange(e));
+    this.on(player, ['loadedmetadata', 'audioonlymodechange', 'audiopostermodechange'], () => this.handlePictureInPictureAudioModeChange());
 
     // TODO: Deactivate button on player emptied event.
     this.disable();
@@ -40,15 +47,46 @@ class PictureInPictureToggle extends Button {
    *         The DOM `className` for this object.
    */
   buildCSSClass() {
-    return `vjs-picture-in-picture-control ${super.buildCSSClass()}`;
+    return `vjs-picture-in-picture-control vjs-hidden ${super.buildCSSClass()}`;
   }
 
   /**
-   * Enables or disables button based on document.pictureInPictureEnabled property value
-   * or on value returned by player.disablePictureInPicture() method.
+   * Displays or hides the button depending on the audio mode detection.
+   * Exits picture-in-picture if it is enabled when switching to audio mode.
+   */
+  handlePictureInPictureAudioModeChange() {
+    // This audio detection will not detect HLS or DASH audio-only streams because there was no reliable way to detect them at the time
+    const isSourceAudio = this.player_.currentType().substring(0, 5) === 'audio';
+    const isAudioMode =
+      isSourceAudio || this.player_.audioPosterMode() || this.player_.audioOnlyMode();
+
+    if (!isAudioMode) {
+      this.show();
+
+      return;
+    }
+
+    if (this.player_.isInPictureInPicture()) {
+      this.player_.exitPictureInPicture();
+    }
+
+    this.hide();
+  }
+
+  /**
+   * Enables or disables button based on availability of a Picture-In-Picture mode.
+   *
+   * Enabled if
+   * - `player.options().enableDocumentPictureInPicture` is true and
+   *   window.documentPictureInPicture is available; or
+   * - `player.disablePictureInPicture()` is false and
+   *   element.requestPictureInPicture is available
    */
   handlePictureInPictureEnabledChange() {
-    if (document.pictureInPictureEnabled && this.player_.disablePictureInPicture() === false) {
+    if (
+      (document.pictureInPictureEnabled && this.player_.disablePictureInPicture() === false) ||
+      (this.player_.options_.enableDocumentPictureInPicture && 'documentPictureInPicture' in window)
+    ) {
       this.enable();
     } else {
       this.disable();
@@ -58,7 +96,7 @@ class PictureInPictureToggle extends Button {
   /**
    * Handles enterpictureinpicture and leavepictureinpicture on the player and change control text accordingly.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The {@link Player#enterpictureinpicture} or {@link Player#leavepictureinpicture} event that caused this function to be
    *        called.
    *
@@ -67,8 +105,10 @@ class PictureInPictureToggle extends Button {
    */
   handlePictureInPictureChange(event) {
     if (this.player_.isInPictureInPicture()) {
+      this.setIcon('picture-in-picture-exit');
       this.controlText('Exit Picture-in-Picture');
     } else {
+      this.setIcon('picture-in-picture-enter');
       this.controlText('Picture-in-Picture');
     }
     this.handlePictureInPictureEnabledChange();
@@ -78,7 +118,7 @@ class PictureInPictureToggle extends Button {
    * This gets called when an `PictureInPictureToggle` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -93,13 +133,25 @@ class PictureInPictureToggle extends Button {
     }
   }
 
+  /**
+   * Show the `Component`s element if it is hidden by removing the
+   * 'vjs-hidden' class name from it only in browsers that support the Picture-in-Picture API.
+   */
+  show() {
+    // Does not allow to display the pictureInPictureToggle in browsers that do not support the Picture-in-Picture API, e.g. Firefox.
+    if (typeof document.exitPictureInPicture !== 'function') {
+      return;
+    }
+
+    super.show();
+  }
 }
 
 /**
  * The text that should display over the `PictureInPictureToggle`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 PictureInPictureToggle.prototype.controlText_ = 'Picture-in-Picture';
 

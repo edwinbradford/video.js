@@ -52,7 +52,7 @@ const pluginExists = (name) => pluginStorage.hasOwnProperty(name);
  * @param   {string} name
  *          The name of a plugin.
  *
- * @return {Function|undefined}
+ * @return {typeof Plugin|Function|undefined}
  *          The plugin (or undefined).
  */
 const getPlugin = (name) => pluginExists(name) ? pluginStorage[name] : undefined;
@@ -81,7 +81,7 @@ const markPluginAsActive = (player, name) => {
  * @param  {Player} player
  *         A Video.js player instance.
  *
- * @param  {Plugin~PluginEventHash} hash
+ * @param  {PluginEventHash} hash
  *         A plugin event hash.
  *
  * @param  {boolean} [before]
@@ -238,7 +238,7 @@ class Plugin {
    * @param   {Object} [hash={}]
    *          An object to be used as event an event hash.
    *
-   * @return {Plugin~PluginEventHash}
+   * @return {PluginEventHash}
    *          An event hash object with provided properties mixed-in.
    */
   getEventHash(hash = {}) {
@@ -257,7 +257,7 @@ class Plugin {
    *
    * @param   {Object} [hash={}]
    *          Additional data hash to merge with a
-   *          {@link Plugin~PluginEventHash|PluginEventHash}.
+   *          {@link PluginEventHash|PluginEventHash}.
    *
    * @return {boolean}
    *          Whether or not default was prevented.
@@ -295,7 +295,7 @@ class Plugin {
      * Signals that a advanced plugin is about to be disposed.
      *
      * @event Plugin#dispose
-     * @type  {EventTarget~Event}
+     * @type  {Event}
      */
     this.trigger('dispose');
     this.off();
@@ -336,10 +336,10 @@ class Plugin {
    *          must not match an existing plugin or a method on the `Player`
    *          prototype.
    *
-   * @param   {Function} plugin
+   * @param   {typeof Plugin|Function} plugin
    *          A sub-class of `Plugin` or a function for basic plugins.
    *
-   * @return {Function}
+   * @return {typeof Plugin|Function}
    *          For advanced plugins, a factory function for that plugin. For
    *          basic plugins, a wrapper function that initializes the plugin.
    */
@@ -444,7 +444,7 @@ class Plugin {
  * @param    {string} name
  *           The name of a plugin.
  *
- * @returns  {Function|undefined}
+ * @returns  {typeof Plugin|Function|undefined}
  *           The plugin (or `undefined`).
  */
 Plugin.getPlugin = getPlugin;
@@ -482,7 +482,7 @@ export default Plugin;
  * Signals that a plugin is about to be set up on a player.
  *
  * @event    Player#beforepluginsetup
- * @type     {Plugin~PluginEventHash}
+ * @type     {PluginEventHash}
  */
 
 /**
@@ -490,14 +490,14 @@ export default Plugin;
  * is the name of the plugin.
  *
  * @event    Player#beforepluginsetup:$name
- * @type     {Plugin~PluginEventHash}
+ * @type     {PluginEventHash}
  */
 
 /**
  * Signals that a plugin has just been set up on a player.
  *
  * @event    Player#pluginsetup
- * @type     {Plugin~PluginEventHash}
+ * @type     {PluginEventHash}
  */
 
 /**
@@ -505,11 +505,11 @@ export default Plugin;
  * is the name of the plugin.
  *
  * @event    Player#pluginsetup:$name
- * @type     {Plugin~PluginEventHash}
+ * @type     {PluginEventHash}
  */
 
 /**
- * @typedef  {Object} Plugin~PluginEventHash
+ * @typedef  {Object} PluginEventHash
  *
  * @property {string} instance
  *           For basic plugins, the return value of the plugin function. For

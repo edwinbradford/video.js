@@ -4,8 +4,8 @@
 import Component from './component';
 import * as Dom from './utils/dom.js';
 import log from './utils/log.js';
-import {assign} from './utils/obj';
-import keycode from 'keycode';
+
+/** @import Player from './player' */
 
 /**
  * Component which is clickable or keyboard actionable, but is not a
@@ -22,13 +22,25 @@ class ClickableComponent extends Component {
    *         The `Player` that this class should be attached to.
    *
    * @param  {Object} [options]
-   *         The key/value store of player options.
+   *         The key/value store of component options.
    *
    * @param  {function} [options.clickHandler]
    *         The function to call when the button is clicked / activated
+   *
+   * @param  {string} [options.controlText]
+   *         The text to set on the button
+   *
+   * @param  {string} [options.className]
+   *         A class or space separated list of classes to add the component
+   *
    */
   constructor(player, options) {
+
     super(player, options);
+
+    if (this.options_.controlText) {
+      this.controlText(this.options_.controlText);
+    }
 
     this.handleMouseOver_ = (e) => this.handleMouseOver(e);
     this.handleMouseOut_ = (e) => this.handleMouseOut(e);
@@ -56,8 +68,7 @@ class ClickableComponent extends Component {
    *         The element that gets created.
    */
   createEl(tag = 'div', props = {}, attributes = {}) {
-    props = assign({
-      innerHTML: '<span aria-hidden="true" class="vjs-icon-placeholder"></span>',
+    props = Object.assign({
       className: this.buildCSSClass(),
       tabIndex: 0
     }, props);
@@ -67,13 +78,21 @@ class ClickableComponent extends Component {
     }
 
     // Add ARIA attributes for clickable element which is not a native HTML button
-    attributes = assign({
+    attributes = Object.assign({
       role: 'button'
     }, attributes);
 
     this.tabIndex_ = props.tabIndex;
 
-    const el = super.createEl(tag, props, attributes);
+    const el = Dom.createEl(tag, props, attributes);
+
+    if (!this.player_.options_.experimentalSvgIcons) {
+      el.appendChild(Dom.createEl('span', {
+        className: 'vjs-icon-placeholder'
+      }, {
+        'aria-hidden': true
+      }));
+    }
 
     this.createControlTextEl(el);
 
@@ -132,6 +151,7 @@ class ClickableComponent extends Component {
 
     const localizedText = this.localize(text);
 
+    /** @protected */
     this.controlText_ = text;
     Dom.textContent(this.controlTextEl_, localizedText);
     if (!this.nonIconControl && !this.player_.options_.noUITitleAttributes) {
@@ -195,7 +215,7 @@ class ClickableComponent extends Component {
    * Event handler that is called when a `ClickableComponent` receives a
    * `click` or `tap` event.
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `tap` or `click` event that caused this function to be called.
    *
    * @listens tap
@@ -214,7 +234,7 @@ class ClickableComponent extends Component {
    *
    * By default, if the key is Space or Enter, it will trigger a `click` event.
    *
-   * @param {EventTarget~Event} event
+   * @param {KeyboardEvent} event
    *        The `keydown` event that caused this function to be called.
    *
    * @listens keydown
@@ -224,7 +244,7 @@ class ClickableComponent extends Component {
     // Support Space or Enter key operation to fire a click event. Also,
     // prevent the event from propagating through the DOM and triggering
     // Player hotkeys.
-    if (keycode.isEventKey(event, 'Space') || keycode.isEventKey(event, 'Enter')) {
+    if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault();
       event.stopPropagation();
       this.trigger('click');

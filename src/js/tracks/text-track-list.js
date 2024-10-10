@@ -3,6 +3,8 @@
  */
 import TrackList from './track-list';
 
+/** @import TextTrack from './text-track' */
+
 /**
  * The current list of {@link TextTrack} for a media file.
  *

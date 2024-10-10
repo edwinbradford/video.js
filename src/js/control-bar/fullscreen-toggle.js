@@ -5,6 +5,8 @@ import Button from '../button.js';
 import Component from '../component.js';
 import document from 'global/document';
 
+/** @import Player from './player' */
+
 /**
  * Toggle fullscreen video
  *
@@ -23,6 +25,7 @@ class FullscreenToggle extends Button {
    */
   constructor(player, options) {
     super(player, options);
+    this.setIcon('fullscreen-enter');
     this.on(player, 'fullscreenchange', (e) => this.handleFullscreenChange(e));
 
     if (document[player.fsApi_.fullscreenEnabled] === false) {
@@ -43,7 +46,7 @@ class FullscreenToggle extends Button {
   /**
    * Handles fullscreenchange on the player and change control text accordingly.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The {@link Player#fullscreenchange} event that caused this function to be
    *        called.
    *
@@ -51,9 +54,11 @@ class FullscreenToggle extends Button {
    */
   handleFullscreenChange(event) {
     if (this.player_.isFullscreen()) {
-      this.controlText('Non-Fullscreen');
+      this.controlText('Exit Fullscreen');
+      this.setIcon('fullscreen-exit');
     } else {
       this.controlText('Fullscreen');
+      this.setIcon('fullscreen-enter');
     }
   }
 
@@ -61,7 +66,7 @@ class FullscreenToggle extends Button {
    * This gets called when an `FullscreenToggle` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -82,7 +87,7 @@ class FullscreenToggle extends Button {
  * The text that should display over the `FullscreenToggle`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 FullscreenToggle.prototype.controlText_ = 'Fullscreen';
 

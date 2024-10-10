@@ -7,6 +7,8 @@ import * as Dom from '../utils/dom.js';
 import checkMuteSupport from './volume-control/check-mute-support';
 import * as browser from '../utils/browser.js';
 
+/** @import Player from './player' */
+
 /**
  * A button component for muting the audio.
  *
@@ -46,7 +48,7 @@ class MuteToggle extends Button {
    * This gets called when an `MuteToggle` is "clicked". See
    * {@link ClickableComponent} for more detailed information on what a click can be.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `keydown`, `tap`, or `click` event that caused this function to be
    *        called.
    *
@@ -71,7 +73,7 @@ class MuteToggle extends Button {
    * Update the `MuteToggle` button based on the state of `volume` and `muted`
    * on the player.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The {@link Player#loadstart} event if this function was called
    *        through an event.
    *
@@ -98,6 +100,8 @@ class MuteToggle extends Button {
     const vol = this.player_.volume();
     let level = 3;
 
+    this.setIcon('volume-high');
+
     // in iOS when a player is loaded with muted attribute
     // and volume is changed with a native mute button
     // we want to make sure muted state is updated
@@ -106,17 +110,17 @@ class MuteToggle extends Button {
     }
 
     if (vol === 0 || this.player_.muted()) {
+      this.setIcon('volume-mute');
       level = 0;
     } else if (vol < 0.33) {
+      this.setIcon('volume-low');
       level = 1;
     } else if (vol < 0.67) {
+      this.setIcon('volume-medium');
       level = 2;
     }
 
-    // TODO improve muted icon classes
-    for (let i = 0; i < 4; i++) {
-      Dom.removeClass(this.el_, `vjs-vol-${i}`);
-    }
+    Dom.removeClass(this.el_, [0, 1, 2, 3].reduce((str, i) => str + `${i ? ' ' : ''}vjs-vol-${i}`, ''));
     Dom.addClass(this.el_, `vjs-vol-${level}`);
   }
 
@@ -142,7 +146,7 @@ class MuteToggle extends Button {
  * The text that should display over the `MuteToggle`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 MuteToggle.prototype.controlText_ = 'Mute';
 

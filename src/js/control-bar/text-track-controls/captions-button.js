@@ -5,6 +5,8 @@ import TextTrackButton from './text-track-button.js';
 import Component from '../../component.js';
 import CaptionSettingsMenuItem from './caption-settings-menu-item.js';
 
+/** @import Player from '../../player' */
+
 /**
  * The button component for toggling and selecting captions
  *
@@ -21,11 +23,13 @@ class CaptionsButton extends TextTrackButton {
    * @param {Object} [options]
    *        The key/value store of player options.
    *
-   * @param {Component~ReadyCallback} [ready]
+   * @param {Function} [ready]
    *        The function to call when this component is ready.
    */
   constructor(player, options, ready) {
     super(player, options, ready);
+
+    this.setIcon('captions');
   }
 
   /**
@@ -75,7 +79,7 @@ CaptionsButton.prototype.kind_ = 'captions';
  * The text that should display over the `CaptionsButton`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 CaptionsButton.prototype.controlText_ = 'Captions';
 

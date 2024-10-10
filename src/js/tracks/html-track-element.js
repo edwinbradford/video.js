@@ -5,15 +5,7 @@
 import EventTarget from '../event-target';
 import TextTrack from '../tracks/text-track';
 
-/**
- * @memberof HTMLTrackElement
- * @typedef {HTMLTrackElement~ReadyState}
- * @enum {number}
- */
-const NONE = 0;
-const LOADING = 1;
-const LOADED = 2;
-const ERROR = 3;
+/** @import Tech from '../tech/tech' */
 
 /**
  * A single track represented in the DOM.
@@ -49,7 +41,7 @@ class HTMLTrackElement extends EventTarget {
    *
    * @param {string} [options.srclang='']
    *        A valid two character language code. An alternative, but deprioritized
-   *        vesion of `options.language`
+   *        version of `options.language`
    *
    * @param {string} [options.src]
    *        A url to TextTrack cues.
@@ -98,14 +90,14 @@ class HTMLTrackElement extends EventTarget {
       }
     });
 
-    readyState = NONE;
+    readyState = HTMLTrackElement.NONE;
 
     /**
      * @listens TextTrack#loadeddata
      * @fires HTMLTrackElement#load
      */
     track.addEventListener('loadeddata', () => {
-      readyState = LOADED;
+      readyState = HTMLTrackElement.LOADED;
 
       this.trigger({
         type: 'load',
@@ -115,13 +107,43 @@ class HTMLTrackElement extends EventTarget {
   }
 }
 
+/**
+ * @protected
+ */
 HTMLTrackElement.prototype.allowedEvents_ = {
   load: 'load'
 };
 
-HTMLTrackElement.NONE = NONE;
-HTMLTrackElement.LOADING = LOADING;
-HTMLTrackElement.LOADED = LOADED;
-HTMLTrackElement.ERROR = ERROR;
+/**
+ * The text track not loaded state.
+ *
+ * @type {number}
+ * @static
+ */
+HTMLTrackElement.NONE = 0;
+
+/**
+ * The text track loading state.
+ *
+ * @type {number}
+ * @static
+ */
+HTMLTrackElement.LOADING = 1;
+
+/**
+ * The text track loaded state.
+ *
+ * @type {number}
+ * @static
+ */
+HTMLTrackElement.LOADED = 2;
+
+/**
+ * The text track failed to load state.
+ *
+ * @type {number}
+ * @static
+ */
+HTMLTrackElement.ERROR = 3;
 
 export default HTMLTrackElement;

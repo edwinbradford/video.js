@@ -5,6 +5,8 @@ import TimeDisplay from './time-display';
 import Component from '../../component.js';
 import * as Dom from '../../utils/dom.js';
 
+/** @import Player from '../../player' */
+
 /**
  * Displays the time left in the video
  *
@@ -37,7 +39,7 @@ class RemainingTimeDisplay extends TimeDisplay {
   }
 
   /**
-   * Create the `Component`'s DOM element with the "minus" characted prepend to the time
+   * Create the `Component`'s DOM element with the "minus" character prepend to the time
    *
    * @return {Element}
    *         The element that was created.
@@ -45,14 +47,16 @@ class RemainingTimeDisplay extends TimeDisplay {
   createEl() {
     const el = super.createEl();
 
-    el.insertBefore(Dom.createEl('span', {}, {'aria-hidden': true}, '-'), this.contentEl_);
+    if (this.options_.displayNegative !== false) {
+      el.insertBefore(Dom.createEl('span', {}, {'aria-hidden': true}, '-'), this.contentEl_);
+    }
     return el;
   }
 
   /**
    * Update remaining time display.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `timeupdate` or `durationchange` event that caused this to run.
    *
    * @listens Player#timeupdate
@@ -91,7 +95,7 @@ RemainingTimeDisplay.prototype.labelText_ = 'Remaining Time';
  * The text that should display over the `RemainingTimeDisplay`s controls. Added to for localization.
  *
  * @type {string}
- * @private
+ * @protected
  *
  * @deprecated in v7; controlText_ is not used in non-active display Components
  */

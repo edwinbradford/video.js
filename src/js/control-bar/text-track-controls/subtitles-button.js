@@ -4,6 +4,8 @@
 import TextTrackButton from './text-track-button.js';
 import Component from '../../component.js';
 
+/** @import Player from '../../player' */
+
 /**
  * The button component for toggling and selecting subtitles
  *
@@ -20,11 +22,13 @@ class SubtitlesButton extends TextTrackButton {
    * @param {Object} [options]
    *        The key/value store of player options.
    *
-   * @param {Component~ReadyCallback} [ready]
+   * @param {Function} [ready]
    *        The function to call when this component is ready.
    */
   constructor(player, options, ready) {
     super(player, options, ready);
+
+    this.setIcon('subtitles');
   }
 
   /**
@@ -54,7 +58,7 @@ SubtitlesButton.prototype.kind_ = 'subtitles';
  * The text that should display over the `SubtitlesButton`s controls. Added for localization.
  *
  * @type {string}
- * @private
+ * @protected
  */
 SubtitlesButton.prototype.controlText_ = 'Subtitles';
 

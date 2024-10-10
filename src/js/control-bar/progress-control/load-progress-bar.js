@@ -3,8 +3,10 @@
  */
 import Component from '../../component.js';
 import * as Dom from '../../utils/dom.js';
-import clamp from '../../utils/clamp';
+import {clamp} from '../../utils/num';
 import document from 'global/document';
+
+/** @import Player from '../../player' */
 
 // get the percent width of a time compared to the total end
 const percentify = (time, end) => clamp((time / end) * 100, 0, 100).toFixed(2) + '%';
@@ -66,7 +68,7 @@ class LoadProgressBar extends Component {
   /**
    * Update progress bar
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `progress` event that caused this function to run.
    *
    * @listens Player#progress

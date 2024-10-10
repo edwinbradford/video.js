@@ -4,8 +4,10 @@
 import document from 'global/document';
 import Component from '../../component.js';
 import * as Dom from '../../utils/dom.js';
-import formatTime from '../../utils/format-time.js';
+import {formatTime} from '../../utils/time.js';
 import log from '../../utils/log.js';
+
+/** @import Player from '../../player' */
 
 /**
  * Displays time information about the video
@@ -26,7 +28,7 @@ class TimeDisplay extends Component {
   constructor(player, options) {
     super(player, options);
 
-    this.on(player, ['timeupdate', 'ended'], (e) => this.updateContent(e));
+    this.on(player, ['timeupdate', 'ended', 'seeking'], (e) => this.update(e));
     this.updateTextNode_();
   }
 
@@ -39,20 +41,25 @@ class TimeDisplay extends Component {
   createEl() {
     const className = this.buildCSSClass();
     const el = super.createEl('div', {
-      className: `${className} vjs-time-control vjs-control`,
-      innerHTML: `<span class="vjs-control-text" role="presentation">${this.localize(this.labelText_)}\u00a0</span>`
+      className: `${className} vjs-time-control vjs-control`
     });
+    const span = Dom.createEl('span', {
+      className: 'vjs-control-text',
+      textContent: `${this.localize(this.labelText_)}\u00a0`
+    }, {
+      role: 'presentation'
+    });
+
+    el.appendChild(span);
 
     this.contentEl_ = Dom.createEl('span', {
       className: `${className}-display`
     }, {
-      // tell screen readers not to automatically read the time as it changes
-      'aria-live': 'off',
       // span elements have no implicit role, but some screen readers (notably VoiceOver)
       // treat them as a break between items in the DOM when using arrow keys
       // (or left-to-right swipes on iOS) to read contents of a page. Using
       // role='presentation' causes VoiceOver to NOT treat this span as a break.
-      'role': 'presentation'
+      role: 'presentation'
     });
 
     el.appendChild(this.contentEl_);
@@ -64,6 +71,20 @@ class TimeDisplay extends Component {
     this.textNode_ = null;
 
     super.dispose();
+  }
+
+  /**
+   * Updates the displayed time according to the `updateContent` function which is defined in the child class.
+   *
+   * @param {Event} [event]
+   *          The `timeupdate`, `ended` or `seeking` (if enableSmoothSeeking is true) event that caused this function to be called.
+   */
+  update(event) {
+    if (!this.player_.options_.enableSmoothSeeking && event.type === 'seeking') {
+      return;
+    }
+
+    this.updateContent(event);
   }
 
   /**
@@ -113,7 +134,7 @@ class TimeDisplay extends Component {
    * To be filled out in the child class, should update the displayed time
    * in accordance with the fact that the current time has changed.
    *
-   * @param {EventTarget~Event} [event]
+   * @param {Event} [event]
    *        The `timeupdate`  event that caused this to run.
    *
    * @listens Player#timeupdate
@@ -133,7 +154,7 @@ TimeDisplay.prototype.labelText_ = 'Time';
  * The text that should display over the `TimeDisplay`s controls. Added to for localization.
  *
  * @type {string}
- * @private
+ * @protected
  *
  * @deprecated in v7; controlText_ is not used in non-active display Components
  */

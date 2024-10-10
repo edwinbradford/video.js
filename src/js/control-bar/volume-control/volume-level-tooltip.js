@@ -5,6 +5,8 @@ import Component from '../../component';
 import * as Dom from '../../utils/dom.js';
 import * as Fn from '../../utils/fn.js';
 
+/** @import Player from '../../player' */
+
 /**
  * Volume level tooltips display a volume above or side by side the volume bar.
  *
@@ -23,7 +25,7 @@ class VolumeLevelTooltip extends Component {
    */
   constructor(player, options) {
     super(player, options);
-    this.update = Fn.throttle(Fn.bind(this, this.update), Fn.UPDATE_REFRESH_INTERVAL);
+    this.update = Fn.throttle(Fn.bind_(this, this.update), Fn.UPDATE_REFRESH_INTERVAL);
   }
 
   /**

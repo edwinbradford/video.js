@@ -3,18 +3,20 @@
  */
 
 import Component from '../component';
-import mergeOptions from '../utils/merge-options.js';
 import * as Fn from '../utils/fn.js';
 import log from '../utils/log.js';
-import { createTimeRange } from '../utils/time-ranges.js';
+import { createTimeRange } from '../utils/time.js';
 import { bufferedPercent } from '../utils/buffer.js';
 import MediaError from '../media-error.js';
 import window from 'global/window';
 import document from 'global/document';
-import {isPlain} from '../utils/obj';
+import {isPlain, merge} from '../utils/obj';
 import * as TRACK_TYPES from '../tracks/track-types';
-import {toTitleCase, toLowerCase} from '../utils/string-cases.js';
+import {toTitleCase, toLowerCase} from '../utils/str.js';
 import vtt from 'videojs-vtt.js';
+import * as Guid from '../utils/guid.js';
+
+/** @import { TimeRange } from '../utils/time' */
 
 /**
  * An Object containing a structure like: `{src: 'url', type: 'mimetype'}` or string
@@ -22,7 +24,7 @@ import vtt from 'videojs-vtt.js';
  * * `var SourceObject = {src: 'http://ex.com/video.mp4', type: 'video/mp4'};`
    * `var SourceString = 'http://example.com/some-video.mp4';`
  *
- * @typedef {Object|string} Tech~SourceObject
+ * @typedef {Object|string} SourceObject
  *
  * @property {string} src
  *           The url to the source
@@ -88,7 +90,7 @@ class Tech extends Component {
   * @param {Object} [options]
   *        The key/value store of player options.
   *
-  * @param {Component~ReadyCallback} ready
+  * @param {Function} [ready]
   *        Callback function to call when the `HTML5` Tech is ready.
   */
   constructor(options = {}, ready = function() {}) {
@@ -102,6 +104,8 @@ class Tech extends Component {
     this.trackCurrentTime_ = (e) => this.trackCurrentTime(e);
     this.stopTrackingCurrentTime_ = (e) => this.stopTrackingCurrentTime(e);
     this.disposeSourceHandler_ = (e) => this.disposeSourceHandler(e);
+
+    this.queuedHanders_ = new Set();
 
     // keep track of whether the current source has played at all to
     // implement a very limited played()
@@ -183,7 +187,7 @@ class Tech extends Component {
      *
      * @see {@link Player#event:sourceset}
      * @event Tech#sourceset
-     * @type {EventTarget~Event}
+     * @type {Event}
      */
     this.trigger({
       src,
@@ -226,7 +230,7 @@ class Tech extends Component {
    *
    * > This function is called by {@link Tech#manualProgressOn}
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `ready` event that caused this to run.
    *
    * @listens Tech#ready
@@ -234,7 +238,7 @@ class Tech extends Component {
    */
   trackProgress(event) {
     this.stopTrackingProgress();
-    this.progressInterval = this.setInterval(Fn.bind(this, function() {
+    this.progressInterval = this.setInterval(Fn.bind_(this, function() {
       // Don't trigger unless buffered amount is greater than last time
 
       const numBufferedPercent = this.bufferedPercent();
@@ -244,7 +248,7 @@ class Tech extends Component {
          * See {@link Player#progress}
          *
          * @event Tech#progress
-         * @type {EventTarget~Event}
+         * @type {Event}
          */
         this.trigger('progress');
       }
@@ -261,7 +265,7 @@ class Tech extends Component {
    * Update our internal duration on a `durationchange` event by calling
    * {@link Tech#duration}.
    *
-   * @param {EventTarget~Event} event
+   * @param {Event} event
    *        The `durationchange` event that caused this to run.
    *
    * @listens Tech#durationchange
@@ -341,7 +345,7 @@ class Tech extends Component {
        * Triggered at an interval of 250ms to indicated that time is passing in the video.
        *
        * @event Tech#timeupdate
-       * @type {EventTarget~Event}
+       * @type {Event}
        */
       this.trigger({ type: 'timeupdate', target: this, manuallyTriggered: true });
 
@@ -502,10 +506,13 @@ class Tech extends Component {
    * Set whether we are scrubbing or not
    *
    * @abstract
+   * @param {boolean} _isScrubbing
+   *                  - true for we are currently scrubbing
+   *                  - false for we are no longer scrubbing
    *
    * @see {Html5#setScrubbing}
    */
-  setScrubbing() {}
+  setScrubbing(_isScrubbing) {}
 
   /**
    * Get whether we are scrubbing or not
@@ -520,16 +527,18 @@ class Tech extends Component {
    * Causes a manual time update to occur if {@link Tech#manualTimeUpdatesOn} was
    * previously called.
    *
+   * @param {number} _seconds
+   *        Set the current time of the media to this.
    * @fires Tech#timeupdate
    */
-  setCurrentTime() {
+  setCurrentTime(_seconds) {
     // improve the accuracy of manual timeupdates
     if (this.manualTimeUpdates) {
       /**
        * A manual `timeupdate` event.
        *
        * @event Tech#timeupdate
-       * @type {EventTarget~Event}
+       * @type {Event}
        */
       this.trigger({ type: 'timeupdate', target: this, manuallyTriggered: true });
     }
@@ -550,21 +559,21 @@ class Tech extends Component {
       * Triggered when tracks are added or removed on the Tech {@link AudioTrackList}
       *
       * @event Tech#audiotrackchange
-      * @type {EventTarget~Event}
+      * @type {Event}
       */
 
     /**
       * Triggered when tracks are added or removed on the Tech {@link VideoTrackList}
       *
       * @event Tech#videotrackchange
-      * @type {EventTarget~Event}
+      * @type {Event}
       */
 
     /**
       * Triggered when tracks are added or removed on the Tech {@link TextTrackList}
       *
       * @event Tech#texttrackchange
-      * @type {EventTarget~Event}
+      * @type {Event}
       */
     TRACK_TYPES.NORMAL.names.forEach((name) => {
       const props = TRACK_TYPES.NORMAL[name];
@@ -618,7 +627,7 @@ class Tech extends Component {
          * Fired when vtt.js is loaded.
          *
          * @event Tech#vttjsloaded
-         * @type {EventTarget~Event}
+         * @type {Event}
          */
         this.trigger('vttjsloaded');
       };
@@ -627,7 +636,7 @@ class Tech extends Component {
          * Fired when vtt.js was not loaded due to an error
          *
          * @event Tech#vttjsloaded
-         * @type {EventTarget~Event}
+         * @type {Event}
          */
         this.trigger('vttjserror');
       };
@@ -740,7 +749,7 @@ class Tech extends Component {
    *         The track element that gets created.
    */
   createRemoteTextTrack(options) {
-    const track = mergeOptions(options, {
+    const track = merge(options, {
       tech: this
     });
 
@@ -755,7 +764,7 @@ class Tech extends Component {
    * @param {Object} options
    *        See {@link Tech#createRemoteTextTrack} for more detailed properties.
    *
-   * @param {boolean} [manualCleanup=true]
+   * @param {boolean} [manualCleanup=false]
    *        - When false: the TextTrack will be automatically removed from the video
    *          element whenever the source changes
    *        - When True: The TextTrack will have to be cleaned up manually
@@ -763,24 +772,19 @@ class Tech extends Component {
    * @return {HTMLTrackElement}
    *         An Html Track Element.
    *
-   * @deprecated The default functionality for this function will be equivalent
-   *             to "manualCleanup=false" in the future. The manualCleanup parameter will
-   *             also be removed.
    */
   addRemoteTextTrack(options = {}, manualCleanup) {
     const htmlTrackElement = this.createRemoteTextTrack(options);
 
-    if (manualCleanup !== true && manualCleanup !== false) {
-      // deprecation warning
-      log.warn('Calling addRemoteTextTrack without explicitly setting the "manualCleanup" parameter to `true` is deprecated and default to `false` in future version of video.js');
-      manualCleanup = true;
+    if (typeof manualCleanup !== 'boolean') {
+      manualCleanup = false;
     }
 
     // store HTMLTrackElement and TextTrack to remote list
     this.remoteTextTrackEls().addTrackElement_(htmlTrackElement);
     this.remoteTextTracks().addTrack(htmlTrackElement.track);
 
-    if (manualCleanup !== true) {
+    if (manualCleanup === false) {
       // create the TextTrackList if it doesn't exist
       this.ready(() => this.autoRemoteTextTracks_.addTrack(htmlTrackElement.track));
     }
@@ -833,11 +837,7 @@ class Tech extends Component {
    * @abstract
    */
   requestPictureInPicture() {
-    const PromiseClass = this.options_.Promise || window.Promise;
-
-    if (PromiseClass) {
-      return PromiseClass.reject();
-    }
+    return Promise.reject();
   }
 
   /**
@@ -856,6 +856,43 @@ class Tech extends Component {
    * @abstract
    */
   setDisablePictureInPicture() {}
+
+  /**
+   * A fallback implementation of requestVideoFrameCallback using requestAnimationFrame
+   *
+   * @param {function} cb
+   * @return {number} request id
+   */
+  requestVideoFrameCallback(cb) {
+    const id = Guid.newGUID();
+
+    if (!this.isReady_ || this.paused()) {
+      this.queuedHanders_.add(id);
+      this.one('playing', () => {
+        if (this.queuedHanders_.has(id)) {
+          this.queuedHanders_.delete(id);
+          cb();
+        }
+      });
+    } else {
+      this.requestNamedAnimationFrame(id, cb);
+    }
+
+    return id;
+  }
+
+  /**
+   * A fallback implementation of cancelVideoFrameCallback
+   *
+   * @param {number} id id of callback to be cancelled
+   */
+  cancelVideoFrameCallback(id) {
+    if (this.queuedHanders_.has(id)) {
+      this.queuedHanders_.delete(id);
+    } else {
+      this.cancelNamedAnimationFrame(id);
+    }
+  }
 
   /**
    * A method to set a poster from a `Tech`.
@@ -886,7 +923,7 @@ class Tech extends Component {
    *
    * @abstract
    */
-  overrideNativeAudioTracks() {}
+  overrideNativeAudioTracks(override) {}
 
   /**
    * Attempt to force override of native video tracks.
@@ -896,15 +933,15 @@ class Tech extends Component {
    *
    * @abstract
    */
-  overrideNativeVideoTracks() {}
+  overrideNativeVideoTracks(override) {}
 
-  /*
+  /**
    * Check if the tech can support the given mime-type.
    *
    * The base tech does not support any type, but source handlers might
    * overwrite this.
    *
-   * @param  {string} type
+   * @param  {string} _type
    *         The mimetype to check for support
    *
    * @return {string}
@@ -914,7 +951,7 @@ class Tech extends Component {
    *
    * @abstract
    */
-  canPlayType() {
+  canPlayType(_type) {
     return '';
   }
 
@@ -924,11 +961,11 @@ class Tech extends Component {
    * The base tech does not support any type, but source handlers might
    * overwrite this.
    *
-   * @param {string} type
+   * @param {string} _type
    *        The media type to check
    * @return {string} Returns the native video element's response
    */
-  static canPlayType() {
+  static canPlayType(_type) {
     return '';
   }
 
@@ -1105,7 +1142,7 @@ Tech.prototype.featuresVolumeControl = true;
 /**
  * Boolean indicating whether the `Tech` supports muting volume.
  *
- * @type {bolean}
+ * @type {boolean}
  * @default
  */
 Tech.prototype.featuresMuteControl = true;
@@ -1131,9 +1168,8 @@ Tech.prototype.featuresFullscreenResize = false;
 Tech.prototype.featuresPlaybackRate = false;
 
 /**
- * Boolean indicating whether the `Tech` supports the `progress` event. This is currently
- * not triggered by video-js-swf. This will be used to determine if
- * {@link Tech#manualProgressOn} should be called.
+ * Boolean indicating whether the `Tech` supports the `progress` event.
+ * This will be used to determine if {@link Tech#manualProgressOn} should be called.
  *
  * @type {boolean}
  * @default
@@ -1153,9 +1189,8 @@ Tech.prototype.featuresProgressEvents = false;
 Tech.prototype.featuresSourceset = false;
 
 /**
- * Boolean indicating whether the `Tech` supports the `timeupdate` event. This is currently
- * not triggered by video-js-swf. This will be used to determine if
- * {@link Tech#manualTimeUpdates} should be called.
+ * Boolean indicating whether the `Tech` supports the `timeupdate` event.
+ * This will be used to determine if {@link Tech#manualTimeUpdates} should be called.
  *
  * @type {boolean}
  * @default
@@ -1170,6 +1205,14 @@ Tech.prototype.featuresTimeupdateEvents = false;
  * @default
  */
 Tech.prototype.featuresNativeTextTracks = false;
+
+/**
+ * Boolean indicating whether the `Tech` supports `requestVideoFrameCallback`.
+ *
+ * @type {boolean}
+ * @default
+ */
+Tech.prototype.featuresVideoFrameCallback = false;
 
 /**
  * A functional mixin for techs that want to use the Source Handler pattern.
@@ -1239,7 +1282,7 @@ Tech.withSourceHandlers = function(_Tech) {
    *
    * TODO: Answer question: should 'probably' be prioritized over 'maybe'
    *
-   * @param {Tech~SourceObject} source
+   * @param {SourceObject} source
    *        The source object
    *
    * @param {Object} options
@@ -1267,7 +1310,7 @@ Tech.withSourceHandlers = function(_Tech) {
   /**
    * Check if the tech can support the given source.
    *
-   * @param {Tech~SourceObject} srcObj
+   * @param {SourceObject} srcObj
    *        The source object
    *
    * @param {Object} options
@@ -1330,14 +1373,14 @@ Tech.withSourceHandlers = function(_Tech) {
    * and source handlers.
    * Should never be called unless a source handler was found.
    *
-   * @param {Tech~SourceObject} source
+   * @param {SourceObject} source
    *        A source object with src and type keys
    */
   _Tech.prototype.setSource = function(source) {
     let sh = _Tech.selectSourceHandler(source, this.options_);
 
     if (!sh) {
-      // Fall back to a native source hander when unsupported sources are
+      // Fall back to a native source handler when unsupported sources are
       // deliberately set
       if (_Tech.nativeSourceHandler) {
         sh = _Tech.nativeSourceHandler;

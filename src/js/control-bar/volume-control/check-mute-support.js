@@ -1,3 +1,6 @@
+/** @import Component from '../../component' */
+/** @import Player from '../../player' */
+
 /**
  * Check if muting volume is supported and if it isn't hide the mute toggle
  * button.
