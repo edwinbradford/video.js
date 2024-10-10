@@ -2,117 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Video.js Plugin Example</title>
 
-    <style>
-      html {
-        width: 100%;
-        height: 100%;
-        font-family: consolas;
-        font-size: 100%;
-        background-color:#e5e5e5;
-      }
-      body {
-        margin: 0;
-        height: 100%;
-      }
-      video {
-        margin: 0;
-      }
-      div.instructions {
-        color: #999;
-        padding: 10px;
-        margin-bottom: 20px;
-        font-size: 1.2rem;
-        line-height: 1.5;
-      }
-      pre {
-        font-family: inherit;
-      }
-    </style>
-
-    <!-- AV Neue theme -->
-    <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
-
-    <!-- Video.js -->
-    <script src="../dist/video.js"></script>
+  <!-- Load the source files -->
+  <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
+  <script src="../dist/video.js"></script>
 
 </head>
 <body>
+  <p style="background-color:#eee; border: 1px solid #777; padding: 10px; font-size: .8em; line-height: 1.5em; font-family: Verdana, sans-serif;">This page shows you how to create, register and initialize a Video.js plugin.</p>
 
-  <video id="vid1" class="video-js vjs-big-play-centered" poster="poster.jpg">
-    <source src="https://archive.org/download/ElephantsDream/ed_hd.mp4" type="video/mp4">
-    <source src="https://archive.org/download/ElephantsDream/ed_hd.ogv" type="video/ogv">
+  <video id="vid1" class="video-js" controls preload="auto" width="640" height="264" poster="https://vjs.zencdn.net/v/oceans.png">
+    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    <source src="https://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+    <source src="https://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
     <p>Video Playback Not Supported</p>
   </video>
-
-  <div class="instructions">
-    <p>This page shows you how to create, register and initialize a Video.js plugin.</p>
-    <p>Open the console to view the buffered percentage.</p>
-  </div>
-
-  <script>
-    /*
-     * Unfinished AV Neue Playback Rate Plugin.
-     * Work in progress.
-     *
-     */
-    const PRMB = videojs.getComponent('PlaybackRateMenuButton');
-
-    class MyPRMB extends PRMB {
-
-      // Override the default handleClick with this one
-      handleClick() {
-        videojs.log('Playback Rate Menu Button Clicked');
-      }
-    }
-
-    videojs.registerComponent('MyPRMB', MyPRMB);
-
-    var player = videojs('vid1', {
-
-      // Player setup
-      'controls': true,
-      'controlBar': {
-        'MyPRMB':true, // Add Custom Component
-        'playbackRateMenuButton': false, // Remove default Component
-      },
-      'playbackRates': [0.5, 1, 1.5, 2], // Enable playback rates
-    },
-    function() {
-      // this.createModal('foo');
-      // Callback
-    });
-  </script>
-
-  <script>
-    /*
-     * Example plugin from guide.
-     */
-    const Plugin = videojs.getPlugin('plugin');
-
-    class ExamplePlugin extends Plugin {
-
-      constructor(player, options) {
-        super(player, options);
-
-        // Add customClass to the videojs classes
-        if (options.customClass) {
-          player.addClass(options.customClass);
-        }
-        videojs.log('Plugin loaded!');
-      }
-    }
-
-    videojs.registerPlugin('examplePlugin', ExamplePlugin);
-
-    var player = videojs('vid1');
-
-    // The class "example-class" will be added to the videojs container div
-    player.examplePlugin({customClass: 'example-class'});
-
-  </script>
 
   <script>
     (function() {
@@ -128,15 +33,12 @@
       };
 
       // register the plugin
-      videojs.registerPlugin('progressed', progressed);
+      videojs.plugin('progressed', progressed);
 
       // initialize it
       vid1 = videojs('vid1');
-
-      // Uncomment next line to enable plugin
-      // vid1.progressed();
+      vid1.progressed();
     })();
-
   </script>
 
 </body>
