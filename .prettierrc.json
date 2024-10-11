@@ -1,3 +1,11 @@
 {
-  "requirePragma": true
+  "singleQuote": false,
+  "overrides": [
+    {
+      "files": ["src/js/**"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
 }
