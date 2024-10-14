@@ -1,24 +1,23 @@
 .vjs-poster {
-
   display: inline-block;
+  vertical-align: middle;
+  // cursor: pointer // Disabled so cursor can change for buttons
+  margin: 0;
+  padding: 0;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   height: 100%;
-  // cursor: pointer // Disabled else buttons can't change cursor
-  margin: 0;
-  padding: 0;
-  vertical-align: middle;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: contain;
-
 }
 
-// Hide the poster after the video has started playing
-.vjs-has-started .vjs-poster {
+// Hide the poster after the video has started playing and when native controls are used
+.vjs-has-started .vjs-poster,
+.vjs-using-native-controls .vjs-poster {
   display: none;
 }
 
@@ -27,12 +26,15 @@
   display: inline-block;
 }
 
-// Don't hide the poster if we're playing audio
-.vjs-audio.vjs-has-started .vjs-poster {
+// Don't hide the poster if we're playing audio or when audio-poster-mode is true
+.vjs-audio.vjs-has-started .vjs-poster,
+.vjs-has-started.vjs-audio-poster-mode .vjs-poster,
+.vjs-pip-container.vjs-has-started .vjs-poster {
   display: block;
 }
 
-// Hide the poster when native controls are used otherwise it covers them
-.vjs-using-native-controls .vjs-poster {
-  display: none;
+.vjs-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
