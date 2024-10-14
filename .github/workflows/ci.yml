@@ -5,13 +5,13 @@ on: [push, pull_request]
 jobs:
   should-skip:
     continue-on-error: true
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
       should-skip-job: ${{steps.skip-check.outputs.should_skip}}
     steps:
       - id: skip-check
-        uses: fkirc/skip-duplicate-actions@v2.1.0
+        uses: fkirc/skip-duplicate-actions@v5.3.1
         with:
           github_token: ${{github.token}}
 
@@ -21,47 +21,36 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04]
+        os: [ubuntu-latest]
+        test-type: [unit, coverage]
     env:
       BROWSER_STACK_USERNAME: ${{secrets.BROWSER_STACK_USERNAME}}
       BROWSER_STACK_ACCESS_KEY: ${{secrets.BROWSER_STACK_ACCESS_KEY}}
+      CI_TEST_TYPE: ${{matrix.test-type}}
     runs-on: ${{matrix.os}}
     steps:
     - name: checkout code
-      uses: actions/checkout@v2
-
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.npm
-          **/node_modules
-        key: ${{runner.os}}-npm-${{hashFiles('**/package-lock.json')}}
-        restore-keys: |
-          ${{runner.os}}-npm-
-          ${{runner.os}}-
+      uses: actions/checkout@v4
 
     - name: read node version from .nvmrc
-      run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+      run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
       shell: bash
       id: nvm
 
     - name: update apt cache on linux w/o browserstack
       run: sudo apt-get update
-      if: ${{startsWith(matrix.os, 'ubuntu') && !env.BROWSER_STACK_USERNAME}}
 
     - name: install ffmpeg/pulseaudio for firefox on linux w/o browserstack
       run: sudo apt-get install ffmpeg pulseaudio
-      if: ${{startsWith(matrix.os, 'ubuntu') && !env.BROWSER_STACK_USERNAME}}
 
     - name: start pulseaudio for firefox on linux w/o browserstack
       run: pulseaudio -D
-      if: ${{startsWith(matrix.os, 'ubuntu') && !env.BROWSER_STACK_USERNAME}}
 
     - name: setup node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: '${{steps.nvm.outputs.NVMRC}}'
+        cache: npm
 
     # turn off the default setup-node problem watchers...
     - run: echo "::remove-matcher owner=eslint-compact::"
@@ -72,6 +61,12 @@ jobs:
       run: npm i --prefer-offline --no-audit
 
     - name: run npm test
-      uses: GabrielBB/xvfb-action@v1
+      run: npm run test
+
+    - name: coverage
+      uses: codecov/codecov-action@v4
       with:
-        run: npm run test
+        token: ${{secrets.CODECOV_TOKEN}}
+        files: './test/dist/coverage/coverage-final.json'
+        fail_ci_if_error: true
+      if: ${{startsWith(env.CI_TEST_TYPE, 'coverage')}}
