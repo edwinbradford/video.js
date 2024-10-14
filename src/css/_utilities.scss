@@ -1,5 +1,5 @@
 // AV Neue theme does not use gradients
-// @import "utilities/linear-gradient";
+@import "utilities/linear-gradient";
 
 @mixin background-color-with-alpha($color, $alpha) {
   background-color: $color;
