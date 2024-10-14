@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .vjs-loading-spinner {
   display: none;
   visibility: hidden;
@@ -7,7 +9,8 @@
   box-sizing: border-box;
   width: $loading-spinner-size;
   height: $loading-spinner-size;
-  margin: $loading-spinner-size/-2 0 0 $loading-spinner-size/-2;
+  margin: math.div($loading-spinner-size, -2) 0 0
+    math.div($loading-spinner-size, -2);
   // Need to fix centered page layouts
   text-align: left;
   opacity: 1;
@@ -43,8 +46,12 @@
 .vjs-seeking .vjs-loading-spinner:after,
 .vjs-waiting .vjs-loading-spinner:before,
 .vjs-waiting .vjs-loading-spinner:after {
-  -webkit-animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
-          animation: vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite, vjs-spinner-fade 1s linear infinite;
+  -webkit-animation:
+    vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite,
+    vjs-spinner-fade 1s linear infinite;
+  animation:
+    vjs-spinner-spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite,
+    vjs-spinner-fade 1s linear infinite;
 }
 
 .vjs-seeking .vjs-loading-spinner:before,
@@ -56,7 +63,7 @@
 .vjs-waiting .vjs-loading-spinner:after {
   border-top-color: #e5e5e5;
   -webkit-animation-delay: 0.5s;
-          animation-delay: 0.5s;
+  animation-delay: 0.5s;
 }
 
 @keyframes vjs-spinner-show {

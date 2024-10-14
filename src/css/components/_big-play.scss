@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Big play button shape and triangle
 .video-js .vjs-big-play-button {
   position: absolute;
@@ -6,8 +8,8 @@
   z-index: 0; // AV Neue play button behind when playing
   width: $big-play-button--width;
   height: $big-play-button--height;
-  margin-top: -($big-play-button--height / 2);
-  margin-left: -($big-play-button--width / 2);
+  margin-top: math.div($big-play-button--height, -2);
+  margin-left: math.div($big-play-button--width, -2);
   padding: 0;
   cursor: pointer;
   opacity: 1;
@@ -65,6 +67,7 @@
 }
 
 // Show big play button if video is paused and .vjs-show-big-play-button-on-pause is set on video element
-.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause .vjs-big-play-button {
+.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause
+  .vjs-big-play-button {
   display: block;
 }

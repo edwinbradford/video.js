@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .video-js .vjs-control-bar .vjs-play-control.vjs-control.vjs-button {
   cursor: pointer;
   position: absolute; // Remove from flex model for positioning
@@ -5,8 +7,8 @@
   top: 50%;
   width: $big-play-button--width;
   height: $big-play-button--height;
-  margin-top: $big-play-button--height * -1/2;
-  margin-left: $big-play-button--width * -1/2;
+  margin-top: math.div($big-play-button--height * -1, 2);
+  margin-left: math.div($big-play-button--width * -1, 2);
   border-radius: 50%;
   backdrop-filter: blur(16px);
 }

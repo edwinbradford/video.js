@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .video-js .vjs-mute-control {
   span.vjs-icon-placeholder {
     cursor: pointer;
@@ -39,7 +41,6 @@
       background-size: contain;
       @extend .icon-mute-highlight;
     }
-
   }
 }
 .video-js .vjs-mute-control.vjs-vol-1,
@@ -81,15 +82,13 @@
   @include transition($transition-property);
 }
 
-
 .video-js .vjs-volume-panel {
   &.vjs-hover .vjs-volume-control,
   &:active .vjs-volume-control,
-  &:focus  .vjs-volume-control,
+  &:focus .vjs-volume-control,
   & .vjs-volume-control:active,
-  &.vjs-hover .vjs-mute-control  ~ .vjs-volume-control,
+  &.vjs-hover .vjs-mute-control ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
-
     // AV Neue display volume slider
     @include display-flex;
     opacity: 1;
@@ -112,7 +111,7 @@
   &:hover,
   &:focus,
   &:active {
-    .vjs-volume-bar .vjs-volume-level:before  {
+    .vjs-volume-bar .vjs-volume-level:before {
       width: $slider-height * $slider-handle-height-increase;
       height: $slider-height * $slider-handle-height-increase;
     }
@@ -124,9 +123,13 @@
   &:hover,
   &:focus,
   &:active {
-    .vjs-volume-bar .vjs-volume-level:before  {
-      top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
-      right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+    .vjs-volume-bar .vjs-volume-level:before {
+      top: math.div(($slider-height * $slider-handle-height-increase), -2) +
+        math.div(($slider-height * $slider-height-increase), 2); // bar vertical center - handle radius
+      right: math.div(
+        ($slider-height * $slider-handle-height-increase),
+        -2
+      ); // handle radius
     }
   }
 }
@@ -136,9 +139,13 @@
   &:hover,
   &:focus,
   &:active {
-    .vjs-volume-bar .vjs-volume-level:before  {
-      left: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar horizontal center - handle radius
-      top: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+    .vjs-volume-bar .vjs-volume-level:before {
+      left: math.div(($slider-height * $slider-handle-height-increase), -2) +
+        math.div(($slider-height * $slider-height-increase), 2); // bar horizontal center - handle radius
+      top: math.div(
+        ($slider-height * $slider-handle-height-increase),
+        -2
+      ); // handle radius
     }
   }
 }
@@ -185,7 +192,12 @@
     background-color: inherit;
     @include border-radius(50%);
     // Transition handle size in and out
-    $transition-property: height $slider-handle-resize-time, width $slider-handle-resize-time, left $slider-handle-resize-time, right $slider-handle-resize-time, top $slider-handle-resize-time;
+    $transition-property:
+      height $slider-handle-resize-time,
+      width $slider-handle-resize-time,
+      left $slider-handle-resize-time,
+      right $slider-handle-resize-time,
+      top $slider-handle-resize-time;
     @include transition($transition-property);
   }
 }
@@ -194,18 +206,18 @@
   width: $slider-height;
   // Volume handle
   &:before {
-    left: ($slider-height * -2) + ($slider-height / 2);
-    top: ($slider-height * $slider-handle-height) / -2;
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    left: ($slider-height * -2) + math.div($slider-height, 2);
+    top: math.div(($slider-height * $slider-handle-height), -2);
+    @include box-shadow(0 0 4px rgba(0, 0, 0, 0.4));
   }
 }
 .vjs-slider-horizontal .vjs-volume-level {
   height: $slider-height;
   // Volume handle
   &:before {
-    top: ($slider-height * -2) + ($slider-height / 2);
-    right: ($slider-height * $slider-handle-height) / -2;
-    @include box-shadow(0 0 4px rgba(0,0,0,0.4));
+    top: ($slider-height * -2) + math.div($slider-height, 2);
+    right: math.div(($slider-height * $slider-handle-height), -2);
+    @include box-shadow(0 0 4px rgba(0, 0, 0, 0.4));
   }
 }
 
@@ -305,14 +317,20 @@
 }
 
 .video-js .vjs-volume-control:hover .vjs-volume-tooltip,
-.video-js .vjs-volume-control:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+.video-js
+  .vjs-volume-control:hover
+  .vjs-progress-holder:focus
+  .vjs-volume-tooltip {
   display: block;
   font-size: 1em;
   visibility: visible;
 }
 
 .video-js .vjs-volume-vertical:hover .vjs-volume-tooltip,
-.video-js .vjs-volume-vertical:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+.video-js
+  .vjs-volume-vertical:hover
+  .vjs-progress-holder:focus
+  .vjs-volume-tooltip {
   left: 1em;
   top: -12px;
 }
@@ -350,7 +368,9 @@
 .video-js.vjs-user-inactive .vjs-volume-control .vjs-mouse-display {
   visibility: hidden;
   opacity: 0;
-  $trans: visibility 1.0s, opacity 1.0s;
+  $trans:
+    visibility 1s,
+    opacity 1s;
   @include transition($trans);
 }
 

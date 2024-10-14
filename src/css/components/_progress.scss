@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // .vjs-progress-control / ProgressControl
 //
 // This is the container for all progress bar-related components/elements.
@@ -37,7 +39,10 @@
   padding: 0;
   cursor: pointer;
   outline: 0;
-  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+  @include background-color-with-alpha(
+    $primary-background-color,
+    $primary-background-transparency
+  );
 }
 
 // Height and position of drag handle
@@ -46,15 +51,19 @@
   background-color: $accent-color;
   &:before {
     position: absolute;
-    top: ($slider-height * -2) + ($slider-height / 2);
-    right: ($slider-height * $slider-handle-height) / -2;
+    top: ($slider-height * -2) + math.div($slider-height, 2);
+    right: math.div(($slider-height * $slider-handle-height), -2);
     width: $slider-height * $slider-handle-height;
     height: $slider-height * $slider-handle-height;
     content: "";
     background-color: inherit;
     @include border-radius(50%);
-    @include box-shadow(0 0 0.4em rgba(0,0,0,0.4));
-    $transition-property: height $slider-handle-resize-time, width $slider-handle-resize-time, right $slider-handle-resize-time, top $slider-handle-resize-time;
+    @include box-shadow(0 0 0.4em rgba(0, 0, 0, 0.4));
+    $transition-property:
+      height $slider-handle-resize-time,
+      width $slider-handle-resize-time,
+      right $slider-handle-resize-time,
+      top $slider-handle-resize-time;
     @include transition($transition-property);
   }
 }
@@ -78,8 +87,12 @@
     }
     // Handle hover
     .vjs-play-progress:before {
-      top: (($slider-height * $slider-handle-height-increase) / -2) + ($slider-height * $slider-height-increase / 2); // bar vertical center - handle radius
-      right: ($slider-height * $slider-handle-height-increase) / -2; // handle radius
+      top: math.div(($slider-height * $slider-handle-height-increase), -2) +
+        math.div(($slider-height * $slider-height-increase), 2); // bar vertical center - handle radius
+      right: math.div(
+        ($slider-height * $slider-handle-height-increase),
+        -2
+      ); // handle radius
       width: $slider-height * $slider-handle-height-increase;
       height: $slider-height * $slider-handle-height-increase;
     }
@@ -95,7 +108,10 @@
 // Buffer
 .video-js .vjs-load-progress {
   height: 100%;
-  @include background-color-with-alpha($accent-color, $primary-background-transparency);
+  @include background-color-with-alpha(
+    $accent-color,
+    $primary-background-transparency
+  );
 }
 
 // Current time tooltip
@@ -207,7 +223,10 @@
 }
 
 .video-js .vjs-progress-control:hover .vjs-time-tooltip,
-.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+.video-js
+  .vjs-progress-control:hover
+  .vjs-progress-holder:focus
+  .vjs-time-tooltip {
   display: none;
 
   // Ensure that we maintain a font-size of ~10px.
