@@ -1,37 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Video.js Sandbox</title>
+
+  <!-- Viewport style -->
+  <style>
+    html {
+      width: 100%;
+      height: 100%;
+      font-family: consolas;
+      font-size: 100%;
+      background-color: #1a1a1a;
+    }
+    body {
+      margin: 0;
+      height: 100%;
+    }
+    video {
+      margin: 0;
+    }
+  </style>
+
   <link href="../dist/video-js.css" rel="stylesheet" type="text/css">
   <script src="../dist/video.js"></script>
+
 </head>
 <body>
-  <div style="background-color:#eee; border: 1px solid #777; padding: 10px; margin-bottom: 20px; font-size: .8em; line-height: 1.5em; font-family: Verdana, sans-serif;">
-    <p>You can use /sandbox/ for writing and testing your own code. Nothing in /sandbox/ will get checked into the repo, except files that end in .example (so don't edit or add those files). To get started run `npm start` and open the index.html</p>
-    <pre>npm start</pre>
-    <pre>open http://localhost:9999/sandbox/index.html</pre>
-  </div>
-
   <video-js
-    id="vid1"
+    id="videojsElement"
     controls
     preload="auto"
     width="640"
     height="264"
-    poster="https://vjs.zencdn.net/v/oceans.png">
+    poster="https://vjs.zencdn.net/v/oceans.png"
+  >
     <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
     <source src="https://vjs.zencdn.net/v/oceans.webm" type="video/webm">
     <source src="https://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
-    <track kind="captions" src="../docs/examples/shared/example-captions.vtt" srclang="en" label="English">
+    <track
+      kind="captions"
+      src="../docs/examples/shared/example-captions.vtt"
+      srclang="en"
+      label="English"
+    >
     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
   </video-js>
-
   <script>
-    var vid = document.getElementById('vid1');
-    var player = videojs(vid);
-    player.log('window.player created', player);
-  </script>
 
+    /* Add a custom component to wrap control bar child flex items,
+     * cf. player control bar children below
+     */
+    const Component = videojs.getComponent('Component');
+    class neueWrap extends Component {
+      constructor(player, options) {
+        super(player, options);
+        this.addClass('vjs-neue-wrap'); // Add any classes you want
+      }
+    }
+    videojs.registerComponent('neueWrap', neueWrap);
+
+    /* Pad time with leading zeros,
+     * cf. player ready function below
+     */
+    function formatTimeWithLeadingZeros(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    var player = videojs('videojsElement', {
+      autoplay: false,
+      controls: true,
+      loop: false,
+      muted: false,
+      preload: 'auto',
+      responsive: true,
+      fluid: true,            // (1) or...
+      // fill: true,          // (2) or...
+      // aspectRatio: '16:9', // (3)
+      // audioOnlyMode: true,
+      spatialNavigation: {
+        enabled: true,
+        horizontalSeek: true
+      },
+      // Breakpoints require responsive: true
+      breakpoints: {
+        tiny: 300,
+        xsmall: 400,
+        small: 500,
+        medium: 600,
+        large: 700,
+        xlarge: 800,
+        huge: 900
+      },
+      html5: {
+        nativeTextTracks: false,
+        nativeControlsForTouch: false,
+        nativeAudioTracks: false,
+        nativeVideoTracks: false,
+      },
+      inactivityTimeout: 1000,
+      controlBar: {
+        // children in flex order
+        children: [
+          'playToggle',
+          {
+            name: 'volumePanel',
+            inline: true // Horizontal
+          },
+          'customControlSpacer',
+          'playbackRateMenuButton',
+          'chaptersButton',
+          'descriptionsButton',
+          'subtitlesButton',
+          'captionsButton',
+          'subsCapsButton',
+          'audioTrackButton',
+          'pictureInPictureToggle',
+          'fullscreenToggle',
+          'neueWrap', // Custom flexwrap component
+          'currentTimeDisplay',
+          'timeDivider',
+          'durationDisplay',
+          'progressControl',
+          'liveDisplay',
+          'seekToLive',
+          {
+            name: 'remainingTimeDisplay',
+            displayNegative: false 
+          },
+        ],
+      },
+    });
+    /* Show big play button when paused and time controls,
+     * cf. https://github.com/videojs/video.js/pull/8833
+     */
+    player.addClass(
+      'vjs-normalise-time-controls',
+      'vjs-show-big-play-button-on-pause'
+    );
+    player.ready(function() {
+      // Start spatial navigation e.g. pointer devices
+      player.spatialNavigation.start();
+
+      // Pad time with leading zeros
+      const currentTimeDisplay = player.controlBar.currentTimeDisplay;
+      const remainingTimeDisplay = player.controlBar.remainingTimeDisplay;
+
+      currentTimeDisplay.el().innerText = formatTimeWithLeadingZeros(0);
+      remainingTimeDisplay.el().innerText = formatTimeWithLeadingZeros(player.duration());
+
+      currentTimeDisplay.updateContent = function() {
+        const currentTime = player.currentTime();
+        this.el().innerText = formatTimeWithLeadingZeros(currentTime);
+      };
+
+      remainingTimeDisplay.updateContent = function() {
+        const remainingTime = player.remainingTime();
+        this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
+      };
+    });
+    // player.createModal('foo');
+    console.log(player.language());
+  </script>
 </body>
 </html>

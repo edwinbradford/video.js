@@ -1,9 +1,10 @@
 @use "sass:math";
 
 .video-js .vjs-mute-control {
-  span.vjs-icon-placeholder {
-    cursor: pointer;
-    @include flex(none);
+  cursor: pointer;
+  @include flex(none);
+
+  .vjs-icon-placeholder {
     display: block;
     position: relative; // Required for positioning of pseudo content
     width: 100%;
@@ -32,30 +33,23 @@
   }
 }
 
-.video-js .vjs-mute-control.vjs-vol-0,
-.video-js .vjs-volume-menu-button.vjs-vol-0 {
-  span.vjs-icon-placeholder {
+.video-js .vjs-mute-control.vjs-vol-0 .vjs-icon-placeholder {
+  background-size: contain;
+  @extend .icon-mute;
+  &:before {
     background-size: contain;
-    @extend .icon-mute;
-    &:before {
-      background-size: contain;
-      @extend .icon-mute-highlight;
-    }
+    @extend .icon-mute-highlight;
   }
 }
-.video-js .vjs-mute-control.vjs-vol-1,
-.video-js .vjs-volume-menu-button.vjs-vol-1 {
-  span.vjs-icon-placeholder {
-    background-size: contain;
-    @extend .icon-volume;
-  }
+
+.video-js .vjs-mute-control.vjs-vol-1 .vjs-icon-placeholder {
+  background-size: contain;
+  @extend .icon-volume;
 }
-.video-js .vjs-mute-control.vjs-vol-2,
-.video-js .vjs-volume-menu-button.vjs-vol-2 {
-  span.vjs-icon-placeholder {
-    background-size: contain;
-    @extend .icon-volume;
-  }
+
+.video-js .vjs-mute-control.vjs-vol-2 .vjs-icon-placeholder {
+  background-size: contain;
+  @extend .icon-volume;
 }
 
 .video-js .vjs-volume-control {
@@ -63,47 +57,54 @@
   @include display-flex;
 }
 
+.video-js .vjs-volume-control.vjs-volume-horizontal {
+  width: 0;
+  $transition-property: width 0ms $icon-fade-out-time;
+  @include transition($transition-property);
+}
+
 .video-js .vjs-volume-panel .vjs-volume-control {
-  // display: none; // AV Neue 'display: none' is not animatable
+  visibility: visible;
   opacity: 0;
   $transition-property: opacity $icon-fade-out-time;
-  @include transition($transition-property);
-}
-
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  width: 0; // AV Neue use instead of display: none
-  $transition-property: width 0ms $icon-fade-out-time; // AV Neue wait for fade out to end
-  @include transition($transition-property);
-}
-
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  height: 0; // AV Neue use instead of display: none
-  $transition-property: width 0ms $icon-fade-out-time; // AV Neue wait for fade out to end
   @include transition($transition-property);
 }
 
 .video-js .vjs-volume-panel {
   &.vjs-hover .vjs-volume-control,
   &:active .vjs-volume-control,
-  &:focus .vjs-volume-control,
+  &:focus  .vjs-volume-control,
   & .vjs-volume-control:active,
-  &.vjs-hover .vjs-mute-control ~ .vjs-volume-control,
+  &.vjs-hover .vjs-mute-control  ~ .vjs-volume-control,
   & .vjs-volume-control.vjs-slider-active {
-    // AV Neue display volume slider
-    @include display-flex;
+    visibility: visible;
+    @include display-flex; // AV Neue display volume slider
     opacity: 1;
     position: relative;
     $transition-property: opacity $icon-fade-in-time;
     @include transition($transition-property);
 
-    &.vjs-volume-control.vjs-volume-horizontal {
+    &.vjs-volume-horizontal {
       width: $volume-menu-width;
     }
 
-    &.vjs-volume-control.vjs-volume-vertical {
+    &.vjs-volume-vertical {
       height: $volume-menu-height;
     }
   }
+
+  // &.vjs-volume-panel-horizontal {
+  //   &.vjs-hover,
+  //   &:active,
+  //   &.vjs-slider-active {
+  //     width: 10em;
+
+  //     @include transition(width 0.1s);
+  //   }
+  //   &.vjs-mute-toggle-only {
+  //     width: 4em;
+  //   }
+  // }
 }
 
 // AV Neue increase volume slider handle size on hover
@@ -114,6 +115,25 @@
     .vjs-volume-bar .vjs-volume-level:before {
       width: $slider-height * $slider-handle-height-increase;
       height: $slider-height * $slider-handle-height-increase;
+    }
+  }
+}
+
+// Position Volume Slider Handle for vertical menus
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
+  height: 0;
+  $transition-property: width 0ms $icon-fade-out-time;
+  @include transition($transition-property);
+  &:hover,
+  &:focus,
+  &:active {
+    .vjs-volume-bar .vjs-volume-level:before {
+      left: math.div(($slider-height * $slider-handle-height-increase), -2) +
+        math.div(($slider-height * $slider-height-increase), 2); // bar horizontal center - handle radius
+      top: math.div(
+        ($slider-height * $slider-handle-height-increase),
+        -2
+      ); // handle radius
     }
   }
 }
@@ -134,34 +154,15 @@
   }
 }
 
-// Position Volume Slider Handle for vertical menus
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-vertical {
-  &:hover,
-  &:focus,
-  &:active {
-    .vjs-volume-bar .vjs-volume-level:before {
-      left: math.div(($slider-height * $slider-handle-height-increase), -2) +
-        math.div(($slider-height * $slider-height-increase), 2); // bar horizontal center - handle radius
-      top: math.div(
-        ($slider-height * $slider-handle-height-increase),
-        -2
-      ); // handle radius
-    }
-  }
-}
-
 .video-js .vjs-volume-panel {
   @include display-flex;
-
-  /* AV Neue force volume controls to be the first item regardless of order in JavaScript instance parameters */
-
-  order: -1;
+  order: -1; // Override volume ordering in components
   margin-right: auto;
 }
 
-.video-js .vjs-volume-bar {
-  // Not used for AV Neue theme
-}
+// .video-js .vjs-volume-bar {
+//   margin: 1.35em 0.45em;
+// }
 
 .vjs-volume-bar.vjs-slider-horizontal {
   width: $volume-menu-width;
@@ -204,6 +205,7 @@
 
 .vjs-slider-vertical .vjs-volume-level {
   width: $slider-height;
+
   // Volume handle
   &:before {
     left: ($slider-height * -2) + math.div($slider-height, 2);
@@ -211,8 +213,25 @@
     @include box-shadow(0 0 4px rgba(0, 0, 0, 0.4));
   }
 }
+
+// Remove content from volume-level when using SVGs.
+.vjs-svg-icons-enabled .vjs-volume-level {
+  &:before {
+    content: none;
+  }
+}
+
+.vjs-volume-level .vjs-svg-icon {
+  position: absolute;
+  width: 0.9em;
+  height: 0.9em;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .vjs-slider-horizontal .vjs-volume-level {
   height: $slider-height;
+
   // Volume handle
   &:before {
     top: ($slider-height * -2) + math.div($slider-height, 2);
@@ -221,13 +240,24 @@
   }
 }
 
-.video-js .vjs-control-bar .vjs-volume-panel.vjs-volume-panel-horizontal {
+// here
+// Update placement of circle icon when using SVG icons
+.vjs-slider-horizontal .vjs-volume-level .vjs-svg-icon {
+  right: -0.3em;
+  transform: translateY(-50%);
+}
+.vjs-slider-vertical .vjs-volume-level .vjs-svg-icon {
+  top: -0.55em;
+  transform: translateX(-50%);
+}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal {
   flex-direction: row;
   justify-content: center;
   height: $control-button-height;
 }
 
-.video-js .vjs-control-bar .vjs-volume-panel.vjs-volume-panel-vertical {
+.video-js .vjs-volume-panel.vjs-volume-panel-vertical {
   flex-direction: column;
   justify-content: center;
   width: $control-button-width;
@@ -242,143 +272,86 @@
   width: 100%;
 }
 
-// The volume menu button is like menu buttons (captions/subtitles) but works
-// a little differently. It needs to be possible to tab to the volume slider
-// without hitting space bar on the menu button. To do this we're not using
-// display:none to hide the slider menu by default, and instead setting the
-// width and height to zero.
-.vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu {
-  display: block;
-  width: 0;
-  height: 0;
-  border-top-color: transparent;
-}
+// .video-js .vjs-volume-vertical {
+//   width: 3em;
+//   height: 8em;
+//   bottom: 8em;
 
-.vjs-menu-button-popup.vjs-volume-menu-button-vertical .vjs-menu {
-  top: $control-button-height;
-  left: 0;
-}
-.vjs-menu-button-popup.vjs-volume-menu-button-horizontal .vjs-menu {
-  left: -2rem;
-}
+//   @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+// }
 
-.vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu-content {
-  // Avoids unnecessary scrollbars in the menu content. Primarily noticed in Chrome on Linux.
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 0;
-  height: 0;
-}
+// .video-js .vjs-volume-horizontal .vjs-menu {
+//   left: -2em;
+// }
 
-.vjs-volume-menu-button-vertical:hover .vjs-menu-content,
-.vjs-volume-menu-button-vertical:focus .vjs-menu-content,
-.vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content,
-.vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content {
-  @include display-flex(flex-end, center);
-  width: $control-button-width;
-  height: auto;
-  background-color: transparent !important;
-}
+// // .vjs-volume-tooltip
+// //
+// // These elements are displayed above the volume bar.
+// //
+// // By default, they are hidden and only shown when hovering over the volume
+// // control.
+// .video-js .vjs-volume-tooltip {
+//   @include background-color-with-alpha(#fff, 0.8);
+//   @include border-radius(0.3em);
+//   color: #000;
+//   float: right;
+//   font-family: $text-font-family;
+//   font-size: 1em;
+//   padding: 6px 8px 8px 8px;
+//   pointer-events: none;
+//   position: absolute;
+//   top: -3.4em;
+//   visibility: hidden;
+//   z-index: 1;
+// }
 
-.vjs-volume-menu-button-horizontal:hover .vjs-menu-content,
-.vjs-volume-menu-button-horizontal:focus .vjs-menu-content,
-.vjs-volume-menu-button-horizontal .vjs-slider-active .vjs-menu-content,
-.vjs-volume-menu-button-horizontal .vjs-lock-showing .vjs-menu-content {
-  width: auto;
-  height: $control-button-height;
-}
+// .video-js .vjs-volume-control:hover .vjs-volume-tooltip,
+// .video-js .vjs-volume-control:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+//   display: block;
+//   font-size: 1em;
+//   visibility: visible;
+// }
 
-.vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu-content {
-  background-color: transparent !important;
-  // An inline volume should never have a menu background color.
-  //  This protects it from external changes to background colors.
-  @include display-flex(center, flex-start);
-}
+// .video-js .vjs-volume-vertical:hover .vjs-volume-tooltip,
+// .video-js .vjs-volume-vertical:hover .vjs-progress-holder:focus .vjs-volume-tooltip {
+//   left: 1em;
+//   top: -12px;
+// }
 
-// .vjs-volume-tooltip
-//
-// These elements are displayed above the volume bar.
-//
-// By default, they are hidden and only shown when hovering over the volume
-// control.
-.video-js .vjs-volume-tooltip {
-  @include background-color-with-alpha(#fff, 0.8);
-  @include border-radius(0.3em);
-  color: #000;
-  float: right;
-  font-family: $text-font-family;
-  font-size: 1em;
-  padding: 6px 8px 8px 8px;
-  pointer-events: none;
-  position: absolute;
-  top: -3.4em;
-  visibility: hidden;
-  z-index: 1;
-}
+// .video-js .vjs-volume-control.disabled:hover .vjs-volume-tooltip {
+//   font-size: 1em;
+// }
 
-.video-js .vjs-volume-control:hover .vjs-volume-tooltip,
-.video-js
-  .vjs-volume-control:hover
-  .vjs-progress-holder:focus
-  .vjs-volume-tooltip {
-  display: block;
-  font-size: 1em;
-  visibility: visible;
-}
+// // .vjs-mouse-display / MouseVolumeLevelDisplay
+// //
+// // This element tracks the mouse position along the volume control and
+// // includes a tooltip, which displays the volume level.
+// .video-js .vjs-volume-control .vjs-mouse-display {
+//   display: none;
+//   position: absolute;
+//   width: 100%;
+//   height: 1px;
+//   background-color: #000;
+//   z-index: 1;
+// }
 
-.video-js .vjs-volume-vertical:hover .vjs-volume-tooltip,
-.video-js
-  .vjs-volume-vertical:hover
-  .vjs-progress-holder:focus
-  .vjs-volume-tooltip {
-  left: 1em;
-  top: -12px;
-}
+// .video-js .vjs-volume-horizontal .vjs-mouse-display {
+//   width: 1px;
+//   height: 100%;
+// }
 
-.video-js .vjs-volume-control.disabled:hover .vjs-volume-tooltip {
-  font-size: 1em;
-}
+// .video-js .vjs-volume-control:hover .vjs-mouse-display {
+//   display: block;
+// }
 
-// .vjs-mouse-display / MouseVolumeLevelDisplay
-//
-// This element tracks the mouse position along the volume control and
-// includes a tooltip, which displays the volume level.
-.video-js .vjs-volume-control .vjs-mouse-display {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background-color: #000;
-  z-index: 1;
-}
+// .video-js.vjs-user-inactive .vjs-volume-control .vjs-mouse-display {
+//   visibility: hidden;
+//   opacity: 0;
+//   $trans: visibility 1.0s, opacity 1.0s;
+//   @include transition($trans);
+// }
 
-.video-js .vjs-volume-horizontal .vjs-mouse-display {
-  width: 1px;
-  height: 100%;
-}
-
-.vjs-no-flex .vjs-volume-control .vjs-mouse-display {
-  z-index: 0;
-}
-
-.video-js .vjs-volume-control:hover .vjs-mouse-display {
-  display: block;
-}
-
-.video-js.vjs-user-inactive .vjs-volume-control .vjs-mouse-display {
-  visibility: hidden;
-  opacity: 0;
-  $trans:
-    visibility 1s,
-    opacity 1s;
-  @include transition($trans);
-}
-
-.video-js.vjs-user-inactive.vjs-no-flex .vjs-volume-control .vjs-mouse-display {
-  display: none;
-}
-
-.vjs-mouse-display .vjs-volume-tooltip {
-  color: #fff;
-  @include background-color-with-alpha(#000, 0.8);
-}
+// .vjs-mouse-display .vjs-volume-tooltip {
+//   color: #fff;
+//   @include background-color-with-alpha(#000, 0.8);
+// }

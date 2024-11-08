@@ -1,45 +1,32 @@
+@use "sass:math";
+
 .video-js .vjs-time-control {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  width: $text-time-width;
-  height: 1em;
+  @include flex(none);
   font-size: $text-time-size;
   line-height: 1em;
+  width: auto;
+  height: 1em;
+  display: flex;
+  align-items: center;
   text-shadow: $text-time-shadow;
 }
 
-.vjs-live .vjs-time-control {
+.vjs-live .vjs-time-control,
+.vjs-live .vjs-time-divider,
+.video-js .vjs-current-time,
+.video-js .vjs-duration,
+.video-js .vjs-time-divider {
   display: none;
 }
 
-.video-js .vjs-current-time {
-  justify-content: flex-start;
-  left: 0;
-}
-
-.video-js .vjs-duration {
-  justify-content: flex-end;
-  right: 0;
-}
-
-// Not used for Neue theme but hidden and centered
-.video-js .vjs-remaining-time {
-  display: none;
-  margin: 0 auto;
-  background-color: #ff0; // Color for debug purposes
-}
-
-// Hidden - not used for Neue theme
 .vjs-time-divider {
-  visibility: hidden; // Can't use display none on a flex item
-  // debug colour
-  // background-color: #00ff00;
+  // Remove control bar children gap 
+  margin-inline: math.div($control-button-spacing, -2);
 }
 
-.vjs-live .vjs-time-divider {
-  // Already the default, but we want to ensure when the player is live
-  // this hides in the same way as the other time controls for other skins
-  display: none;
+/* Show time controls before playback,
+ * cf. https://github.com/videojs/video.js/pull/8833
+ */
+.vjs-normalise-time-controls:not(.vjs-live) .vjs-time-control {
+  display: flex;
 }

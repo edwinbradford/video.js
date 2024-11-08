@@ -14,11 +14,10 @@
   }
 }
 
-// Layout divs
-.vjs-text-track-settings .vjs-modal-dialog-content {
-  // Disabled. Layout is vertical for AV Neue theme
-  // display: table;
-}
+// // Layout divs
+// .vjs-text-track-settings .vjs-modal-dialog-content {
+//   display: table;
+// }
 
 .vjs-text-track-settings .vjs-track-settings-colors {
   margin-bottom: 1.6em;
@@ -28,44 +27,47 @@
   margin-bottom: 2.4em;
 }
 
-.vjs-text-track-settings .vjs-track-settings-controls {
-  //
-}
+// .vjs-text-track-settings .vjs-track-settings-controls {
+//   text-align: right;
+//   vertical-align: bottom;
+// }
 
-/*
-// code that will only run if CSS Grid is supported by the browser
-@supports (display: grid) {
-  .vjs-text-track-settings .vjs-modal-dialog-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
-    // so we add bottom padding/margin to the last item in the grid instead of here
-    // see https://stackoverflow.com/a/23754080
-    padding: 20px 24px 0px 24px;
-  }
+// // code that will only run if CSS Grid is supported by the browser
+// @supports (display: grid) {
+//   .vjs-text-track-settings .vjs-modal-dialog-content {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     grid-template-rows: 1fr;
+//     // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
+//     // so we add bottom padding/margin to the last item in the grid instead of here
+//     // see https://stackoverflow.com/a/23754080
+//     padding: 20px 24px 0px 24px;
+//   }
 
-  // see the comment for padding above
-  .vjs-track-settings-controls .vjs-default-button {
-    margin-bottom: 20px;
-  }
+//   // see the comment for padding above
+//   .vjs-track-settings-controls .vjs-default-button {
+//     margin-bottom: 20px;
+//   }
 
-  .vjs-text-track-settings .vjs-track-settings-controls {
-    // make this take up both columns
-    grid-column: 1 / -1;
-  }
+//   .vjs-text-track-settings .vjs-track-settings-controls {
+//     // make this take up both columns
+//     grid-column: 1 / -1;
+//   }
 
-  // 1 column for small players
-  .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content ,
-  .vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
-  .vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
-    grid-template-columns: 1fr;
-  }
+//   // 1 column for small players
+//   .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content ,
+//   .vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
+//   .vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
+//     grid-template-columns: 1fr;
+//   }
 
-}
-*/
+// }
 
 // Form elements
+// .vjs-text-track-settings select {
+//   font-size: inherit;
+// }
+
 .vjs-track-setting > select {
   margin-right: 1em;
   margin-bottom: 0.5em;
@@ -84,9 +86,11 @@
     font-family: inherit;
     font-size: 1em;
   }
-  span {
-    display: inline-block;
-  }
+}
+
+.vjs-text-track-settings fieldset span {
+  display: inline-block;
+  // padding: 0 .6em .8em;
 }
 
 // style the second select for text colors

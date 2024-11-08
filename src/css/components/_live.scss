@@ -1,15 +1,20 @@
 // css for the old live ui, assumes that the progress bar is hidden
-// .video-js .vjs-live-control {
-//   @include display-flex(flex-start);
-//   @include flex(auto);
-//   font-size: 1em;
-//   line-height: 3em;
-// }
-
-.vjs-no-flex .vjs-live-control {
-  display: table-cell;
-  width: auto;
-  text-align: left;
+// Neue theme replaces text with a middot
+.video-js .vjs-live-control {
+  @include display-flex(flex-start, center);
+  @include flex(auto);
+  @include border-radius(50%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1.2em;
+  width: 1.2em;
+  background-color: $accent-color;
+  
+  // Hide "Live" string for Neue
+  .vjs-live-display {
+    display: none;
+  }
 }
 
 // hide the LiveDisplay when not live or when
@@ -34,12 +39,6 @@
   min-width: 4em;
 }
 
-.vjs-no-flex .vjs-seek-to-live-control {
-  display: table-cell;
-  width: auto;
-  text-align: left;
-}
-
 // hide the SeekToLive button when not live and
 // when the liveui is not in use
 .video-js.vjs-live:not(.vjs-liveui) .vjs-seek-to-live-control,
@@ -58,42 +57,22 @@
   color: #888;
 }
 
+.vjs-svg-icons-enabled .vjs-seek-to-live-control {
+  line-height: 0;
+}
+
+.vjs-seek-to-live-control .vjs-svg-icon {
+  width: 1em;
+  height: 1em;
+  pointer-events: none;
+  fill: #888888;
+}
+
 // make the live circle red when at the live edge
 .vjs-seek-to-live-control.vjs-control.vjs-at-live-edge .vjs-icon-placeholder {
-  color: red;
+  color: $accent-color;
 }
 
-// AV Neue theme replaces text with a middot
-.video-js .vjs-live-control {
-  @include display-flex(flex-start, center);
-  @include flex(auto);
-  @include border-radius(50%);
-  position: absolute;
-  bottom: 0; // No current time text field for live
-  left: 0;
-  height: 1.4em;
-  width: 1.4em;
-  background-color: $accent-color;
+.vjs-seek-to-live-control.vjs-control.vjs-at-live-edge .vjs-svg-icon {
+  fill: $accent-color;
 }
-
-// AV Neue theme does not show text
-.vjs-live-display {
-  display: none;
-}
-
-/*
-.vjs-no-flex .vjs-live-control {
-  display: table-cell;
-  width: auto;
-  text-align: left;
-}
-
-// AV Neue theme does  not use live display
-.video-js .vjs-seek-to-live-control {
-  display: none;
-  position: absolute;
-  bottom: 0; // No current time text field for live
-  left: 0;
-}
-
-*/

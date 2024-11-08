@@ -5,12 +5,15 @@
   padding: 0;
   margin: 0 0.45em 0 0.45em;
 
-  // Not used in AV Neue theme
   // @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
 }
 
-.video-js .vjs-slider:focus {
-  text-shadow: 0em 0em 1em rgba($primary-foreground-color, 1);
+// .video-js .vjs-slider:focus {
+//   text-shadow: 0em 0em 1em rgba($primary-foreground-color, 1);
+//   @include box-shadow(0 0 1em $primary-foreground-color);
+// }
 
-  @include box-shadow(0 0 1em $primary-foreground-color);
+// Replacement for focus in case spatial navigation is enabled
+.video-js.vjs-spatial-navigation-enabled .vjs-slider:focus {
+  @extend %neue-spatial;
 }

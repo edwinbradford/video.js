@@ -1,22 +1,29 @@
-// Global
-$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
-$text-em-size: 10px;
-
-// Colors
-$accent-color: #e50000;
+// Text, icons, hover states
 $primary-foreground-color: #e6e6e6 !default;
+
+// Control backgrounds (control bar, big play, menus)
 $primary-background-color: #1a1a1a !default;
+$primary-background-transparency: 0.4 !default; // Used for progress holder
+
+// Hover states, slider backgrounds
+$secondary-background-color: lighten($primary-background-color, 33%) !default;
+$secondary-background-transparency: 0.5 !default;
+
+$accent-color: #e50000;
+
 $menu-text-color: #999;
 $menu-text-color-highlight: #ccc;
 $menu-background-color-highlight: #666 !default;
 $menu-background-color: #333 !default; // menus
 
-// Transparency
-$primary-background-transparency: 0.4 !default; // Used for progress holder
-$secondary-background-transparency: 0.4 !default; // Not used for AV Neue theme
+// Text
+$text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
+$text-em-size: 10px;
 
-// Filters
-$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
+// Big play button
+// Using the '--' naming for component-specific styles
+$big-play-button--width: 6.4em !default;
+$big-play-button--height: 6.4em !default;
 
 // Progress and sliders
 $slider-height: 0.2em; // Slider height
@@ -26,16 +33,9 @@ $slider-handle-height-increase: 8; // Handle height is this factor bigger than $
 $slider-hover-height: 8; // Height of progress bar hover area
 $progress-bar-margin: 5.4em; // Side margins for progress bar
 
-// Big play button
-// Using the '--' naming for component-specific styles
-$big-play-button--width: 6.4em !default;
-$big-play-button--height: 6.4em !default;
-
-
 // Loading vjs-spinner-fade
 $loading-spinner-size: $big-play-button--width;
 $loading-spinner-stroke: 4px;
-
 
 // Controls
 $controls-margin: 2.4em;
@@ -59,9 +59,12 @@ $modal-text-line-height: 1.5;
 // Menus
 $menu-popup-width: 16em;
 
+// Filters
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
+
 // Animations
 $icon-highlight-time: 0ms;
 $icon-unhighlight-time: 0ms;
 $icon-fade-in-time: 0ms;
 $icon-fade-out-time: 1000ms;
-$slider-handle-resize-time: 500ms;
+$slider-handle-resize-time: 250ms;

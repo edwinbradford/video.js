@@ -1,15 +1,11 @@
-@use "sass:math";
-
 // Big play button shape and triangle
 .video-js .vjs-big-play-button {
+  display: block;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 0; // AV Neue play button behind when playing
+  inset: 0;
   width: $big-play-button--width;
   height: $big-play-button--height;
-  margin-top: math.div($big-play-button--height, -2);
-  margin-left: math.div($big-play-button--width, -2);
+  margin: auto; // Center vertically and horizontally
   padding: 0;
   cursor: pointer;
   opacity: 1;
@@ -31,9 +27,14 @@
   }
 }
 
-// Allow people that hate their poster image to center the big play button.
-.vjs-big-play-centered .vjs-big-play-button {
-  // AV Neue theme play button is already centered by default
+.vjs-big-play-button .vjs-svg-icon {
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  line-height: 1;
+  transform: translate(-50%, -50%);
 }
 
 // Play button hover changes
@@ -46,24 +47,12 @@
   }
 }
 
-// Hide if controls are disabled or native controls are used.
+// Hide if controls are disabled, the video is playing, or native controls are used.
 .vjs-controls-disabled .vjs-big-play-button,
+.vjs-has-started .vjs-big-play-button,
 .vjs-using-native-controls .vjs-big-play-button,
 .vjs-error .vjs-big-play-button {
   display: none;
-}
-
-// Hide if the video is playing
-.vjs-has-started .vjs-big-play-button {
-  pointer-events: none;
-  opacity: 0;
-}
-
-// Show if the video is paused
-.video-js.vjs-paused .vjs-big-play-button {
-  z-index: 10; // AV Neue play button in front when paused
-  pointer-events: all;
-  opacity: 1;
 }
 
 // Show big play button if video is paused and .vjs-show-big-play-button-on-pause is set on video element

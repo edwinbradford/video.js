@@ -1,32 +1,48 @@
-// Container for all the buttons except the big play button
-// Covers the video
 .video-js .vjs-control-bar {
+  display: none;
+  flex-direction: row;
+  align-content: space-between;
+  flex-wrap: wrap;
+  gap: $control-button-spacing;
   position: absolute;
-  top: $controls-margin;
-  right: $controls-margin;
-  bottom: $controls-margin;
-  left: $controls-margin;
-  width: auto;
-  // background-color: rgba(255,255,0,0.5); // yellow debug background
-  pointer-events: none; // Stop overlay from preventing buttons below from working
-  @include display-flex( flex-start, flex-end);
-
-  // will target parent vjs-button divs but not child vjs-button buttons
-  .vjs-control.vjs-button {
-    width: $control-button-width; // don't allow buttons to scale down on tiny screens
-    min-width: $control-button-width; // don't allow buttons to scale down on tiny screens
-    height: $control-button-height;
-    margin-left: $control-button-spacing;
-    &:first-child {
-      margin-left: 0;
-    }
-  }
+  inset: $controls-margin;
+  pointer-events: none; // Don't block nested buttons
 }
 
-// Video has started playing
-.vjs-has-started .vjs-control-bar {
+/* Flex wrap control bar children at the custom neueWrap component 
+ */
+.video-js .vjs-neue-wrap {
+  width: 100%;
+  height: 0;
+}
+
+/* Show controls before .vjs-has-started
+ * cf. https://github.com/videojs/video.js/issues/5143
+ */
+.video-js:not(.vjs-has-started) .vjs-control-bar {
+  display: flex;
+}
+
+.video-js.vjs-spatial-navigation-enabled .vjs-control-bar {
+  gap: $control-button-spacing;
+}
+
+// Locks the display only if:
+//  - controls are not disabled
+//  - native controls are not used
+//  - there is no error
+.video-js:not(.vjs-controls-disabled, .vjs-using-native-controls, .vjs-error) .vjs-control-bar.vjs-lock-showing {
+  display: flex !important;
+}
+
+// Video has started playing or we are in audioOnlyMode
+.vjs-has-started .vjs-control-bar,
+.vjs-audio-only-mode .vjs-control-bar {
+  @include display-flex;
+  visibility: visible;
   opacity: 1;
-  $trans: opacity 500ms;
+
+  $trans: visibility 500ms, opacity 500ms; // Var needed because of comma
   @include transition($trans);
 }
 
@@ -35,7 +51,11 @@
   // Remain visible for screen reader and keyboard users
   visibility: visible;
   opacity: 0;
-  $trans: opacity 500ms;
+  // prevent a click/tap from interacting with vjs-lock-showing menu's
+  // or other controls while we are inactive/hidden
+  pointer-events: none;
+
+  $trans: visibility 500ms, opacity 500ms;
   @include transition($trans);
 
 }
@@ -47,7 +67,10 @@
   display: none !important;
 }
 
-// Don't hide the control bar if it's audio
-.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+// Don't hide the control bar if it's audio or in audioOnlyMode
+.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar,
+.vjs-audio-only-mode.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }

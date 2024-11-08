@@ -1,4 +1,3 @@
-// AV Neue theme does not use gradients
 @import "utilities/linear-gradient";
 
 @mixin background-color-with-alpha($color, $alpha) {
@@ -32,14 +31,14 @@
   animation: $string;
 }
 
-@mixin display-flex($alignment: "", $justification: "") {
+@mixin display-flex($alignment: '', $justification: '') {
   display: flex;
 
-  @if $alignment != "" {
+  @if $alignment != '' {
     align-items: $alignment;
   }
 
-  @if $justification != "" {
+  @if $justification != '' {
     justify-content: $justification;
   }
 }
@@ -60,7 +59,7 @@
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
-@mixin box-shadow($string: 0 0 1em rgba(0, 0, 0, 0.25)) {
+@mixin box-shadow ($string: 0 0 1em rgba(0, 0, 0, 0.25)) {
   box-shadow: $string;
 }
 
@@ -81,7 +80,13 @@
   text-align: center;
 }
 
-// AV Neue theme uses filters for SVG drop shadows
+// Neue spatial highlight style
+%neue-spatial {
+  filter: drop-shadow(0 0 8px white);
+  outline: none;
+}
+
+// Neue SVG drop shadows
 @mixin filter($filter) {
   filter: $filter;
 }

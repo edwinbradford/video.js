@@ -1,24 +1,39 @@
 .video-js button {
+  background: none;
+  border: none;
+  color: inherit;
   display: inline-block;
+
   margin: 0;
   padding: 0;
   overflow: visible; // IE8
   font-family: inherit;
   font-size: inherit; // IE in general. WTF.
   line-height: inherit;
-  text-decoration: none;
   text-transform: none;
-  color: inherit;
-  border: none;
-  background: none;
+  text-decoration: none;
   transition: none;
 
+  // Chrome < 83
   -webkit-appearance: none;
-     -moz-appearance: none;
           appearance: none;
 }
 
-.vjs-control .vjs-button {
+// Replacement for focus in case spatial navigation is enabled
+.video-js.vjs-spatial-navigation-enabled .vjs-button:focus {
+  @extend %neue-spatial;
+}
+
+// Control bar grandchild buttons
+.vjs-control.vjs-button .vjs-button {
   width: 100%;
   height: 100%;
+}
+
+// Control bar child buttons
+.vjs-control.vjs-button {
+  // Don't scale buttons down on tiny screens
+  width: $control-button-width; 
+  min-width: $control-button-width;
+  height: $control-button-height;
 }
