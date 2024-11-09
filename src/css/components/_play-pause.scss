@@ -26,7 +26,8 @@
 }
 
 // Show play control when playback starts
-.video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder {
+.video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder,
+.video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder {
   display: block;
   position: relative; // Required for positioning of pseudo content
   width: 100%;
