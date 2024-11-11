@@ -9,31 +9,14 @@
   backdrop-filter: blur(16px);
 }
 
-// Collapse control bar to child height for Github ci tests
-.video-js.vjs-audio-only-mode .vjs-play-control {
-  position: relative;
-  margin: 0;
-  width: $control-button-height; // This button is square (?)
-  min-width: unset;
-  height: $control-button-height;
-  border-radius: 0;
-  backdrop-filter: unset;
-}  
-
-// Hide play control when paused
-.video-js.vjs-paused .vjs-play-control {
-  display: none;
-}
-
 // Show play control when playback starts
-.video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder,
-.video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder {
+.video-js .vjs-play-control .vjs-icon-placeholder {
   display: block;
   position: relative; // Required for positioning of pseudo content
   width: 100%;
   height: 100%;
   background-size: contain;
-  @extend .icon-pause;
+  @extend .icon-big-play;
   &:before {
     display: block;
     position: absolute;
@@ -43,7 +26,7 @@
     height: inherit;
     content: "";
     opacity: 0;
-    @extend .icon-pause-highlight;
+    @extend .icon-big-play-highlight;
     @include transition(opacity $icon-unhighlight-time);
   }
   &:hover {
@@ -51,5 +34,14 @@
       opacity: 1;
       @include transition(opacity $icon-highlight-time);
     }
+  }
+}
+
+// Show play control when playback starts
+.video-js .vjs-play-control.vjs-playing .vjs-icon-placeholder,
+.video-js .vjs-play-control.vjs-ended .vjs-icon-placeholder {
+  @extend .icon-pause;
+  &:before {
+    @extend .icon-pause-highlight;
   }
 }

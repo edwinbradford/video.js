@@ -9,6 +9,12 @@
   pointer-events: none; // Don't block nested buttons
 }
 
+.video-js.vjs-audio-only-mode .vjs-control-bar {
+  position: relative;
+  inset: 0;
+  padding: $controls-margin;
+}
+
 /* Flex wrap control bar children at the custom neueWrap component 
  */
 .video-js .vjs-neue-wrap {

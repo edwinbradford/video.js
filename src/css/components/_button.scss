@@ -32,8 +32,6 @@
 
 // Control bar child buttons
 .vjs-control.vjs-button {
-  // Don't scale buttons down on tiny screens
   width: $control-button-width; 
-  min-width: $control-button-width;
   height: $control-button-height;
 }

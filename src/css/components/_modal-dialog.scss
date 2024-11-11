@@ -1,19 +1,14 @@
 .vjs-modal-dialog-content {
-  z-index: 1;
   font-size: $modal-text-size;
   line-height: $modal-text-line-height;
 }
 
 .video-js .vjs-modal-dialog {
-  @include display-flex(flex-start, flex-start);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: $modal-padding;
-  overflow: auto;
+  @extend %fill-parent;
+  // @include display-flex(flex-start, flex-start);
   background-color: $primary-background-color;
+  // This allows scrolling of content if need be.
+  overflow: auto;
 }
 
 // Reset box-sizing inside the modal dialog
@@ -23,5 +18,7 @@
 // }
 
 .vjs-modal-dialog .vjs-modal-dialog-content {
-  // see .vjs-modal-dialog-content;
+  @extend %fill-parent;
+  padding: $modal-padding;
+  z-index: 1;
 }
