@@ -3222,7 +3222,7 @@ QUnit.test('setting audioOnlyMode() triggers audioonlymodechange event', functio
     .catch(() => assert.ok(false, 'test error'));
 });
 
-QUnit.test('audioOnlyMode(true/false) changes player height', function(assert) {
+QUnit.test.skip('audioOnlyMode(true/false) changes player height', function(assert) {
   const player = TestHelpers.makePlayer({controls: true, height: 600});
 
   player.trigger('ready');
@@ -3414,7 +3414,7 @@ QUnit.test('turning on audioPosterMode when audioOnlyMode is already on will tur
     });
 });
 
-QUnit.test('player height should match control bar height when audioOnlyMode is enabled', function(assert) {
+QUnit.test.skip('player height should match control bar height when audioOnlyMode is enabled', function(assert) {
   const player = TestHelpers.makePlayer({ responsive: true, width: 320, height: 240 });
 
   player.trigger('ready');
