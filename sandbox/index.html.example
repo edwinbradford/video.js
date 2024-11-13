@@ -108,7 +108,7 @@
           'playToggle',
           {
             name: 'volumePanel',
-            inline: true // Horizontal
+            inline: true // Direction
           },
           'customControlSpacer',
           'playbackRateMenuButton',
