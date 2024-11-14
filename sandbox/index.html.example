@@ -72,6 +72,7 @@
 
     var player = videojs('videojsElement', {
       autoplay: false,
+      experimentalSvgIcons: true,
       controls: true,
       loop: false,
       muted: false,
@@ -161,6 +162,10 @@
         const remainingTime = player.remainingTime();
         this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
       };
+      // Remove browser tooltips 
+      player.el().querySelectorAll('[title]').forEach(element => {
+        element.setAttribute('title', '');
+      });
     });
     // player.createModal('foo');
     console.log(player.language());
