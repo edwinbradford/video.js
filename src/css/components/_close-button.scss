@@ -1,36 +1,14 @@
 .video-js .vjs-control.vjs-close-button {
-  position: absolute;
-  top: $control-button-height;
-  right: $control-button-height;
+  cursor: pointer;
+  width: $control-button-width-1-1;
   height: $control-button-height;
-  width: $control-button-height;
-  span.vjs-icon-placeholder {
-    cursor: pointer;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    @extend .icon-close;
-    &:before {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: inherit;
-      height: inherit;
-      content: "";
-      opacity: 0;
-      @extend .icon-close-highlight;
-      @include transition(opacity $icon-unhighlight-time);
-    }
-    &:hover {
-      &:before {
-        opacity: 1;
-        @include transition(opacity $icon-highlight-time);
-      }
-    }
+  position: absolute;
+  right: $control-button-width-1-1;
+  top: $control-button-height;
+  z-index: 2;
+
+  & .vjs-icon-placeholder {
+    @extend .vjs-icon-cancel;
+    width: $control-button-width-1-1;
   }
 }

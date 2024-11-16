@@ -13,7 +13,8 @@
 
   fill: currentColor;
   height: 1.8em;
-  width: 1.8em;
+  width: 2.4em;
+  @include transition(fill $icon-unhighlight-time);
 
   // Overwrite any font content
   &:before {
@@ -24,6 +25,6 @@
 // SVG shadow on hover and focus
 .vjs-svg-icon:hover,
 .vjs-control:focus .vjs-svg-icon {
-  -webkit-filter: drop-shadow(0 0 0.25em #fff);
-  filter: drop-shadow(0 0 0.25em #fff);
+  fill: #fff;
+  @include transition(fill $icon-highlight-time);
 }

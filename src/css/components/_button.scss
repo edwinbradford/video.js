@@ -4,7 +4,6 @@
   color: inherit;
   display: inline-block;
 
-  font-family: inherit;
   font-size: inherit; // IE in general. WTF.
   line-height: inherit;
   text-transform: none;
@@ -18,7 +17,7 @@
 
 // Replacement for focus in case spatial navigation is enabled
 .video-js.vjs-spatial-navigation-enabled .vjs-button:focus {
-  @extend %neue-spatial;
+  @extend %neue-focus;
 }
 
 // Control bar grandchild buttons
@@ -29,6 +28,6 @@
 
 // Control bar child buttons
 .vjs-control.vjs-button {
-  width: $control-button-width; 
+  width: $control-button-width-4-3; 
   height: $control-button-height;
 }

@@ -9,12 +9,17 @@ $primary-background-transparency: 0.4 !default; // Used for progress holder
 $secondary-background-color: lighten($primary-background-color, 33%) !default;
 $secondary-background-transparency: 0.5 !default;
 
+// Highlight colors
 $accent-color: #e50000;
 
+// Menu colors
 $menu-text-color: #999;
 $menu-text-color-highlight: #ccc;
 $menu-background-color-highlight: #666 !default;
 $menu-background-color: #333 !default; // menus
+
+// Big play colors
+$big-play-button-transparency: 0.2 !default;
 
 // Text
 $text-font-family: Consolas, Lucida Console, Lucida Sans Typewriter, monospace !default;
@@ -24,6 +29,7 @@ $text-em-size: 10px;
 // Using the '--' naming for component-specific styles
 $big-play-button--width: 6.4em !default;
 $big-play-button--height: 6.4em !default;
+
 
 // Progress and sliders
 $slider-height: 0.2em; // Slider height
@@ -40,16 +46,21 @@ $loading-spinner-stroke: 4px;
 // Controls
 $controls-margin: 2.4em;
 $control-button-height: 1.8em;
-$control-button-width: 2.4em;
-$control-button-spacing: 2.4em;
+$control-button-width-1-1: $control-button-height;
+$control-button-width-4-3: 2.4em;
+$control-button-spacing: 1.8em;
 
 // Volume
-$volume-menu-width: 16em;
-$volume-menu-height: 16em;
+$volume-slider-length: 14.4em;
+$volume-slider-margin: 0.8em;
 
+// Timestamps
 $text-time-size: 1.6em;
 $text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
 $text-time-width: 5em;
+
+// Live
+$live-diameter: 1em;
 
 // Modal and error
 $modal-padding: 5em;

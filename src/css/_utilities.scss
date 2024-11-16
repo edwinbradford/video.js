@@ -67,6 +67,10 @@
   order: $value;
 }
 
+@mixin filter($filter) {
+  filter: $filter;
+}
+
 %fill-parent {
   position: absolute;
   top: 0;
@@ -80,13 +84,7 @@
   text-align: center;
 }
 
-// Neue spatial highlight style
-%neue-spatial {
+%neue-focus {
   filter: drop-shadow(0 0 8px white);
   outline: none;
-}
-
-// Neue SVG drop shadows
-@mixin filter($filter) {
-  filter: $filter;
 }

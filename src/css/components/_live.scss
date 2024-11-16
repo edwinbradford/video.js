@@ -1,20 +1,10 @@
 // css for the old live ui, assumes that the progress bar is hidden
-// Neue theme replaces text with a middot
 .video-js .vjs-live-control {
-  @include display-flex(flex-start, center);
-  @include flex(auto);
-  @include border-radius(50%);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 1.2em;
-  width: 1.2em;
-  background-color: $accent-color;
-  
-  // Hide "Live" string for Neue
-  .vjs-live-display {
-    display: none;
-  }
+  @include display-flex(flex-start);
+  @include flex(none);
+  font-size: $live-diameter;
+  line-height: $control-button-height;
+  width: $control-button-width-1-1;
 }
 
 // hide the LiveDisplay when not live or when
@@ -30,13 +20,13 @@
   cursor: pointer;
   @include flex(none);
   display: inline-flex;
-  height: 100%;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  font-size: 1em;
-  line-height: 3em;
+  height: $control-button-height;
+  // padding-left: 0.5em;
+  // padding-right: 0.5em;
+  font-size: $live-diameter;
+  line-height: $control-button-height;
   width: auto;
-  min-width: 4em;
+  min-width: $control-button-width-1-1;
 }
 
 // hide the SeekToLive button when not live and
@@ -52,8 +42,8 @@
 }
 
 .vjs-seek-to-live-control .vjs-icon-placeholder {
-  margin-right: 0.5em;
-  @extend .vjs-icon-circle !optional; // AV Neue test
+  margin-inline: auto;
+  @extend .vjs-icon-circle;
   color: #888;
 }
 
@@ -62,8 +52,8 @@
 }
 
 .vjs-seek-to-live-control .vjs-svg-icon {
-  width: 1em;
-  height: 1em;
+  width: $live-diameter;
+  height: $live-diameter;
   pointer-events: none;
   fill: #888888;
 }
@@ -75,4 +65,24 @@
 
 .vjs-seek-to-live-control.vjs-control.vjs-at-live-edge .vjs-svg-icon {
   fill: $accent-color;
+}
+
+// Hide the "live" text in live
+.video-js .vjs-live-control .vjs-live-display {
+  display: none;
+}
+
+// Hide the "live" text in the new liveui
+.video-js .vjs-seek-to-live-control .vjs-seek-to-live-text {
+  display: none;
+}
+
+// Polyfill the middot in live
+.video-js .vjs-live-control:before {
+  content: "";
+  margin: auto;
+  background-color: $accent-color;
+  border-radius: 50%;
+  width: $live-diameter;
+  height: $live-diameter;
 }

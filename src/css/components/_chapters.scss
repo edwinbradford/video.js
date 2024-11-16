@@ -1,30 +1,5 @@
-.video-js .vjs-chapters-button {
-  span.vjs-icon-placeholder {
-    display: block;
-    position: relative; // Required for positioning of pseudo content
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    @extend .icon-chapters;
-    &:before {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: inherit;
-      height: inherit;
-      content: "";
-      opacity: 0;
-      @extend .icon-chapters-highlight;
-      @include transition(opacity $icon-unhighlight-time);
-    }
-    &:hover {
-      &:before {
-        opacity: 1;
-        @include transition(opacity $icon-highlight-time);
-      }
-    }
-  }
+.video-js .vjs-chapters-button .vjs-icon-placeholder {
+  @extend .vjs-icon-chapters;
 }
 
 .vjs-chapters-button .vjs-menu ul {

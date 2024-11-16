@@ -1,7 +1,7 @@
-@import "icons";
 @import "variables";
 @import "private-variables";
 @import "utilities";
+@import "icons"; // Load mixins first for Neue transitions
 
 @import "videojs-font/scss/icons";
 @import "components/svgs";
@@ -65,5 +65,10 @@
 }
 
 .video-js *:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// No outlines in Neue
+.video-js *:focus-visible {
   outline: none;
 }
