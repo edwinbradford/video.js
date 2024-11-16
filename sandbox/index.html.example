@@ -36,9 +36,18 @@
     height="264"
     poster="https://vjs.zencdn.net/v/oceans.png"
   >
-    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-    <source src="https://vjs.zencdn.net/v/oceans.webm" type="video/webm">
-    <source src="https://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+    <source
+      src="https://vjs.zencdn.net/v/oceans.mp4"
+      type="video/mp4"
+    >
+    <source
+      src="https://vjs.zencdn.net/v/oceans.webm"
+      type="video/webm"
+    >
+    <source
+      src="https://vjs.zencdn.net/v/oceans.ogv"
+      type="video/ogg"
+    >
     <track
       kind="captions"
       src="../docs/examples/shared/example-captions.vtt"
@@ -109,7 +118,7 @@
           'playToggle',
           {
             name: 'volumePanel',
-            inline: true // Direction
+            inline: true // Horizontal
           },
           'customControlSpacer',
           'playbackRateMenuButton',
