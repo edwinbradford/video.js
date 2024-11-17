@@ -1,27 +1,29 @@
 @use "sass:math";
 
 .video-js .vjs-time-control {
-  @include flex(none);
-  font-size: $text-time-size;
-  line-height: 1em;
-  width: auto;
-  height: 1em;
   display: flex;
   align-items: center;
+  @include flex(none);
+  font-size: $text-time-size;
+  line-height: math.div($control-button-height, $text-time-size); // Height
+  // min-width: 2em;
+  width: auto;
+  // padding-left: 1em;
+  // padding-right: 1em;
   text-shadow: $text-time-shadow;
 }
 
 .vjs-live .vjs-time-control,
 .vjs-live .vjs-time-divider,
 .video-js .vjs-current-time,
-.video-js .vjs-duration,
-.video-js .vjs-time-divider {
+.video-js .vjs-duration {
   display: none;
 }
 
 .vjs-time-divider {
-  // Remove control bar children gap 
-  margin-inline: math.div($control-button-spacing, -2);
+  display: none;
+  line-height: math.div($control-button-height, $text-time-size); // Height 
+  margin-inline: math.div($control-button-spacing, -2); // Remove flex gap
 }
 
 /* Show time controls before playback,
