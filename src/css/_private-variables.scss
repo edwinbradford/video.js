@@ -7,7 +7,7 @@ $primary-background-transparency: 0.4 !default; // Used for progress holder
 
 // Hover states, slider backgrounds
 $secondary-background-color: lighten($primary-background-color, 33%) !default;
-$secondary-background-transparency: 0.5 !default;
+$secondary-background-transparency: 0.6 !default;
 
 // Highlight colors
 $accent-color: #e50000;
@@ -60,7 +60,7 @@ $text-time-shadow: (0 0 1px rgba(0,0,0,0.6));
 $text-time-width: 5em;
 
 // Live
-$live-diameter: 1em;
+$live-diameter: 1.4em;
 
 // Modal and error
 $modal-padding: 5em;

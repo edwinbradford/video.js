@@ -2,8 +2,9 @@
 .video-js .vjs-live-control {
   @include display-flex(flex-start);
   @include flex(none);
-  font-size: $live-diameter;
+  font-size: $text-em-size;
   line-height: $control-button-height;
+  height: $control-button-height; // The "LIVE" string is hidden
   width: $control-button-width-1-1;
 }
 
@@ -23,7 +24,7 @@
   height: $control-button-height;
   // padding-left: 0.5em;
   // padding-right: 0.5em;
-  font-size: $live-diameter;
+  font-size: $text-em-size;
   line-height: $control-button-height;
   width: auto;
   min-width: $control-button-width-1-1;
