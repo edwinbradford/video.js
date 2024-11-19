@@ -1,5 +1,6 @@
 // Text, icons, hover states
 $primary-foreground-color: #e6e6e6 !default;
+$primary-highlight-color: #ffffff !default;
 
 // Control backgrounds (control bar, big play, menus)
 $primary-background-color: #1a1a1a !default;
@@ -31,13 +32,11 @@ $big-play-button--width: 6.4em !default;
 $big-play-button--height: 6.4em !default;
 
 
-// Progress and sliders
-$slider-height: 0.2em; // Slider height
-$slider-height-increase: 1; // Hover height is this factor bigger than $slider-height
-$slider-handle-height: 4; // Handle height is this factor bigger than $slider-height
-$slider-handle-height-increase: 8; // Handle height is this factor bigger than $slider-height on hover
-$slider-hover-height: 8; // Height of progress bar hover area
-$progress-bar-margin: 5.4em; // Side margins for progress bar
+// Sliders
+$slider-height: 0.2em;
+$slider-height-hover: 0.4em;
+$slider-handle-height: 0.8em;
+$slider-handle-height-scale: 1.4;
 
 // Loading vjs-spinner-fade
 $loading-spinner-size: $big-play-button--width;
@@ -71,11 +70,11 @@ $modal-text-line-height: 1.5;
 $menu-popup-width: 16em;
 
 // Filters
-$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
+$filter-drop-shadow: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25));
 
 // Animations
 $icon-highlight-time: 0ms;
 $icon-unhighlight-time: 0ms;
-$icon-fade-in-time: 0ms;
-$icon-fade-out-time: 1000ms;
+$slider-fade-in-time: 250ms;
+$slider-fade-out-time: 500ms;
 $slider-handle-resize-time: 250ms;

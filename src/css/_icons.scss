@@ -25,6 +25,6 @@
 // SVG shadow on hover and focus
 .vjs-svg-icon:hover,
 .vjs-control:focus .vjs-svg-icon {
-  fill: #fff;
+  fill: $primary-highlight-color;
   @include transition(fill $icon-highlight-time);
 }

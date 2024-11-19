@@ -9,11 +9,7 @@
   @include display-flex(center);
   min-width: 4em;
   touch-action: none;
-  visibility: hidden;
-  opacity: 0;
-  // background-color: rgba(255,255,0,0.5); // debug
-  $transition-property: opacity $icon-highlight-time;
-  @include transition($transition-property);
+  visibility: hidden; // Hide the progress bar when not playing in Neue
 }
 
 .video-js .vjs-progress-control.disabled {
@@ -33,12 +29,10 @@
 // Box containing play and load progress bars. It also acts as seek scrubber.
 .video-js .vjs-progress-holder {
   @include flex(auto);
-  position: relative;
+  // @include transition(all 0.2s);
   height: $slider-height;
-  @include background-color-with-alpha(
-    $primary-background-color,
-    $primary-background-transparency
-  );
+  position: relative;
+  margin-inline: math.div($slider-handle-height, 2);
 }
 
 // .video-js .vjs-progress-control .vjs-progress-holder {
@@ -67,9 +61,9 @@
   &:before {
     position: absolute;
     top: ($slider-height * -2) + math.div($slider-height, 2);
-    right: math.div(($slider-height * $slider-handle-height), -2);
-    width: $slider-height * $slider-handle-height;
-    height: $slider-height * $slider-handle-height;
+    right: math.div($slider-handle-height, -2);
+    width: $slider-handle-height;
+    height: $slider-handle-height;
     content: "";
     background-color: inherit;
     @include border-radius(50%);
@@ -86,22 +80,10 @@
 // Show progress bar
 .vjs-has-started .vjs-progress-control {
   visibility: visible;
-  opacity: 1;
   &:hover {
     // Progress bars hover
     .vjs-progress-holder {
-      height: $slider-height * $slider-height-increase;
-    }
-    // Handle hover
-    .vjs-play-progress:before {
-      top: math.div(($slider-height * $slider-handle-height-increase), -2) +
-        math.div(($slider-height * $slider-height-increase), 2); // bar vertical center - handle radius
-      right: math.div(
-        ($slider-height * $slider-handle-height-increase),
-        -2
-      ); // handle radius
-      width: $slider-height * $slider-handle-height-increase;
-      height: $slider-height * $slider-handle-height-increase;
+      height: $slider-height-hover;
     }
   }
 }
@@ -109,7 +91,6 @@
 // Hide progress bar at end of video
 .vjs-has-started.vjs-ended .vjs-progress-control {
   visibility: hidden;
-  opacity: 0;
 }
 
 // Don't show progress bar tooltips
