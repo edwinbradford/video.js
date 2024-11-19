@@ -104,7 +104,7 @@
   display: flex;
   align-items: center; // Applies to horizontal and vertical
   // This margin is not used for Neue
-  background-color: $primary-background-color;
+  @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
 }
 
 .vjs-volume-bar.vjs-slider-horizontal {
@@ -186,12 +186,12 @@
 // here
 // Update placement of circle icon when using SVG icons
 .vjs-slider-horizontal .vjs-volume-level .vjs-svg-icon {
-  right: $slider-handle-height * -0.5;
+  margin-right: $slider-handle-height * -0.5;
   // Transform is not used for Neue
 }
 
 .vjs-slider-vertical .vjs-volume-level .vjs-svg-icon {
-  top: $slider-handle-height * -0.5;
+  margin-top: $slider-handle-height * -0.5;
   // Transform is not used for Neue
 }
 
