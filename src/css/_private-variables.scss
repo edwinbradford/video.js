@@ -4,11 +4,11 @@ $primary-highlight-color: #ffffff !default;
 
 // Control backgrounds (control bar, big play, menus)
 $primary-background-color: #1a1a1a !default;
-$primary-background-transparency: 0.4 !default; // Used for progress holder
+$primary-background-transparency: 0.4 !default;
 
 // Hover states, slider backgrounds
-$secondary-background-color: lighten($primary-background-color, 33%) !default;
-$secondary-background-transparency: 0.6 !default;
+$secondary-background-color: $primary-foreground-color !default;
+$secondary-background-transparency: 0.2 !default;
 
 // Highlight colors
 $accent-color: #e50000;
@@ -34,7 +34,7 @@ $big-play-button--height: 6.4em !default;
 
 // Sliders
 $slider-height: 0.2em;
-$slider-height-hover: 0.4em;
+$slider-height-hover: 0.2em;
 $slider-handle-height: 0.8em;
 $slider-handle-height-scale: 1.4;
 

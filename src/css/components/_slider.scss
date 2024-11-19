@@ -6,10 +6,7 @@
 
   @include user-select(none);
 
-  @include background-color-with-alpha(
-    $primary-background-color,
-    $primary-background-transparency
-  );
+  @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
 }
 
 .video-js .vjs-slider.disabled {
@@ -17,12 +14,8 @@
 }
 
 .video-js .vjs-slider:focus {
-  @include background-color-with-alpha(
-    $secondary-background-color,
-    $secondary-background-transparency
-  );
+  background-color: $secondary-background-color;
 
-  // Neue focus changes the background style
 }
 
 // Replacement for focus in case spatial navigation is enabled
