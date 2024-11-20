@@ -1,29 +1,20 @@
-// Audio Tracks
-.video-js .vjs-audio-button {
-  span.vjs-icon-placeholder {
-    display: block;
-    position: relative; // Required for positioning of pseudo content
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    @extend .icon-menu;
-    &:before {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: inherit;
-      height: inherit;
-      content: "";
-      opacity: 0;
-      @extend .icon-menu-highlight;
-      @include transition(opacity $icon-unhighlight-time);
-    }
-    &:hover {
-      &:before {
-        opacity: 1;
-        @include transition(opacity $icon-highlight-time);
-      }
-    }
-  }
+.video-js .vjs-audio-button .vjs-icon-placeholder {
+  @extend .vjs-icon-audio;
+  width: $control-button-width-1-1;
+}
+
+.video-js .vjs-audio-button + .vjs-menu .vjs-descriptions-menu-item .vjs-menu-item-text .vjs-icon-placeholder,
+.video-js .vjs-audio-button + .vjs-menu .vjs-main-desc-menu-item .vjs-menu-item-text .vjs-icon-placeholder {
+  vertical-align: middle;
+  display: inline-block;
+  margin-bottom: -0.1em;
+}
+
+// Mark a main-desc-menu-item (main + description) or description item with a trailing Audio Description icon
+.video-js .vjs-audio-button + .vjs-menu .vjs-descriptions-menu-item .vjs-menu-item-text .vjs-icon-placeholder:before,
+.video-js .vjs-audio-button + .vjs-menu .vjs-main-desc-menu-item .vjs-menu-item-text .vjs-icon-placeholder:before {
+  font-family: VideoJS;
+  content: " \f12e";
+  font-size: 1.5em;
+  line-height: inherit;
 }
