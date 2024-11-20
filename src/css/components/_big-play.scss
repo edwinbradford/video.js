@@ -1,6 +1,5 @@
 .video-js .vjs-big-play-button {
-  // font-size: 3em;
-  // line-height: 1;
+  // Font size and line height are not used for Neue
   height: $big-play-button--height;
   width: $big-play-button--width; // Firefox bug: For some reason without width the icon wouldn't show up. Switched to using width and removed padding.
   display: block;
@@ -39,9 +38,7 @@
 
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
-  // border-color: $primary-foreground-color;
-
-  // @include background-color-with-alpha($secondary-background-color, $secondary-background-transparency);
+  // Background and border color are not used for Neue
   @include transition(opacity $icon-highlight-time);
 }
 
