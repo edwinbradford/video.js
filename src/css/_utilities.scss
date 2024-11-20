@@ -67,10 +67,6 @@
   order: $value;
 }
 
-@mixin filter($filter) {
-  filter: $filter;
-}
-
 %fill-parent {
   position: absolute;
   top: 0;

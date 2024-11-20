@@ -18,7 +18,7 @@
   letter-spacing: -0.1em;
   border: 0.2em solid $primary-foreground-color;
   @include border-radius(5%);
-  @include filter($filter-drop-shadow);
+  filter: $filter-drop-shadow;
 }
 
 .vjs-playback-rate .vjs-menu {

@@ -12,8 +12,8 @@
   background-position: center;
 
   fill: currentColor;
-  height: 1.8em;
-  width: 2.4em;
+  height: $control-button-height;
+  width: $control-button-width-4-3;
   @include transition(fill $icon-unhighlight-time);
 
   // Overwrite any font content
