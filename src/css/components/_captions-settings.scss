@@ -1,137 +1,145 @@
-.video-js {
-  .vjs-modal-dialog.vjs-text-track-settings {
-    width: auto;
-    color: $primary-foreground-color;
-    background-color: $primary-background-color;
-    box-shadow: 0.2em 0 0.2em 0 rgba(0, 0, 0, 0.25);
+.vjs-modal-dialog.vjs-text-track-settings {
+  // background-color is not used for Neue here
+  color: $primary-foreground-color;
+  // Height is not hard coded for Neue
+
+  // When Spatial Navigation is enabled
+  .vjs-spatial-navigation-enabled & {
+    // Height is not hard coded for Neue
   }
-  &.vjs-layout-small,
-  &.vjs-layout-x-small,
-  &.vjs-layout-tiny {
-    .vjs-modal-dialog.vjs-text-track-settings {
-      width: 100%;
+}
+
+// Hide if an error occurs
+.vjs-error .vjs-text-track-settings {
+  display: none;
+}
+
+// Layout divs
+.vjs-text-track-settings .vjs-modal-dialog-content {
+  display: table;
+}
+
+.vjs-text-track-settings .vjs-track-settings-colors,
+.vjs-text-track-settings .vjs-track-settings-font,
+.vjs-text-track-settings .vjs-track-settings-controls {
+  display: table-cell;
+}
+
+.vjs-text-track-settings .vjs-track-settings-controls {
+  // Buttons are not right aligned for Neue
+  vertical-align: bottom;
+}
+
+// code that will only run if CSS Grid is supported by the browser
+@supports (display: grid) {
+  .vjs-text-track-settings .vjs-modal-dialog-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 40px;
+    // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
+    // so we add bottom padding/margin to the last item in the grid instead of here
+    // see https://stackoverflow.com/a/23754080
+    padding: $modal-padding $modal-padding 0 $modal-padding;
+  }
+
+  // see the comment for padding above
+  .vjs-track-settings-controls .vjs-default-button {
+    margin-bottom: $modal-padding;
+  }
+
+  .vjs-text-track-settings .vjs-track-settings-controls {
+    // make this take up both columns
+    grid-column: 1 / -1;
+  }
+
+  // 1 column for small players
+  // .vjs-layout-medium .vjs-text-track-settings .vjs-modal-dialog-content,
+  .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content,
+  .vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
+  .vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
+    grid-template-columns: 1fr;
+
+    & .vjs-track-settings-font legend:before {
+      content: none;
     }
   }
 }
 
-// // Layout divs
-// .vjs-text-track-settings .vjs-modal-dialog-content {
-//   display: table;
-// }
-
-.vjs-text-track-settings .vjs-track-settings-colors {
-  margin-bottom: 1.6em;
-}
-
-.vjs-text-track-settings .vjs-track-settings-font {
-  margin-bottom: 2.4em;
-}
-
-// .vjs-text-track-settings .vjs-track-settings-controls {
-//   text-align: right;
-//   vertical-align: bottom;
-// }
-
-// // code that will only run if CSS Grid is supported by the browser
-// @supports (display: grid) {
-//   .vjs-text-track-settings .vjs-modal-dialog-content {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
-//     grid-template-rows: 1fr;
-//     // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
-//     // so we add bottom padding/margin to the last item in the grid instead of here
-//     // see https://stackoverflow.com/a/23754080
-//     padding: 20px 24px 0px 24px;
-//   }
-
-//   // see the comment for padding above
-//   .vjs-track-settings-controls .vjs-default-button {
-//     margin-bottom: 20px;
-//   }
-
-//   .vjs-text-track-settings .vjs-track-settings-controls {
-//     // make this take up both columns
-//     grid-column: 1 / -1;
-//   }
-
-//   // 1 column for small players
-//   .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content ,
-//   .vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
-//   .vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
-//     grid-template-columns: 1fr;
-//   }
-
-// }
-
 // Form elements
-// .vjs-text-track-settings select {
-//   font-size: inherit;
-// }
+.vjs-text-track-settings select {
+  font-size: inherit;
+}
 
 .vjs-track-setting > select {
-  margin-right: 1em;
-  margin-bottom: 0.5em;
+  margin-right: 10px;
+  margin-bottom: 0;
 }
 
 .vjs-text-track-settings fieldset {
-  margin: 0;
-  margin-top: 1.6em;
+  margin: 0 0 30px;
   padding: 0;
   border: none;
-  &:nth-of-type(1) {
-    margin-top: 0;
-  }
-  select {
-    margin-right: 0.8em;
-    font-family: inherit;
-    font-size: 1em;
-  }
 }
 
 .vjs-text-track-settings fieldset span {
   display: inline-block;
-  // padding: 0 .6em .8em;
+  padding: 0;
+
+  &:first-of-type {
+    margin-right: 12px;
+  }
 }
 
 // style the second select for text colors
 .vjs-text-track-settings fieldset span > select {
-  max-width: 7.3em;
+  // max-width is not used for Neue here
+  margin-bottom: 0;
 }
 
 .vjs-text-track-settings legend {
-  margin: 0 0 5px 0;
+  padding: 0;
   color: $primary-foreground-color;
+  // These font properites are not used for Neue
 }
 
-// Hide labels, so they are only for screen reader users
 .vjs-text-track-settings .vjs-label {
-  position: absolute;
-  clip: rect(1px 1px 1px 1px); // for Internet Explorer
-  clip: rect(1px, 1px, 1px, 1px);
   display: block;
-  margin: 0 0 5px 0;
-  padding: 0;
-  border: 0;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
+  margin: 0;
+}
+
+.vjs-track-settings-controls button:focus,
+.vjs-track-settings-controls button:active {
+  outline-style: none;
+  outline-width: 0;
+  color: $menu-text-color-highlight;
+  background-color: $menu-background-color-highlight;
+}
+
+.vjs-track-settings-controls button:hover {
+  color: $menu-text-color-highlight;
+  background-color: $menu-background-color-highlight;
 }
 
 .vjs-track-settings-controls button {
-  padding: 0.25em 0.5em;
   background-color: $menu-background-color;
   color: $menu-text-color;
   cursor: pointer;
-  &:hover,
-  &:focus,
-  &:active {
-    color: $menu-text-color-highlight;
-    background-color: $menu-background-color-highlight;
-    outline-style: none;
-    outline-width: 0;
-  }
+  // Border radius is not used for Neue
 }
 
 .vjs-track-settings-controls .vjs-default-button {
-  margin-right: 1.2em;
+  margin-right: 12px;
+}
+
+// Add a line break above the legend in font fieldsets
+.vjs-track-settings-font legend:before {
+  content: "\A";
+  white-space: pre;
+}
+
+// Limit the width of select elements
+.vjs-text-track-settings fieldset select {
+  font-family: inherit;
+  max-width: 104px;
 }
