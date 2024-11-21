@@ -2,6 +2,7 @@
 // It's used on both real buttons (play button)
 // and div buttons (menu buttons)
 .video-js .vjs-control {
+  // Position, display, height, width and text-align are not used for Neue
   margin: 0;
   padding: 0;
   pointer-events: all;
@@ -14,12 +15,12 @@
   padding-right: 1em;
 }
 
-// .vjs-button > .vjs-icon-placeholder:before {
-//   font-size: 1.8em;
-//   line-height: 1.67;
+.vjs-button > .vjs-icon-placeholder:before {
+  font-size: 1.8em;
+  line-height: 1.67;
 
-//   @extend %icon-default;
-// }
+  @extend %icon-default;
+}
   
 .vjs-button > .vjs-icon-placeholder {
     display: block;
@@ -29,12 +30,12 @@
   display: inline-block;
 }
 
-// // Replacement for focus outline
-// .video-js .vjs-control:focus:before,
-// .video-js .vjs-control:hover:before,
-// .video-js .vjs-control:focus {
-//   text-shadow: 0em 0em 1em rgba($primary-foreground-color, 1);
-// }
+// Replacement for focus outline
+.video-js .vjs-control:focus:before,
+.video-js .vjs-control:hover:before,
+.video-js .vjs-control:focus {
+  // text-shadow is not used for Neue
+}
 
 // Hide control text visually, but have it available for screenreaders
 .video-js *:not(.vjs-visible-text) > .vjs-control-text {
