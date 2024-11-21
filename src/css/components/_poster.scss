@@ -1,9 +1,7 @@
 .vjs-poster {
   display: inline-block;
   vertical-align: middle;
-
-  // The cursor property is disabled so it can change over buttons
-  // cursor: pointer
+  // cursor: pointer is not used for Neue
   margin: 0;
   padding: 0;
   position: absolute;
@@ -20,11 +18,6 @@
   display: none;
 }
 
-// Show the poster after the video has finished
-.vjs-ended .vjs-poster {
-  display: inline-block;
-}
-
 // Don't hide the poster if we're playing audio or when audio-poster-mode is true
 .vjs-audio.vjs-has-started .vjs-poster,
 .vjs-has-started.vjs-audio-poster-mode .vjs-poster,
@@ -33,9 +26,13 @@
 }
 
 .vjs-poster img {
-  // The display inline property of img adds scrollbars
-  display: block;
+  display: block; // Prevent display inline scrollbars
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+// Show the poster after the video has finished
+.vjs-ended .vjs-poster {
+  display: inline-block;
 }
