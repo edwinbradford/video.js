@@ -6,10 +6,8 @@
   @include flex(none);
   font-size: $text-time-size;
   line-height: math.div($control-button-height, $text-time-size); // Height
-  // min-width: 2em;
+  // min-width and padding are not used for Neue
   width: auto;
-  // padding-left: 1em;
-  // padding-right: 1em;
   text-shadow: $text-time-shadow;
 }
 
