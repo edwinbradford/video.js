@@ -1,53 +1,58 @@
 // Emulated tracks
 .vjs-text-track-display {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 4rem;
+  bottom: 4em;
   left: 0;
+  right: 0;
+  top: 0;
   pointer-events: none;
 }
 
+// Hide if an error occurs
+.vjs-error .vjs-text-track-display {
+  display: none;
+}
+
 // Move captions down when controls aren't being shown
+.video-js.vjs-controls-disabled .vjs-text-track-display,
 .video-js.vjs-user-inactive.vjs-playing .vjs-text-track-display {
-  bottom: 1.6rem;
+  bottom: 1em;
 }
 
 // Individual tracks
 .video-js .vjs-text-track {
-  font-family: inherit;
   font-size: 1.6rem;
   text-align: center;
-  color: #666;
-  background-color: #ff0;
   margin-bottom: 0;
 }
 
-.vjs-subtitles {
-  color: #fff;
-} // Subtitles are white
-.vjs-captions {
-  color: #666;
-} // Captions are yellow
-.vjs-tt-cue {
-  display: block;
-}
+.vjs-subtitles { color: #fff; } // Subtitles are white
+.vjs-captions { color: #fc6; } // Captions are yellow
+.vjs-tt-cue { display: block; }
 
 // Native tracks
 video::-webkit-media-text-track-display {
-  @include transform(translateY(-5.4rem));
+  @include transform(translateY(-4em));
 }
 
 // Move captions down when controls aren't being shown
+.video-js.vjs-controls-disabled video::-webkit-media-text-track-display,
 .video-js.vjs-user-inactive.vjs-playing video::-webkit-media-text-track-display {
-  @include transform(translateY(-3.2rem));
+  @include transform(translateY(-1.5em));
 }
 
-// Native caption styling for Neue theme
-// ::cue will not inherit font family correctly
-::cue {
-  font-family: $text-font-family;
-  font-size: 1.6rem;
-  color: #333;
-  background-color: #ff0;
+// force cues to be center aligned
+.video-js.vjs-force-center-align-cues .vjs-text-track-cue {
+  text-align: center !important;
+  width: 80% !important;
 }
+
+@supports not (inset: 10px) {
+  .video-js .vjs-text-track-display > div {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
