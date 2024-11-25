@@ -36,7 +36,7 @@
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
-    column-gap: 40px;
+    column-gap: 4em;
     // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
     // so we add bottom padding/margin to the last item in the grid instead of here
     // see https://stackoverflow.com/a/23754080
@@ -72,12 +72,12 @@
 }
 
 .vjs-track-setting > select {
-  margin-right: 10px;
+  margin-right: 1em;
   margin-bottom: 0;
 }
 
 .vjs-text-track-settings fieldset {
-  margin: 0 0 30px;
+  margin: 0 0 3em;
   padding: 0;
   border: none;
 }
@@ -87,7 +87,7 @@
   padding: 0;
 
   &:first-of-type {
-    margin-right: 12px;
+    margin-right: 1.2em;
   }
 }
 
@@ -129,11 +129,11 @@
 }
 
 .vjs-track-settings-controls .vjs-default-button {
-  margin-right: 12px;
+  margin-right: 1.2em;
 }
 
-// Add a line break above the legend in font fieldsets
-.vjs-track-settings-font legend:before {
+// Add a line break above the legend in the first font fieldset
+.vjs-track-settings-font fieldset:first-of-type legend:before {
   content: "\A";
   white-space: pre;
 }
@@ -141,5 +141,10 @@
 // Limit the width of select elements
 .vjs-text-track-settings fieldset select {
   font-family: inherit;
-  max-width: 104px;
+  max-width: 10.4em;
+}
+
+// Smaller bottom margins in the font fieldsets
+.vjs-text-track-settings .vjs-track-settings-font fieldset {
+  margin-bottom: 1em;
 }
