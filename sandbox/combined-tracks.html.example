@@ -118,13 +118,13 @@
       },
       // Breakpoints require responsive: true
       breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900
+        tiny: 210,
+        xsmall: 320,
+        small: 425,
+        medium: 768,
+        large: 1440,
+        xlarge: 2560,
+        huge: Infinity
       },
       html5: {
         nativeTextTracks: false,
