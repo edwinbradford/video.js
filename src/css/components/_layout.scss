@@ -221,3 +221,12 @@ body.vjs-pip-window .video-js {
 .vjs-no-js a:visited {
   color: $primary-foreground-color;
 }
+
+// Scale user interface on large displays for Neue
+.video-js.vjs-layout-x-large {
+  font-size: 15px;
+}
+
+.video-js.vjs-layout-huge {
+  font-size: 20px;
+}
