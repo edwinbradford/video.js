@@ -27,3 +27,7 @@
   width: max-content; // No text wrapping
   left: 0em;
 }
+
+.vjs-playback-rate:hover .vjs-playback-rate-value {
+  background-color: $primary-highlight-color;
+}
