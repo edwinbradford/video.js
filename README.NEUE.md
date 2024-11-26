@@ -1,25 +1,17 @@
-AV Neue Theme.
+VideoJS Neue Theme.
 
-The 'main' branch is a clone of the upstream 'main' branch in 'videojs/video.js' and is used only for testing. All AV Neue theme development is in the 'themes/avneue' branch.
+The Neue theme is maintained in the 'themes/neue' branch not the 'main' branch which is an untouched clone of the upstream 'videojs/video.js/main' branch used only for reference. 
 
-In the 'src' directory the 'themes/avneue' branch differs from the 'main' branch in the following directories:
+The 'themes/neue' branch differs from the 'main' branch in the following directories and files:
 
-* src/css
-* src/svg
-
-The 'themes/avneue' branch clones the 'main' branch in the following src directories:
-
-* src/js
-* src/images
-
-The 'src/images' directory is used by the upstream VideoJS project for its implementation of svgs which may get merged with that of AV Neue in which case it will differ between 'main' and 'themes/avenue'.
-
-Outside the 'src' directory, with the exception of the 'sandbox' and 'dist' directories all other directories and files are clones of the 'main' branch except for the 'test' directory which contains modifications to:
-
+* .prettierrc.json
 * test/karma.conf.js
-
-And a new file:
-
 * test/karma.neue.js
+* src/css/\*.scss
+* src/svg/\*.svg
+* src/images/icons.svg
+* sandbox/\*.example
 
-These modifications disable QUnit tests that are incompatible with the AV Neue theme because they require a fixed height control bar and the AV Neue control bar is responsive.
+Files in the 'src/js/\*.js' directory have no modifications. '.prettierrc.json' is a workaround to disable Prettier. The modifications in the test directory disable two QUnit tests that require a fixed height control bar incompatible with the Neue theme which has a responsive control bar.
+
+Refer to the [Contributing](https://github.com/videojs/admin/blob/main/CONTRIBUTING.md#forking-and-cloning-the-repository) guide for instructions on how to pull from the upstream to the main branch.
