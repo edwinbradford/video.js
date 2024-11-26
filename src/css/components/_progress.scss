@@ -43,7 +43,8 @@
 
 // This increases the size of the progress holder so there is an increased
 // hit area for clicks/touches.
-.video-js .vjs-progress-control:hover .vjs-progress-holder {
+.video-js .vjs-progress-control:hover .vjs-progress-holder,
+.video-js.vjs-scrubbing.vjs-touch-enabled .vjs-progress-control .vjs-progress-holder {
   // Font size is not used for Neue
 }
 
@@ -152,7 +153,8 @@
 }
 
 .video-js .vjs-progress-control:hover .vjs-time-tooltip,
-.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip,
+.video-js.vjs-scrubbing.vjs-touch-enabled .vjs-progress-control .vjs-time-tooltip {
   display: none; // Hide all tooltips for Neue
 
   // Ensure that we maintain a font-size of ~10px.
@@ -178,6 +180,14 @@
 }
 
 .video-js .vjs-progress-control:hover .vjs-mouse-display {
+  display: none; // Hide all mouse display for Neue
+}
+
+.video-js.vjs-scrubbing.vjs-touch-enabled .vjs-progress-control .vjs-mouse-display {
+  display: none; // Hide all mouse display for Neue
+}
+
+.video-js.vjs-scrubbing.vjs-touch-enabled .vjs-progress-control .vjs-mouse-display {
   display: none; // Hide all mouse display for Neue
 }
 
