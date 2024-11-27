@@ -93,8 +93,8 @@
         xsmall: 320,
         small: 425,
         medium: 768,
-        large: 1440,
-        xlarge: 2560,
+        large: 1366,  // Default = 1440
+        xlarge: 1920, // Default = 2560
         huge: Infinity
       },
       html5: {
