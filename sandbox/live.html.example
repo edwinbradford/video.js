@@ -138,9 +138,12 @@
     );
     player.ready(function() {
       // Remove browser tooltips 
-      player.el().querySelectorAll('[title]').forEach(element => {
-        element.setAttribute('title', '');
-      });
+      player
+        .el()
+        .querySelectorAll('[title]')
+        .forEach(el => {
+          el.setAttribute('title', '');
+        });
     });
   </script>
 </body>

@@ -172,9 +172,12 @@
         this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
       };
       // Remove browser tooltips 
-      player.el().querySelectorAll('[title]').forEach(element => {
-        element.setAttribute('title', '');
-      });
+      player
+        .el()
+        .querySelectorAll('[title]')
+        .forEach(el => {
+          el.setAttribute('title', '');
+        });
     });
     console.log(player.language());
     </script>

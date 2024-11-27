@@ -133,6 +133,12 @@
         nativeVideoTracks: false,
       },
       inactivityTimeout: 1000,
+      playbackRates: [
+        0.5,
+        1,
+        1.5,
+        2
+      ],
       controlBar: {
         // children in flex order
         children: [
@@ -155,6 +161,8 @@
           'currentTimeDisplay',
           'timeDivider',
           'durationDisplay',
+          'skipBackward',
+          'skipForward',
           'progressControl',
           'liveDisplay',
           'seekToLive',
@@ -193,9 +201,12 @@
         this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
       };
       // Remove browser tooltips 
-      player.el().querySelectorAll('[title]').forEach(element => {
-        element.setAttribute('title', '');
-      });
+      player
+        .el()
+        .querySelectorAll('[title]')
+        .forEach(el => {
+          el.setAttribute('title', '');
+        });
     });
     console.log(player.language());
   </script>
