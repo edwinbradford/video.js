@@ -72,7 +72,7 @@
       return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     }
 
-    var player = videojs('videojsElement', {
+    const player = videojs('videojsElement', {
       autoplay: false,
       experimentalSvgIcons: true,
       controls: true,
@@ -108,7 +108,6 @@
       controlBar: {
         // children in flex order
         children: [
-          'playToggle',
           {
             name: 'volumePanel',
             inline: true // Direction
@@ -124,6 +123,7 @@
           'pictureInPictureToggle',
           'fullscreenToggle',
           'neueWrap', // Custom flexwrap component
+          'playToggle',
           'currentTimeDisplay',
           'timeDivider',
           'durationDisplay',
@@ -137,33 +137,40 @@
         ],
       },
     });
-    /* Show big play button when paused and time controls,
-     * cf. https://github.com/videojs/video.js/pull/8833
-     */
-     player.addClass(
-      'vjs-normalise-time-controls',
-      'vjs-show-big-play-button-on-pause'
-    );
-    player.ready(function() {
+
+    player.ready(() => {
+      
+      /* Show big play button when paused and time controls,
+      * cf. https://github.com/videojs/video.js/pull/8833
+      */
+      player.addClass(
+        'vjs-normalise-time-controls',
+        'vjs-show-big-play-button-on-pause'
+      );
+
       // Start spatial navigation e.g. pointer devices
       player.spatialNavigation.start();
 
       // Pad time with leading zeros
-      const currentTimeDisplay = player.controlBar.currentTimeDisplay;
-      const remainingTimeDisplay = player.controlBar.remainingTimeDisplay;
+      const currentTimeDisplay = player.controlBar.currentTimeDisplay
+      const remainingTimeDisplay = player.controlBar.remainingTimeDisplay
 
-      currentTimeDisplay.el().innerText = formatTimeWithLeadingZeros(0);
-      remainingTimeDisplay.el().innerText = formatTimeWithLeadingZeros(player.duration());
+      const updateTimeDisplays = () => {
+        currentTimeDisplay.el().innerText = formatTimeWithLeadingZeros(
+          player.currentTime()
+        )
+        remainingTimeDisplay.el().innerText = formatTimeWithLeadingZeros(
+          Math.abs(player.remainingTime())
+        )
+      }
 
-      currentTimeDisplay.updateContent = function() {
-        const currentTime = player.currentTime();
-        this.el().innerText = formatTimeWithLeadingZeros(currentTime);
-      };
+      // Update time displays on relevant events
+      player.on('timeupdate', updateTimeDisplays)
+      player.on('durationchange', updateTimeDisplays)
 
-      remainingTimeDisplay.updateContent = function() {
-        const remainingTime = player.remainingTime();
-        this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
-      };
+      // Initialize displays
+      updateTimeDisplays()
+
       // Remove browser tooltips 
       player
         .el()

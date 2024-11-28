@@ -2,8 +2,8 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Video.js Sandbox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video.js loadMedia Demo</title>
 
   <!-- Viewport style -->
   <style>
@@ -12,7 +12,7 @@
       height: 100%;
       font-family: consolas;
       font-size: 100%;
-      background-color:#e5e5e5;
+      background-color: #1a1a1a;
     }
     body {
       margin: 0;
@@ -30,7 +30,6 @@
 <body>
   <video-js
     id="videojsElement"
-    class="video-js vjs-big-play-centered"
     poster="//d2zihajmogu5jn.cloudfront.net/elephantsdream/poster.png"
   >
     <source
@@ -66,7 +65,7 @@
       return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     }
 
-    var player = videojs('videojsElement', {
+    const player = videojs('videojsElement', {
       autoplay: false,
       experimentalSvgIcons: true,
       controls: true,
@@ -102,7 +101,6 @@
       controlBar: {
         // children in flex order
         children: [
-          'playToggle',
           {
             name: 'volumePanel',
             inline: true // Horizontal
@@ -118,6 +116,7 @@
           'pictureInPictureToggle',
           'fullscreenToggle',
           'neueWrap', // Custom flexwrap component
+          'playToggle',
           'currentTimeDisplay',
           'timeDivider',
           'durationDisplay',
@@ -131,36 +130,43 @@
         ],
       },
     });
-    /* Show big play button when paused and time controls,
-     * cf. https://github.com/videojs/video.js/pull/8833
-     */
-    player.addClass(
-      'vjs-normalise-time-controls',
-      'vjs-show-big-play-button-on-pause'
-    );
-    player.createModal(
-      'Lorem ipsum dolor sit amet, sea tantas vituperatoribus cu, choro corrumpit no mea. Qui ex omnes timeam quaestio, diam adversarium mel eu, probatus rationibus est eu. Error commune necessitatibus ei pri. Te per sumo oratio, ocurreret dignissim disputationi at mea. Nec ei epicurei oportere disputando, nam prompta diceret in, cu maiorum constituam cum.'
-    );
-    player.ready(function() {
+
+    player.ready(() => {
+    
+      /* Show big play button when paused and time controls,
+      * cf. https://github.com/videojs/video.js/pull/8833
+      */
+      player.addClass(
+        'vjs-normalise-time-controls',
+        'vjs-show-big-play-button-on-pause'
+      );
+      player.createModal(
+        'Lorem ipsum dolor sit amet, sea tantas vituperatoribus cu, choro corrumpit no mea. Qui ex omnes timeam quaestio, diam adversarium mel eu, probatus rationibus est eu. Error commune necessitatibus ei pri. Te per sumo oratio, ocurreret dignissim disputationi at mea. Nec ei epicurei oportere disputando, nam prompta diceret in, cu maiorum constituam cum.'
+      );
+
       // Start spatial navigation e.g. pointer devices
       player.spatialNavigation.start();
 
       // Pad time with leading zeros
-      const currentTimeDisplay = player.controlBar.currentTimeDisplay;
-      const remainingTimeDisplay = player.controlBar.remainingTimeDisplay;
+      const currentTimeDisplay = player.controlBar.currentTimeDisplay
+      const remainingTimeDisplay = player.controlBar.remainingTimeDisplay
 
-      currentTimeDisplay.el().innerText = formatTimeWithLeadingZeros(0);
-      remainingTimeDisplay.el().innerText = formatTimeWithLeadingZeros(player.duration());
+      const updateTimeDisplays = () => {
+        currentTimeDisplay.el().innerText = formatTimeWithLeadingZeros(
+          player.currentTime()
+        )
+        remainingTimeDisplay.el().innerText = formatTimeWithLeadingZeros(
+          Math.abs(player.remainingTime())
+        )
+      }
 
-      currentTimeDisplay.updateContent = function() {
-        const currentTime = player.currentTime();
-        this.el().innerText = formatTimeWithLeadingZeros(currentTime);
-      };
+      // Update time displays on relevant events
+      player.on('timeupdate', updateTimeDisplays)
+      player.on('durationchange', updateTimeDisplays)
 
-      remainingTimeDisplay.updateContent = function() {
-        const remainingTime = player.remainingTime();
-        this.el().innerText = formatTimeWithLeadingZeros(Math.abs(remainingTime));
-      };
+      // Initialize displays
+      updateTimeDisplays()
+
       // Remove browser tooltips 
       player
         .el()
@@ -169,6 +175,7 @@
           el.setAttribute('title', '');
         });
     });
+    
     // player.createModal('foo');
     console.log(player.language());
   </script>

@@ -65,7 +65,7 @@
     }
 
     // fake a livestream for easy testing
-    var player = videojs('videojsElement', {
+    const player = videojs('videojsElement', {
       autoplay: false,
       experimentalSvgIcons: true,
       controls: true,
@@ -81,6 +81,7 @@
         enabled: true,
         horizontalSeek: true
       },
+      // Breakpoints require responsive: true
       breakpoints: {
         tiny: 210,
         xsmall: 320,
@@ -100,7 +101,6 @@
       controlBar: {
         // children in flex order
         children: [
-          'playToggle',
           {
             name: 'volumePanel',
             inline: true // Horizontal
@@ -116,6 +116,7 @@
           'pictureInPictureToggle',
           'fullscreenToggle',
           'neueWrap', // Custom flexwrap component
+          'playToggle',
           'currentTimeDisplay',
           'timeDivider',
           'durationDisplay',
@@ -129,6 +130,9 @@
         ],
       },
     });
+
+    player.ready(() => {
+    
     /* Show big play button when paused and time controls,
      * cf. https://github.com/videojs/video.js/pull/8833
      */
@@ -136,7 +140,6 @@
       'vjs-normalise-time-controls',
       'vjs-show-big-play-button-on-pause'
     );
-    player.ready(function() {
       // Remove browser tooltips 
       player
         .el()
