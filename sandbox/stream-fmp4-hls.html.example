@@ -31,7 +31,7 @@
   </head>
   <body>
 
-    <video id="videojsElement" class="video-js vjs-big-play-centered" poster="poster.jpg">
+    <video id="videojsElement" class="video-js vjs-big-play-centered" poster="//d2zihajmogu5jn.cloudfront.net/elephantsdream/poster.png">
       <source src="https://raw.githubusercontent.com/edwinbradford/media/master/mpd/media.m3u8" type="application/x-mpegURL">
       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>

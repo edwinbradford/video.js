@@ -31,7 +31,7 @@
   <video-js
     id="videojsElement"
     class="video-js vjs-big-play-centered"
-    poster="poster.jpg"
+    poster="//d2zihajmogu5jn.cloudfront.net/elephantsdream/poster.png"
   >
     <source
       src="https://archive.org/download/ElephantsDream/ed_hd.mp4"
