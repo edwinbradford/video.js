@@ -24,6 +24,11 @@
   // reset word-break inside the player div
   word-break: initial;
 
+  // Transition layout changes when window is resized
+  transition-timing-function: $ease-out-quart;
+  transition-duration: $layout-resize-time;
+  transition-property: font-size;
+
   // Fix for Firefox 9 fullscreen (only if it is enabled). Not needed when
   // checking fullScreenEnabled.
   &:-moz-full-screen {
