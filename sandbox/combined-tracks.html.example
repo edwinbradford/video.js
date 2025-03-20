@@ -142,7 +142,6 @@
       controlBar: {
         // children in flex order
         children: [
-          'playToggle',
           {
             name: 'volumePanel',
             inline: true // Direction
@@ -158,6 +157,7 @@
           'pictureInPictureToggle',
           'fullscreenToggle',
           'neueWrap', // Custom flexwrap component
+          'playToggle',
           'currentTimeDisplay',
           'timeDivider',
           'durationDisplay',
@@ -215,7 +215,7 @@
           el.setAttribute('title', '');
         });
     });
-    
+
     console.log(player.language());
   </script>
 </body>
