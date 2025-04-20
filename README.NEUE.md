@@ -2,17 +2,20 @@
 
 #### Updating from Video.JS
 
-Pull the latest changes from the Video.JS upstream main branch into the local main branch:
+Pull the latest changes from the Video.JS upstream main branch into the local main branch, push them to the remote repository then switch to the 'themes/neue' branch and fetch them:
 
     $ git switch main
     $ git remote update
     $ git pull upstream main
     $ git push origin main
-
-Then pull the changes from the local main branch into the 'themes/neue' branch:
-
     $ git switch themes/neue
-    $ git merge main
+    $ git fetch origin main
+
+Merging these changes automatically commits them if there are no conflicts, preventing changes from showing, use the --no-commit option to stage changes instead of committing them:
+
+    $ git merge --no-commit origin/main
+
+Changed files will now appear in source control where you can check any relevant changes before committing.
 
 c.f. [Contributing](https://github.com/videojs/admin/blob/main/CONTRIBUTING.md#forking-and-cloning-the-repository) for more details.
 
