@@ -296,7 +296,7 @@ This default value is hardcoded as a default to the localize method in the SeekB
 |                         | Skip backward {1} seconds                                                           |
 |                         | Skip forward {1} seconds                                                            |
 | fa.json (Complete)      |                                                                                     |
-| fi.json (missing 71)    | Audio Player                                                                        |
+| fi.json (missing 70)    | Audio Player                                                                        |
 |                         | Video Player                                                                        |
 |                         | Replay                                                                              |
 |                         | Seek to live, currently behind live                                                 |
@@ -308,7 +308,6 @@ This default value is hardcoded as a default to the localize method in the SeekB
 |                         | Audio Track                                                                         |
 |                         | Volume Level                                                                        |
 |                         | The media is encrypted and we do not have the keys to decrypt it.                   |
-|                         | Play Video                                                                          |
 |                         | Close                                                                               |
 |                         | Close Modal Dialog                                                                  |
 |                         | Modal Window                                                                        |
@@ -378,16 +377,7 @@ This default value is hardcoded as a default to the localize method in the SeekB
 |                         | Playing in Picture-in-Picture                                                       |
 |                         | Skip backward {1} seconds                                                           |
 |                         | Skip forward {1} seconds                                                            |
-| gl.json (missing 10)    | Exit Picture-in-Picture                                                             |
-|                         | Picture-in-Picture                                                                  |
-|                         | No content                                                                          |
-|                         | Color                                                                               |
-|                         | Opacity                                                                             |
-|                         | Text Background                                                                     |
-|                         | Caption Area Background                                                             |
-|                         | Playing in Picture-in-Picture                                                       |
-|                         | Skip backward {1} seconds                                                           |
-|                         | Skip forward {1} seconds                                                            |
+| gl.json (Complete)      |                                                                                     |
 | he.json (missing 13)    | Seek to live, currently behind live                                                 |
 |                         | Seek to live, currently playing live                                                |
 |                         | {1} is loading.                                                                     |
