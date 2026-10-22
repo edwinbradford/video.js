@@ -2,18 +2,18 @@
 
 #### Updating from Video.JS
 
-Pull the latest changes from the Video.JS upstream main branch into the local main branch, push them to the remote repository then switch to the 'themes/neue' branch and fetch them:
+Switch to the stock branch and pull the latest changes from the Video.JS 8 upstream main branch (`--ff-only` catches merges since they shouldn't exist in a mirror repository branch), push them to the remote repository then switch to the main branch and fetch them:
 
+    $ git switch stock
+    $ git fetch upstream
+    $ git pull --ff-only upstream main
+    $ git push origin stock
     $ git switch main
-    $ git remote update
-    $ git pull upstream main
-    $ git push origin main
-    $ git switch themes/neue
-    $ git fetch origin main
+    $ git fetch origin stock
 
 Merging these changes automatically commits them if there are no conflicts, preventing changes from showing, use the --no-commit option to stage changes instead of committing them:
 
-    $ git merge --no-commit origin/main
+    $ git merge --no-commit origin/stock
 
 Changed files will now appear in source control where you can check any relevant changes before committing.
 
