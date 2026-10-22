@@ -1,3 +1,36 @@
+<a name="8.24.2"></a>
+## [8.24.2](https://github.com/videojs/video.js/compare/v8.24.1...v8.24.2) (2026-10-06)
+
+### Bug Fixes
+
+* ran npm audit fix on npm 6 ([#9231](https://github.com/videojs/video.js/issues/9231)) ([b63eb29](https://github.com/videojs/video.js/commit/b63eb29))
+* update node, replace access-sniff with pa11y and override underscore  ([#9232](https://github.com/videojs/video.js/issues/9232)) ([1aea7c9](https://github.com/videojs/video.js/commit/1aea7c9))
+
+<a name="8.24.1"></a>
+## [8.24.1](https://github.com/videojs/video.js/compare/v8.24.0...v8.24.1) (2026-09-10)
+
+### Chores
+
+* **package:** update [@xmldom](https://github.com/xmldom)/xmldom to 0.8.15 ([#9230](https://github.com/videojs/video.js/issues/9230)) ([70f498b](https://github.com/videojs/video.js/commit/70f498b))
+
+<a name="8.24.0"></a>
+# [8.24.0](https://github.com/videojs/video.js/compare/v8.23.9...v8.24.0) (2026-08-03)
+
+### Features
+
+* **poster:** add support for marking player as maincontent ([#9173](https://github.com/videojs/video.js/issues/9173)) ([bf013ba](https://github.com/videojs/video.js/commit/bf013ba))
+
+### Bug Fixes
+
+* focus the play toggle instead of the tech element on Edge to avoid a black frame with hardware-accelerated protected playback ([#9217](https://github.com/videojs/video.js/issues/9217)) ([f337747](https://github.com/videojs/video.js/commit/f337747))
+* **lang:** add missing Japanese (ja) translation for "Playing in Picture-in-Picture" ([#9209](https://github.com/videojs/video.js/issues/9209)) ([adc132a](https://github.com/videojs/video.js/commit/adc132a))
+* **lang:** Update nn (Norwegian Nynorsk) translations ([#9208](https://github.com/videojs/video.js/issues/9208)) ([60accc0](https://github.com/videojs/video.js/commit/60accc0))
+
+### Documentation
+
+* point Quick Start zencdn links at hosted 8.23.6 ([#9215](https://github.com/videojs/video.js/issues/9215)) ([16fdbab](https://github.com/videojs/video.js/commit/16fdbab))
+* **types:** document Player.error(null) for clearing MediaError ([#9174](https://github.com/videojs/video.js/issues/9174)) ([1ce2b21](https://github.com/videojs/video.js/commit/1ce2b21))
+
 <a name="8.23.9"></a>
 ## [8.23.9](https://github.com/videojs/video.js/compare/v8.23.8...v8.23.9) (2026-06-19)
 

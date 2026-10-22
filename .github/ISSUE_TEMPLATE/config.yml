@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Report a Security Vulnerability
+    about: Report vulnerabilities privately, not in a public issue.
+    url: https://github.com/videojs/videojs-v8/security/advisories/new
+  - name: 🆕 Video.js 10
+    about: Issues and questions about Video.js 10 go to videojs/video.js.
+    url: https://github.com/videojs/video.js/issues/new/choose
+  - name: 🚚 Migrate from Video.js 8
+    about: The migration guide maps Video.js 8 onto Video.js 10.
+    url: https://videojs.org/docs/framework/html/guides/migrate-from-video-js-8

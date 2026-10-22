@@ -1,6 +1,11 @@
 name: ci
 
-on: [push, pull_request]
+# Video.js 8 is maintained on main in this repository.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   should-skip:

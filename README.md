@@ -4,9 +4,9 @@
 
 [![NPM][npm-icon]][npm-link]
 
-**Update:** Big changes coming in Video.js 10, early 2026! [Read the discussion.](https://github.com/videojs/video.js/discussions/9035)
+**Video.js 8 is in maintenance mode.** It gets security fixes and a best effort on bug fixes until October 1, 2028; see the [security policy](SECURITY.md). Video.js 10 is the current version and lives in [videojs/video.js](https://github.com/videojs/video.js). To upgrade, use the migration guide for [HTML](https://videojs.org/docs/framework/html/guides/migrate-from-video-js-8) or [React](https://videojs.org/docs/framework/react/guides/migrate-from-video-js-8).
 
-Video.js is a full featured, open source video player for all web-based platforms.
+Video.js is a powerful and customizable open-source video player that runs smoothly across all major web platforms, including desktop, mobile, and Smart TVs.
 
 Right out of the box, Video.js supports all common media formats used on the web including streaming formats like HLS and DASH. It works on desktops, mobile devices, tablets, and web-based Smart TVs. It can be further extended and customized by a robust ecosystem of [plugins][plugins].
 
@@ -25,29 +25,31 @@ Video.js was started in May 2010 and since then:
 * [License](#license)
 * [Sponsorship](#sponsorship)
 
+There are several ways to include Video.js in your project. You can use a CDN, install via npm, or download directly. Below is a quick example using a CDN. For advanced users, installation via npm is also supported.
+
 ## [Quick Start][getting-started]
 
 Thanks to the awesome folks over at [Fastly][fastly], there's a free, CDN hosted version of Video.js that anyone can use. Add these tags to your document's `<head>`:
 
 ```html
-<link href="//vjs.zencdn.net/8.23.9/video-js.min.css" rel="stylesheet">
-<script src="//vjs.zencdn.net/8.23.9/video.min.js"></script>
+<link href="//vjs.zencdn.net/8.24.2/video-js.min.css" rel="stylesheet">
+<script src="//vjs.zencdn.net/8.24.2/video.min.js"></script>
 ```
 
 Alternatively, you can include Video.js by getting it from [npm](https://videojs.com/getting-started/#install-via-npm), downloading it from [GitHub releases](https://github.com/videojs/video.js/releases) or by including it via [unpkg](https://unpkg.com) or another JavaScript CDN, like CDNjs.
 
 ```html
-<!-- unpkg : use the latest version of Video.js -->
+<!-- Include the latest version of Video.js from unpkg CDN -->
 <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
 <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
 
 <!-- unpkg : use a specific version of Video.js (change the version numbers as necessary) -->
-<link href="https://unpkg.com/video.js@8.23.9/dist/video-js.min.css" rel="stylesheet">
-<script src="https://unpkg.com/video.js@8.23.9/dist/video.min.js"></script>
+<link href="https://unpkg.com/video.js@8.24.2/dist/video-js.min.css" rel="stylesheet">
+<script src="https://unpkg.com/video.js@8.24.2/dist/video.min.js"></script>
 
 <!-- cdnjs : use a specific version of Video.js (change the version numbers as necessary) -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.23.9/video-js.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.23.9/video.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.24.2/video-js.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.24.2/video.min.js"></script>
 ```
 
 Next, using Video.js is as simple as creating a `<video>` element, but with an additional `data-setup` attribute. At a minimum, this attribute must have a value of `'{}'`, but it can include any Video.js [options][options] - just make sure it contains valid JSON!
@@ -99,7 +101,7 @@ var player = videojs('my-player', options, function onPlayerReady() {
 });
 ```
 
-If you're ready to dive in, the [Getting Started][getting-started] page and [documentation][docs] are the best places to go for more information. If you get stuck, head over to our [Slack][slack-link]!
+If you're ready to dive in, the [Getting Started][getting-started] page and [documentation][docs] are the best places to go for more information. Need help? Join our [Slack community][slack-link] to ask questions or get support from other developers!
 
 ## [Contributing][contributing]
 
